@@ -25,3 +25,7 @@ Updated styling in **main.jsx**
 
 - [0.0.4] - 2026-04-25
 Added **Vercel Analytics** for website traffic tracking.
+
+- [0.0.5] - 2026-04-25
+Updated and organized the UI of the website to include projects. 
+Added some spacing and alignment in the UI.
