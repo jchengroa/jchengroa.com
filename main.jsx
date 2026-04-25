@@ -1,6 +1,11 @@
 import { createRoot } from 'react-dom/client'
 import './index.css'
 
+/* Vercel Analytics */
+import { inject } from '@vercel/analytics'
+inject()
+
+/* Objects */
 function ProjectCard(props) {
     return (
         <div className="bg-white shadow-lg rounded-xl p-6 border border-gray-200">
@@ -19,6 +24,7 @@ function Title(props) {
     );
 }
 
+/* Main Application */
 function App() {
     return (
         <div className="p-10">
