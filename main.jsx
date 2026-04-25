@@ -33,7 +33,7 @@ function App() {
             />
             <ProjectCard
                 title="jchengroa.com"
-                info="Version 0.0.3 | Last Updated: April 25, 2026"
+                info="Version 0.0.4 | Last Updated: April 25, 2026"
                 description="This is currently a work in progress. Domain NOT for sale. Built with Vite, React.js, and Tailwind CSS"
             />
         </div>
