@@ -1,0 +1,31 @@
+{
+  "type": "module",
+  "name": "jchengroa.com",
+  "version": "1.0.0",
+  "description": "My Personal Website. Used React Library and Tailwind CSS.",
+  "main": "index.js",
+  "scripts": {
+    "dev": "vite"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jchengroa/jchengroa.com.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jchengroa/jchengroa.com/issues"
+  },
+  "homepage": "https://github.com/jchengroa/jchengroa.com#readme",
+  "dependencies": {
+    "@tailwindcss/postcss": "^4.2.4",
+    "@tailwindcss/vite": "^4.2.4",
+    "@vitejs/plugin-react": "^6.0.1",
+    "postcss": "^8.5.10",
+    "react": "^19.2.5",
+    "react-dom": "^19.2.5",
+    "tailwindcss": "^4.2.4",
+    "vite": "^8.0.10"
+  }
+}
