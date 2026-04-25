@@ -18,3 +18,7 @@ Used **Vite**, **React.js**, and **Tailwind CSS**.
 - [0.0.2] - 2026-04-26
 Updated scripts in **package.json**
 Added **.gitignore** file
+
+- [0.0.3] - 2026-04-26
+Added objects such as **ProjectCard.jsx** and **Title.jsx**
+Updated styling in **main.jsx**
