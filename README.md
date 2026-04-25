@@ -14,3 +14,7 @@ npm run dev
 - [0.0.1] - 2026-04-26
 Created initail files for the website.
 Used **Vite**, **React.js**, and **Tailwind CSS**.
+
+- [0.0.2] - 2026-04-26
+Updated scripts in **package.json**
+Added **.gitignore** file
