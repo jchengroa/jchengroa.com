@@ -5,92 +5,60 @@ import './index.css'
 import { inject } from '@vercel/analytics'
 inject()
 
-/* Objects */
-function ProjectCard(props) {
-    return (
-        <>
-            <div className="bg-white rounded-xl p-8 border border-gray-200">
-                <h2 className="text-xl font-bold text-gray-800">{props.title}</h2>
-                <span className="text-sm text-blue-500 font-medium">{props.info}</span>
-
-                <p className="text-gray-600">
-                    <a
-                        href={props.linkURL}
-                        className="inline-block w-fit text-blue-600 hover:text-blue-800 font-medium underline"
-                        target="_blank"
-                        rel="noopener noreferrer">
-                        <img src={props.linkPicture} alt={props.linkName} className="w-4 h-4 object-contain mt-2 mb-2" />
-                    </a>
-                </p>
-
-                <p className="text-gray-600 mt-2">{props.description}</p>
-            </div>
-            {/* Spacing */}
-            <div className="mx-auto rounded-full mt-5 mb-5"></div>
-        </>
-    );
-}
-
-function Title(props) {
-    return (
-        <>
-            <div className="p-1- text-center">
-                <h1 className="text-3xl font-bold text-black">
-                    {props.title}
-                </h1>
-            </div>
-            {/* Divider */}
-            <div className="h-0.25 w-border bg-gray-200 mx-auto rounded-full mt-10 mb-5"></div>
-        </>
-
-    );
-}
-
-function SubTitle(props) {
-    return (
-        <>
-            <div className="p-2 text-center">
-                <h2 className="text-2xl font-bold text-black">{props.title}</h2>
-            </div>
-            {/* Spacing */}
-            <div className="mx-auto rounded-full mt-5 mb-5"></div>
-        </>
-    );
-}
+import { Hero, ProjectCard, Title, SubTitle, NavBar } from './components.jsx'
 
 /* Main Application */
 function App() {
     return (
-        <div className="p-10">
-            <Title
-                title="John Carlo Cheng Roa"
-            />
-            <SubTitle
-                title="Projects"
-            />
-            <ProjectCard /* Personal Website */
-                title="jchengroa.com"
-                info="Personal Website"
-                linkName="GitHub"
-                linkPicture="https://cdn-icons-png.flaticon.com/512/25/25231.png"
-                linkURL="https://github.com/jchengroa/jchengroa.com"
-                description="This is currently a work in progress.  Built with Vite, React.js, and Tailwind CSS"
-            />
-            <ProjectCard
-                title="CloudBased"
-                info="Multi-Warehouse Cloud-Based Inventory Management System"
-                linkName="GitHub"
-                linkPicture="https://cdn-icons-png.flaticon.com/512/25/25231.png"
-                linkURL="https://github.com/jchengroa/CloudBased"
-                description="This project centralizes multisite inventory tracking and vendor details into a robust platform, 
+        <div className="p-2.5">
+            <div id="navbar">
+                <NavBar
+                    name="jchengroa"
+                />
+            </div>
+
+            <div id="home">
+                <Hero
+                    title="John Carlo Cheng Roa"
+                    subtitle="Computer Engineering Student"
+                    backgroundImage="https://scontent.fmnl4-7.fna.fbcdn.net/v/t39.30808-6/651281765_1381485553993509_2243367830554777873_n.jpg?_nc_cat=108&ccb=1-7&_nc_sid=dd6889&_nc_eui2=AeFbS55SsVQQzM8C4n32huhbZYXss3fQLKdlheyzd9AspxemzTpjTg2YaLAq5ja0XKMGnO24BzArWAUsCdaTWQAc&_nc_ohc=QGFfFc5ECO4Q7kNvwH0R8wi&_nc_oc=AdqECzu4_uCRMBwze3ktesNksbZT7MRq3v2Lt_Kv2vE7VTpq87Vi4-PGxtHoxEBTlA6HCER40yklbbtRvtUlSS1V&_nc_zt=23&_nc_ht=scontent.fmnl4-7.fna&_nc_gid=Tn5QBxmPi65KVzFuOjAexg&_nc_ss=7b2a8&oh=00_Af1UuLBr1b6fSi3gZn00l8eykWD_tFNdUyzBLSys2yowKA&oe=69F3B76B"
+                />
+            </div>
+
+            <div id="projects">
+                <Title
+                    title="Projects"
+                />
+                <ProjectCard
+                    title="jchengroa.com"
+                    info="Personal Website"
+                    linkName="GitHub"
+                    linkPicture="https://cdn-icons-png.flaticon.com/512/25/25231.png"
+                    linkURL="https://github.com/jchengroa/jchengroa.com"
+                    description="This is currently a work in progress.  Built with Vite, React.js, and Tailwind CSS"
+                />
+                <ProjectCard
+                    title="CloudBased"
+                    info="Multi-Warehouse Cloud-Based Inventory Management System"
+                    linkName="GitHub"
+                    linkPicture="https://cdn-icons-png.flaticon.com/512/25/25231.png"
+                    linkURL="https://github.com/jchengroa/CloudBased"
+                    description="This project centralizes multisite inventory tracking and vendor details into a robust platform, 
                 solving data fragmentation. Developed following the Software Development Life Cycle (SDLC), the solution evolved 
                 from gathering these specific user pain points to systematically designing, implementing, and testing a centralized 
                 web application."
-            />
-            {/* Footer */}
-            <div className="p-5 text-center">
+                />
+            </div>
+
+            <div id="contact">
+                <Title
+                    title="Contact"
+                />
+            </div>
+
+            <div id="footer" className="p-5 text-center">
                 <p className="text-sm"><b>DOMAIN NOT FOR SALE</b></p>
-                <p className="text-gray-500 text-sm">Version 0.0.5 | Last Updated: April 25, 2026</p>
+                <p className="text-gray-500 text-sm">Version 0.0.6 | Last Updated: April 26, 2026</p>
             </div>
         </div>
     );

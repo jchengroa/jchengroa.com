@@ -28,4 +28,12 @@ Added **Vercel Analytics** for website traffic tracking.
 
 - [0.0.5] - 2026-04-25
 Updated and organized the UI of the website to include projects. 
+Added projects section with clickable links.
 Added some spacing and alignment in the UI.
+
+- [0.0.6] - 2026-04-26
+Separated the objects from **main.jsx** to **components.jsx**
+Updated the UI to include a navigation bar that scrolls to the different sections of the website.
+Added a top bar to the navigation bar.
+Added the home section with clickable links to my professional accounts.
+Added the contact section template. 
