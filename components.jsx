@@ -20,30 +20,32 @@ function Hero(props) {
                 <p className="text-xl md:text-2xl text-gray-800 mb-8">
                     {props.subtitle}
                 </p>
-                <a
-                    href="mailto:johncarlochengroa07@gmail.com"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="bg-gray-800 text-white px-8 py-3 rounded-full font-bold hover:bg-gray-600 transition-all"
-                >
-                    Email
-                </a>
-                <a
-                    href="https://github.com/jchengroa"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="bg-gray-800 text-white px-8 py-3 rounded-full font-bold hover:bg-gray-600 transition-all"
-                >
-                    Github
-                </a>
-                <a
-                    href="https://www.linkedin.com/in/john-carlo-cheng-roa-47aa6a290/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="bg-gray-800 text-white px-8 py-3 rounded-full font-bold hover:bg-gray-600 transition-all"
-                >
-                    LinkedIn
-                </a>
+                <div className="flex flex-wrap justify-center gap-2 mt-8">
+                    <a
+                        href="mailto:johncarlochengroa07@gmail.com"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="bg-gray-800 text-white px-8 py-3 rounded-full font-bold hover:bg-gray-600 transition-all"
+                    >
+                        Email
+                    </a>
+                    <a
+                        href="https://github.com/jchengroa"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="bg-gray-800 text-white px-8 py-3 rounded-full font-bold hover:bg-gray-600 transition-all"
+                    >
+                        Github
+                    </a>
+                    <a
+                        href="https://www.linkedin.com/in/john-carlo-cheng-roa-47aa6a290/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="bg-gray-800 text-white px-8 py-3 rounded-full font-bold hover:bg-gray-600 transition-all"
+                    >
+                        LinkedIn
+                    </a>
+                </div>
             </div>
         </section>
     );
@@ -51,26 +53,22 @@ function Hero(props) {
 
 function ProjectCard(props) {
     return (
-        <>
-            <div className="bg-white rounded-xl p-8 border border-gray-200">
-                <h2 className="text-xl font-bold text-gray-800">{props.title}</h2>
-                <span className="text-sm text-blue-500 font-medium">{props.info}</span>
+        <div className="bg-white rounded-xl p-8 border border-gray-200">
+            <h2 className="text-xl font-bold text-gray-800">{props.title}</h2>
+            <span className="text-sm text-blue-500 font-medium">{props.info}</span>
 
-                <p className="text-gray-600">
-                    <a
-                        href={props.linkURL}
-                        className="inline-block w-fit text-blue-600 hover:text-blue-800 font-medium underline"
-                        target="_blank"
-                        rel="noopener noreferrer">
-                        <img src={props.linkPicture} alt={props.linkName} className="w-4 h-4 object-contain mt-2 mb-2" />
-                    </a>
-                </p>
+            <p className="text-gray-600">
+                <a
+                    href={props.linkURL}
+                    className="inline-block w-fit text-blue-600 hover:text-blue-800 font-medium underline"
+                    target="_blank"
+                    rel="noopener noreferrer">
+                    <img src={props.linkPicture} alt={props.linkName} className="w-4 h-4 object-contain mt-2 mb-2" />
+                </a>
+            </p>
 
-                <p className="text-gray-600 mt-2">{props.description}</p>
-            </div>
-            {/* Spacing */}
-            <div className="mx-auto rounded-full mt-5 mb-5"></div>
-        </>
+            <p className="text-gray-600 mt-2">{props.description}</p>
+        </div>
     );
 }
 
@@ -82,8 +80,6 @@ function Title(props) {
                     {props.title}
                 </h1>
             </div>
-            {/* Divider */}
-            <div className="h-0.25 w-border bg-gray-200 mx-auto rounded-full mt-10 mb-5"></div>
         </>
 
     );
@@ -106,10 +102,12 @@ function NavBar(props) {
         <>
             <div className="fixed top-0 left-0 w-full z-50 p-4 mt-1 mb-10">
                 {/* Desktop Menu */}
-                <div className="md:flex gap-4">
-                    <a href="#home" className="text-xl text-black hover:text-gray-800 font-bold transition duration-150 ease-in-out">{props.name}</a>
-                    <a href="#projects" className="text-md text-gray-600 hover:text-black transition duration-150 ease-in-out mt-0.5">Projects</a>
-                    <a href="#contact" className="text-md text-gray-600 hover:text-black transition duration-150 ease-in-out mt-0.5">Contact</a>
+                <div className="max-w-6xl mx-auto flex justify-between items-center">
+                    <a href="#home" className="text-xl text-black hover:text-gray-800 font-bold transition">{props.name}</a>
+                    <div className="flex gap-6 items-center">
+                        <a href="#projects" className="text-gray-600 hover:text-black transition">Projects</a>
+                        <a href="#contact" className="text-gray-600 hover:text-black transition">Contact</a>
+                    </div>
                 </div>
             </div>
         </>

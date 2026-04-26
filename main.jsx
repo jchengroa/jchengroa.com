@@ -5,7 +5,7 @@ import './index.css'
 import { inject } from '@vercel/analytics'
 inject()
 
-import { Hero, ProjectCard, Title, SubTitle, NavBar } from './components.jsx'
+import { Hero, ProjectCard, Title, NavBar } from './components.jsx'
 
 /* Main Application */
 function App() {
@@ -25,40 +25,79 @@ function App() {
                 />
             </div>
 
-            <div id="projects">
-                <Title
-                    title="Projects"
-                />
-                <ProjectCard
-                    title="jchengroa.com"
-                    info="Personal Website"
-                    linkName="GitHub"
-                    linkPicture="https://cdn-icons-png.flaticon.com/512/25/25231.png"
-                    linkURL="https://github.com/jchengroa/jchengroa.com"
-                    description="This is currently a work in progress.  Built with Vite, React.js, and Tailwind CSS"
-                />
-                <ProjectCard
-                    title="CloudBased"
-                    info="Multi-Warehouse Cloud-Based Inventory Management System"
-                    linkName="GitHub"
-                    linkPicture="https://cdn-icons-png.flaticon.com/512/25/25231.png"
-                    linkURL="https://github.com/jchengroa/CloudBased"
-                    description="This project centralizes multisite inventory tracking and vendor details into a robust platform, 
-                solving data fragmentation. Developed following the Software Development Life Cycle (SDLC), the solution evolved 
-                from gathering these specific user pain points to systematically designing, implementing, and testing a centralized 
-                web application."
-                />
-            </div>
+            <section
+                id="projects"
+                className="relative min-h-screen flex flex-col justify-center items-center p-5 gap-10"
+            >
+                <div className="pt-20">
+                    <Title
+                        title="Projects"
+                    />
+                </div>
 
-            <div id="contact">
-                <Title
-                    title="Contact"
-                />
-            </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <ProjectCard
+                        title="jchengroa.com"
+                        info="Personal Website"
+                        linkName="GitHub"
+                        linkPicture="https://cdn-icons-png.flaticon.com/512/25/25231.png"
+                        linkURL="https://github.com/jchengroa/jchengroa.com"
+                        description="This is currently a work in progress.  Built with Vite, React.js, and Tailwind CSS"
+                    />
+                    <ProjectCard
+                        title="CloudBased"
+                        info="Multi-Warehouse Cloud-Based Inventory Management System"
+                        linkName="GitHub"
+                        linkPicture="https://cdn-icons-png.flaticon.com/512/25/25231.png"
+                        linkURL="https://github.com/jchengroa/CloudBased"
+                        description="This project centralizes multisite inventory tracking and vendor details into a robust platform, 
+                    solving data fragmentation. Developed following the Software Development Life Cycle (SDLC), the solution evolved 
+                    from gathering these specific user pain points to systematically designing, implementing, and testing a centralized 
+                    web application."
+                    />
+                    <ProjectCard
+                        title="CloudBased"
+                        info="Multi-Warehouse Cloud-Based Inventory Management System"
+                        linkName="GitHub"
+                        linkPicture="https://cdn-icons-png.flaticon.com/512/25/25231.png"
+                        linkURL="https://github.com/jchengroa/CloudBased"
+                        description="This project centralizes multisite inventory tracking and vendor details into a robust platform, 
+                    solving data fragmentation. Developed following the Software Development Life Cycle (SDLC), the solution evolved 
+                    from gathering these specific user pain points to systematically designing, implementing, and testing a centralized 
+                    web application."
+                    />
+                    <ProjectCard
+                        title="CloudBased"
+                        info="Multi-Warehouse Cloud-Based Inventory Management System"
+                        linkName="GitHub"
+                        linkPicture="https://cdn-icons-png.flaticon.com/512/25/25231.png"
+                        linkURL="https://github.com/jchengroa/CloudBased"
+                        description="This project centralizes multisite inventory tracking and vendor details into a robust platform, 
+                    solving data fragmentation. Developed following the Software Development Life Cycle (SDLC), the solution evolved 
+                    from gathering these specific user pain points to systematically designing, implementing, and testing a centralized 
+                    web application."
+                    />
+                </div>
+            </section>
+
+            <section
+                id="contact"
+                className="relative min-h-screen flex flex-col justify-center items-center p-5 gap-10"
+            >
+                <div className="pt-20">
+                    <Title
+                        title="Contacts"
+                    />
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    {/* TODO */}
+                </div>
+            </section>
 
             <div id="footer" className="p-5 text-center">
                 <p className="text-sm"><b>DOMAIN NOT FOR SALE</b></p>
-                <p className="text-gray-500 text-sm">Version 0.0.6 | Last Updated: April 26, 2026</p>
+                <p className="text-gray-500 text-sm">Version 0.0.7 | Last Updated: April 26, 2026</p>
             </div>
         </div>
     );

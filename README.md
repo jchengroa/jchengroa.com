@@ -37,3 +37,7 @@ Updated the UI to include a navigation bar that scrolls to the different section
 Added a top bar to the navigation bar.
 Added the home section with clickable links to my professional accounts.
 Added the contact section template. 
+
+- [0.0.7] - 2026-04-26
+Restructured the UI of the website. 
+Fixed Visual Bugs.
