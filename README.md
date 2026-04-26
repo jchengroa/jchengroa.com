@@ -47,3 +47,6 @@ Updated the **Contact Section** to display my social media accounts and links to
 Reorganized the project structure.
 Abstracted **Hero**, **Projects**, and **Contact** sections into **Hero.jsx**, **Projects.jsx**, and **Contact.jsx**.
 Added smooth scrolling animation to the navigation bar.
+
+- [0.1.1] - 2026-04-26
+Fixed bug where images are not loading in the deployed website.

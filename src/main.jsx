@@ -24,7 +24,7 @@ function App() {
                 <Hero
                     title="John Carlo Cheng Roa"
                     subtitle="Computer Engineering Student"
-                    backgroundImage="./src/assets/hero_background.jpg"
+                    backgroundImage="/hero_background.jpg"
                 />
             </div>
 
@@ -38,7 +38,7 @@ function App() {
 
             <div id="footer" className="p-5 text-center">
                 <p className="text-sm"><b>DOMAIN NOT FOR SALE</b></p>
-                <p className="text-gray-500 text-sm">Version 0.0.7 | Last Updated: April 26, 2026</p>
+                <p className="text-gray-500 text-sm">Version 0.1.1 | Last Updated: April 26, 2026</p>
             </div>
         </div>
     );
