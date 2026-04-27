@@ -50,3 +50,17 @@ Added smooth scrolling animation to the navigation bar.
 
 - [0.1.1] - 2026-04-26
 Fixed bug where images are not loading in the deployed website.
+
+- [0.2.0] - 2026-04-27
+Updated look and theme of the website.
+Added custom CSS animations.
+Updated Projects and Contact sections to be more modern.
+Updated Projects to have different sections for software, hardware, embedded.
+Updated Navbar.
+Created **ProjectDetail.jsx** for the project detail page.
+Updated **Projects.jsx** to link to the project detail page.
+Updated **ProjectCard.jsx** to include a link to the project detail page.
+Created **projects.js** to store project data.
+Updated **main.jsx** to include the project detail page.
+Updated contact card in **components.jsx** to make send message function work.
+Added **Legal.jsx** for domain information and legal disclaimers.
