@@ -162,4 +162,10 @@ Updated project and research details.
 Added Demo Website for CloudBased.
 
 - [0.3.2] - 2026-04-28
-Changed Pro Tips appearing in WorkDetail for projects
+Removed Pro Tips appearing in WorkDetail for projects.
+Added images for the projects, specifically jchengroa.com and CloudBased.
+Added ability to view images full screen.
+
+- [0.3.4] - 2026-04-28
+Fixed bug where opening links to work detail pages caused a navigation error.
+Fixed visual bugs within hero and featuredprojects sections in the main overlay page.

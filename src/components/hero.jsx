@@ -44,7 +44,7 @@ function Hero(props) {
     return (
         <section
             id="home"
-            className="relative min-h-[90vh] flex items-center justify-center text-center p-5 rounded-[3rem] overflow-hidden shadow-2xl transition-all duration-700 hover:shadow-3xl mt-24 mx-2 bg-white border border-gray-100"
+            className="relative min-h-[90vh] flex items-center justify-center text-center p-5 rounded-[3rem] overflow-hidden shadow-2xl transition-all duration-700 hover:shadow-3xl mt-24 mx-2 bg-white border border-gray-100 isolate"
         >
             {/* Cross-fading Background Images */}
             {images.map((img, i) => (
@@ -62,8 +62,6 @@ function Hero(props) {
             {/* Glassmorphic Overlay for Readability */}
             <div className="absolute inset-0 bg-white/70 backdrop-blur-[2px] pointer-events-none"></div>
 
-            {/* Subtle Gradient Pattern */}
-            <div className="absolute inset-0 opacity-[0.03] pointer-events-none" style={{ backgroundImage: 'radial-gradient(#000 1px, transparent 1px)', backgroundSize: '40px 40px' }}></div>
             <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full bg-gradient-to-b from-blue-50/20 to-transparent pointer-events-none"></div>
 
             <div className="relative z-10 text-black max-w-5xl px-4 flex flex-col items-center">

@@ -11,9 +11,9 @@ function FeaturedProjects() {
             const container = scrollContainerRef.current;
             const cardNode = container.children[0];
             if (!cardNode) return;
-            
-            const cardWidth = cardNode.offsetWidth + 32; 
-            
+
+            const cardWidth = cardNode.offsetWidth + 32;
+
             if (direction === "next") {
                 if (container.scrollLeft + container.clientWidth >= container.scrollWidth - 10) {
                     container.scrollTo({ left: 0, behavior: "smooth" });
@@ -48,34 +48,34 @@ function FeaturedProjects() {
                     A glimpse into some of my recent work.
                 </p>
             </div>
-            
-            <div 
+
+            <div
                 className="w-full relative px-4"
                 onMouseEnter={() => setIsPaused(true)}
                 onMouseLeave={() => setIsPaused(false)}
             >
                 {/* Navigation Buttons */}
-                <button 
+                <button
                     onClick={() => scroll("prev")}
                     className="absolute left-4 md:left-12 top-1/2 -translate-y-1/2 z-20 bg-white/80 backdrop-blur-md p-4 rounded-full shadow-xl border border-gray-100 text-gray-800 hover:bg-black hover:text-white transition-all duration-300 opacity-0 group-hover/section:opacity-100 scale-90 group-hover/section:scale-100"
                     aria-label="Previous project"
                 >
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="m15 18-6-6 6-6" /></svg>
                 </button>
-                
-                <button 
+
+                <button
                     onClick={() => scroll("next")}
                     className="absolute right-4 md:right-12 top-1/2 -translate-y-1/2 z-20 bg-white/80 backdrop-blur-md p-4 rounded-full shadow-xl border border-gray-100 text-gray-800 hover:bg-black hover:text-white transition-all duration-300 opacity-0 group-hover/section:opacity-100 scale-90 group-hover/section:scale-100"
                     aria-label="Next project"
                 >
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="m9 18 6-6-6-6" /></svg>
                 </button>
 
                 {/* Gradient Masks for fading edges */}
                 <div className="absolute inset-y-0 left-0 w-16 md:w-48 bg-gradient-to-r from-white via-white/40 to-transparent z-10 pointer-events-none"></div>
                 <div className="absolute inset-y-0 right-0 w-16 md:w-48 bg-gradient-to-l from-white via-white/40 to-transparent z-10 pointer-events-none"></div>
-                
-                <div 
+
+                <div
                     ref={scrollContainerRef}
                     className="flex gap-8 px-8 md:px-48 overflow-x-auto snap-x snap-mandatory hide-scrollbar w-full py-4"
                 >
