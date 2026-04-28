@@ -63,7 +63,7 @@ function App() {
                             <b>Domain & Legal Information</b>
                         </Link>
                     </p>
-                    <p className="text-gray-500 text-sm">Version 0.3.0 | Last Updated: April 28, 2026</p>
+                    <p className="text-gray-500 text-sm">Version 0.3.2 | Last Updated: April 28, 2026</p>
                 </div>
             </div>
         </BrowserRouter>

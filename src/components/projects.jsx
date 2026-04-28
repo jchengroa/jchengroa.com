@@ -24,6 +24,7 @@ function Projects() {
                             linkPicture="https://cdn-icons-png.flaticon.com/512/25/25231.png"
                             linkURL={project.links[0].url}
                             description={project.description}
+                            image={project.images && project.images[0]}
                         />
                     </div>
                 ))}

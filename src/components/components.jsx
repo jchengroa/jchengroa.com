@@ -12,6 +12,16 @@ function WorkCard(props) {
                 <div className="absolute -inset-1 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-[2.5rem] blur-xl opacity-0 group-hover:opacity-5 transition duration-500"></div>
 
                 <div className="relative z-10 flex-grow">
+                    {props.image && (
+                        <div className="mb-8 rounded-2xl overflow-hidden aspect-[16/10] bg-gray-50 border border-gray-100 group-hover:shadow-lg transition-all duration-500">
+                            <img 
+                                src={props.image} 
+                                alt={props.title} 
+                                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                            />
+                        </div>
+                    )}
+
                     <span className="text-xs font-black tracking-[0.2em] text-blue-600 uppercase mb-4 block">
                         {props.info}
                     </span>

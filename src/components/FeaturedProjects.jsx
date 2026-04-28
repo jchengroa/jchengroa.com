@@ -87,6 +87,7 @@ function FeaturedProjects() {
                                 info={project.info}
                                 stack={project.tech}
                                 description={project.description}
+                                image={project.images && project.images[0]}
                             />
                         </div>
                     ))}

@@ -78,4 +78,7 @@ Updated **main.jsx** to include the featured projects and featured research sect
 Updated project and research details.
 
 - [0.3.1] - 2026-04-28
-Added Demo Website for CloudBased
+Added Demo Website for CloudBased.
+
+- [0.3.2] - 2026-04-28
+Changed Pro Tips appearing in WorkDetail for projects

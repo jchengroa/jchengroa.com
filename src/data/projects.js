@@ -9,7 +9,12 @@ export const projectData = {
         links: [
             { name: "GitHub Repository", url: "https://github.com/jchengroa/jchengroa.com" }
         ],
-        images: ["/placeholder_1.jpg", "/placeholder_2.jpg"],
+        images: [
+            "/jchengroacomResources/webcom1.png",
+            "/jchengroacomResources/webcom2.png",
+            "/jchengroacomResources/webcom3.png",
+            "/jchengroacomResources/webcom4.png"
+        ],
         info: "Personal Website"
     },
     "cloudbased": {
@@ -23,7 +28,12 @@ export const projectData = {
             { name: "GitHub Repository", url: "https://github.com/jchengroa/CloudBased" },
             { name: "Demo Website", url: "https://cloudbasedims.vercel.app/" }
         ],
-        images: ["/placeholder_3.jpg", "/placeholder_4.jpg"],
+        images: [
+            "/CloudBasedResources/cbimage1.png",
+            "/CloudBasedResources/cbimage2.png",
+            "/CloudBasedResources/cbimage3.png",
+            "/CloudBasedResources/cbimage4.png"
+        ],
         info: "Multi-Warehouse Cloud-Based Inventory Management System"
     },
     "hardware-placeholder": {
@@ -36,7 +46,7 @@ export const projectData = {
         links: [
             { name: "Documentation", url: "#" }
         ],
-        images: ["/placeholder_5.jpg"],
+        images: [],
         info: "Hardware Engineering"
     },
     "embedded-placeholder": {
@@ -49,7 +59,7 @@ export const projectData = {
         links: [
             { name: "Source Code", url: "#" }
         ],
-        images: ["/placeholder_6.jpg"],
+        images: [],
         info: "Embedded Development"
     }
 };

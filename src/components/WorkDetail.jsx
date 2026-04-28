@@ -1,16 +1,26 @@
 import { useParams, Link } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { projectData } from "../data/projects";
 import { researchData } from "../data/research";
 
 function WorkDetail() {
     const { id } = useParams();
+    const [selectedImage, setSelectedImage] = useState(null);
     // Try to find the item in projectData first, then researchData
     const item = projectData[id] || researchData[id];
 
     useEffect(() => {
         window.scrollTo(0, 0);
     }, []);
+
+    // Prevent scrolling when an image is open
+    useEffect(() => {
+        if (selectedImage) {
+            document.body.style.overflow = "hidden";
+        } else {
+            document.body.style.overflow = "unset";
+        }
+    }, [selectedImage]);
 
     if (!item) {
         return (
@@ -32,8 +42,6 @@ function WorkDetail() {
     return (
         <div className="min-h-screen bg-white text-gray-900 pt-32 pb-20 px-6">
             <div className="max-w-5xl mx-auto">
-
-
                 <div className="animate-fade-up">
                     <header className="mb-20">
                         <h1 className="text-6xl md:text-8xl font-black tracking-tighter mb-6 text-gray-900 leading-none">
@@ -43,7 +51,7 @@ function WorkDetail() {
                             {item.subtitle || item.info}
                         </p>
                     </header>
-                    
+
                     <div className="grid grid-cols-1 lg:grid-cols-3 gap-16">
                         <div className="lg:col-span-2 space-y-16">
                             {item.stats && (
@@ -81,9 +89,21 @@ function WorkDetail() {
                                     <h3 className="text-xs font-black tracking-[0.2em] uppercase text-gray-400 mb-8">Visual Gallery</h3>
                                     <div className="grid grid-cols-1 gap-8">
                                         {item.images.map((img, i) => (
-                                            <div key={i} className="group relative aspect-video bg-gray-50 rounded-[2.5rem] overflow-hidden flex flex-col items-center justify-center text-gray-300 border border-gray-100 transition-all hover:shadow-2xl">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" className="mb-4 opacity-50"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>
-                                                <span className="font-bold tracking-widest uppercase text-xs">Visual Placeholder</span>
+                                            <div 
+                                                key={i} 
+                                                onClick={() => setSelectedImage(img)}
+                                                className="group relative aspect-video bg-gray-50 rounded-[2.5rem] overflow-hidden border border-gray-100 transition-all hover:shadow-2xl cursor-zoom-in"
+                                            >
+                                                <img 
+                                                    src={img} 
+                                                    alt={`${item.title} Screenshot ${i + 1}`}
+                                                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                                                />
+                                                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors flex items-center justify-center opacity-0 group-hover:opacity-100">
+                                                    <div className="bg-white/90 backdrop-blur-sm p-4 rounded-full shadow-2xl scale-50 group-hover:scale-100 transition-all duration-300">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="text-gray-900"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+                                                    </div>
+                                                </div>
                                             </div>
                                         ))}
                                     </div>
@@ -110,25 +130,44 @@ function WorkDetail() {
                                         {item.links.map(link => (
                                             <a key={link.name} href={link.url} target="_blank" rel="noopener noreferrer" className="flex items-center justify-between p-5 bg-gray-900 text-white rounded-[1.5rem] font-bold hover:bg-black hover:scale-[1.02] transition-all">
                                                 <span>{link.name}</span>
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" /><polyline points="15 3 21 3 21 9" /><line x1="10" y1="14" x2="21" y2="3" /></svg>
                                             </a>
                                         ))}
                                     </div>
                                 </div>
                             )}
-
-                            <div className="p-8 bg-blue-50 rounded-[2rem] border border-blue-100">
-                                <h4 className="font-black text-blue-900 mb-2 italic">Pro Tip</h4>
-                                <p className="text-blue-800/70 text-sm leading-relaxed font-medium">
-                                    {item.category === "research" 
-                                        ? "This research contributes to the broader understanding of complex engineering systems and interdisciplinary problem-solving."
-                                        : "This project is part of my ongoing commitment to building scalable, user-centric software solutions."}
-                                </p>
-                            </div>
                         </aside>
                     </div>
                 </div>
             </div>
+
+            {/* Image Lightbox Modal */}
+            {selectedImage && (
+                <div 
+                    className="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-2xl animate-in"
+                    onClick={() => setSelectedImage(null)}
+                >
+                    <button 
+                        className="absolute top-8 right-8 text-white/50 hover:text-white transition-colors z-[110]"
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            setSelectedImage(null);
+                        }}
+                    >
+                        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+                    </button>
+                    <div 
+                        className="relative max-w-[90vw] max-h-[90vh] shadow-2xl animate-zoom-in"
+                        onClick={(e) => e.stopPropagation()}
+                    >
+                        <img 
+                            src={selectedImage} 
+                            alt="Full screen view" 
+                            className="w-full h-full object-contain"
+                        />
+                    </div>
+                </div>
+            )}
         </div>
     );
 }
