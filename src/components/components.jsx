@@ -3,9 +3,10 @@ import { useState } from "react";
 
 /* Objects */
 
-function ProjectCard(props) {
+function WorkCard(props) {
+    const linkTo = props.linkTo || `/project/${props.id}`;
     return (
-        <Link to={`/project/${props.id}`} className="block group h-full">
+        <Link to={linkTo} className="block group h-full">
             <div className="bg-white rounded-[2.5rem] p-10 border border-gray-100 shadow-sm hover:shadow-3xl transition-all duration-500 h-full flex flex-col justify-between overflow-hidden relative">
                 {/* Subtle Gradient Glow on Hover */}
                 <div className="absolute -inset-1 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-[2.5rem] blur-xl opacity-0 group-hover:opacity-5 transition duration-500"></div>
@@ -20,7 +21,7 @@ function ProjectCard(props) {
                         </span>
                     </h2>
                     <p className="text-gray-500 text-lg font-medium leading-relaxed mb-8 opacity-80 group-hover:opacity-100 transition-opacity">
-                        {props.description}
+                        {props.summary || props.description}
                     </p>
 
                     {props.stack && (
@@ -153,16 +154,8 @@ function NavBar(props) {
                             }, 100);
                         }}>{props.name}</Link>
                         <div className="flex gap-8 items-center font-medium">
-                            <Link to="/" className="text-gray-600 hover:text-black transition" onClick={() => {
-                                setTimeout(() => {
-                                    document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' });
-                                }, 100);
-                            }}>Projects</Link>
-                            <Link to="/" className="text-gray-600 hover:text-black transition" onClick={() => {
-                                setTimeout(() => {
-                                    document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
-                                }, 100);
-                            }}>Contact</Link>
+                            <Link to="/projects" className="text-gray-600 hover:text-black transition">Projects</Link>
+                            <Link to="/research" className="text-gray-600 hover:text-black transition">Research</Link>
                         </div>
                     </div>
                 </div>
@@ -172,5 +165,5 @@ function NavBar(props) {
 }
 
 
-export { ProjectCard, ContactCard, Title, SubTitle, NavBar }
+export { WorkCard, ContactCard, Title, SubTitle, NavBar }
 export default NavBar

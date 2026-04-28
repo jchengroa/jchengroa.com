@@ -9,10 +9,7 @@ function Legal() {
     return (
         <div className="min-h-screen bg-white text-gray-900 pt-32 pb-20 px-6">
             <div className="max-w-4xl mx-auto">
-                <Link to="/" className="inline-flex items-center text-blue-600 font-bold mb-12 hover:translate-x-[-4px] transition-all group">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="mr-2 group-hover:stroke-blue-700"><path d="m15 18-6-6 6-6" /></svg>
-                    Back to Portfolio
-                </Link>
+
 
                 <div className="animate-fade-up">
                     <header className="mb-20">
@@ -41,7 +38,7 @@ function Legal() {
                                 <ul className="space-y-6 font-medium text-gray-600">
                                     <li>
                                         <p className="text-gray-900 font-bold mb-1">Architecture & Code</p>
-                                        Built by John Carlo Cheng Roa using React, Vite, and Tailwind CSS. Built with the help of Gemini and Antigravity, as a vibe coding project.
+                                        Built by John Carlo Cheng Roa using React, Vite, and Tailwind CSS. Deployed using Vercel. Built with the help of Google Antigravity & Gemini, as a vibe coding project.
                                     </li>
                                     <li>
                                         <p className="text-gray-900 font-bold mb-1">Typography</p>
@@ -75,9 +72,6 @@ function Legal() {
 
                         <div className="pt-10 border-t border-gray-100 flex flex-col md:flex-row justify-between items-center gap-6">
                             <p className="text-gray-400 font-bold text-sm uppercase tracking-widest italic">Est. April 25, 2026</p>
-                            <div className="flex gap-6">
-                                <a href="mailto:johncarlochengroa07@gmail.com" className="text-blue-600 font-black hover:underline">Contact Legal (Me)</a>
-                            </div>
                         </div>
                     </div>
                 </div>

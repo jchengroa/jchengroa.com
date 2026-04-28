@@ -64,3 +64,15 @@ Created **projects.js** to store project data.
 Updated **main.jsx** to include the project detail page.
 Updated contact card in **components.jsx** to make send message function work.
 Added **Legal.jsx** for domain information and legal disclaimers.
+
+- [0.3.0] - 2026-04-28
+Updated the look and theme of the website, specifically **hero.jsx**.
+Added new information in **hero.jsx**.
+Created **research.jsx** and **research.js** to store research data.
+Updated **main.jsx** to include the standalone projects and research page.
+Updated **WorkDetail.jsx** to include the research detail page.
+Updated navbar in **components.jsx** to include link to new projects and research page.
+Separated and created **FeaturedProjects.jsx** for the featured projects section.
+Created **FeaturedResearch.jsx** for the featured research section.
+Updated **main.jsx** to include the featured projects and featured research sections.
+Updated project and research details.

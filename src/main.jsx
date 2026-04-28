@@ -9,9 +9,12 @@ import { BrowserRouter, Routes, Route, Link } from 'react-router-dom'
 import NavBar from './components/components.jsx'
 import Hero from './components/hero.jsx'
 import Projects from './components/projects.jsx'
+import FeaturedProjects from './components/FeaturedProjects.jsx'
+import FeaturedResearch from './components/FeaturedResearch.jsx'
 import Contact from './components/contact.jsx'
-import ProjectDetail from './components/ProjectDetail.jsx'
+import WorkDetail from './components/WorkDetail.jsx'
 import Legal from './components/Legal.jsx'
+import Research from './components/research.jsx'
 
 function Home() {
     return (
@@ -23,8 +26,11 @@ function Home() {
                     backgroundImage="/hero_background.jpg"
                 />
             </div>
-            <div id="projects">
-                <Projects />
+            <div id="featured-projects">
+                <FeaturedProjects />
+            </div>
+            <div id="featured-research">
+                <FeaturedResearch />
             </div>
             <div id="contact">
                 <Contact />
@@ -45,17 +51,19 @@ function App() {
 
                 <Routes>
                     <Route path="/" element={<Home />} />
-                    <Route path="/project/:id" element={<ProjectDetail />} />
+                    <Route path="/projects" element={<Projects />} />
+                    <Route path="/research" element={<Research />} />
+                    <Route path="/project/:id" element={<WorkDetail />} />
                     <Route path="/legal" element={<Legal />} />
                 </Routes>
 
                 <div id="footer" className="p-5 text-center mt-12">
                     <p className="text-sm">
                         <Link to="/legal" className="hover:text-blue-600 transition-colors">
-                            <b>DOMAIN NOT FOR SALE</b>
+                            <b>Domain & Legal Information</b>
                         </Link>
                     </p>
-                    <p className="text-gray-500 text-sm">Version 0.2.0 | Last Updated: April 27, 2026</p>
+                    <p className="text-gray-500 text-sm">Version 0.3.0 | Last Updated: April 28, 2026</p>
                 </div>
             </div>
         </BrowserRouter>

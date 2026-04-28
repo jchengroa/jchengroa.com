@@ -1,4 +1,4 @@
-import { ProjectCard, Title } from "./components.jsx";
+import { WorkCard, Title } from "./components.jsx";
 import { projectsList } from "../data/projects";
 
 function Projects() {
@@ -15,7 +15,7 @@ function Projects() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 {projects.map((project, index) => (
                     <div key={project.id} className="hover:translate-y-[-8px] transition-transform duration-300" style={{ transitionDelay: `${index * 100}ms` }}>
-                        <ProjectCard
+                        <WorkCard
                             id={project.id}
                             title={project.title}
                             info={project.info}
@@ -44,7 +44,7 @@ function Projects() {
 
             <div className="relative z-10 animate-fade-up text-center">
                 <Title
-                    title="Featured Projects"
+                    title="Projects"
                 />
                 <p className="text-center text-gray-600 max-w-2xl mx-auto -mt-6 font-medium text-lg">
                     A comprehensive showcase of my multidisciplinary engineering journey, spanning high-level software architecture to low-level hardware integration.
