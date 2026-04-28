@@ -76,3 +76,6 @@ Separated and created **FeaturedProjects.jsx** for the featured projects section
 Created **FeaturedResearch.jsx** for the featured research section.
 Updated **main.jsx** to include the featured projects and featured research sections.
 Updated project and research details.
+
+- [0.3.1] - 2026-04-28
+Added Demo Website for CloudBased

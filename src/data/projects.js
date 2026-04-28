@@ -20,7 +20,8 @@ export const projectData = {
         description: "A robust, multi-warehouse cloud-based inventory management system. This project centralizes multisite inventory tracking and vendor details into a single platform, solving critical data fragmentation issues for businesses. Developed following the SDLC framework.",
         tech: ["React", "PocketBase", "Tailwind CSS", "Vite"],
         links: [
-            { name: "GitHub Repository", url: "https://github.com/jchengroa/CloudBased" }
+            { name: "GitHub Repository", url: "https://github.com/jchengroa/CloudBased" },
+            { name: "Demo Website", url: "https://cloudbasedims.vercel.app/" }
         ],
         images: ["/placeholder_3.jpg", "/placeholder_4.jpg"],
         info: "Multi-Warehouse Cloud-Based Inventory Management System"
