@@ -1,14 +1,95 @@
 # jchengroa.com
-My Personal Website. Used React Library and Tailwind CSS.
 
-## To start the development server
-```bash
-# If you get an error saying that you cannot run scripts on this system, run the following command:
-Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope Process
+A premium, multidisciplinary portfolio website showcasing engineering projects, academic research, and professional experience. Built with a focus on modern aesthetics and smooth performance.
 
-# Then run the following command:
-npm run dev
+![Portfolio Preview](/public/jchengroacomResources/webcom1.png)
+
+---
+
+## ✨ Key Features
+
+- **Dynamic Project Gallery**: Interactive showcase of software, hardware, and embedded systems projects.
+- **Academic Research Hub**: Dedicated section for published research with structured findings, metrics, and full-paper access.
+- **Immersive Visuals**: High-resolution image lightbox with zoom animations and backdrop blur effects.
+- **Responsive & Performant**: Fully optimized for all device sizes using React 19 and Tailwind CSS.
+- **Interactive Components**: Custom-built navigation, animated hero section, and a functional contact system.
+- **Analytics Integrated**: Powered by Vercel Analytics for real-time traffic monitoring.
+
+## 🛠️ Tech Stack
+
+- **Frontend**: [React 19](https://react.dev/), [Vite](https://vitejs.dev/)
+- **Styling**: [Tailwind CSS 4.0](https://tailwindcss.com/) (using custom theme variables)
+- **Deployment**: [Vercel](https://vercel.com/)
+- **Typography**: [Outfit](https://fonts.google.com/specimen/Outfit) via Google Fonts
+- **Icons**: Lucide-inspired SVG components
+
+---
+
+## 🚀 Getting Started
+
+Follow these steps to set up the development environment on your local machine.
+
+### Prerequisites
+
+- [Node.js](https://nodejs.org/) (Latest LTS version recommended)
+- [npm](https://www.npmjs.com/)
+
+### Installation
+
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/jchengroa/jchengroa.com.git
+   ```
+
+2. **Install dependencies**
+   ```bash
+   npm install
+   ```
+
+3. **Start the development server**
+   ```bash
+   # If you are on Windows and encounter execution policy errors:
+   Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope Process
+
+   # Start the Vite dev server
+   npm run dev
+   ```
+
+---
+
+## 🏗️ Project Structure
+
 ```
+jchengroa.com/
+├── public/                # Static assets & project screenshots
+│   ├── CloudBasedResources/
+│   ├── jchengroacomResources/
+│   └── logo.png
+├── src/
+│   ├── components/        # UI components & page sections
+│   │   ├── Contact.jsx
+│   │   ├── FeaturedProjects.jsx
+│   │   ├── FeaturedResearch.jsx
+│   │   ├── Hero.jsx
+│   │   ├── WorkDetail.jsx
+│   │   └── components.jsx # Shared UI elements
+│   ├── data/              # Project & Research data files
+│   │   ├── projects.js
+│   │   └── research.js
+│   ├── index.css          # Design system & animations
+│   └── main.jsx           # Main application entry
+├── index.html
+├── package.json
+└── vite.config.js
+```
+
+---
+
+## 📝 License
+
+This project is personal and is used to showcase the work of **John Carlo Cheng Roa**. Feel free to explore the code for inspiration, but please do not redistribute the content as your own.
+
+---
 
 ### Changelog:
 - [0.0.1] - 2026-04-25
