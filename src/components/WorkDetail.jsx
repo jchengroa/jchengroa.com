@@ -2,6 +2,7 @@ import { useParams, Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { projectData } from "../data/projects";
 import { researchData } from "../data/research";
+import { getKeywordEngine, KeywordHighlights } from "../utils/keywordEngine";
 
 function WorkDetail() {
     const { id } = useParams();
@@ -38,6 +39,9 @@ function WorkDetail() {
     let techLabel = "Tech";
     if (item.category === "software") techLabel = "Stack";
     else if (item.category === "research") techLabel = "Keywords";
+
+    const engine = getKeywordEngine();
+    const itemHighlights = engine.getItemHighlights(item);
 
     return (
         <div className="min-h-screen bg-white text-gray-900 pt-32 pb-20 px-6">
@@ -79,6 +83,9 @@ function WorkDetail() {
                                 <h3 className="text-xs font-black tracking-[0.2em] uppercase text-gray-400 mb-6">
                                     {item.category === "research" ? "Abstract & Overview" : "The Challenge & Solution"}
                                 </h3>
+                                <div className="mb-10">
+                                    <KeywordHighlights highlights={itemHighlights} className="grid-cols-2 md:grid-cols-4" />
+                                </div>
                                 <p className="text-2xl text-gray-600 leading-relaxed font-medium">
                                     {item.description}
                                 </p>

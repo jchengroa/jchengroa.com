@@ -52,12 +52,8 @@ function Legal() {
                             </div>
 
                             <div>
-                                <h2 className="text-xs font-black tracking-[0.2em] uppercase text-gray-400 mb-8">Legal & Privacy</h2>
+                                <h2 className="text-xs font-black tracking-[0.2em] uppercase text-gray-400 mb-8">Privacy & Disclaimer</h2>
                                 <ul className="space-y-6 font-medium text-gray-600">
-                                    <li>
-                                        <p className="text-gray-900 font-bold mb-1">Copyright</p>
-                                        &copy; 2026 John Carlo Cheng Roa. All rights reserved.
-                                    </li>
                                     <li>
                                         <p className="text-gray-900 font-bold mb-1">Privacy Policy</p>
                                         This site does not use cookies for tracking. We use Vercel Analytics for anonymous traffic data to improve the user experience.

@@ -19,6 +19,8 @@ const LinkedInIcon = () => (
     </svg>
 );
 
+import { getKeywordEngine, KeywordHighlights } from '../utils/keywordEngine';
+
 function Hero(props) {
     const [currentImage, setCurrentImage] = React.useState(0);
     const images = [
@@ -34,12 +36,8 @@ function Hero(props) {
         return () => clearInterval(interval);
     }, []);
 
-    const highlights = [
-        { label: "Major", value: "CompEng", detail: "DLSU 2nd Year" },
-        { label: "Core", value: "Java/Python", detail: "OOP & Algorithms" },
-        { label: "DevOps", value: "TrueNAS & Nginx", detail: "Homelab & Reverse Proxy" },
-        { label: "Cloud", value: "ERPNext", detail: "Enterprise Management" }
-    ];
+    const engine = getKeywordEngine();
+    const highlights = engine.getHeroHighlights();
 
     return (
         <section
@@ -81,20 +79,8 @@ function Hero(props) {
                 </div>
 
                 {/* Keyword Summaries / Highlights */}
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 w-full mb-12 animate-fade-up [animation-delay:200ms]">
-                    {highlights.map((item, i) => (
-                        <div key={i} className="p-6 bg-white/50 backdrop-blur-md rounded-3xl border border-white/50 shadow-sm hover:bg-white hover:shadow-xl transition-all group">
-                            <div className="text-2xl font-black text-blue-600 mb-1 tracking-tighter group-hover:scale-105 transition-transform">
-                                {item.value}
-                            </div>
-                            <div className="text-[10px] font-black text-gray-900 uppercase tracking-[0.2em] mb-1">
-                                {item.label}
-                            </div>
-                            <div className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">
-                                {item.detail}
-                            </div>
-                        </div>
-                    ))}
+                <div className="w-full mb-12 animate-fade-up [animation-delay:200ms]">
+                    <KeywordHighlights highlights={highlights} />
                 </div>
 
                 <div className="flex flex-wrap justify-center gap-4 animate-fade-up [animation-delay:400ms]">

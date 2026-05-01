@@ -174,6 +174,53 @@ function NavBar(props) {
     );
 }
 
+function SearchFilter({ searchQuery, setSearchQuery, activeFilter, setActiveFilter, filters }) {
+    return (
+        <div className="w-full max-w-3xl mx-auto mb-16 space-y-8 z-20 relative">
+            <div className="relative group">
+                {/* Colorful Icon */}
+                <div className="absolute inset-y-0 left-6 flex items-center pointer-events-none z-20">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="url(#search-gradient)" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="group-focus-within:scale-110 transition-transform duration-300">
+                        <defs>
+                            <linearGradient id="search-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stopColor="#3b82f6" className="group-focus-within:stopColor-[#2563eb]" />
+                                <stop offset="100%" stopColor="#8b5cf6" className="group-focus-within:stopColor-[#7c3aed]" />
+                            </linearGradient>
+                        </defs>
+                        <circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>
+                    </svg>
+                </div>
+                
+                {/* Gradient Border Wrapper */}
+                <div className="absolute inset-0 rounded-3xl bg-gradient-to-r from-blue-300 via-indigo-300 to-purple-300 opacity-60 group-focus-within:opacity-100 group-focus-within:from-blue-500 group-focus-within:via-indigo-500 group-focus-within:to-purple-500 transition-all duration-500 p-[3px] shadow-lg group-focus-within:shadow-blue-500/25">
+                    <div className="w-full h-full bg-blue-50/95 backdrop-blur-md rounded-[calc(1.5rem-3px)] group-focus-within:bg-white transition-colors duration-500"></div>
+                </div>
 
-export { WorkCard, ContactCard, Title, SubTitle, NavBar }
+                <input
+                    type="text"
+                    placeholder="Search by keyword, technology, or title..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    className="relative w-full pl-16 pr-6 py-5 bg-transparent outline-none font-black text-gray-800 text-lg placeholder:text-indigo-300/80 transition-all z-10"
+                />
+            </div>
+            
+            {filters && filters.length > 0 && (
+                <div className="flex flex-wrap gap-3 justify-center">
+                    {filters.map(filter => (
+                        <button
+                            key={filter}
+                            onClick={() => setActiveFilter(filter)}
+                            className={`px-6 py-2.5 rounded-full text-xs font-black uppercase tracking-widest transition-all duration-300 ${activeFilter === filter ? 'bg-gray-900 text-white shadow-lg scale-105' : 'bg-white/80 border border-gray-100 text-gray-500 hover:bg-gray-100 hover:text-gray-900'}`}
+                        >
+                            {filter}
+                        </button>
+                    ))}
+                </div>
+            )}
+        </div>
+    );
+}
+
+export { WorkCard, ContactCard, Title, SubTitle, NavBar, SearchFilter }
 export default NavBar
