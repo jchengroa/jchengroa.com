@@ -7,37 +7,12 @@ inject()
 
 import { BrowserRouter, Routes, Route, Link } from 'react-router-dom'
 import NavBar from './components/components.jsx'
-import Hero from './components/hero.jsx'
+import Home from './components/home.jsx'
 import Projects from './components/projects.jsx'
-import FeaturedProjects from './components/FeaturedProjects.jsx'
-import FeaturedResearch from './components/FeaturedResearch.jsx'
-import Contact from './components/contact.jsx'
 import WorkDetail from './components/WorkDetail.jsx'
 import Legal from './components/Legal.jsx'
 import Research from './components/research.jsx'
 
-function Home() {
-    return (
-        <>
-            <div id="home">
-                <Hero
-                    title="John Carlo Cheng Roa"
-                    subtitle="Computer Engineering Student"
-                    backgroundImage="/hero_background.jpg"
-                />
-            </div>
-            <div id="featured-projects">
-                <FeaturedProjects />
-            </div>
-            <div id="featured-research">
-                <FeaturedResearch />
-            </div>
-            <div id="contact">
-                <Contact />
-            </div>
-        </>
-    );
-}
 
 function App() {
     return (
@@ -63,7 +38,7 @@ function App() {
                             <b>Domain & Legal Information</b>
                         </Link>
                     </p>
-                    <p className="text-gray-500 text-sm">Version 0.4.0 | Last Updated: May 1, 2026</p>
+                    <p className="text-gray-500 text-sm">Version 0.5.0 | Last Updated: May 2, 2026</p>
                 </div>
             </div>
         </BrowserRouter>

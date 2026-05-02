@@ -1,28 +1,35 @@
 import { useState } from "react";
-import { WorkCard, Title, SearchFilter } from "./components.jsx";
+import { WorkCard, Title, SearchBar, FilterList } from "./components.jsx";
+import { motion, AnimatePresence } from 'framer-motion';
 import { projectsList } from "../data/projects";
 import { getKeywordEngine, KeywordHighlights } from "../utils/keywordEngine";
+import Fuse from 'fuse.js';
 
 function Projects() {
     const [searchQuery, setSearchQuery] = useState("");
     const [activeFilter, setActiveFilter] = useState("All");
 
+    const isSearchingText = searchQuery.trim() !== "";
+    const isSearching = isSearchingText || activeFilter !== "All";
+
     const engine = getKeywordEngine();
     
-    // Filtering logic
     const filterItems = (items, categoryMatch) => {
-        return items.filter(item => {
-            const searchLower = searchQuery.toLowerCase();
-            const matchesSearch = 
-                item.title.toLowerCase().includes(searchLower) ||
-                (item.description && item.description.toLowerCase().includes(searchLower)) ||
-                (item.tech && item.tech.some(t => t.toLowerCase().includes(searchLower))) ||
-                (item.keywords && item.keywords.some(k => k.toLowerCase().includes(searchLower)));
-            
-            const matchesCategory = activeFilter === "All" || activeFilter.toLowerCase() === item.category;
-            
-            return matchesSearch && matchesCategory && item.category === categoryMatch;
-        });
+        let filtered = items.filter(item => item.category === categoryMatch);
+        
+        if (activeFilter !== "All" && activeFilter.toLowerCase() !== categoryMatch) {
+            return [];
+        }
+
+        if (searchQuery.trim() !== "") {
+            const fuse = new Fuse(filtered, {
+                keys: ['title', 'description', 'tech', 'keywords'],
+                threshold: 0.3
+            });
+            filtered = fuse.search(searchQuery).map(result => result.item);
+        }
+        
+        return filtered;
     };
 
     const softwareProjects = filterItems(projectsList, "software");
@@ -30,15 +37,23 @@ function Projects() {
     const embeddedProjects = filterItems(projectsList, "embedded");
 
     const ProjectSection = ({ title, description, projects, category, delay }) => (
-        <div className={`w-full max-w-6xl space-y-10 animate-fade-in`} style={{ animationDelay: `${delay}ms` }}>
-            <div className="border-l-4 border-blue-600 pl-6 mb-8">
-                <h3 className="text-3xl font-black text-gray-900 tracking-tight mb-2">{title}</h3>
-                <p className="text-gray-500 font-medium max-w-2xl">{description}</p>
-            </div>
+        <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, ease: "easeOut", delay: delay / 1000 }} className="w-full max-w-6xl space-y-10">
+            <AnimatePresence>
+                {!isSearchingText && (
+                    <motion.div key="header" initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} transition={{ duration: 0.2 }} className="border-l-4 border-blue-600 pl-6 mb-8">
+                        <h3 className="text-3xl font-black text-gray-900 tracking-tight mb-2">{title}</h3>
+                        <p className="text-gray-500 font-medium max-w-2xl">{description}</p>
+                    </motion.div>
+                )}
+            </AnimatePresence>
             
-            <div className="mb-10">
-                <KeywordHighlights highlights={engine.getCategoryHighlights(category)} />
-            </div>
+            <AnimatePresence>
+                {!isSearching && (
+                    <motion.div key="highlights" initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} transition={{ duration: 0.2 }} className="mb-10">
+                        <KeywordHighlights highlights={engine.getCategoryHighlights(category)} />
+                    </motion.div>
+                )}
+            </AnimatePresence>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 {projects.map((project, index) => (
@@ -57,7 +72,7 @@ function Projects() {
                     </div>
                 ))}
             </div>
-        </div>
+        </motion.div>
     );
 
     return (
@@ -72,7 +87,7 @@ function Projects() {
             </div>
 
             <div className="max-w-6xl w-full z-10">
-                <div className="relative animate-fade-up text-center w-full mb-16">
+                <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, ease: "easeOut" }} className="relative text-center w-full mb-16">
                     <Title
                         title="Projects"
                     />
@@ -80,14 +95,22 @@ function Projects() {
                         A comprehensive showcase of my multidisciplinary engineering journey, spanning high-level software architecture to low-level hardware integration.
                     </p>
                     
-                    <SearchFilter 
+                    <SearchBar 
                         searchQuery={searchQuery}
                         setSearchQuery={setSearchQuery}
-                        activeFilter={activeFilter}
-                        setActiveFilter={setActiveFilter}
-                        filters={["All", "Software", "Hardware", "Embedded"]}
                     />
-                </div>
+                    <AnimatePresence>
+                        {!isSearchingText && (
+                            <motion.div key="filters" initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} transition={{ duration: 0.2 }}>
+                                <FilterList
+                                    activeFilter={activeFilter}
+                                    setActiveFilter={setActiveFilter}
+                                    filters={["All", "Software", "Hardware", "Embedded"]}
+                                />
+                            </motion.div>
+                        )}
+                    </AnimatePresence>
+                </motion.div>
 
                 <div className="space-y-24">
                     {softwareProjects.length > 0 && (
@@ -122,10 +145,10 @@ function Projects() {
                 </div>
                 
                 {softwareProjects.length === 0 && hardwareProjects.length === 0 && embeddedProjects.length === 0 && (
-                    <div className="text-center py-20 animate-fade-in">
+                    <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, ease: "easeOut" }} className="text-center py-20">
                         <h3 className="text-2xl font-black text-gray-400">No projects found</h3>
                         <p className="text-gray-500 mt-2">Try adjusting your search or filters.</p>
-                    </div>
+                    </motion.div>
                 )}
             </div>
         </section>

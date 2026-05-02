@@ -1,4 +1,5 @@
 import { Title, ContactCard } from "./components.jsx";
+import { motion } from 'framer-motion';
 
 /* Icons */
 const FacebookIcon = () => (
@@ -25,16 +26,16 @@ function Contact() {
                 <div className="absolute bottom-1/3 left-0 w-80 h-80 bg-indigo-200 rounded-full mix-blend-multiply filter blur-3xl animate-pulse delay-1000"></div>
             </div>
 
-            <div className="relative z-10 animate-fade-up text-center">
+            <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, ease: "easeOut" }} className="relative z-10 text-center">
                 <Title
                     title="Get In Touch"
                 />
                 <p className="text-center text-gray-600 max-w-xl mx-auto -mt-6 mb-8 font-medium">
                     Have a question or want to work together? Feel free to reach out through any of these platforms.
                 </p>
-            </div>
+            </motion.div>
 
-            <div className="relative z-10 flex flex-wrap justify-center gap-4 animate-fade-in [animation-delay:200ms]">
+            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 1.2, ease: "easeOut", delay: 0.2 }} className="relative z-10 flex flex-wrap justify-center gap-4">
                 <a
                     href="https://www.facebook.com/@jchengroa/"
                     target="_blank"
@@ -62,13 +63,13 @@ function Contact() {
                     <LinkedInIcon />
                     LinkedIn
                 </a>
-            </div>
+            </motion.div>
 
-            <div className="relative z-10 w-full max-w-5xl animate-fade-in [animation-delay:400ms]">
+            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 1.2, ease: "easeOut", delay: 0.4 }} className="relative z-10 w-full max-w-5xl">
                 <ContactCard
                     info="directed at johncarlochengroa07@gmail.com"
                 />
-            </div>
+            </motion.div>
         </section>
     );
 }

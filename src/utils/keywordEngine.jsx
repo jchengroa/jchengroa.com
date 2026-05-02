@@ -1,6 +1,7 @@
 import { projectsList } from "../data/projects";
 import { researchList } from "../data/research";
 import React from 'react';
+import _ from 'lodash';
 
 /**
  * Keyword Engine
@@ -9,37 +10,23 @@ import React from 'react';
  */
 
 export const getKeywordEngine = () => {
-    // Combine all work items
     const allWork = [...projectsList, ...researchList];
 
-    // Extract all keywords/tech tags
-    const allKeywords = allWork.flatMap(item => [
+    const getKeywords = (list) => _.flatMap(list, item => [
         ...(item.tech || []),
         ...(item.keywords || [])
     ]);
 
-    // Count occurrences
-    const counts = allKeywords.reduce((acc, kw) => {
-        acc[kw] = (acc[kw] || 0) + 1;
-        return acc;
-    }, {});
+    const getSortedKeywords = (list) => {
+        const counts = _.countBy(getKeywords(list));
+        return _.orderBy(Object.keys(counts), [kw => counts[kw]], ['desc']);
+    };
 
-    // Sort by frequency
-    const sortedKeywords = Object.entries(counts)
-        .sort((a, b) => b[1] - a[1])
-        .map(([kw]) => kw);
+    const sortedKeywords = getSortedKeywords(allWork);
 
     const getTopKeywordForList = (list) => {
-        const keywords = list.flatMap(item => [
-            ...(item.tech || []),
-            ...(item.keywords || [])
-        ]);
-        const counts = keywords.reduce((acc, kw) => {
-            acc[kw] = (acc[kw] || 0) + 1;
-            return acc;
-        }, {});
-        const sorted = Object.entries(counts).sort((a, b) => b[1] - a[1]);
-        return sorted.length > 0 ? sorted[0][0] : "Technology";
+        const sorted = getSortedKeywords(list);
+        return sorted.length > 0 ? sorted[0] : "Technology";
     };
 
     const topProjectKeyword = getTopKeywordForList(projectsList);
@@ -63,13 +50,12 @@ export const getKeywordEngine = () => {
     const getItemHighlights = (item) => {
         if (!item) return [];
 
-        // Return top 3-4 most relevant keywords for this item
-        const keywords = [
+        const keywords = _.take([
             ...(item.tech || []),
             ...(item.keywords || [])
-        ].slice(0, 4);
+        ], 4);
 
-        return keywords.map((kw, i) => ({
+        return keywords.map(kw => ({
             label: "Keyword",
             value: kw,
             detail: item.category === 'research' ? 'Research Topic' : 'Tech Stack'
@@ -80,22 +66,10 @@ export const getKeywordEngine = () => {
      * Get summary highlights for a specific category
      */
     const getCategoryHighlights = (category) => {
-        const categoryItems = allWork.filter(item => item.category === category);
-        const categoryKeywords = categoryItems.flatMap(item => [
-            ...(item.tech || []),
-            ...(item.keywords || [])
-        ]);
+        const categoryItems = _.filter(allWork, { category });
+        const sortedCatKeywords = getSortedKeywords(categoryItems);
 
-        const catCounts = categoryKeywords.reduce((acc, kw) => {
-            acc[kw] = (acc[kw] || 0) + 1;
-            return acc;
-        }, {});
-
-        const sortedCatKeywords = Object.entries(catCounts)
-            .sort((a, b) => b[1] - a[1])
-            .map(([kw]) => kw);
-
-        return sortedCatKeywords.slice(0, 4).map(kw => ({
+        return _.take(sortedCatKeywords, 4).map(kw => ({
             label: category.toUpperCase(),
             value: kw,
             detail: "Top " + (category === "research" ? "Focus" : "Tech")

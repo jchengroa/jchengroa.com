@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { projectData } from "../data/projects";
 import { researchData } from "../data/research";
 import { getKeywordEngine, KeywordHighlights } from "../utils/keywordEngine";
+import { motion } from 'framer-motion';
 
 function WorkDetail() {
     const { id } = useParams();
@@ -46,7 +47,7 @@ function WorkDetail() {
     return (
         <div className="min-h-screen bg-white text-gray-900 pt-32 pb-20 px-6">
             <div className="max-w-5xl mx-auto">
-                <div className="animate-fade-up">
+                <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, ease: "easeOut" }}>
                     <header className="mb-20">
                         <h1 className="text-6xl md:text-8xl font-black tracking-tighter mb-6 text-gray-900 leading-none">
                             {item.title}
@@ -59,7 +60,7 @@ function WorkDetail() {
                     <div className="grid grid-cols-1 lg:grid-cols-3 gap-16">
                         <div className="lg:col-span-2 space-y-16">
                             {item.stats && (
-                                <section className="animate-fade-up">
+                                <motion.section initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, ease: "easeOut" }}>
                                     <h3 className="text-xs font-black tracking-[0.2em] uppercase text-gray-400 mb-10">Key Metrics & Findings</h3>
                                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-8">
                                         {item.stats.map((stat, i) => (
@@ -76,7 +77,7 @@ function WorkDetail() {
                                             </div>
                                         ))}
                                     </div>
-                                </section>
+                                </motion.section>
                             )}
 
                             <section>
@@ -145,13 +146,14 @@ function WorkDetail() {
                             )}
                         </aside>
                     </div>
-                </div>
+                </motion.div>
             </div>
 
             {/* Image Lightbox Modal */}
             {selectedImage && (
-                <div 
-                    className="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-2xl animate-in"
+                <motion.div 
+                    initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.3, ease: "easeOut" }}
+                    className="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-2xl"
                     onClick={() => setSelectedImage(null)}
                 >
                     <button 
@@ -163,8 +165,9 @@ function WorkDetail() {
                     >
                         <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
                     </button>
-                    <div 
-                        className="relative max-w-[90vw] max-h-[90vh] shadow-2xl animate-zoom-in"
+                    <motion.div 
+                        initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.3, ease: "easeOut" }}
+                        className="relative max-w-[90vw] max-h-[90vh] shadow-2xl"
                         onClick={(e) => e.stopPropagation()}
                     >
                         <img 
@@ -172,8 +175,8 @@ function WorkDetail() {
                             alt="Full screen view" 
                             className="w-full h-full object-contain"
                         />
-                    </div>
-                </div>
+                    </motion.div>
+                </motion.div>
             )}
         </div>
     );

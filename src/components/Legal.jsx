@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { useEffect } from "react";
+import { motion } from 'framer-motion';
 
 function Legal() {
     useEffect(() => {
@@ -11,7 +12,7 @@ function Legal() {
             <div className="max-w-4xl mx-auto">
 
 
-                <div className="animate-fade-up">
+                <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, ease: "easeOut" }}>
                     <header className="mb-20">
                         <h1 className="text-5xl md:text-7xl font-black tracking-tighter mb-6 text-gray-900 leading-tight">
                             Domain & Legal <br /><span className="text-blue-600">Information</span>
@@ -70,7 +71,7 @@ function Legal() {
                             <p className="text-gray-400 font-bold text-sm uppercase tracking-widest italic">Est. April 25, 2026</p>
                         </div>
                     </div>
-                </div>
+                </motion.div>
             </div>
         </div>
     );

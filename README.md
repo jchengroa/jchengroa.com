@@ -169,3 +169,15 @@ Added ability to view images full screen.
 - [0.3.4] - 2026-04-28
 Fixed bug where opening links to work detail pages caused a navigation error.
 Fixed visual bugs within hero and featuredprojects sections in the main overlay page.
+
+- [0.4.0] - 2026-05-01
+Fixed bugs in the projects section and created a better system for projects to be organized and displayed.
+Added new keyword engine used overall for the website to pull keywords from the project and research data.
+Added functionality to search and filter projects and research.
+Revised some information in Domain and Legal.
+Fixed some visual bugs and inconsistencies.
+
+- [0.5.0] - 2026-05-02
+Enhanced the website with better animations and transitions including scroll-linked animations and hover effects.
+Utilized External Libraries: **Framer Motion** for animations, **Fuse.js** for fuzzy search functionality, **Lenis** for smooth scrolling. **Lodash** for keyword engine functions.
+Fixed bugs in the projects and research sections.
