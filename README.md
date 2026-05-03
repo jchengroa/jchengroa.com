@@ -91,7 +91,7 @@ This project is personal and is used to showcase the work of **John Carlo Cheng 
 
 ---
 
-### Changelog:
+## Changelog:
 - [0.0.1] - 2026-04-25
 Created initail files for the website.
 Used **Vite**, **React.js**, and **Tailwind CSS**.
@@ -178,6 +178,7 @@ Revised some information in Domain and Legal.
 Fixed some visual bugs and inconsistencies.
 
 - [0.5.0] - 2026-05-02
+Cleaned up website code and files.
 Enhanced the website with better animations and transitions including scroll-linked animations and hover effects.
 Utilized External Libraries: **Framer Motion** for animations, **Fuse.js** for fuzzy search functionality, **Lenis** for smooth scrolling. **Lodash** for keyword engine functions.
 Fixed bugs in the projects and research sections.
