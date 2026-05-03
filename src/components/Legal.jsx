@@ -2,6 +2,20 @@ import { Link } from "react-router-dom";
 import { useEffect } from "react";
 import { motion } from 'framer-motion';
 
+const DocButton = ({ href, label }) => (
+    <a
+        href={href}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="inline-flex items-center gap-2 mt-3 px-4 py-2 bg-gray-50 hover:bg-blue-600 text-gray-900 hover:text-white rounded-xl text-xs font-bold transition-all duration-300 border border-gray-100 hover:border-blue-600 group"
+    >
+        <span>{label} Docs</span>
+        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="opacity-50 group-hover:opacity-100 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all">
+            <path d="M7 7h10v10" /><path d="M7 17 17 7" />
+        </svg>
+    </a>
+);
+
 function Legal() {
     useEffect(() => {
         window.scrollTo(0, 0);
@@ -36,28 +50,79 @@ function Legal() {
                         <section className="grid grid-cols-1 md:grid-cols-2 gap-16">
                             <div>
                                 <h2 className="text-xs font-black tracking-[0.2em] uppercase text-gray-400 mb-8">Credits</h2>
-                                <ul className="space-y-6 font-medium text-gray-600">
+                                <ul className="space-y-8 font-medium text-gray-600">
                                     <li>
                                         <p className="text-gray-900 font-bold mb-1">Architecture & Code</p>
-                                        Built by John Carlo Cheng Roa using React, Vite, and Tailwind CSS. Deployed using Vercel. Built with the help of Google Antigravity & Gemini, as a vibe coding project.
+                                        Built using React, Vite, and Tailwind CSS. Deployed using Vercel. Built with the help of Google Antigravity & Gemini, as a vibe coding project.
+                                        <div className="flex flex-wrap gap-2">
+                                            <DocButton href="https://react.dev/" label="React" />
+                                            <DocButton href="https://vitejs.dev/" label="Vite" />
+                                            <DocButton href="https://tailwindcss.com/" label="Tailwind" />
+                                            <DocButton href="https://vercel.com/" label="Vercel" />
+                                        </div>
                                     </li>
                                     <li>
                                         <p className="text-gray-900 font-bold mb-1">Typography</p>
-                                        Inter & System Fonts for maximum performance and readability.
+                                        Outfit & System Fonts for maximum performance and readability.
+                                        <div className="flex flex-wrap gap-2">
+                                            <DocButton href="https://fonts.google.com/specimen/Outfit" label="Outfit" />
+                                        </div>
                                     </li>
                                     <li>
                                         <p className="text-gray-900 font-bold mb-1">Icons</p>
-                                        Lucide Icons & custom SVG paths.
+                                        Lucide-inspired SVG components & custom paths.
+                                        <div className="flex flex-wrap gap-2">
+                                            <DocButton href="https://lucide.dev/" label="Lucide" />
+                                        </div>
                                     </li>
                                 </ul>
                             </div>
 
                             <div>
+                                <h2 className="text-xs font-black tracking-[0.2em] uppercase text-gray-400 mb-8">Third-Party Libraries</h2>
+                                <ul className="space-y-8 font-medium text-gray-600">
+                                    <li>
+                                        <p className="text-gray-900 font-bold mb-1">Framer Motion</p>
+                                        Used for advanced UI animations, scroll-linked effects, and smooth transitions.
+                                        <div className="flex flex-wrap gap-2">
+                                            <DocButton href="https://www.framer.com/motion/" label="Framer" />
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <p className="text-gray-900 font-bold mb-1">Fuse.js</p>
+                                        Powers the fuzzy search engine for projects and research filtering.
+                                        <div className="flex flex-wrap gap-2">
+                                            <DocButton href="https://www.fusejs.io/" label="Fuse.js" />
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <p className="text-gray-900 font-bold mb-1">Embla Carousel</p>
+                                        Provides the lightweight, touch-enabled slider components for featured work.
+                                        <div className="flex flex-wrap gap-2">
+                                            <DocButton href="https://www.embla-carousel.com/" label="Embla" />
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <p className="text-gray-900 font-bold mb-1">Lodash</p>
+                                        Utilized for efficient data manipulation within the keyword engine.
+                                        <div className="flex flex-wrap gap-2">
+                                            <DocButton href="https://lodash.com/" label="Lodash" />
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </section>
+
+                        <section className="grid grid-cols-1 md:grid-cols-2 gap-16">
+                            <div>
                                 <h2 className="text-xs font-black tracking-[0.2em] uppercase text-gray-400 mb-8">Privacy & Disclaimer</h2>
-                                <ul className="space-y-6 font-medium text-gray-600">
+                                <ul className="space-y-8 font-medium text-gray-600">
                                     <li>
                                         <p className="text-gray-900 font-bold mb-1">Privacy Policy</p>
                                         This site does not use cookies for tracking. We use Vercel Analytics for anonymous traffic data to improve the user experience.
+                                        <div className="flex flex-wrap gap-2">
+                                            <DocButton href="https://vercel.com/docs/analytics/privacy-policy" label="Vercel" />
+                                        </div>
                                     </li>
                                     <li>
                                         <p className="text-gray-900 font-bold mb-1">Content Disclaimer</p>
@@ -66,6 +131,7 @@ function Legal() {
                                 </ul>
                             </div>
                         </section>
+
 
                         <div className="pt-10 border-t border-gray-100 flex flex-col md:flex-row justify-between items-center gap-6">
                             <p className="text-gray-400 font-bold text-sm uppercase tracking-widest italic">Est. April 25, 2026</p>
@@ -78,3 +144,4 @@ function Legal() {
 }
 
 export default Legal;
+

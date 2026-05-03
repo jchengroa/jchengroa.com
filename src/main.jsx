@@ -38,7 +38,7 @@ function App() {
                             <b>Domain & Legal Information</b>
                         </Link>
                     </p>
-                    <p className="text-gray-500 text-sm">Version 0.5.0 | Last Updated: May 2, 2026</p>
+                    <p className="text-gray-500 text-sm">Version 0.5.1 | Last Updated: May 3, 2026</p>
                 </div>
             </div>
         </BrowserRouter>

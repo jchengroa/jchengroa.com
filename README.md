@@ -18,10 +18,16 @@ A premium, multidisciplinary portfolio website showcasing engineering projects, 
 ## 🛠️ Tech Stack
 
 - **Frontend**: [React 19](https://react.dev/), [Vite](https://vitejs.dev/)
-- **Styling**: [Tailwind CSS 4.0](https://tailwindcss.com/) (using custom theme variables)
+- **Styling**: [Tailwind CSS 4.0](https://tailwindcss.com/)
+- **Animations**: [Framer Motion](https://www.framer.com/motion/)
+- **Search Engine**: [Fuse.js](https://www.fusejs.io/)
+- **Carousel/Slider**: [Embla Carousel](https://www.embla-carousel.com/)
+- **Data Processing**: [Lodash](https://lodash.com/)
+- **Analytics**: [Vercel Analytics](https://vercel.com/analytics)
 - **Deployment**: [Vercel](https://vercel.com/)
 - **Typography**: [Outfit](https://fonts.google.com/specimen/Outfit) via Google Fonts
 - **Icons**: Lucide-inspired SVG components
+
 
 ---
 
@@ -182,3 +188,6 @@ Cleaned up website code and files.
 Enhanced the website with better animations and transitions including scroll-linked animations and hover effects.
 Utilized External Libraries: **Framer Motion** for animations, **Fuse.js** for fuzzy search functionality, **Lenis** for smooth scrolling. **Lodash** for keyword engine functions.
 Fixed bugs in the projects and research sections.
+
+- [0.5.1] - 2026-05-03
+Updated the **Legal.jsx** to display and show links to the documentation of the different technologies used in the website.
