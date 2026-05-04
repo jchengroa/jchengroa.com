@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { changelogData } from "../data/changelog";
 import { NavBar, Title, FormattedText, SearchBar } from "./components";
+import { siteContent } from "../data/site_content";
 import Fuse from 'fuse.js';
 
 /**
@@ -56,7 +57,7 @@ export function ChangelogPopup() {
                         animate={{ opacity: 1, scale: 1, y: 0 }}
                         exit={{ opacity: 0, scale: 0.9, y: 30 }}
                         transition={{ type: "spring", damping: 25, stiffness: 300 }}
-                        className="relative w-full max-w-lg bg-white rounded-[2.5rem] shadow-[0_32px_64px_-16px_rgba(0,0,0,0.3)] overflow-hidden border border-gray-100"
+                        className="relative w-full max-w-lg bg-white dark:bg-gray-900 rounded-[2.5rem] shadow-[0_32px_64px_-16px_rgba(0,0,0,0.3)] dark:shadow-black/50 overflow-hidden border border-gray-100 dark:border-gray-800"
                     >
                         <div className="p-8 md:p-12">
                             {/* Header */}
@@ -70,15 +71,15 @@ export function ChangelogPopup() {
                                             v{latestEntry.version}
                                         </span>
                                     </div>
-                                    <h2 className="text-4xl font-black text-gray-900 tracking-tighter">
+                                    <h2 className="text-4xl font-black text-gray-900 dark:text-white tracking-tighter">
                                         What's New
                                     </h2>
                                 </div>
                                 <button
                                     onClick={handleClose}
-                                    className="p-2 hover:bg-gray-100 rounded-xl transition-colors group"
+                                    className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-xl transition-colors group"
                                 >
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="text-gray-400 group-hover:text-gray-900 transition-colors"><path d="M18 6 6 18" /><path d="m6 6 12 12" /></svg>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="text-gray-400 dark:text-gray-600 group-hover:text-gray-900 dark:group-hover:text-white transition-colors"><path d="M18 6 6 18" /><path d="m6 6 12 12" /></svg>
                                 </button>
                             </div>
 
@@ -88,16 +89,16 @@ export function ChangelogPopup() {
                                     {latestEntry.content.map((item, index) => (
                                         <div key={index} className="flex gap-4 items-start group">
                                             <div className="mt-1.5 w-1.5 h-1.5 rounded-full bg-blue-600 shrink-0 group-hover:scale-150 transition-transform" />
-                                            <p className="text-gray-600 font-medium leading-relaxed">
+                                            <p className="text-gray-600 dark:text-gray-400 font-medium leading-relaxed">
                                                 <FormattedText text={item} />
                                             </p>
                                         </div>
                                     ))}
                                 </div>
 
-                                <div className="p-5 bg-gray-50 rounded-2xl border border-gray-100">
-                                    <p className="text-xs text-gray-400 font-bold uppercase tracking-widest mb-1">Release Date</p>
-                                    <p className="text-gray-900 font-black">
+                                <div className="p-5 bg-gray-50 dark:bg-gray-800/50 rounded-2xl border border-gray-100 dark:border-gray-800">
+                                    <p className="text-xs text-gray-400 dark:text-gray-500 font-bold uppercase tracking-widest mb-1">Release Date</p>
+                                    <p className="text-gray-900 dark:text-100 font-black">
                                         {latestEntry.date}
                                     </p>
                                 </div>
@@ -107,7 +108,7 @@ export function ChangelogPopup() {
                             <div className="mt-12 flex flex-col sm:flex-row gap-4">
                                 <button
                                     onClick={handleClose}
-                                    className="flex-grow px-8 py-4 bg-gray-900 text-white font-black rounded-2xl hover:bg-black transition-all hover:scale-105 shadow-xl shadow-gray-200"
+                                    className="flex-grow px-8 py-4 bg-gray-900 dark:bg-white text-white dark:text-gray-900 font-black rounded-2xl hover:bg-black dark:hover:bg-gray-100 transition-all hover:scale-105 shadow-xl shadow-gray-200 dark:shadow-none"
                                 >
                                     Awesome!
                                 </button>
@@ -124,6 +125,7 @@ export function ChangelogPopup() {
 }
 
 export default function Changelog() {
+    const { changelog } = siteContent;
     const [searchQuery, setSearchQuery] = useState("");
     const [entries, setEntries] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -148,7 +150,7 @@ export default function Changelog() {
     }, [searchQuery]);
 
     return (
-        <div className="min-h-screen bg-gray-50/50">
+        <div className="min-h-screen bg-gray-50/50 dark:bg-gray-950">
             <NavBar name="jchengroa" />
 
             <main className="max-w-4xl mx-auto px-6 pt-32 pb-24">
@@ -162,8 +164,8 @@ export default function Changelog() {
                             transition={{ duration: 0.3 }}
                         >
                             <Title
-                                title="Changelog"
-                                subtitle="A chronological record of updates, features, and refinements made to the portfolio platform."
+                                title={changelog.title}
+                                subtitle={changelog.subtitle}
                             />
                         </motion.div>
                     )}
@@ -195,17 +197,17 @@ export default function Changelog() {
                                     animate={{ opacity: 1, y: 0 }}
                                     exit={{ opacity: 0, scale: 0.95 }}
                                     transition={{ duration: 0.4, delay: index * 0.05 }}
-                                    className="relative pl-12 pb-12 border-l-2 border-gray-100 last:border-0"
+                                    className="relative pl-12 pb-12 border-l-2 border-gray-100 dark:border-gray-800 last:border-0"
                                 >
                                     {/* Timeline Dot */}
-                                    <div className="absolute left-[-9px] top-0 w-4 h-4 rounded-full bg-white border-4 border-blue-600 shadow-sm" />
+                                    <div className="absolute left-[-9px] top-0 w-4 h-4 rounded-full bg-white dark:bg-gray-900 border-4 border-blue-600 shadow-sm" />
 
-                                    <div className="bg-white rounded-[2rem] p-8 md:p-10 border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-500 group">
+                                    <div className="bg-white dark:bg-gray-900 rounded-[2rem] p-8 md:p-10 border border-gray-100 dark:border-gray-800 shadow-sm hover:shadow-xl dark:hover:shadow-black/50 transition-all duration-500 group">
                                         <div className="flex flex-wrap items-baseline gap-4 mb-6">
-                                            <h2 className="text-3xl font-black text-gray-900 tracking-tight">
+                                            <h2 className="text-3xl font-black text-gray-900 dark:text-white tracking-tight">
                                                 v{entry.version}
                                             </h2>
-                                            <span className="text-gray-400 font-bold text-sm">
+                                            <span className="text-gray-400 dark:text-gray-500 font-bold text-sm">
                                                 {entry.date}
                                             </span>
                                         </div>
@@ -213,8 +215,8 @@ export default function Changelog() {
                                         <ul className="space-y-4">
                                             {entry.content.map((item, i) => (
                                                 <li key={i} className="flex gap-4 items-start">
-                                                    <div className="mt-2 w-1.5 h-1.5 rounded-full bg-blue-100 group-hover:bg-blue-600 transition-colors shrink-0" />
-                                                    <p className="text-gray-600 font-medium leading-relaxed">
+                                                    <div className="mt-2 w-1.5 h-1.5 rounded-full bg-blue-100 dark:bg-blue-900/30 group-hover:bg-blue-600 transition-colors shrink-0" />
+                                                    <p className="text-gray-600 dark:text-gray-400 font-medium leading-relaxed">
                                                         <FormattedText text={item} />
                                                     </p>
                                                 </li>

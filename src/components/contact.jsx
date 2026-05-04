@@ -1,5 +1,6 @@
 import { Title, ContactCard } from "./components.jsx";
 import { motion } from 'framer-motion';
+import { siteContent } from "../data/site_content";
 
 /* Icons */
 const FacebookIcon = () => (
@@ -15,48 +16,50 @@ const LinkedInIcon = () => (
 );
 
 function Contact() {
+    const { title, subtitle, cardInfo, socials } = siteContent.contact;
+
     return (
         <section
             id="contact"
-            className="relative min-h-screen flex flex-col justify-center items-center py-20 px-6 gap-12 overflow-hidden bg-gray-50/50"
+            className="relative min-h-screen flex flex-col justify-center items-center py-20 px-6 gap-12 overflow-hidden bg-gray-50/50 dark:bg-gray-950"
         >
             {/* Background Decorative Element */}
-            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full max-w-7xl pointer-events-none opacity-20">
-                <div className="absolute bottom-1/4 right-0 w-80 h-80 bg-blue-200 rounded-full mix-blend-multiply filter blur-3xl animate-pulse"></div>
-                <div className="absolute bottom-1/3 left-0 w-80 h-80 bg-indigo-200 rounded-full mix-blend-multiply filter blur-3xl animate-pulse delay-1000"></div>
+            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full max-w-7xl pointer-events-none opacity-20 dark:opacity-10">
+                <div className="absolute bottom-1/4 right-0 w-80 h-80 bg-blue-200 dark:bg-blue-900 rounded-full mix-blend-multiply filter blur-3xl animate-pulse"></div>
+                <div className="absolute bottom-1/3 left-0 w-80 h-80 bg-indigo-200 dark:bg-indigo-900 rounded-full mix-blend-multiply filter blur-3xl animate-pulse delay-1000"></div>
             </div>
 
             <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, ease: "easeOut" }} className="relative z-10 text-center">
                 <Title
-                    title="Get In Touch"
-                    subtitle="Have a question or want to work together? Feel free to reach out through any of these platforms."
+                    title={title}
+                    subtitle={subtitle}
                 />
             </motion.div>
 
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 1.2, ease: "easeOut", delay: 0.2 }} className="relative z-10 flex flex-wrap justify-center gap-4">
                 <a
-                    href="https://www.facebook.com/@jchengroa/"
+                    href={socials.facebook}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center bg-white border border-gray-100 text-gray-800 px-8 py-4 rounded-2xl font-black hover:bg-blue-600 hover:text-white hover:scale-105 hover:shadow-xl transition-all duration-300"
+                    className="flex items-center bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 text-gray-800 dark:text-gray-200 px-8 py-4 rounded-2xl font-black hover:bg-blue-600 hover:text-white dark:hover:bg-blue-600 hover:scale-105 hover:shadow-xl transition-all duration-300"
                 >
                     <FacebookIcon />
                     Facebook
                 </a>
                 <a
-                    href="https://github.com/jchengroa"
+                    href={socials.github}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center bg-white border border-gray-100 text-gray-800 px-8 py-4 rounded-2xl font-black hover:bg-gray-900 hover:text-white hover:scale-105 hover:shadow-xl transition-all duration-300"
+                    className="flex items-center bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 text-gray-800 dark:text-gray-200 px-8 py-4 rounded-2xl font-black hover:bg-gray-900 hover:text-white dark:hover:bg-white dark:hover:text-black hover:scale-105 hover:shadow-xl transition-all duration-300"
                 >
                     <GitHubIcon />
                     Github
                 </a>
                 <a
-                    href="https://www.linkedin.com/in/john-carlo-cheng-roa-47aa6a290/"
+                    href={socials.linkedin}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center bg-white border border-gray-100 text-gray-800 px-8 py-4 rounded-2xl font-black hover:bg-blue-700 hover:text-white hover:scale-105 hover:shadow-xl transition-all duration-300"
+                    className="flex items-center bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 text-gray-800 dark:text-gray-200 px-8 py-4 rounded-2xl font-black hover:bg-blue-700 hover:text-white dark:hover:bg-blue-600 hover:scale-105 hover:shadow-xl transition-all duration-300"
                 >
                     <LinkedInIcon />
                     LinkedIn
@@ -65,7 +68,7 @@ function Contact() {
 
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 1.2, ease: "easeOut", delay: 0.4 }} className="relative z-10 w-full max-w-5xl">
                 <ContactCard
-                    info="directed at johncarlochengroa07@gmail.com"
+                    info={cardInfo}
                 />
             </motion.div>
         </section>

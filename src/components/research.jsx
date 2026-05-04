@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Title, WorkCard, SearchBar, FilterList, Prompt } from "./components.jsx";
 import { motion, AnimatePresence } from 'framer-motion';
-import { researchList } from "../data/research";
+import { researchList, researchPageContent } from "../data/research";
 import { getKeywordEngine, KeywordHighlights } from "../utils/keywordEngine";
 import Fuse from 'fuse.js';
 
@@ -38,15 +38,15 @@ function Research() {
         filteredResearch = fuse.search(searchQuery).map(result => result.item);
     }
     return (
-        <section className="min-h-screen pt-32 pb-20 px-6 bg-gray-50/50 flex flex-col items-center">
+        <section className="min-h-screen pt-32 pb-20 px-6 bg-gray-50/50 dark:bg-gray-950 flex flex-col items-center">
             <div className="max-w-6xl w-full">
                 <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, ease: "easeOut" }} className="text-center mb-4">
                     <AnimatePresence>
                         {!isSearchingText && (
                             <motion.div key="title-block" initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} transition={{ duration: 0.2 }}>
                                 <Title 
-                                    title="Research" 
-                                    subtitle="A multidisciplinary exploration of technology and life sciences. My research spans from robotics and computer engineering to biochemical analysis and agricultural innovation, with a current focus on integrating embedded systems into sustainable ecological solutions like aquaponics."
+                                    title={researchPageContent.title} 
+                                    subtitle={researchPageContent.subtitle}
                                 />
                             </motion.div>
                         )}
@@ -96,8 +96,8 @@ function Research() {
 
                 {filteredResearch.length === 0 && (
                     <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, ease: "easeOut" }} className="text-center py-20 w-full">
-                        <h3 className="text-2xl font-black text-gray-400">No research found</h3>
-                        <p className="text-gray-500 mt-2">Try adjusting your search or filters.</p>
+                        <h3 className="text-2xl font-black text-gray-400 dark:text-gray-500">{researchPageContent.noResults.title}</h3>
+                        <p className="text-gray-500 dark:text-gray-600 mt-2">{researchPageContent.noResults.subtitle}</p>
                     </motion.div>
                 )}
             </div>

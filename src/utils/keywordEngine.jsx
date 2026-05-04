@@ -115,21 +115,21 @@ export const KeywordHighlights = ({ highlights, onKeywordClick, className = "" }
                     <div 
                         key={i} 
                         onClick={() => onKeywordClick && onKeywordClick(item.value)}
-                        className="p-5 md:p-6 bg-white/50 backdrop-blur-md rounded-[2rem] border border-white/50 shadow-sm hover:bg-white hover:shadow-xl transition-all group flex flex-col justify-between text-center min-h-[140px] relative overflow-hidden cursor-pointer"
+                        className="p-5 md:p-6 bg-white/50 dark:bg-gray-900/50 backdrop-blur-md rounded-[2rem] border border-white/50 dark:border-gray-800 shadow-sm hover:bg-white dark:hover:bg-gray-800 hover:shadow-xl dark:hover:shadow-black/50 transition-all group flex flex-col justify-between text-center min-h-[140px] relative overflow-hidden cursor-pointer"
                     >
                         {/* Subtle gradient glow effect */}
-                        <div className="absolute top-0 right-0 -mt-4 -mr-4 w-24 h-24 bg-gradient-to-br from-blue-100/50 to-purple-100/50 rounded-full blur-2xl group-hover:bg-blue-200/50 transition-colors duration-500 pointer-events-none"></div>
+                        <div className="absolute top-0 right-0 -mt-4 -mr-4 w-24 h-24 bg-gradient-to-br from-blue-100/50 to-purple-100/50 dark:from-blue-900/20 dark:to-purple-900/20 rounded-full blur-2xl group-hover:bg-blue-200/50 dark:group-hover:bg-blue-800/20 transition-colors duration-500 pointer-events-none"></div>
                         
                         <div className="relative z-10">
-                            <div className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] mb-1">
+                            <div className="text-[10px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-[0.2em] mb-1">
                                 {item.label}
                             </div>
                         </div>
                         <div className="relative z-10 mt-6">
-                            <div className={`font-black text-blue-600 mb-1 tracking-tighter group-hover:translate-x-1 transition-all duration-300 break-words leading-tight ${isLong ? 'text-lg md:text-xl' : 'text-xl md:text-2xl'}`}>
+                            <div className={`font-black text-blue-600 dark:text-blue-400 mb-1 tracking-tighter group-hover:translate-x-1 transition-all duration-300 break-words leading-tight ${isLong ? 'text-lg md:text-xl' : 'text-xl md:text-2xl'}`}>
                                 {shortValue}
                             </div>
-                            <div className="text-[10px] font-bold text-gray-900 uppercase tracking-widest break-words leading-snug">
+                            <div className="text-[10px] font-bold text-gray-900 dark:text-white uppercase tracking-widest break-words leading-snug">
                                 {shortenKeyword(item.detail)}
                             </div>
                         </div>

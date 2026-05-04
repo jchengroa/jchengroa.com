@@ -14,8 +14,10 @@ import Legal from './components/Legal.jsx'
 import Research from './components/research.jsx'
 import Changelog, { ChangelogPopup } from './components/Changelog.jsx'
 import { changelogData } from './data/changelog.js'
+import { siteContent } from './data/site_content.js'
 
 function App() {
+    const { footer } = siteContent;
     const latestUpdate = changelogData[changelogData.length - 1];
     const currentVersion = latestUpdate?.version || "0.0.0";
     const lastUpdatedDate = latestUpdate?.date 
@@ -47,12 +49,18 @@ function App() {
                 </Routes>
 
                 <div id="footer" className="p-5 text-center mt-12">
-                    <p className="text-sm">
-                        <Link to="/legal" className="hover:text-blue-600 transition-colors">
-                            <b>Domain & Legal Information</b>
+                    <p className="text-sm text-gray-900 dark:text-gray-100">
+                        <Link to="/legal" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
+                            <b>{footer.legalLink}</b>
                         </Link>
                     </p>
-                    <p className="text-gray-500 text-sm">Version {currentVersion} | Last Updated: {lastUpdatedDate}</p>
+                    <p className="text-sm text-gray-500 dark:text-gray-400">
+                        <Link to="/changelog" className="hover:text-blue-600 dark:hover:text-blue-400 transition-all duration-300 group inline-flex items-center gap-1.5">
+                            <span className="opacity-70 group-hover:opacity-100">{footer.versionPrefix} {currentVersion}</span>
+                            <span className="opacity-30">|</span>
+                            <span className="opacity-70 group-hover:opacity-100">{footer.updatedPrefix}: {lastUpdatedDate}</span>
+                        </Link>
+                    </p>
                 </div>
             </div>
         </BrowserRouter>

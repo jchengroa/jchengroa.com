@@ -12,9 +12,22 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <script>
+        // Apply theme immediately to prevent flash
+        (function() {
+            try {
+                const saved = localStorage.getItem('darkMode');
+                if (saved !== null) {
+                    if (JSON.parse(saved)) {
+                        document.documentElement.classList.add('dark');
+                    }
+                }
+            } catch (e) {}
+        })();
+    </script>
 </head>
 
-<body class="bg-gray-50 font-['Outfit',sans-serif]">
+<body class="font-['Outfit',sans-serif]">
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
 </body>

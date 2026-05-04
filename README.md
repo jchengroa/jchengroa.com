@@ -251,3 +251,11 @@ Optimized the **sync-changelog.js** script for word-for-word accuracy and headin
 
 - [0.7.2] - 2026-05-04
 Implemented a auto-updating footer to display current version and last updated date.
+
+- [0.7.3] - 2026-05-04
+Added more background images to the hero section.
+Added new settings dropdown in the hamburger menu, including Dark Mode toggle and Clear Local Storage button.
+Added dark mode, casually.
+Added Enter button to the search bar throughout the website.
+Modularized almost every component into /data.
+Optimized the website and fixed bugs.

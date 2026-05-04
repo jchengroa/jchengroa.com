@@ -204,5 +204,17 @@ export const changelogData = [
     "content": [
       "Implemented a auto-updating footer to display current version and last updated date."
     ]
+  },
+  {
+    "version": "0.7.3",
+    "date": "2026-05-04",
+    "content": [
+      "Added more background images to the hero section.",
+      "Added new settings dropdown in the hamburger menu, including Dark Mode toggle and Clear Local Storage button.",
+      "Added dark mode, casually.",
+      "Added Enter button to the search bar throughout the website.",
+      "Modularized almost every component into /data.",
+      "Optimized the website and fixed bugs."
+    ]
   }
 ];

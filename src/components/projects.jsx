@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { WorkCard, Title, SearchBar, FilterList, Prompt } from "./components.jsx";
 import { motion, AnimatePresence } from 'framer-motion';
-import { projectsList } from "../data/projects";
+import { projectsList, projectsPageContent } from "../data/projects";
 import { getKeywordEngine, KeywordHighlights } from "../utils/keywordEngine";
 import Fuse from 'fuse.js';
 
@@ -48,8 +48,8 @@ function Projects() {
             <AnimatePresence>
                 {!isSearchingText && (
                     <motion.div key="header" initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} transition={{ duration: 0.2 }} className="border-l-4 border-blue-600 pl-6 mb-8">
-                        <h3 className="text-3xl font-black text-gray-900 tracking-tight mb-2">{title}</h3>
-                        <p className="text-gray-500 font-medium max-w-2xl">{description}</p>
+                        <h3 className="text-3xl font-black text-gray-900 dark:text-white tracking-tight mb-2">{title}</h3>
+                        <p className="text-gray-500 dark:text-gray-400 font-medium max-w-2xl">{description}</p>
                     </motion.div>
                 )}
             </AnimatePresence>
@@ -88,19 +88,19 @@ function Projects() {
     return (
         <section
             id="projects"
-            className="relative min-h-screen pt-32 pb-20 px-6 flex flex-col items-center overflow-hidden bg-gray-50/50"
+            className="relative min-h-screen pt-32 pb-20 px-6 flex flex-col items-center overflow-hidden bg-gray-50/50 dark:bg-gray-950"
         >
             {/* Background Decorative Element */}
-            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full max-w-7xl pointer-events-none opacity-20">
-                <div className="absolute top-1/4 left-0 w-96 h-96 bg-blue-200 rounded-full mix-blend-multiply filter blur-3xl animate-pulse"></div>
-                <div className="absolute bottom-1/4 right-0 w-96 h-96 bg-purple-200 rounded-full mix-blend-multiply filter blur-3xl animate-pulse delay-700"></div>
+            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full max-w-7xl pointer-events-none opacity-20 dark:opacity-10">
+                <div className="absolute top-1/4 left-0 w-96 h-96 bg-blue-200 dark:bg-blue-900 rounded-full mix-blend-multiply filter blur-3xl animate-pulse"></div>
+                <div className="absolute bottom-1/4 right-0 w-96 h-96 bg-purple-200 dark:bg-purple-900 rounded-full mix-blend-multiply filter blur-3xl animate-pulse delay-700"></div>
             </div>
 
             <div className="max-w-6xl w-full z-10">
                 <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, ease: "easeOut" }} className="relative text-center w-full mb-16">
                     <Title
-                        title="Projects"
-                        subtitle="A comprehensive showcase of my multidisciplinary engineering journey, spanning high-level software architecture to low-level hardware integration."
+                        title={projectsPageContent.title}
+                        subtitle={projectsPageContent.subtitle}
                     />
                     
                     <SearchBar 
@@ -123,8 +123,8 @@ function Projects() {
                 <div className="space-y-24">
                     {softwareProjects.length > 0 && (
                         <ProjectSection 
-                            title="Software Projects"
-                            description="Modern web applications and distributed systems built with scalable architectures and user-centric design."
+                            title={projectsPageContent.sections.software.title}
+                            description={projectsPageContent.sections.software.description}
                             projects={softwareProjects}
                             category="software"
                             delay={200}
@@ -133,8 +133,8 @@ function Projects() {
 
                     {hardwareProjects.length > 0 && (
                         <ProjectSection 
-                            title="Hardware Projects"
-                            description="Physical computing and circuit design projects focusing on PCB layout, signal integrity, and hardware prototyping."
+                            title={projectsPageContent.sections.hardware.title}
+                            description={projectsPageContent.sections.hardware.description}
                             projects={hardwareProjects}
                             category="hardware"
                             delay={400}
@@ -143,8 +143,8 @@ function Projects() {
 
                     {embeddedProjects.length > 0 && (
                         <ProjectSection 
-                            title="Embedded Projects"
-                            description="Real-time systems and firmware development for microcontrollers, bridging the gap between code and physical sensors."
+                            title={projectsPageContent.sections.embedded.title}
+                            description={projectsPageContent.sections.embedded.description}
                             projects={embeddedProjects}
                             category="embedded"
                             delay={600}
@@ -154,8 +154,8 @@ function Projects() {
                 
                 {softwareProjects.length === 0 && hardwareProjects.length === 0 && embeddedProjects.length === 0 && (
                     <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, ease: "easeOut" }} className="text-center py-20">
-                        <h3 className="text-2xl font-black text-gray-400">No projects found</h3>
-                        <p className="text-gray-500 mt-2">Try adjusting your search or filters.</p>
+                        <h3 className="text-2xl font-black text-gray-400 dark:text-gray-500">{projectsPageContent.noResults.title}</h3>
+                        <p className="text-gray-500 dark:text-gray-600 mt-2">{projectsPageContent.noResults.subtitle}</p>
                     </motion.div>
                 )}
             </div>
