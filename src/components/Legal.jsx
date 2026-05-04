@@ -83,7 +83,7 @@ function Legal() {
                                 <ul className="space-y-8 font-medium text-gray-600">
                                     <li>
                                         <p className="text-gray-900 font-bold mb-1">Framer Motion</p>
-                                        Used for advanced UI animations, scroll-linked effects, and smooth transitions.
+                                        Used for advanced UI animations, scroll-linked effects, smooth transitions, and the animated hamburger navigation menu — including the icon morph and staggered dropdown entrance via <code>motion</code> and <code>AnimatePresence</code>.
                                         <div className="flex flex-wrap gap-2">
                                             <DocButton href="https://www.framer.com/motion/" label="Framer" />
                                         </div>

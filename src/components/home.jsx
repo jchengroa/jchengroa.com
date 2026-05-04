@@ -1,6 +1,6 @@
 import React from 'react';
 import Contact from './contact.jsx';
-import { WorkCard, Title } from './components.jsx';
+import { WorkCard, Title, Prompt } from './components.jsx';
 import { projectsList } from '../data/projects';
 import { researchList } from '../data/research';
 import useEmblaCarousel from 'embla-carousel-react';
@@ -95,6 +95,13 @@ import { getKeywordEngine, KeywordHighlights } from '../utils/keywordEngine';
 
 function Home({ title = "John Carlo Cheng Roa" }) {
     const [currentImage, setCurrentImage] = React.useState(0);
+    const [isPromptOpen, setIsPromptOpen] = React.useState(false);
+    const [selectedKeyword, setSelectedKeyword] = React.useState("");
+
+    const openPrompt = (keyword) => {
+        setSelectedKeyword(keyword);
+        setIsPromptOpen(true);
+    };
     const images = [
         '/hero_background_1.jpg',
         '/hero_background_2.jpg',
@@ -153,7 +160,10 @@ function Home({ title = "John Carlo Cheng Roa" }) {
 
                 {/* Keyword Summaries / Highlights */}
                 <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }} className="w-full mb-12">
-                    <KeywordHighlights highlights={highlights} />
+                    <KeywordHighlights 
+                        highlights={highlights} 
+                        onKeywordClick={openPrompt}
+                    />
                 </motion.div>
 
                 <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, ease: "easeOut", delay: 0.4 }} className="flex flex-wrap justify-center gap-4">
@@ -216,6 +226,12 @@ function Home({ title = "John Carlo Cheng Roa" }) {
             <div id="contact">
                 <Contact />
             </div>
+
+            <Prompt 
+                isOpen={isPromptOpen}
+                onClose={() => setIsPromptOpen(false)}
+                keyword={selectedKeyword}
+            />
         </>
     );
 }

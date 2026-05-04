@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Title, WorkCard, SearchBar, FilterList } from "./components.jsx";
+import { Title, WorkCard, SearchBar, FilterList, Prompt } from "./components.jsx";
 import { motion, AnimatePresence } from 'framer-motion';
 import { researchList } from "../data/research";
 import { getKeywordEngine, KeywordHighlights } from "../utils/keywordEngine";
@@ -8,6 +8,13 @@ import Fuse from 'fuse.js';
 function Research() {
     const [searchQuery, setSearchQuery] = useState("");
     const [activeFilter, setActiveFilter] = useState("All");
+    const [isPromptOpen, setIsPromptOpen] = useState(false);
+    const [selectedKeyword, setSelectedKeyword] = useState("");
+
+    const openPrompt = (keyword) => {
+        setSelectedKeyword(keyword);
+        setIsPromptOpen(true);
+    };
 
     const isSearchingText = searchQuery.trim() !== "";
     const isSearching = isSearchingText || activeFilter !== "All";
@@ -65,31 +72,41 @@ function Research() {
                 <AnimatePresence>
                     {!isSearching && (
                         <motion.div key="highlights" initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} transition={{ duration: 0.2 }} className="mb-12">
-                            <KeywordHighlights highlights={engine.getCategoryHighlights("research")} />
+                            <KeywordHighlights 
+                                highlights={engine.getCategoryHighlights("research")} 
+                                onKeywordClick={openPrompt}
+                            />
                         </motion.div>
                     )}
                 </AnimatePresence>
 
                 <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, ease: "easeOut", delay: 0.1 }} className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    {filteredResearch.map((research) => (
-                        <WorkCard
-                            key={research.id}
-                            id={research.id}
-                            title={research.title}
-                            info={research.info}
-                            stack={research.tech}
-                            description={research.summary}
-                        />
+                    {filteredResearch.map((research, index) => (
+                        <div key={research.id} className="hover:translate-y-[-8px] transition-transform duration-300" style={{ transitionDelay: `${index * 100}ms` }}>
+                            <WorkCard
+                                id={research.id}
+                                title={research.title}
+                                info={research.info}
+                                stack={research.tech}
+                                description={research.summary}
+                            />
+                        </div>
                     ))}
                 </motion.div>
 
                 {filteredResearch.length === 0 && (
-                    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 1.2, ease: "easeOut" }} className="text-center py-20 w-full">
+                    <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, ease: "easeOut" }} className="text-center py-20 w-full">
                         <h3 className="text-2xl font-black text-gray-400">No research found</h3>
                         <p className="text-gray-500 mt-2">Try adjusting your search or filters.</p>
                     </motion.div>
                 )}
             </div>
+
+            <Prompt 
+                isOpen={isPromptOpen}
+                onClose={() => setIsPromptOpen(false)}
+                keyword={selectedKeyword}
+            />
         </section>
     );
 }

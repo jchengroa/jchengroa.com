@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { WorkCard, Title, SearchBar, FilterList } from "./components.jsx";
+import { WorkCard, Title, SearchBar, FilterList, Prompt } from "./components.jsx";
 import { motion, AnimatePresence } from 'framer-motion';
 import { projectsList } from "../data/projects";
 import { getKeywordEngine, KeywordHighlights } from "../utils/keywordEngine";
@@ -8,6 +8,13 @@ import Fuse from 'fuse.js';
 function Projects() {
     const [searchQuery, setSearchQuery] = useState("");
     const [activeFilter, setActiveFilter] = useState("All");
+    const [isPromptOpen, setIsPromptOpen] = useState(false);
+    const [selectedKeyword, setSelectedKeyword] = useState("");
+
+    const openPrompt = (keyword) => {
+        setSelectedKeyword(keyword);
+        setIsPromptOpen(true);
+    };
 
     const isSearchingText = searchQuery.trim() !== "";
     const isSearching = isSearchingText || activeFilter !== "All";
@@ -50,7 +57,10 @@ function Projects() {
             <AnimatePresence>
                 {!isSearching && (
                     <motion.div key="highlights" initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} transition={{ duration: 0.2 }} className="mb-10">
-                        <KeywordHighlights highlights={engine.getCategoryHighlights(category)} />
+                        <KeywordHighlights 
+                            highlights={engine.getCategoryHighlights(category)} 
+                            onKeywordClick={openPrompt}
+                        />
                     </motion.div>
                 )}
             </AnimatePresence>
@@ -151,6 +161,12 @@ function Projects() {
                     </motion.div>
                 )}
             </div>
+
+            <Prompt 
+                isOpen={isPromptOpen}
+                onClose={() => setIsPromptOpen(false)}
+                keyword={selectedKeyword}
+            />
         </section>
     );
 }

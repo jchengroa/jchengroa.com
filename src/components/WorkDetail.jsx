@@ -3,11 +3,20 @@ import { useEffect, useState } from "react";
 import { projectData } from "../data/projects";
 import { researchData } from "../data/research";
 import { getKeywordEngine, KeywordHighlights } from "../utils/keywordEngine";
+import { Prompt } from "./components.jsx";
 import { motion } from 'framer-motion';
 
 function WorkDetail() {
     const { id } = useParams();
     const [selectedImage, setSelectedImage] = useState(null);
+    const [isPromptOpen, setIsPromptOpen] = useState(false);
+    const [selectedKeyword, setSelectedKeyword] = useState("");
+
+    const openPrompt = (keyword) => {
+        setSelectedKeyword(keyword);
+        setIsPromptOpen(true);
+    };
+
     // Try to find the item in projectData first, then researchData
     const item = projectData[id] || researchData[id];
 
@@ -64,7 +73,11 @@ function WorkDetail() {
                                     <h3 className="text-xs font-black tracking-[0.2em] uppercase text-gray-400 mb-10">Key Metrics & Findings</h3>
                                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-8">
                                         {item.stats.map((stat, i) => (
-                                            <div key={i} className="p-8 bg-gray-50 rounded-[2rem] border border-gray-100 hover:bg-white hover:shadow-xl transition-all group">
+                                            <div 
+                                                key={i} 
+                                                onClick={() => openPrompt(stat.label)}
+                                                className="p-8 bg-gray-50 rounded-[2rem] border border-gray-100 hover:bg-white hover:shadow-xl transition-all group cursor-pointer"
+                                            >
                                                 <div className="text-4xl md:text-5xl font-black text-blue-600 mb-2 tracking-tighter group-hover:scale-105 transition-transform origin-left">
                                                     {stat.value}
                                                 </div>
@@ -85,7 +98,11 @@ function WorkDetail() {
                                     {item.category === "research" ? "Abstract & Overview" : "The Challenge & Solution"}
                                 </h3>
                                 <div className="mb-10">
-                                    <KeywordHighlights highlights={itemHighlights} className="grid-cols-2 md:grid-cols-4" />
+                                    <KeywordHighlights 
+                                        highlights={itemHighlights} 
+                                        className="grid-cols-2 md:grid-cols-4" 
+                                        onKeywordClick={openPrompt}
+                                    />
                                 </div>
                                 <p className="text-2xl text-gray-600 leading-relaxed font-medium">
                                     {item.description}
@@ -124,7 +141,11 @@ function WorkDetail() {
                                 <h3 className="text-xs font-black tracking-[0.2em] uppercase text-gray-400 mb-6">{techLabel}</h3>
                                 <div className="flex flex-wrap gap-3">
                                     {item.tech.map(t => (
-                                        <span key={t} className="px-5 py-2.5 bg-gray-50 rounded-2xl text-sm font-bold text-gray-700 border border-gray-100">
+                                        <span 
+                                            key={t} 
+                                            onClick={() => openPrompt(t)}
+                                            className="px-5 py-2.5 bg-gray-50 rounded-2xl text-sm font-bold text-gray-700 border border-gray-100 hover:bg-white hover:shadow-md transition-all cursor-pointer"
+                                        >
                                             {t}
                                         </span>
                                     ))}
@@ -178,6 +199,12 @@ function WorkDetail() {
                     </motion.div>
                 </motion.div>
             )}
+
+            <Prompt 
+                isOpen={isPromptOpen}
+                onClose={() => setIsPromptOpen(false)}
+                keyword={selectedKeyword}
+            />
         </div>
     );
 }

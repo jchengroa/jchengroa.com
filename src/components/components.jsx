@@ -1,5 +1,8 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { keywordsData } from "../data/keywords";
+import HamburgerMenu from "../utils/HamburgerMenu.jsx";
 
 /* Objects */
 
@@ -153,20 +156,56 @@ function SubTitle(props) {
 }
 
 function NavBar(props) {
+    const navLinks = [
+        { label: "Projects", to: "/projects", icon: <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="mr-2"><path d="M2 17V5c0-1.1.9-2 2-2h4l2 2h10c1.1 0 2 .9 2 2v10c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2Z"/><path d="M2 9h20"/></svg>, active: true },
+        { label: "Research", to: "/research", icon: <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="mr-2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>, active: true },
+        { label: "Forums", to: "/forums", icon: <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="mr-2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>, active: false },
+        { label: "Docs", to: "/docs", icon: <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="mr-2"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/></svg>, active: false },
+        { label: "Downloads", to: "/downloadables", icon: <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="mr-2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>, active: false }
+    ];
+
     return (
         <>
             <div className="fixed top-0 left-0 w-full z-50 transition-all duration-300">
                 <div className="mx-auto mt-4 px-4 max-w-7xl">
-                    <div className="bg-white/80 backdrop-blur-lg border border-white/20 shadow-lg rounded-2xl p-4 flex justify-between items-center">
-                        <Link to="/" className="text-xl text-black hover:text-gray-800 font-black tracking-tight transition" onClick={() => {
-                            setTimeout(() => {
-                                window.scrollTo({ top: 0, behavior: 'smooth' });
-                            }, 100);
-                        }}>{props.name}</Link>
-                        <div className="flex gap-8 items-center font-medium">
-                            <Link to="/projects" className="text-gray-600 hover:text-black transition">Projects</Link>
-                            <Link to="/research" className="text-gray-600 hover:text-black transition">Research</Link>
+                    <div className="bg-white/80 backdrop-blur-lg border border-white/20 shadow-lg rounded-2xl p-4 flex justify-between items-center px-6">
+                        <div className="flex items-center gap-8">
+                            <Link to="/" className="text-xl text-black hover:text-gray-800 font-black tracking-tight transition shrink-0" onClick={() => {
+                                setTimeout(() => {
+                                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                                }, 100);
+                            }}>{props.name}</Link>
+
+                            {/* Desktop Navigation Links */}
+                            <nav className="hidden xl:flex items-center gap-1 border-l border-gray-100 pl-8 ml-2">
+                                {navLinks.map((link) => (
+                                    link.active ? (
+                                        <Link 
+                                            key={link.label}
+                                            to={link.to}
+                                            className="flex items-center px-4 py-2 rounded-xl text-gray-500 hover:text-blue-600 hover:bg-blue-50 transition-all font-bold text-sm group"
+                                        >
+                                            <span className="opacity-50 group-hover:opacity-100 transition-opacity">
+                                                {link.icon}
+                                            </span>
+                                            {link.label}
+                                        </Link>
+                                    ) : (
+                                        <div 
+                                            key={link.label}
+                                            className="flex items-center px-4 py-2 rounded-xl text-gray-300 cursor-not-allowed font-bold text-sm select-none"
+                                        >
+                                            <span className="opacity-30">
+                                                {link.icon}
+                                            </span>
+                                            {link.label}
+                                        </div>
+                                    )
+                                ))}
+                            </nav>
                         </div>
+
+                        <HamburgerMenu />
                     </div>
                 </div>
             </div>
@@ -224,5 +263,94 @@ function FilterList({ activeFilter, setActiveFilter, filters }) {
     );
 }
 
-export { WorkCard, ContactCard, Title, SubTitle, NavBar, SearchBar, FilterList }
+/**
+ * Prompt Component
+ * A modal that displays details about a specific keyword.
+ */
+function Prompt({ isOpen, onClose, keyword }) {
+    const data = keywordsData[keyword] || {
+        definition: "Definition not found for this keyword.",
+        metrics: "No metrics available."
+    };
+
+    return (
+        <AnimatePresence>
+            {isOpen && (
+                <div className="fixed inset-0 z-[100] flex items-center justify-center p-6">
+                    {/* Backdrop */}
+                    <motion.div 
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        onClick={onClose}
+                        className="absolute inset-0 bg-black/40 backdrop-blur-sm"
+                    />
+
+                    {/* Modal Content */}
+                    <motion.div 
+                        initial={{ opacity: 0, scale: 0.9, y: 20 }}
+                        animate={{ opacity: 1, scale: 1, y: 0 }}
+                        exit={{ opacity: 0, scale: 0.9, y: 20 }}
+                        transition={{ type: "spring", damping: 25, stiffness: 300 }}
+                        className="relative w-full max-w-lg bg-white rounded-[2.5rem] shadow-2xl overflow-hidden border border-gray-100"
+                    >
+                        <div className="p-8 md:p-12">
+                            {/* Header */}
+                            <div className="flex justify-between items-start mb-8">
+                                <div>
+                                    <span className="text-[10px] font-black tracking-[0.2em] text-blue-600 uppercase mb-2 block">
+                                        Keyword Detail
+                                    </span>
+                                    <h2 className="text-4xl font-black text-gray-900 tracking-tighter">
+                                        {keyword}
+                                    </h2>
+                                </div>
+                                <button 
+                                    onClick={onClose}
+                                    className="p-2 hover:bg-gray-100 rounded-xl transition-colors group"
+                                >
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="text-gray-400 group-hover:text-gray-900 transition-colors"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+                                </button>
+                            </div>
+
+                            {/* Content */}
+                            <div className="space-y-8">
+                                <div>
+                                    <h3 className="text-xs font-black text-gray-400 uppercase tracking-widest mb-3">Definition</h3>
+                                    <p className="text-lg text-gray-600 font-medium leading-relaxed italic">
+                                        "{data.definition}"
+                                    </p>
+                                </div>
+
+                                <div>
+                                    <h3 className="text-xs font-black text-gray-400 uppercase tracking-widest mb-3">Metrics / Key Insight</h3>
+                                    <div className="p-5 bg-blue-50 rounded-2xl border border-blue-100">
+                                        <p className="text-blue-900 font-bold leading-relaxed">
+                                            {data.metrics}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Footer */}
+                            <div className="mt-12 flex justify-end">
+                                <button 
+                                    onClick={onClose}
+                                    className="px-8 py-3 bg-gray-900 text-white font-black rounded-xl hover:bg-black transition-all hover:scale-105"
+                                >
+                                    Close
+                                </button>
+                            </div>
+                        </div>
+
+                        {/* Subtle accent line */}
+                        <div className="h-1.5 w-full bg-gradient-to-r from-blue-600 to-indigo-600" />
+                    </motion.div>
+                </div>
+            )}
+        </AnimatePresence>
+    );
+}
+
+export { WorkCard, ContactCard, Title, SubTitle, NavBar, SearchBar, FilterList, Prompt }
 export default NavBar

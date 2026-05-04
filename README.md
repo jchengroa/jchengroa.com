@@ -19,7 +19,7 @@ A premium, multidisciplinary portfolio website showcasing engineering projects, 
 
 - **Frontend**: [React 19](https://react.dev/), [Vite](https://vitejs.dev/)
 - **Styling**: [Tailwind CSS 4.0](https://tailwindcss.com/)
-- **Animations**: [Framer Motion](https://www.framer.com/motion/)
+- **Animations & Navigation**: [Framer Motion](https://www.framer.com/motion/) — UI animations, scroll-linked effects, and animated hamburger menu
 - **Search Engine**: [Fuse.js](https://www.fusejs.io/)
 - **Carousel/Slider**: [Embla Carousel](https://www.embla-carousel.com/)
 - **Data Processing**: [Lodash](https://lodash.com/)
@@ -45,21 +45,25 @@ Follow these steps to set up the development environment on your local machine.
 1. **Clone the repository**
    ```bash
    git clone https://github.com/jchengroa/jchengroa.com.git
+   cd jchengroa.com
    ```
 
-2. **Install dependencies**
+2. **If you are on Windows, allow script execution for the current session** *(run in PowerShell)*
+   ```powershell
+   Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope Process
+   ```
+
+3. **Install all dependencies**
    ```bash
    npm install
    ```
 
-3. **Start the development server**
+4. **Start the development server**
    ```bash
-   # If you are on Windows and encounter execution policy errors:
-   Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope Process
-
-   # Start the Vite dev server
    npm run dev
    ```
+
+   The app will be available at `http://localhost:5173` by default.
 
 ---
 
@@ -191,3 +195,11 @@ Fixed bugs in the projects and research sections.
 
 - [0.5.1] - 2026-05-03
 Updated the **Legal.jsx** to display and show links to the documentation of the different technologies used in the website.
+
+- [0.6.0] - 2026-05-04
+Replaced the old inline navbar links with a new animated **Hamburger Menu** component.
+Created **HamburgerMenu.jsx** using **Framer Motion** for icon morph animations and staggered dropdown entrances.
+Introduced the **Prompt** component (consolidated in `components.jsx`), a custom modal for displaying detailed keyword definitions and metrics from **keywords.js**.
+Enhanced **KeywordHighlights** and **WorkDetail** sections (Key Metrics, Tech Tags) with interactivity and deep-insight modals.
+Integrated the navigation and prompt systems across the **Home**, **Projects**, **Research**, and **WorkDetail** pages.
+Updated **Legal.jsx** to reflect new features and technical documentation.
