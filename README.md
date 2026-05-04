@@ -87,25 +87,37 @@ This will parse the Markdown and regenerate `src/data/changelog.js` for the webs
 
 ```
 jchengroa.com/
-├── public/                # Static assets & project screenshots
+├── public/
 │   ├── CloudBasedResources/
 │   ├── jchengroacomResources/
 │   └── logo.png
+├── scripts/
+│   └── sync-changelog.js
 ├── src/
-│   ├── components/        # UI components & page sections
-│   │   ├── Contact.jsx
-│   │   ├── FeaturedProjects.jsx
-│   │   ├── FeaturedResearch.jsx
-│   │   ├── Hero.jsx
+│   ├── components/
+│   │   ├── Changelog.jsx
+│   │   ├── Legal.jsx
 │   │   ├── WorkDetail.jsx
-│   │   └── components.jsx # Shared UI elements
-│   ├── data/              # Project & Research data files
+│   │   ├── components.jsx
+│   │   ├── contact.jsx
+│   │   ├── home.jsx
+│   │   ├── projects.jsx
+│   │   └── research.jsx
+│   ├── data/
+│   │   ├── changelog.js
+│   │   ├── keywords.js
 │   │   ├── projects.js
 │   │   └── research.js
-│   ├── index.css          # Design system & animations
-│   └── main.jsx           # Main application entry
+│   ├── utils/
+│   │   ├── HamburgerMenu.jsx
+│   │   └── keywordEngine.jsx
+│   ├── index.css
+│   └── main.jsx
+├── .gitignore
 ├── index.html
+├── package-lock.json
 ├── package.json
+├── vercel.json
 └── vite.config.js
 ```
 
@@ -229,3 +241,10 @@ Created a dedicated **Changelog** timeline page with premium entrance animations
 Refactored the **Title** component to match the premium site design and synced it across all pages.
 Integrated a custom **Markdown-lite parser** to support **bold text** formatting in project descriptions and logs.
 Added the **Changelog** link to the animated Hamburger Menu.
+
+- [0.7.1] - 2026-05-04
+Implemented a **Keyword Shortening System** to handle long technical terms (e.g., MAE, OOP, DSA).
+Integrated shortening logic across the **Hero**, **Work Cards**, **Prompt Modals**, and **Detail Pages**.
+Added **Dynamic Font Sizing** for long labels to prevent UI overflow and maintain layout balance.
+Fully expanded and cleaned up the **Project Structure** section in the README.
+Optimized the **sync-changelog.js** script for word-for-word accuracy and heading collision avoidance.

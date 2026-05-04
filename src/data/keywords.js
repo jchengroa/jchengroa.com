@@ -75,6 +75,10 @@ export const keywordsData = {
     "Website": {
         definition: "A collection of related web pages, including multimedia content, typically identified with a common domain name.",
         metrics: "Global reach with instant accessibility and easy updates."
+    },
+    "3 Papers": {
+        definition: "John Carlo Cheng Roa has published three research papers.",
+        metrics: "Published three research papers (viewable in the research page)."
     }
 };
 

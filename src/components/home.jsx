@@ -23,8 +23,8 @@ function WorkCarousel({ id, title, subtitle, items, bgClass, isResearch }) {
 
     return (
         <section id={id} className={`py-24 ${bgClass} overflow-hidden relative group/section`}>
-            <Title 
-                title={title} 
+            <Title
+                title={title}
                 subtitle={subtitle}
                 className="mb-12"
             />
@@ -119,115 +119,110 @@ function Home({ title = "John Carlo Cheng Roa" }) {
 
     return (
         <>
-        <section
-            id="home"
-            className="relative min-h-[90vh] flex items-center justify-center text-center p-5 rounded-[3rem] overflow-hidden shadow-2xl transition-all duration-700 hover:shadow-3xl mt-24 mx-2 bg-white border border-gray-100 isolate"
-        >
-            {/* Cross-fading Background Images */}
-            {images.map((img, i) => (
-                <div
-                    key={i}
-                    className={`absolute inset-0 transition-opacity duration-[2000ms] ease-in-out ${i === currentImage ? 'opacity-100' : 'opacity-0'}`}
-                    style={{
-                        backgroundImage: `url(${img})`,
-                        backgroundSize: 'cover',
-                        backgroundPosition: 'center 40%'
-                    }}
-                />
-            ))}
+            <section
+                id="home"
+                className="relative min-h-[90vh] flex items-center justify-center text-center p-5 rounded-[3rem] overflow-hidden shadow-2xl transition-all duration-700 hover:shadow-3xl mt-24 mx-2 bg-white border border-gray-100 isolate"
+            >
+                {/* Cross-fading Background Images */}
+                {images.map((img, i) => (
+                    <div
+                        key={i}
+                        className={`absolute inset-0 transition-opacity duration-[2000ms] ease-in-out ${i === currentImage ? 'opacity-100' : 'opacity-0'}`}
+                        style={{
+                            backgroundImage: `url(${img})`,
+                            backgroundSize: 'cover',
+                            backgroundPosition: 'center 40%'
+                        }}
+                    />
+                ))}
 
-            {/* Glassmorphic Overlay for Readability */}
-            <div className="absolute inset-0 bg-white/70 backdrop-blur-[2px] pointer-events-none"></div>
+                {/* Glassmorphic Overlay for Readability */}
+                <div className="absolute inset-0 bg-white/70 backdrop-blur-[2px] pointer-events-none"></div>
 
-            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full bg-gradient-to-b from-blue-50/20 to-transparent pointer-events-none"></div>
+                <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full bg-gradient-to-b from-blue-50/20 to-transparent pointer-events-none"></div>
 
-            <div className="relative z-10 text-black max-w-5xl px-4 flex flex-col items-center">
-                <motion.div 
-                    initial={{ opacity: 0, y: 30 }} 
-                    animate={{ opacity: 1, y: 0 }} 
-                    transition={{ duration: 0.8, ease: "easeOut" }}
-                    className="flex flex-col items-center"
-                >
-                    {/* Badge */}
-                    <div className="inline-block px-4 py-1.5 bg-blue-600/10 border border-blue-600/20 rounded-full text-blue-600 text-xs font-black uppercase tracking-[0.2em] mb-8">
-                        Computer Engineer
-                    </div>
+                <div className="relative z-10 text-black max-w-5xl px-4 flex flex-col items-center">
+                    <motion.div
+                        initial={{ opacity: 0, y: 30 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.8, ease: "easeOut" }}
+                        className="flex flex-col items-center w-full"
+                    >
+                        <h1 className="text-6xl md:text-8xl font-black mb-8 tracking-tighter text-gray-900 drop-shadow-sm leading-none text-center">
+                            {title}
+                        </h1>
 
-                    <h1 className="text-6xl md:text-8xl font-black mb-12 tracking-tight text-gray-900 drop-shadow-sm leading-none">
-                        {title}
-                    </h1>
-
-                    {/* Keyword Summaries / Highlights - Moved up and made prominent */}
-                    <div className="w-full mb-12">
-                        <KeywordHighlights 
-                            highlights={highlights} 
-                            onKeywordClick={openPrompt}
-                            className="!grid-cols-2 lg:!grid-cols-4 max-w-4xl mx-auto"
-                        />
-                    </div>
-
-                    <div className="max-w-3xl mx-auto space-y-8 mb-12">
-                        <p className="text-2xl md:text-3xl text-gray-800 font-black leading-tight tracking-tight">
-                            I am a 2nd-year Computer Engineering student at De La Salle University with a passion for building robust digital systems.
-                        </p>
-                        <p className="text-lg text-gray-500 font-medium leading-relaxed max-w-2xl mx-auto">
-                            Currently maintaining cloud-hosted ERPNext instances and managing secure infrastructure reliability, with a drive toward systems administration and DevOps.
-                        </p>
-                    </div>
-
-                    <div className="flex flex-wrap justify-center gap-4">
-                        <a
-                            href="mailto:johncarlochengroa07@gmail.com"
-                            className="group flex items-center bg-gray-900 text-white px-10 py-5 rounded-2xl font-black text-lg hover:bg-black hover:scale-105 hover:shadow-2xl transition-all duration-300"
-                        >
-                            <MailIcon />
-                            Get In Touch
-                        </a>
-                        <div className="flex gap-4">
-                            <a
-                                href="https://github.com/jchengroa"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="group flex items-center justify-center bg-white/80 backdrop-blur-md text-gray-900 p-5 rounded-2xl font-bold hover:scale-110 hover:shadow-xl transition-all duration-300 border border-gray-100"
-                                aria-label="GitHub"
-                            >
-                                <GitHubIcon />
-                            </a>
-                            <a
-                                href="https://www.linkedin.com/in/john-carlo-cheng-roa-47aa6a290/"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="group flex items-center justify-center bg-white/80 backdrop-blur-md text-gray-900 p-5 rounded-2xl font-bold hover:scale-110 hover:shadow-xl transition-all duration-300 border border-gray-100"
-                                aria-label="LinkedIn"
-                            >
-                                <LinkedInIcon />
-                            </a>
+                        <div className="max-w-3xl mx-auto space-y-6 mb-12 text-center">
+                            <p className="text-2xl md:text-3xl text-gray-800 font-black leading-tight tracking-tight">
+                                I am a 2nd-year Computer Engineering student at De La Salle University with a passion for building robust digital systems.
+                            </p>
+                            <p className="text-lg text-gray-500 font-medium leading-relaxed max-w-2xl mx-auto">
+                                Currently maintaining cloud-hosted ERPNext instances and managing secure infrastructure reliability, with a drive toward systems administration and DevOps.
+                            </p>
                         </div>
-                    </div>
-                </motion.div>
 
-                {/* Animated Scroll Indicator */}
-                <motion.button
-                    animate={{ y: ["-5%", "0%", "-5%"] }}
-                    transition={{ duration: 2, ease: "easeInOut", repeat: Infinity }}
-                    onClick={() => document.getElementById('featured-projects')?.scrollIntoView({ behavior: 'smooth' })}
-                    className="mt-16 text-gray-900/40 hover:text-gray-900/80 transition-colors cursor-pointer outline-none group"
-                    aria-label="Scroll to projects"
-                >
-                    <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="group-hover:stroke-[3px] transition-all">
-                        <path d="m7 13 5 5 5-5" /><path d="m7 6 5 5 5-5" />
-                    </svg>
-                </motion.button>
-            </div>
-        </section>
-            <WorkCarousel 
+                        {/* Keyword Summaries / Highlights - Restored to original position but perfectly centered */}
+                        <div className="w-full mb-12">
+                            <KeywordHighlights
+                                highlights={highlights}
+                                onKeywordClick={openPrompt}
+                                className="max-w-4xl mx-auto"
+                            />
+                        </div>
+
+                        <div className="flex flex-wrap justify-center gap-4">
+                            <a
+                                href="mailto:johncarlochengroa07@gmail.com"
+                                className="group flex items-center bg-gray-900 text-white px-10 py-5 rounded-2xl font-black text-lg hover:bg-black hover:scale-105 hover:shadow-2xl transition-all duration-300"
+                            >
+                                <MailIcon />
+                                Get In Touch
+                            </a>
+                            <div className="flex gap-4">
+                                <a
+                                    href="https://github.com/jchengroa"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="group flex items-center justify-center bg-white/80 backdrop-blur-md text-gray-900 p-5 rounded-2xl font-bold hover:scale-110 hover:shadow-xl transition-all duration-300 border border-gray-100"
+                                    aria-label="GitHub"
+                                >
+                                    <GitHubIcon />
+                                </a>
+                                <a
+                                    href="https://www.linkedin.com/in/john-carlo-cheng-roa-47aa6a290/"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="group flex items-center justify-center bg-white/80 backdrop-blur-md text-gray-900 p-5 rounded-2xl font-bold hover:scale-110 hover:shadow-xl transition-all duration-300 border border-gray-100"
+                                    aria-label="LinkedIn"
+                                >
+                                    <LinkedInIcon />
+                                </a>
+                            </div>
+                        </div>
+                    </motion.div>
+
+                    {/* Animated Scroll Indicator */}
+                    <motion.button
+                        animate={{ y: ["-5%", "0%", "-5%"] }}
+                        transition={{ duration: 2, ease: "easeInOut", repeat: Infinity }}
+                        onClick={() => document.getElementById('featured-projects')?.scrollIntoView({ behavior: 'smooth' })}
+                        className="mt-16 text-gray-900/40 hover:text-gray-900/80 transition-colors cursor-pointer outline-none group"
+                        aria-label="Scroll to projects"
+                    >
+                        <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="group-hover:stroke-[3px] transition-all">
+                            <path d="m7 13 5 5 5-5" /><path d="m7 6 5 5 5-5" />
+                        </svg>
+                    </motion.button>
+                </div>
+            </section>
+            <WorkCarousel
                 id="featured-projects"
                 title="Featured Projects"
                 subtitle="A glimpse into some of my recent work."
                 items={projectsList}
                 bgClass="bg-white"
             />
-            <WorkCarousel 
+            <WorkCarousel
                 id="featured-research"
                 title="Featured Research"
                 subtitle="A look into my academic work and studies."
@@ -239,7 +234,7 @@ function Home({ title = "John Carlo Cheng Roa" }) {
                 <Contact />
             </div>
 
-            <Prompt 
+            <Prompt
                 isOpen={isPromptOpen}
                 onClose={() => setIsPromptOpen(false)}
                 keyword={selectedKeyword}

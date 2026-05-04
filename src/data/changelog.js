@@ -186,5 +186,16 @@ export const changelogData = [
       "Integrated a custom **Markdown-lite parser** to support **bold text** formatting in project descriptions and logs.",
       "Added the **Changelog** link to the animated Hamburger Menu."
     ]
+  },
+  {
+    "version": "0.7.1",
+    "date": "2026-05-04",
+    "content": [
+      "Implemented a **Keyword Shortening System** to handle long technical terms (e.g., MAE, OOP, DSA).",
+      "Integrated shortening logic across the **Hero**, **Work Cards**, **Prompt Modals**, and **Detail Pages**.",
+      "Added **Dynamic Font Sizing** for long labels to prevent UI overflow and maintain layout balance.",
+      "Fully expanded and cleaned up the **Project Structure** section in the README.",
+      "Optimized the **sync-changelog.js** script for word-for-word accuracy and heading collision avoidance."
+    ]
   }
 ];

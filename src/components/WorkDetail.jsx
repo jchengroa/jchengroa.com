@@ -2,7 +2,7 @@ import { useParams, Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { projectData } from "../data/projects";
 import { researchData } from "../data/research";
-import { getKeywordEngine, KeywordHighlights } from "../utils/keywordEngine";
+import { getKeywordEngine, KeywordHighlights, shortenKeyword } from "../utils/keywordEngine";
 import { Prompt, FormattedText } from "./components.jsx";
 import { motion } from 'framer-motion';
 

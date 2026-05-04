@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { keywordsData } from "../data/keywords";
+import { shortenKeyword } from "../utils/keywordEngine";
 import HamburgerMenu from "../utils/HamburgerMenu.jsx";
 
 /* Objects */
@@ -41,7 +42,7 @@ function WorkCard(props) {
                         <div className="flex flex-wrap gap-2 mb-8">
                             {props.stack.map((tech, index) => (
                                 <span key={index} className="px-4 py-1.5 bg-gray-50 border border-gray-100 rounded-xl text-xs font-black text-gray-500 uppercase tracking-wider">
-                                    {tech}
+                                    {shortenKeyword(tech)}
                                 </span>
                             ))}
                         </div>
@@ -378,16 +379,16 @@ function Prompt({ isOpen, onClose, keyword }) {
                                 </div>
                             </div>
 
-                            {/* Footer */}
-                            <div className="mt-12 flex justify-end">
-                                <button 
-                                    onClick={onClose}
-                                    className="px-8 py-3 bg-gray-900 text-white font-black rounded-xl hover:bg-black transition-all hover:scale-105"
-                                >
-                                    Close
-                                </button>
-                            </div>
-                        </div>
+                             {/* Footer */}
+                             <div className="mt-12 flex justify-end">
+                                 <button 
+                                     onClick={onClose}
+                                     className="px-8 py-3 bg-gray-900 text-white font-black rounded-xl hover:bg-black transition-all hover:scale-105"
+                                 >
+                                     Close
+                                 </button>
+                             </div>
+                         </div>
 
                         {/* Subtle accent line */}
                         <div className="h-1.5 w-full bg-gradient-to-r from-blue-600 to-indigo-600" />
