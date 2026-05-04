@@ -248,3 +248,6 @@ Integrated shortening logic across the **Hero**, **Work Cards**, **Prompt Modals
 Added **Dynamic Font Sizing** for long labels to prevent UI overflow and maintain layout balance.
 Fully expanded and cleaned up the **Project Structure** section in the README.
 Optimized the **sync-changelog.js** script for word-for-word accuracy and heading collision avoidance.
+
+- [0.7.2] - 2026-05-04
+Implemented a auto-updating footer to display current version and last updated date.

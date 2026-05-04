@@ -197,5 +197,12 @@ export const changelogData = [
       "Fully expanded and cleaned up the **Project Structure** section in the README.",
       "Optimized the **sync-changelog.js** script for word-for-word accuracy and heading collision avoidance."
     ]
+  },
+  {
+    "version": "0.7.2",
+    "date": "2026-05-04",
+    "content": [
+      "Implemented a auto-updating footer to display current version and last updated date."
+    ]
   }
 ];

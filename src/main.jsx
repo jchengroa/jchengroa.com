@@ -13,9 +13,19 @@ import WorkDetail from './components/WorkDetail.jsx'
 import Legal from './components/Legal.jsx'
 import Research from './components/research.jsx'
 import Changelog, { ChangelogPopup } from './components/Changelog.jsx'
-
+import { changelogData } from './data/changelog.js'
 
 function App() {
+    const latestUpdate = changelogData[changelogData.length - 1];
+    const currentVersion = latestUpdate?.version || "0.0.0";
+    const lastUpdatedDate = latestUpdate?.date 
+        ? new Date(latestUpdate.date).toLocaleDateString('en-US', {
+            month: 'long',
+            day: 'numeric',
+            year: 'numeric'
+          })
+        : "Unknown";
+
     return (
         <BrowserRouter>
             <div className="p-2.5">
@@ -42,7 +52,7 @@ function App() {
                             <b>Domain & Legal Information</b>
                         </Link>
                     </p>
-                    <p className="text-gray-500 text-sm">Version 0.7.0 | Last Updated: May 4, 2026</p>
+                    <p className="text-gray-500 text-sm">Version {currentVersion} | Last Updated: {lastUpdatedDate}</p>
                 </div>
             </div>
         </BrowserRouter>
