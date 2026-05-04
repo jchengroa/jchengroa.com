@@ -100,10 +100,8 @@ function Projects() {
                 <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, ease: "easeOut" }} className="relative text-center w-full mb-16">
                     <Title
                         title="Projects"
+                        subtitle="A comprehensive showcase of my multidisciplinary engineering journey, spanning high-level software architecture to low-level hardware integration."
                     />
-                    <p className="text-center text-gray-600 max-w-2xl mx-auto -mt-6 font-medium text-lg mb-12">
-                        A comprehensive showcase of my multidisciplinary engineering journey, spanning high-level software architecture to low-level hardware integration.
-                    </p>
                     
                     <SearchBar 
                         searchQuery={searchQuery}

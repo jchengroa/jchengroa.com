@@ -44,10 +44,10 @@ function Research() {
                     <AnimatePresence>
                         {!isSearchingText && (
                             <motion.div key="title-block" initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} transition={{ duration: 0.2 }}>
-                                <Title title="Research" />
-                                <p className="text-gray-600 font-medium text-lg mt-4 max-w-3xl mx-auto leading-relaxed mb-12">
-                                    A multidisciplinary exploration of technology and life sciences. My research spans from robotics and computer engineering to biochemical analysis and agricultural innovation, with a current focus on integrating embedded systems into sustainable ecological solutions like aquaponics.
-                                </p>
+                                <Title 
+                                    title="Research" 
+                                    subtitle="A multidisciplinary exploration of technology and life sciences. My research spans from robotics and computer engineering to biochemical analysis and agricultural innovation, with a current focus on integrating embedded systems into sustainable ecological solutions like aquaponics."
+                                />
                             </motion.div>
                         )}
                     </AnimatePresence>

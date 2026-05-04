@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { Title } from "./components.jsx";
 import { useEffect } from "react";
 import { motion } from 'framer-motion';
 
@@ -27,11 +28,10 @@ function Legal() {
 
 
                 <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, ease: "easeOut" }}>
-                    <header className="mb-20">
-                        <h1 className="text-5xl md:text-7xl font-black tracking-tighter mb-6 text-gray-900 leading-tight">
-                            Domain & Legal <br /><span className="text-blue-600">Information</span>
-                        </h1>
-                    </header>
+                    <Title 
+                        title="Domain & Legal Information"
+                        className="!text-left"
+                    />
 
                     <div className="space-y-20">
                         <section>

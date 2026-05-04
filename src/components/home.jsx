@@ -23,12 +23,11 @@ function WorkCarousel({ id, title, subtitle, items, bgClass, isResearch }) {
 
     return (
         <section id={id} className={`py-24 ${bgClass} overflow-hidden relative group/section`}>
-            <div className="mb-16 text-center">
-                <Title title={title} />
-                <p className="text-gray-500 max-w-2xl mx-auto -mt-4 font-medium text-lg px-4">
-                    {subtitle}
-                </p>
-            </div>
+            <Title 
+                title={title} 
+                subtitle={subtitle}
+                className="mb-12"
+            />
 
             <div className="w-full relative px-4" onMouseEnter={() => emblaApi?.plugins()?.autoplay?.stop()} onMouseLeave={() => emblaApi?.plugins()?.autoplay?.play()}>
                 <button
@@ -143,55 +142,68 @@ function Home({ title = "John Carlo Cheng Roa" }) {
             <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full bg-gradient-to-b from-blue-50/20 to-transparent pointer-events-none"></div>
 
             <div className="relative z-10 text-black max-w-5xl px-4 flex flex-col items-center">
-                <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, ease: "easeOut" }}>
-                    <h1 className="text-6xl md:text-8xl font-black mb-8 tracking-tight text-gray-900 drop-shadow-sm">
+                <motion.div 
+                    initial={{ opacity: 0, y: 30 }} 
+                    animate={{ opacity: 1, y: 0 }} 
+                    transition={{ duration: 0.8, ease: "easeOut" }}
+                    className="flex flex-col items-center"
+                >
+                    {/* Badge */}
+                    <div className="inline-block px-4 py-1.5 bg-blue-600/10 border border-blue-600/20 rounded-full text-blue-600 text-xs font-black uppercase tracking-[0.2em] mb-8">
+                        Computer Engineer
+                    </div>
+
+                    <h1 className="text-6xl md:text-8xl font-black mb-12 tracking-tight text-gray-900 drop-shadow-sm leading-none">
                         {title}
                     </h1>
 
-                    <div className="max-w-3xl mx-auto space-y-6 mb-12">
-                        <p className="text-xl md:text-2xl text-gray-700 font-bold leading-relaxed">
-                            I am a 2nd-year Computer Engineering student at De La Salle University with a passion for building robust digital systems from the ground up.
+                    {/* Keyword Summaries / Highlights - Moved up and made prominent */}
+                    <div className="w-full mb-12">
+                        <KeywordHighlights 
+                            highlights={highlights} 
+                            onKeywordClick={openPrompt}
+                            className="!grid-cols-2 lg:!grid-cols-4 max-w-4xl mx-auto"
+                        />
+                    </div>
+
+                    <div className="max-w-3xl mx-auto space-y-8 mb-12">
+                        <p className="text-2xl md:text-3xl text-gray-800 font-black leading-tight tracking-tight">
+                            I am a 2nd-year Computer Engineering student at De La Salle University with a passion for building robust digital systems.
                         </p>
-                        <p className="text-lg text-gray-500 font-medium leading-relaxed">
-                            While my academic focus lies in Object-Oriented Programming and Data Structures and Algorithms, my real-world curiosity drives me toward systems administration and DevOps. Currently maintaining cloud-hosted ERPNext instances and managing secure infrastructure reliability.
+                        <p className="text-lg text-gray-500 font-medium leading-relaxed max-w-2xl mx-auto">
+                            Currently maintaining cloud-hosted ERPNext instances and managing secure infrastructure reliability, with a drive toward systems administration and DevOps.
                         </p>
                     </div>
-                </motion.div>
 
-                {/* Keyword Summaries / Highlights */}
-                <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }} className="w-full mb-12">
-                    <KeywordHighlights 
-                        highlights={highlights} 
-                        onKeywordClick={openPrompt}
-                    />
-                </motion.div>
-
-                <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, ease: "easeOut", delay: 0.4 }} className="flex flex-wrap justify-center gap-4">
-                    <a
-                        href="mailto:johncarlochengroa07@gmail.com"
-                        className="group flex items-center bg-gray-900 text-white px-8 py-4 rounded-2xl font-bold hover:bg-black hover:scale-105 hover:shadow-2xl transition-all duration-300"
-                    >
-                        <MailIcon />
-                        Email
-                    </a>
-                    <a
-                        href="https://github.com/jchengroa"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="group flex items-center bg-white/80 backdrop-blur-md text-gray-900 px-8 py-4 rounded-2xl font-bold hover:scale-105 hover:shadow-xl transition-all duration-300 border border-white/50"
-                    >
-                        <GitHubIcon />
-                        GitHub
-                    </a>
-                    <a
-                        href="https://www.linkedin.com/in/john-carlo-cheng-roa-47aa6a290/"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="group flex items-center bg-white/80 backdrop-blur-md text-gray-900 px-8 py-4 rounded-2xl font-bold hover:scale-105 hover:shadow-xl transition-all duration-300 border border-white/50"
-                    >
-                        <LinkedInIcon />
-                        LinkedIn
-                    </a>
+                    <div className="flex flex-wrap justify-center gap-4">
+                        <a
+                            href="mailto:johncarlochengroa07@gmail.com"
+                            className="group flex items-center bg-gray-900 text-white px-10 py-5 rounded-2xl font-black text-lg hover:bg-black hover:scale-105 hover:shadow-2xl transition-all duration-300"
+                        >
+                            <MailIcon />
+                            Get In Touch
+                        </a>
+                        <div className="flex gap-4">
+                            <a
+                                href="https://github.com/jchengroa"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="group flex items-center justify-center bg-white/80 backdrop-blur-md text-gray-900 p-5 rounded-2xl font-bold hover:scale-110 hover:shadow-xl transition-all duration-300 border border-gray-100"
+                                aria-label="GitHub"
+                            >
+                                <GitHubIcon />
+                            </a>
+                            <a
+                                href="https://www.linkedin.com/in/john-carlo-cheng-roa-47aa6a290/"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="group flex items-center justify-center bg-white/80 backdrop-blur-md text-gray-900 p-5 rounded-2xl font-bold hover:scale-110 hover:shadow-xl transition-all duration-300 border border-gray-100"
+                                aria-label="LinkedIn"
+                            >
+                                <LinkedInIcon />
+                            </a>
+                        </div>
+                    </div>
                 </motion.div>
 
                 {/* Animated Scroll Indicator */}

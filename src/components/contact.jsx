@@ -29,10 +29,8 @@ function Contact() {
             <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, ease: "easeOut" }} className="relative z-10 text-center">
                 <Title
                     title="Get In Touch"
+                    subtitle="Have a question or want to work together? Feel free to reach out through any of these platforms."
                 />
-                <p className="text-center text-gray-600 max-w-xl mx-auto -mt-6 mb-8 font-medium">
-                    Have a question or want to work together? Feel free to reach out through any of these platforms.
-                </p>
             </motion.div>
 
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 1.2, ease: "easeOut", delay: 0.2 }} className="relative z-10 flex flex-wrap justify-center gap-4">

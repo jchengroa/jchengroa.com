@@ -34,7 +34,7 @@ function WorkCard(props) {
                         </span>
                     </h2>
                     <p className="text-gray-500 text-lg font-medium leading-relaxed mb-8 opacity-80 group-hover:opacity-100 transition-opacity">
-                        {props.summary || props.description}
+                        <FormattedText text={props.summary || props.description} />
                     </p>
 
                     {props.stack && (
@@ -132,14 +132,60 @@ function ContactCard(props) {
 
 function Title(props) {
     return (
-        <>
-            <div className="p-10 text-center">
-                <h1 className="text-3xl font-bold text-black">
-                    {props.title}
-                </h1>
-            </div>
-        </>
+        <header className={`mb-20 text-center ${props.className || ''}`}>
+            {props.badge && (
+                <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    className="inline-block px-4 py-1.5 bg-blue-50 border border-blue-100 rounded-full text-blue-600 text-xs font-black uppercase tracking-[0.2em] mb-6"
+                >
+                    {props.badge}
+                </motion.div>
+            )}
+            <motion.h1 
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.1 }}
+                className="text-6xl md:text-7xl font-black text-gray-900 tracking-tighter mb-8"
+            >
+                {props.title}
+            </motion.h1>
+            {(props.subtitle || props.description) && (
+                <motion.p 
+                    initial={{ opacity: 0 }}
+                    whileInView={{ opacity: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: 0.2 }}
+                    className="text-gray-500 text-xl font-medium max-w-2xl mx-auto leading-relaxed"
+                >
+                    {props.subtitle || props.description}
+                </motion.p>
+            )}
+        </header>
+    );
+}
 
+/**
+ * FormattedText Component
+ * Replaces **text** with <strong>text</strong> for simple markdown-style bolding.
+ */
+function FormattedText({ text }) {
+    if (!text) return null;
+    
+    // Split text by ** and map to fragments
+    const parts = text.split(/(\*\*.*?\*\*)/g);
+    
+    return (
+        <span>
+            {parts.map((part, i) => {
+                if (part.startsWith('**') && part.endsWith('**')) {
+                    return <strong key={i} className="font-black text-gray-900">{part.slice(2, -2)}</strong>;
+                }
+                return part;
+            })}
+        </span>
     );
 }
 
@@ -318,7 +364,7 @@ function Prompt({ isOpen, onClose, keyword }) {
                                 <div>
                                     <h3 className="text-xs font-black text-gray-400 uppercase tracking-widest mb-3">Definition</h3>
                                     <p className="text-lg text-gray-600 font-medium leading-relaxed italic">
-                                        "{data.definition}"
+                                        "<FormattedText text={data.definition} />"
                                     </p>
                                 </div>
 
@@ -326,7 +372,7 @@ function Prompt({ isOpen, onClose, keyword }) {
                                     <h3 className="text-xs font-black text-gray-400 uppercase tracking-widest mb-3">Metrics / Key Insight</h3>
                                     <div className="p-5 bg-blue-50 rounded-2xl border border-blue-100">
                                         <p className="text-blue-900 font-bold leading-relaxed">
-                                            {data.metrics}
+                                            <FormattedText text={data.metrics} />
                                         </p>
                                     </div>
                                 </div>
@@ -352,5 +398,5 @@ function Prompt({ isOpen, onClose, keyword }) {
     );
 }
 
-export { WorkCard, ContactCard, Title, SubTitle, NavBar, SearchBar, FilterList, Prompt }
+export { WorkCard, ContactCard, Title, SubTitle, NavBar, SearchBar, FilterList, Prompt, FormattedText }
 export default NavBar

@@ -12,6 +12,7 @@ import Projects from './components/projects.jsx'
 import WorkDetail from './components/WorkDetail.jsx'
 import Legal from './components/Legal.jsx'
 import Research from './components/research.jsx'
+import Changelog, { ChangelogPopup } from './components/Changelog.jsx'
 
 
 function App() {
@@ -24,12 +25,15 @@ function App() {
                     />
                 </div>
 
+                <ChangelogPopup />
+
                 <Routes>
                     <Route path="/" element={<Home />} />
                     <Route path="/projects" element={<Projects />} />
                     <Route path="/research" element={<Research />} />
                     <Route path="/project/:id" element={<WorkDetail />} />
                     <Route path="/legal" element={<Legal />} />
+                    <Route path="/changelog" element={<Changelog />} />
                 </Routes>
 
                 <div id="footer" className="p-5 text-center mt-12">
@@ -38,7 +42,7 @@ function App() {
                             <b>Domain & Legal Information</b>
                         </Link>
                     </p>
-                    <p className="text-gray-500 text-sm">Version 0.6.0 | Last Updated: May 4, 2026</p>
+                    <p className="text-gray-500 text-sm">Version 0.7.0 | Last Updated: May 4, 2026</p>
                 </div>
             </div>
         </BrowserRouter>

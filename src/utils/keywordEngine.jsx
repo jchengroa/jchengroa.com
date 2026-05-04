@@ -92,7 +92,7 @@ export const KeywordHighlights = ({ highlights, onKeywordClick, className = "" }
                 <div 
                     key={i} 
                     onClick={() => onKeywordClick && onKeywordClick(item.value)}
-                    className="p-5 md:p-6 bg-white/50 backdrop-blur-md rounded-[2rem] border border-white/50 shadow-sm hover:bg-white hover:shadow-xl transition-all group flex flex-col justify-between text-left min-h-[140px] relative overflow-hidden cursor-pointer"
+                    className="p-5 md:p-6 bg-white/50 backdrop-blur-md rounded-[2rem] border border-white/50 shadow-sm hover:bg-white hover:shadow-xl transition-all group flex flex-col justify-between text-center min-h-[140px] relative overflow-hidden cursor-pointer"
                 >
                     {/* Subtle gradient glow effect */}
                     <div className="absolute top-0 right-0 -mt-4 -mr-4 w-24 h-24 bg-gradient-to-br from-blue-100/50 to-purple-100/50 rounded-full blur-2xl group-hover:bg-blue-200/50 transition-colors duration-500 pointer-events-none"></div>

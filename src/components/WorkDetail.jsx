@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { projectData } from "../data/projects";
 import { researchData } from "../data/research";
 import { getKeywordEngine, KeywordHighlights } from "../utils/keywordEngine";
-import { Prompt } from "./components.jsx";
+import { Prompt, FormattedText } from "./components.jsx";
 import { motion } from 'framer-motion';
 
 function WorkDetail() {
@@ -105,7 +105,7 @@ function WorkDetail() {
                                     />
                                 </div>
                                 <p className="text-2xl text-gray-600 leading-relaxed font-medium">
-                                    {item.description}
+                                    <FormattedText text={item.description} />
                                 </p>
                             </section>
 

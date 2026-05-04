@@ -67,6 +67,22 @@ Follow these steps to set up the development environment on your local machine.
 
 ---
 
+## 🛠️ Development Utilities
+
+### Syncing the Changelog
+
+The website features an automated changelog system that pulls data directly from this `README.md`. To update the website after adding new entries to the `## Changelog:` section:
+
+1. **Edit the Changelog** in this file.
+2. **Run the sync script**:
+   ```bash
+   npm run sync-changelog
+   ```
+
+This will parse the Markdown and regenerate `src/data/changelog.js` for the website.
+
+---
+
 ## 🏗️ Project Structure
 
 ```
@@ -204,3 +220,12 @@ Enhanced **KeywordHighlights** and **WorkDetail** sections (Key Metrics, Tech Ta
 Integrated the navigation and prompt systems across the **Home**, **Projects**, **Research**, and **WorkDetail** pages.
 Updated **Legal.jsx** to reflect new features and technical documentation.
 Fixed visual bugs in Projects and Research pages.
+
+- [0.7.0] - 2026-05-04
+Reorganized the hero in **home.jsx**.
+Implemented the automated **Changelog System** synced from README.md.
+Added the **What's New** smart popup with version tracking to avoid repeated notifications.
+Created a dedicated **Changelog** timeline page with premium entrance animations.
+Refactored the **Title** component to match the premium site design and synced it across all pages.
+Integrated a custom **Markdown-lite parser** to support **bold text** formatting in project descriptions and logs.
+Added the **Changelog** link to the animated Hamburger Menu.
