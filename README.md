@@ -203,3 +203,4 @@ Introduced the **Prompt** component (consolidated in `components.jsx`), a custom
 Enhanced **KeywordHighlights** and **WorkDetail** sections (Key Metrics, Tech Tags) with interactivity and deep-insight modals.
 Integrated the navigation and prompt systems across the **Home**, **Projects**, **Research**, and **WorkDetail** pages.
 Updated **Legal.jsx** to reflect new features and technical documentation.
+Fixed visual bugs in Projects and Research pages.
