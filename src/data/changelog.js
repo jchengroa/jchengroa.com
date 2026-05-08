@@ -216,5 +216,14 @@ export const changelogData = [
       "Modularized almost every component into /data.",
       "Optimized the website and fixed bugs."
     ]
+  },
+  {
+    "version": "0.7.4",
+    "date": "2026-05-08",
+    "content": [
+      "Changed behavior of changelog prompt to only pop up if new version is detected and the user has opened the website.",
+      "Changed \"Forums\" to \"Recognition\" throughout the website.",
+      "Updated the hamburger menu visual and codebase."
+    ]
   }
 ];

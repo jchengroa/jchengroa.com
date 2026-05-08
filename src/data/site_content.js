@@ -111,7 +111,6 @@ export const siteContent = {
     },
     navbar: {
         name: "jchengroa",
-        description: "Personal Portfolio & Research Hub",
         settings: {
             title: "Settings",
             darkMode: "Dark Mode",
@@ -121,7 +120,7 @@ export const siteContent = {
         links: [
             { label: "Projects", to: "/projects", icon: "projects", active: true, showInNavbar: true },
             { label: "Research", to: "/research", icon: "research", active: true, showInNavbar: true },
-            { label: "Forums", to: "/forums", icon: "forums", active: false, showInNavbar: true },
+            { label: "Recognition", to: "/recognition", icon: "recognition", active: false, showInNavbar: true },
             { label: "Docs", to: "/docs", icon: "docs", active: false, showInNavbar: true },
             { label: "Downloads", to: "/downloadables", icon: "downloads", active: false, showInNavbar: true },
             { label: "Changelog", to: "/changelog", icon: "changelog", active: true, showInNavbar: false },

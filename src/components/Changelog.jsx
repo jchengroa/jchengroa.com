@@ -19,6 +19,16 @@ export function ChangelogPopup() {
                 const absoluteLatest = changelogData[changelogData.length - 1];
 
                 const seenVersion = localStorage.getItem("seenVersion");
+                
+                // If it's a new user (never seen any version), we mark current version as seen
+                // but we DON'T show the popup. This satisfies the requirement that it won't
+                // show simply because a new user entered the website.
+                if (seenVersion === null) {
+                    localStorage.setItem("seenVersion", absoluteLatest.version);
+                    return;
+                }
+
+                // If they are a returning user and the version has changed, show the popup.
                 if (seenVersion !== absoluteLatest.version) {
                     setLatestEntry(absoluteLatest);
                     setIsOpen(true);
