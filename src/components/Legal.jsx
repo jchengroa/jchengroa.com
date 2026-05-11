@@ -31,7 +31,7 @@ function Legal() {
 
 
                 <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, ease: "easeOut" }}>
-                    <Title 
+                    <Title
                         title={legal.title}
                         className="!text-left"
                     />
@@ -61,7 +61,6 @@ function Legal() {
                                             <DocButton href="https://react.dev/" label="React" />
                                             <DocButton href="https://vitejs.dev/" label="Vite" />
                                             <DocButton href="https://tailwindcss.com/" label="Tailwind" />
-                                            <DocButton href="https://vercel.com/" label="Vercel" />
                                         </div>
                                     </li>
                                     <li>
@@ -123,9 +122,6 @@ function Legal() {
                                     <li>
                                         <p className="text-gray-900 dark:text-white font-bold mb-1">{legal.privacy.policy.title}</p>
                                         {legal.privacy.policy.content}
-                                        <div className="flex flex-wrap gap-2">
-                                            <DocButton href="https://vercel.com/docs/analytics/privacy-policy" label="Vercel" />
-                                        </div>
                                     </li>
                                     <li>
                                         <p className="text-gray-900 dark:text-white font-bold mb-1">{legal.privacy.disclaimer.title}</p>

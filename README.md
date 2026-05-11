@@ -13,7 +13,6 @@ A premium, multidisciplinary portfolio website showcasing engineering projects, 
 - **Immersive Visuals**: High-resolution image lightbox with zoom animations and backdrop blur effects.
 - **Responsive & Performant**: Fully optimized for all device sizes using React 19 and Tailwind CSS.
 - **Interactive Components**: Custom-built navigation, animated hero section, and a functional contact system.
-- **Analytics Integrated**: Powered by Vercel Analytics for real-time traffic monitoring.
 
 ## 🛠️ Tech Stack
 
@@ -23,8 +22,7 @@ A premium, multidisciplinary portfolio website showcasing engineering projects, 
 - **Search Engine**: [Fuse.js](https://www.fusejs.io/)
 - **Carousel/Slider**: [Embla Carousel](https://www.embla-carousel.com/)
 - **Data Processing**: [Lodash](https://lodash.com/)
-- **Analytics**: [Vercel Analytics](https://vercel.com/analytics)
-- **Deployment**: [Vercel](https://vercel.com/)
+- **Deployment**: Contabo VPS
 - **Typography**: [Outfit](https://fonts.google.com/specimen/Outfit) via Google Fonts
 - **Icons**: Lucide-inspired SVG components
 
@@ -117,7 +115,6 @@ jchengroa.com/
 ├── index.html
 ├── package-lock.json
 ├── package.json
-├── vercel.json
 └── vite.config.js
 ```
 
@@ -264,3 +261,8 @@ Optimized the website and fixed bugs.
 Changed behavior of changelog prompt to only pop up if new version is detected and the user has opened the website.
 Changed "Forums" to "Recognition" throughout the website.
 Updated the hamburger menu visual and codebase.
+
+- [0.7.5] - 2026-05-11
+Cleaned up and optimized codebase to reflect new backend changes.
+Removed Vercel Analytics and Vercel support.
+Added new GitHub workflow for automatic deployment.

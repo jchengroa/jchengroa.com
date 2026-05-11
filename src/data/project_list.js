@@ -5,7 +5,7 @@ export const projectData = {
         title: "jchengroa.com",
         subtitle: "Personal Portfolio Website",
         description: "My personal website showcasing my projects and contact information. Built with Vite, React.js, and Tailwind CSS. It features custom animations, a responsive design, and a clean, modern aesthetic inspired by Apple's design language.",
-        tech: ["React 19", "Vite", "Tailwind CSS", "Vercel Analytics"],
+        tech: ["React 19", "Vite", "Tailwind CSS"],
         keywords: ["Frontend", "UI/UX", "Web Development", "Portfolio"],
         links: [
             { name: "GitHub Repository", url: "https://github.com/jchengroa/jchengroa.com" }
@@ -27,8 +27,7 @@ export const projectData = {
         tech: ["React", "PocketBase", "Tailwind CSS", "Vite"],
         keywords: ["Full-Stack", "Cloud", "SaaS", "Enterprise"],
         links: [
-            { name: "GitHub Repository", url: "https://github.com/jchengroa/CloudBased" },
-            { name: "Demo Website", url: "https://cloudbasedims.vercel.app/" }
+            { name: "GitHub Repository", url: "https://github.com/jchengroa/CloudBased" }
         ],
         images: [
             "/CloudBasedResources/cbimage1.png",

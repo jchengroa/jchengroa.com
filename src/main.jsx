@@ -1,9 +1,6 @@
 import { createRoot } from 'react-dom/client'
 import './index.css'
 
-/* Vercel Analytics */
-import { inject } from '@vercel/analytics'
-inject()
 
 import { BrowserRouter, Routes, Route, Link } from 'react-router-dom'
 import NavBar from './components/components.jsx'

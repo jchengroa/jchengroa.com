@@ -40,7 +40,7 @@ export const siteContent = {
         credits: {
             architecture: {
                 title: "Architecture & Code",
-                content: "Built using React, Vite, and Tailwind CSS. Deployed using Vercel. Built with the help of Google Antigravity & Gemini, as a vibe coding project."
+                content: "Built using React, Vite, and Tailwind CSS. Deployed on a high-performance VPS. Built with the help of Google Antigravity & Gemini, as a vibe coding project."
             },
             typography: {
                 title: "Typography",
@@ -72,7 +72,7 @@ export const siteContent = {
         privacy: {
             policy: {
                 title: "Privacy Policy",
-                content: "This site does not use cookies for tracking. We use Vercel Analytics for anonymous traffic data to improve the user experience."
+                content: "This site does not use cookies for tracking. We respect your privacy and do not collect personal data."
             },
             disclaimer: {
                 title: "Content Disclaimer",

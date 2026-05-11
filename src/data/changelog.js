@@ -225,5 +225,14 @@ export const changelogData = [
       "Changed \"Forums\" to \"Recognition\" throughout the website.",
       "Updated the hamburger menu visual and codebase."
     ]
+  },
+  {
+    "version": "0.7.5",
+    "date": "2026-05-11",
+    "content": [
+      "Cleaned up and optimized codebase to reflect new backend changes.",
+      "Removed Vercel Analytics and Vercel support.",
+      "Added new GitHub workflow for automatic deployment."
+    ]
   }
 ];
