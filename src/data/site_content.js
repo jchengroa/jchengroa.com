@@ -122,7 +122,7 @@ export const siteContent = {
             { label: "Research", to: "/research", icon: "research", active: true, showInNavbar: true },
             { label: "Recognition", to: "/recognition", icon: "recognition", active: true, showInNavbar: true },
             { label: "Docs", to: "/docs", icon: "docs", active: false, showInNavbar: true },
-            { label: "Downloads", to: "/downloadables", icon: "downloads", active: false, showInNavbar: true },
+            { label: "Tools", to: "/tools", icon: "tools", active: true, showInNavbar: true },
             { label: "Changelog", to: "/changelog", icon: "changelog", active: true, showInNavbar: false },
             { label: "Legal & Domain", to: "/legal", icon: "legal", active: true, showInNavbar: false }
         ]

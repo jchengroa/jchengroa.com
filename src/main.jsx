@@ -10,6 +10,7 @@ import WorkDetail from './components/WorkDetail.jsx'
 import Legal from './components/Legal.jsx'
 import Research from './components/research.jsx'
 import Recognition from './components/recognition.jsx'
+import Tools from './components/tools.jsx'
 import Changelog, { ChangelogPopup } from './components/Changelog.jsx'
 import { changelogData } from './data/changelog.js'
 import { siteContent } from './data/site_content.js'
@@ -42,6 +43,7 @@ function App() {
                     <Route path="/projects" element={<Projects />} />
                     <Route path="/research" element={<Research />} />
                     <Route path="/recognition" element={<Recognition />} />
+                    <Route path="/tools" element={<Tools />} />
                     <Route path="/project/:id" element={<WorkDetail />} />
                     <Route path="/legal" element={<Legal />} />
                     <Route path="/changelog" element={<Changelog />} />
