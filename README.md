@@ -269,4 +269,6 @@ Added new GitHub workflow for automatic deployment.
 
 - [0.8.0] - 2026-05-15
 Added the Recognition Page.
+Added the Tools Page.
 Used Facebook post embed URLs for the recognition posts.
+Cleaned up codebase and resolved duplicate import build errors in components.jsx.

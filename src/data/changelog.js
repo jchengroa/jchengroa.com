@@ -239,8 +239,9 @@ export const changelogData = [
     "version": "0.8.0",
     "date": "2026-05-15",
     "content": [
-      "Finalized the Recognition Page Integration.",
-      "Resolved Facebook embed issues by migrating to canonical Facebook post URLs in the central data file.",
+      "Added the Recognition Page.",
+      "Added the Tools Page.",
+      "Used Facebook post embed URLs for the recognition posts.",
       "Cleaned up codebase and resolved duplicate import build errors in components.jsx."
     ]
   }
