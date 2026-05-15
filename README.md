@@ -266,3 +266,7 @@ Updated the hamburger menu visual and codebase.
 Cleaned up and optimized codebase to reflect new backend changes.
 Removed Vercel Analytics and Vercel support.
 Added new GitHub workflow for automatic deployment.
+
+- [0.8.0] - 2026-05-15
+Added the Recognition Page.
+Used Facebook post embed URLs for the recognition posts.

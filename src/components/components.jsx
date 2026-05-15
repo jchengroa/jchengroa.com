@@ -60,6 +60,59 @@ function WorkCard(props) {
     );
 }
 
+function RecognitionCard(props) {
+    const { facebookUrl, title, info, description, tech } = props;
+    const encodedUrl = encodeURIComponent(facebookUrl);
+    const iframeSrc = `https://www.facebook.com/plugins/post.php?href=${encodedUrl}&show_text=true&width=auto`;
+
+    return (
+        <div className="bg-white dark:bg-gray-900 rounded-[2.5rem] p-8 border border-gray-100 dark:border-gray-800 shadow-sm hover:shadow-3xl transition-all duration-500 h-full flex flex-col overflow-hidden relative group">
+            {/* Subtle Gradient Glow on Hover */}
+            <div className="absolute -inset-1 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-[2.5rem] blur-xl opacity-0 group-hover:opacity-5 dark:group-hover:opacity-10 transition duration-500"></div>
+
+            <div className="relative z-10 flex-grow flex flex-col">
+                <div className="mb-6">
+                    <span className="text-xs font-black tracking-[0.2em] text-blue-600 uppercase mb-3 block">
+                        {info}
+                    </span>
+                    <h2 className="text-3xl md:text-4xl font-black text-gray-900 dark:text-white mb-4 tracking-tighter leading-tight">
+                        {title}
+                    </h2>
+                    <p className="text-gray-500 text-base font-medium leading-relaxed mb-6 opacity-80">
+                        <FormattedText text={description} />
+                    </p>
+                    
+                    {tech && (
+                        <div className="flex flex-wrap gap-2 mb-6">
+                            {tech.map((t, index) => (
+                                <span key={index} className="px-3 py-1 bg-gray-50 dark:bg-gray-800/50 border border-gray-100 dark:border-gray-700 rounded-lg text-[10px] font-black text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                                    {shortenKeyword(t)}
+                                </span>
+                            ))}
+                        </div>
+                    )}
+                </div>
+
+                {/* Facebook Embed Container */}
+                <div className="mt-auto rounded-2xl overflow-hidden bg-gray-50 dark:bg-gray-800/30 border border-gray-100 dark:border-gray-700 flex items-center justify-center min-h-[400px]">
+                    <iframe 
+                        src={iframeSrc} 
+                        width="100%" 
+                        height="500" 
+                        style={{ border: 'none', overflow: 'hidden' }} 
+                        scrolling="no" 
+                        frameBorder="0" 
+                        allowFullScreen={true} 
+                        allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
+                        title={title}
+                        className="max-w-full"
+                    ></iframe>
+                </div>
+            </div>
+        </div>
+    );
+}
+
 function ContactCard(props) {
     const { common, home } = siteContent;
     const [formData, setFormData] = useState({
@@ -427,5 +480,5 @@ function Prompt({ isOpen, onClose, keyword }) {
     );
 }
 
-export { WorkCard, ContactCard, Title, SubTitle, NavBar, SearchBar, FilterList, Prompt, FormattedText }
+export { WorkCard, RecognitionCard, ContactCard, Title, SubTitle, NavBar, SearchBar, FilterList, Prompt, FormattedText }
 export default NavBar

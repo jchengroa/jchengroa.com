@@ -234,5 +234,14 @@ export const changelogData = [
       "Removed Vercel Analytics and Vercel support.",
       "Added new GitHub workflow for automatic deployment."
     ]
+  },
+  {
+    "version": "0.8.0",
+    "date": "2026-05-15",
+    "content": [
+      "Finalized the Recognition Page Integration.",
+      "Resolved Facebook embed issues by migrating to canonical Facebook post URLs in the central data file.",
+      "Cleaned up codebase and resolved duplicate import build errors in components.jsx."
+    ]
   }
 ];
