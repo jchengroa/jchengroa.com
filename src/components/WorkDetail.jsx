@@ -2,8 +2,9 @@ import { useParams, Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { projectData } from "../data/projects";
 import { researchData } from "../data/research";
+import { recognitionData } from "../data/recognition_list";
 import { getKeywordEngine, KeywordHighlights, shortenKeyword } from "../utils/keywordEngine";
-import { Prompt, FormattedText } from "./components.jsx";
+import { Prompt, FormattedText, DocumentTabs } from "./components.jsx";
 import { motion } from 'framer-motion';
 import { siteContent } from "../data/site_content";
 
@@ -19,8 +20,8 @@ function WorkDetail() {
         setIsPromptOpen(true);
     };
 
-    // Try to find the item in projectData first, then researchData
-    const item = projectData[id] || researchData[id];
+    // Try to find the item in projectData first, then researchData, then recognitionData
+    const item = projectData[id] || researchData[id] || recognitionData[id];
 
     useEffect(() => {
         window.scrollTo(0, 0);
@@ -51,12 +52,22 @@ function WorkDetail() {
     let techLabel = "Tech";
     if (item.category === "software") techLabel = "Stack";
     else if (item.category === "research") techLabel = "Keywords";
+    else if (item.category === "recognition") techLabel = "Tags";
 
     const engine = getKeywordEngine();
     const itemHighlights = engine.getItemHighlights(item);
 
+    const workTabs = [
+        ...(item.stats ? [{ id: 'metrics', label: item.category === "recognition" ? "Competition Results" : common.keyMetrics }] : []),
+        { id: 'overview', label: item.category === "research" ? common.abstractOverview : item.category === "recognition" ? "Competition Overview" : common.challengeSolution },
+        ...(item.category !== "research" && item.images && item.images.length > 0 ? [{ id: 'gallery', label: common.visualGallery }] : []),
+        { id: 'tech', label: techLabel },
+        ...(item.links && item.links.length > 0 ? [{ id: 'resources', label: common.resources }] : []),
+    ];
+
     return (
         <div className="min-h-screen bg-white dark:bg-gray-950 text-gray-900 dark:text-gray-100 pt-32 pb-20 px-6">
+            <DocumentTabs tabs={workTabs} />
             <div className="max-w-5xl mx-auto">
                 <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, ease: "easeOut" }}>
                     <header className="mb-20">
@@ -71,8 +82,10 @@ function WorkDetail() {
                     <div className="grid grid-cols-1 lg:grid-cols-3 gap-16">
                         <div className="lg:col-span-2 space-y-16">
                             {item.stats && (
-                                <motion.section initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, ease: "easeOut" }}>
-                                    <h3 className="text-xs font-black tracking-[0.2em] uppercase text-gray-400 dark:text-gray-500 mb-10">{common.keyMetrics}</h3>
+                                <motion.section id="metrics" initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, ease: "easeOut" }} className="scroll-mt-36">
+                                    <h3 className="text-xs font-black tracking-[0.2em] uppercase text-gray-400 dark:text-gray-500 mb-10">
+                                        {item.category === "recognition" ? "Competition Results" : common.keyMetrics}
+                                    </h3>
                                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-8">
                                         {item.stats.map((stat, i) => (
                                             <div 
@@ -95,9 +108,9 @@ function WorkDetail() {
                                 </motion.section>
                             )}
 
-                            <section>
+                            <section id="overview" className="scroll-mt-36">
                                 <h3 className="text-xs font-black tracking-[0.2em] uppercase text-gray-400 dark:text-gray-500 mb-6">
-                                    {item.category === "research" ? common.abstractOverview : common.challengeSolution}
+                                    {item.category === "research" ? common.abstractOverview : item.category === "recognition" ? "Competition Overview" : common.challengeSolution}
                                 </h3>
                                 <div className="mb-10">
                                     <KeywordHighlights 
@@ -112,7 +125,7 @@ function WorkDetail() {
                             </section>
 
                             {item.category !== "research" && item.images && item.images.length > 0 && (
-                                <section>
+                                <section id="gallery" className="scroll-mt-36">
                                     <h3 className="text-xs font-black tracking-[0.2em] uppercase text-gray-400 dark:text-gray-500 mb-8">{common.visualGallery}</h3>
                                     <div className="grid grid-cols-1 gap-8">
                                         {item.images.map((img, i) => (
@@ -139,7 +152,7 @@ function WorkDetail() {
                         </div>
 
                         <aside className="space-y-12">
-                            <div>
+                            <div id="tech" className="scroll-mt-36">
                                 <h3 className="text-xs font-black tracking-[0.2em] uppercase text-gray-400 dark:text-gray-500 mb-6">{techLabel}</h3>
                                 <div className="flex flex-wrap gap-3">
                                     {item.tech.map(t => (
@@ -155,7 +168,7 @@ function WorkDetail() {
                             </div>
 
                              {item.links && item.links.length > 0 && (
-                                <div className="z-10">
+                                <div id="resources" className="z-10 scroll-mt-36">
                                     <h3 className="text-xs font-black tracking-[0.2em] uppercase text-gray-400 dark:text-gray-500 mb-6">{common.resources}</h3>
                                     <div className="flex flex-col gap-4">
                                         {item.links.map(link => (

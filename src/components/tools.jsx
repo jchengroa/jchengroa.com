@@ -1,11 +1,13 @@
 import { useState } from "react";
-import { Title, SearchBar } from "./components.jsx";
+import { Title, SearchBar, ViewSwitcherButton, UniversalListCard, WorkCard, SubheaderToggleButton } from "./components.jsx";
 import { motion } from 'framer-motion';
 import { toolsList, toolsPageContent } from "../data/tools_list";
+import { useViewSwitcher } from "../utils/viewSwitcher";
 import Fuse from 'fuse.js';
 
 function Tools() {
     const [searchQuery, setSearchQuery] = useState("");
+    const { view } = useViewSwitcher();
 
     const getFilteredItems = () => {
         if (searchQuery.trim() === "") {
@@ -44,9 +46,14 @@ function Tools() {
                         searchQuery={searchQuery}
                         setSearchQuery={setSearchQuery}
                     />
+
+                    <div className="flex flex-wrap items-center justify-center gap-4 mt-6">
+                        <ViewSwitcherButton />
+                        <SubheaderToggleButton />
+                    </div>
                 </motion.div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div className={view === 'list' ? "grid grid-cols-1 gap-4" : "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"}>
                     {filteredItems.map((item, index) => (
                         <motion.div 
                             key={item.id} 
@@ -55,7 +62,28 @@ function Tools() {
                             transition={{ duration: 0.5, delay: index * 0.1 }}
                             className="h-full"
                         >
-                            {/* Render a Tool Card here when we have tool data */}
+                            {view === 'list' ? (
+                                <UniversalListCard
+                                    id={item.id}
+                                    title={item.title}
+                                    info={item.info}
+                                    tech={item.tech}
+                                    description={item.description}
+                                    linkURL={item.linkUrl}
+                                    linkName={item.linkName}
+                                    category={item.category}
+                                />
+                            ) : (
+                                <WorkCard
+                                    id={item.id}
+                                    title={item.title}
+                                    info={item.info}
+                                    stack={item.tech}
+                                    description={item.description}
+                                    linkURL={item.linkUrl}
+                                    linkName={item.linkName}
+                                />
+                            )}
                         </motion.div>
                     ))}
                 </div>

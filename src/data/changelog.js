@@ -244,5 +244,21 @@ export const changelogData = [
       "Used Facebook post embed URLs for the recognition posts.",
       "Cleaned up codebase and resolved duplicate import build errors in components.jsx."
     ]
+  },
+  {
+    "version": "0.9.0",
+    "date": "2026-05-18",
+    "content": [
+      "Added Featured Recognition section to the homepage.",
+      "Added the ability to switch from Grid View to List View for the projects, research, and recognition pages.",
+      "Added the ability to toggle subheader visibility for the projects, research, and recognition pages.",
+      "Added accent colors and an accent color picker in the settings dropdown in the hamburger menu.",
+      "Added an auto theme that detects the current theme (light or dark mode) of the operating system or browser theme and automatically switches to it.",
+      "Added Document Tabs navigation bar in projects and work detail pages.",
+      "Added Document Tabs sticky navigation sidebar with real-time active section highlighting for Projects and WorkDetail pages.",
+      "Added state persistence for document tabs navigation sidebar, theme, accent color, grid/list view selection, subheader visibility, and search functionality into local storage.",
+      "Added specific pages of each recognition.",
+      "Added filtering tools to the recognition page."
+    ]
   }
 ];

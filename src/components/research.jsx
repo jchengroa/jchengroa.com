@@ -1,8 +1,9 @@
 import { useState } from "react";
-import { Title, WorkCard, SearchBar, FilterList, Prompt } from "./components.jsx";
+import { Title, WorkCard, SearchBar, FilterList, Prompt, ViewSwitcherButton, UniversalListCard, SubheaderToggleButton } from "./components.jsx";
 import { motion, AnimatePresence } from 'framer-motion';
 import { researchList, researchPageContent } from "../data/research";
 import { getKeywordEngine, KeywordHighlights } from "../utils/keywordEngine";
+import { useViewSwitcher } from "../utils/viewSwitcher";
 import Fuse from 'fuse.js';
 
 function Research() {
@@ -10,6 +11,7 @@ function Research() {
     const [activeFilter, setActiveFilter] = useState("All");
     const [isPromptOpen, setIsPromptOpen] = useState(false);
     const [selectedKeyword, setSelectedKeyword] = useState("");
+    const { view } = useViewSwitcher();
 
     const openPrompt = (keyword) => {
         setSelectedKeyword(keyword);
@@ -58,12 +60,14 @@ function Research() {
                     />
                     <AnimatePresence>
                         {!isSearchingText && (
-                            <motion.div key="filters" initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} transition={{ duration: 0.2 }}>
+                            <motion.div key="filters" initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} transition={{ duration: 0.2 }} className="flex flex-wrap items-center justify-center gap-4 mt-6">
                                 <FilterList
                                     activeFilter={activeFilter}
                                     setActiveFilter={setActiveFilter}
                                     filters={filters}
                                 />
+                                <ViewSwitcherButton />
+                                <SubheaderToggleButton />
                             </motion.div>
                         )}
                     </AnimatePresence>
@@ -80,16 +84,27 @@ function Research() {
                     )}
                 </AnimatePresence>
 
-                <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, ease: "easeOut", delay: 0.1 }} className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, ease: "easeOut", delay: 0.1 }} className={view === 'list' ? "grid grid-cols-1 gap-4" : "grid grid-cols-1 md:grid-cols-2 gap-8"}>
                     {filteredResearch.map((research, index) => (
                         <div key={research.id} className="hover:translate-y-[-8px] transition-transform duration-300" style={{ transitionDelay: `${index * 100}ms` }}>
-                            <WorkCard
-                                id={research.id}
-                                title={research.title}
-                                info={research.info}
-                                stack={research.tech}
-                                description={research.summary}
-                            />
+                            {view === 'list' ? (
+                                <UniversalListCard
+                                    id={research.id}
+                                    title={research.title}
+                                    info={research.info}
+                                    tech={research.tech}
+                                    description={research.summary}
+                                    category={research.category}
+                                />
+                            ) : (
+                                <WorkCard
+                                    id={research.id}
+                                    title={research.title}
+                                    info={research.info}
+                                    stack={research.tech}
+                                    description={research.summary}
+                                />
+                            )}
                         </div>
                     ))}
                 </motion.div>

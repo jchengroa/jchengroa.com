@@ -1,7 +1,9 @@
 import { projectsList } from "../data/projects";
 import { researchList } from "../data/research";
+import { recognitionList } from "../data/recognition_list";
 import React from 'react';
 import _ from 'lodash';
+import { useSubheaderToggle } from "../components/components.jsx";
 
 /**
  * Keyword Engine
@@ -29,7 +31,7 @@ export const shortenKeyword = (text) => {
 };
 
 export const getKeywordEngine = () => {
-    const allWork = [...projectsList, ...researchList];
+    const allWork = [...projectsList, ...researchList, ...recognitionList];
 
     const getKeywords = (list) => _.flatMap(list, item => [
         ...(item.tech || []),
@@ -77,7 +79,7 @@ export const getKeywordEngine = () => {
         return keywords.map(kw => ({
             label: "Keyword",
             value: kw,
-            detail: item.category === 'research' ? 'Research Topic' : 'Tech Stack'
+            detail: item.category === 'research' ? 'Research Topic' : item.category === 'recognition' ? 'Competition Tag' : 'Tech Stack'
         }));
     };
 
@@ -91,7 +93,7 @@ export const getKeywordEngine = () => {
         return _.take(sortedCatKeywords, 4).map(kw => ({
             label: category.toUpperCase(),
             value: kw,
-            detail: "Top " + (category === "research" ? "Focus" : "Tech")
+            detail: "Top " + (category === "research" ? "Focus" : category === "recognition" ? "Tag" : "Tech")
         }));
     };
 
@@ -104,7 +106,8 @@ export const getKeywordEngine = () => {
 };
 
 export const KeywordHighlights = ({ highlights, onKeywordClick, className = "" }) => {
-    if (!highlights || highlights.length === 0) return null;
+    const { isVisible } = useSubheaderToggle();
+    if (!highlights || highlights.length === 0 || !isVisible) return null;
     return (
         <div className={`grid grid-cols-2 md:grid-cols-4 gap-4 w-full ${className}`}>
             {highlights.map((item, i) => {

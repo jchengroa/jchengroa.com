@@ -3,6 +3,7 @@ import Contact from './contact.jsx';
 import { WorkCard, Title, Prompt } from './components.jsx';
 import { projectsList } from '../data/projects';
 import { researchList } from '../data/research';
+import { recognitionList } from '../data/recognition_list';
 import useEmblaCarousel from 'embla-carousel-react';
 import Autoplay from 'embla-carousel-autoplay';
 import { motion } from 'framer-motion';
@@ -101,7 +102,7 @@ const HERO_IMAGES = [
 ];
 
 function Home() {
-    const { hero, featuredProjects, featuredResearch } = siteContent.home;
+    const { hero, featuredProjects, featuredResearch, featuredRecognition } = siteContent.home;
     const [currentImage, setCurrentImage] = React.useState(() => Math.floor(Math.random() * HERO_IMAGES.length));
     const [isPromptOpen, setIsPromptOpen] = React.useState(false);
     const [selectedKeyword, setSelectedKeyword] = React.useState("");
@@ -238,6 +239,13 @@ function Home() {
                 items={researchList}
                 bgClass="bg-gray-50/50"
                 isResearch={true}
+            />
+            <WorkCarousel
+                id="featured-recognition"
+                title={featuredRecognition.title}
+                subtitle={featuredRecognition.subtitle}
+                items={recognitionList}
+                bgClass="bg-white"
             />
             <div id="contact">
                 <Contact />

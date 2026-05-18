@@ -79,7 +79,80 @@ export const keywordsData = {
     "3 Papers": {
         definition: "John Carlo Cheng Roa has published three research papers.",
         metrics: "Published three research papers (viewable in the research page)."
+    },
+    "Hackathon": {
+        definition: "A design sprint-like event in which computer programmers and others involved in software and hardware development collaborate intensively on projects.",
+        metrics: "Fosters rapid innovation, teamwork under pressure, and working prototype delivery."
+    },
+    "Prototyping": {
+        definition: "An early sample, model, or release of a product built to test a concept or process.",
+        metrics: "Validates system architecture, feasibility, and core functionality before full-scale production."
+    },
+    "Microcontrollers": {
+        definition: "Compact integrated circuits designed to govern a specific operation in an embedded system.",
+        metrics: "Enables real-time computation and low-latency control of physical hardware."
+    },
+    "Sensors": {
+        definition: "Devices, modules, or subsystems whose purpose is to detect events or changes in its environment and send the information to other electronics.",
+        metrics: "Provides vital environmental data ingestion for automated decision-making."
+    },
+    "Tech Decon": {
+        definition: "Technical deconstruction; the methodical disassembly and analysis of a complex technological system.",
+        metrics: "Identifies underlying design patterns, efficiency bottlenecks, and failure modes."
+    },
+    "Reverse Engineering": {
+        definition: "The process of deconstructing an object to reveal its designs, architecture, or to extract knowledge from the object.",
+        metrics: "Uncovers proprietary mechanisms and informs cross-compatibility and optimization."
+    },
+    "Architecture": {
+        definition: "The fundamental organization of a system, embodied in its components, their relationships to each other and the environment.",
+        metrics: "Determines system scalability, maintainability, and structural integrity."
+    },
+    "Optimization": {
+        definition: "The selection of a best element from some set of available alternatives to maximize performance or efficiency.",
+        metrics: "Minimizes resource overhead, reduces latency, and enhances overall throughput."
+    },
+    "Hardware": {
+        definition: "The physical components of a computer or electronic system.",
+        metrics: "Forms the tangible backbone of embedded systems and physical computing solutions."
+    },
+    "Innovation": {
+        definition: "The practical implementation of ideas that result in the introduction of new goods or services or improvement in offering.",
+        metrics: "Drives technological advancement and creates novel solutions to complex engineering challenges."
+    },
+    "Embedded Systems": {
+        definition: "A computer system with a dedicated function within a larger mechanical or electrical system.",
+        metrics: "Ensures deterministic performance and high reliability in dedicated operational environments."
+    },
+    "Engineering": {
+        definition: "The use of scientific principles to design and build machines, structures, and other items.",
+        metrics: "Applies rigorous methodology to bridge theoretical concepts with real-world utility."
+    },
+    "Problem Solving": {
+        definition: "The process of finding solutions to difficult or complex issues.",
+        metrics: "Demonstrates analytical thinking, adaptability, and engineering pragmatism under constraints."
+    },
+    "Technical": {
+        definition: "Relating to a particular subject, art, or craft, or its techniques.",
+        metrics: "Requires specialized practical knowledge and precise execution of domain principles."
+    },
+    "Systems Analysis": {
+        definition: "The process of studying a procedure or business in order to identify its goals and purposes and create systems and procedures that will achieve them.",
+        metrics: "Ensures comprehensive understanding of requirements and optimal architectural design."
+    },
+    "Result": {
+        definition: "The outcome or consequence of a competitive evaluation or engineering undertaking.",
+        metrics: "Reflects overall performance, peer recognition, and technical excellence."
+    },
+    "Event": {
+        definition: "A planned public or social occasion, specifically technical competitions and hackathons.",
+        metrics: "Provides a collaborative arena for demonstrating engineering capabilities against peer benchmarks."
+    },
+    "Focus": {
+        definition: "The central point of attention, interest, or activity within a project or competition.",
+        metrics: "Directs engineering effort toward maximizing impact in a targeted technological domain."
     }
 };
 
 export default keywordsData;
+

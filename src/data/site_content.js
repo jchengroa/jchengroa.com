@@ -16,6 +16,10 @@ export const siteContent = {
         featuredResearch: {
             title: "Featured Research",
             subtitle: "A look into my academic work and studies."
+        },
+        featuredRecognition: {
+            title: "Featured Recognition",
+            subtitle: "Awards, hackathons, and competitive engineering milestones."
         }
     },
     contact: {
@@ -67,6 +71,14 @@ export const siteContent = {
             lodash: {
                 title: "Lodash",
                 content: "Utilized for efficient data manipulation within the keyword engine."
+            },
+            viewSwitcher: {
+                title: "View Switcher Utility",
+                content: "A custom universal React hook (useViewSwitcher) utilizing localStorage and CustomEvent to seamlessly toggle between Grid and List views across Projects, Research, Recognition, and Tools."
+            },
+            documentTabs: {
+                title: "Document Tabs Navigation",
+                content: "A sleek, responsive Google Docs and React documentation-style sticky navigation sidebar built with Framer Motion, enabling smooth scrolling and real-time active section highlighting."
             }
         },
         privacy: {
@@ -114,6 +126,8 @@ export const siteContent = {
         settings: {
             title: "Settings",
             darkMode: "Dark Mode",
+            themeMode: "Theme Mode",
+            accentColor: "Accent Color",
             clearStorage: "Clear Local Storage",
             clearConfirm: "Clear all site settings and cached data?"
         },

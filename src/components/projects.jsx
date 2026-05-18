@@ -1,8 +1,9 @@
 import { useState } from "react";
-import { WorkCard, Title, SearchBar, FilterList, Prompt } from "./components.jsx";
+import { WorkCard, Title, SearchBar, FilterList, Prompt, ViewSwitcherButton, UniversalListCard, useSubheaderToggle, SubheaderToggleButton, DocumentTabs } from "./components.jsx";
 import { motion, AnimatePresence } from 'framer-motion';
 import { projectsList, projectsPageContent } from "../data/projects";
 import { getKeywordEngine, KeywordHighlights } from "../utils/keywordEngine";
+import { useViewSwitcher } from "../utils/viewSwitcher";
 import Fuse from 'fuse.js';
 
 function Projects() {
@@ -10,6 +11,8 @@ function Projects() {
     const [activeFilter, setActiveFilter] = useState("All");
     const [isPromptOpen, setIsPromptOpen] = useState(false);
     const [selectedKeyword, setSelectedKeyword] = useState("");
+    const { view } = useViewSwitcher();
+    const { isVisible } = useSubheaderToggle();
 
     const openPrompt = (keyword) => {
         setSelectedKeyword(keyword);
@@ -44,12 +47,24 @@ function Projects() {
     const embeddedProjects = filterItems(projectsList, "embedded");
 
     const ProjectSection = ({ title, description, projects, category, delay }) => (
-        <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, ease: "easeOut", delay: delay / 1000 }} className="w-full max-w-6xl space-y-10">
+        <motion.div id={category} initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, ease: "easeOut", delay: delay / 1000 }} className="w-full max-w-6xl space-y-10 scroll-mt-36">
             <AnimatePresence>
                 {!isSearchingText && (
                     <motion.div key="header" initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} transition={{ duration: 0.2 }} className="border-l-4 border-blue-600 pl-6 mb-8">
                         <h3 className="text-3xl font-black text-gray-900 dark:text-white tracking-tight mb-2">{title}</h3>
-                        <p className="text-gray-500 dark:text-gray-400 font-medium max-w-2xl">{description}</p>
+                        <AnimatePresence>
+                            {isVisible && (
+                                <motion.p 
+                                    initial={{ opacity: 0, height: 0 }}
+                                    animate={{ opacity: 1, height: 'auto' }}
+                                    exit={{ opacity: 0, height: 0 }}
+                                    transition={{ duration: 0.3 }}
+                                    className="text-gray-500 dark:text-gray-400 font-medium max-w-2xl overflow-hidden mt-1"
+                                >
+                                    {description}
+                                </motion.p>
+                            )}
+                        </AnimatePresence>
                     </motion.div>
                 )}
             </AnimatePresence>
@@ -65,20 +80,33 @@ function Projects() {
                 )}
             </AnimatePresence>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div className={view === 'list' ? "grid grid-cols-1 gap-4" : "grid grid-cols-1 md:grid-cols-2 gap-8"}>
                 {projects.map((project, index) => (
                     <div key={project.id} className="hover:translate-y-[-8px] transition-transform duration-300" style={{ transitionDelay: `${index * 100}ms` }}>
-                        <WorkCard
-                            id={project.id}
-                            title={project.title}
-                            info={project.info}
-                            stack={project.tech}
-                            linkName="GitHub"
-                            linkPicture="https://cdn-icons-png.flaticon.com/512/25/25231.png"
-                            linkURL={project.links[0]?.url}
-                            description={project.description}
-                            image={project.images && project.images[0]}
-                        />
+                        {view === 'list' ? (
+                            <UniversalListCard
+                                id={project.id}
+                                title={project.title}
+                                info={project.info}
+                                tech={project.tech}
+                                linkName="GitHub"
+                                linkURL={project.links[0]?.url}
+                                description={project.description}
+                                category={project.category}
+                            />
+                        ) : (
+                            <WorkCard
+                                id={project.id}
+                                title={project.title}
+                                info={project.info}
+                                stack={project.tech}
+                                linkName="GitHub"
+                                linkPicture="https://cdn-icons-png.flaticon.com/512/25/25231.png"
+                                linkURL={project.links[0]?.url}
+                                description={project.description}
+                                image={project.images && project.images[0]}
+                            />
+                        )}
                     </div>
                 ))}
             </div>
@@ -109,16 +137,28 @@ function Projects() {
                     />
                     <AnimatePresence>
                         {!isSearchingText && (
-                            <motion.div key="filters" initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} transition={{ duration: 0.2 }}>
+                            <motion.div key="filters" initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} transition={{ duration: 0.2 }} className="flex flex-wrap items-center justify-center gap-4 mt-6">
                                 <FilterList
                                     activeFilter={activeFilter}
                                     setActiveFilter={setActiveFilter}
                                     filters={["All", "Software", "Hardware", "Embedded"]}
                                 />
+                                <ViewSwitcherButton />
+                                <SubheaderToggleButton />
                             </motion.div>
                         )}
                     </AnimatePresence>
                 </motion.div>
+
+                {isSearchingText ? null : (
+                    <DocumentTabs 
+                        tabs={[
+                            ...(softwareProjects.length > 0 ? [{ id: 'software', label: projectsPageContent.sections.software.title }] : []),
+                            ...(hardwareProjects.length > 0 ? [{ id: 'hardware', label: projectsPageContent.sections.hardware.title }] : []),
+                            ...(embeddedProjects.length > 0 ? [{ id: 'embedded', label: projectsPageContent.sections.embedded.title }] : []),
+                        ]} 
+                    />
+                )}
 
                 <div className="space-y-24">
                     {softwareProjects.length > 0 && (

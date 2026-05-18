@@ -111,6 +111,14 @@ function Legal() {
                                             <DocButton href="https://lodash.com/" label="Lodash" />
                                         </div>
                                     </li>
+                                    <li>
+                                        <p className="text-gray-900 dark:text-white font-bold mb-1">{legal.libraries.viewSwitcher.title}</p>
+                                        {legal.libraries.viewSwitcher.content}
+                                    </li>
+                                    <li>
+                                        <p className="text-gray-900 dark:text-white font-bold mb-1">{legal.libraries.documentTabs.title}</p>
+                                        {legal.libraries.documentTabs.content}
+                                    </li>
                                 </ul>
                             </div>
                         </section>
