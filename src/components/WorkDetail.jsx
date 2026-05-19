@@ -65,6 +65,18 @@ function WorkDetail() {
         ...(item.links && item.links.length > 0 ? [{ id: 'resources', label: common.resources }] : []),
     ];
 
+    const handleLinkClick = (e, link) => {
+        if (link.url.startsWith("/Documents/") && link.url.endsWith(".pdf")) {
+            e.preventDefault();
+            const filename = link.url.substring(link.url.lastIndexOf("/") + 1);
+            window.dispatchEvent(
+                new CustomEvent("trigger-file-download", {
+                    detail: { url: link.url, filename }
+                })
+            );
+        }
+    };
+
     return (
         <div className="min-h-screen bg-white dark:bg-gray-950 text-gray-900 dark:text-gray-100 pt-32 pb-20 px-6">
             <DocumentTabs tabs={workTabs} />
@@ -171,12 +183,26 @@ function WorkDetail() {
                                 <div id="resources" className="z-10 scroll-mt-36">
                                     <h3 className="text-xs font-black tracking-[0.2em] uppercase text-gray-400 dark:text-gray-500 mb-6">{common.resources}</h3>
                                     <div className="flex flex-col gap-4">
-                                        {item.links.map(link => (
-                                            <a key={link.name} href={link.url} target="_blank" rel="noopener noreferrer" className="flex items-center justify-between p-5 bg-gray-900 dark:bg-white text-white dark:text-gray-900 rounded-[1.5rem] font-bold hover:bg-black dark:hover:bg-gray-100 hover:scale-[1.02] transition-all">
-                                                <span>{link.name}</span>
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" /><polyline points="15 3 21 3 21 9" /><line x1="10" y1="14" x2="21" y2="3" /></svg>
-                                            </a>
-                                        ))}
+                                        {item.links.map(link => {
+                                            const isLocalPdf = link.url.startsWith("/Documents/") && link.url.endsWith(".pdf");
+                                            return (
+                                                <a 
+                                                    key={link.name} 
+                                                    href={link.url} 
+                                                    target={isLocalPdf ? undefined : "_blank"} 
+                                                    rel={isLocalPdf ? undefined : "noopener noreferrer"} 
+                                                    onClick={(e) => handleLinkClick(e, link)}
+                                                    className="flex items-center justify-between p-5 bg-gray-900 dark:bg-white text-white dark:text-gray-900 rounded-[1.5rem] font-bold hover:bg-black dark:hover:bg-gray-100 hover:scale-[1.02] transition-all cursor-pointer"
+                                                >
+                                                    <span>{link.name}</span>
+                                                    {isLocalPdf ? (
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" /><polyline points="7 10 12 15 17 10" /><line x1="12" y1="15" x2="12" y2="3" /></svg>
+                                                    ) : (
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" /><polyline points="15 3 21 3 21 9" /><line x1="10" y1="14" x2="21" y2="3" /></svg>
+                                                    )}
+                                                </a>
+                                            );
+                                        })}
                                     </div>
                                 </div>
                             )}

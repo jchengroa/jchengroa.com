@@ -72,6 +72,10 @@ export const siteContent = {
                 title: "Lodash",
                 content: "Utilized for efficient data manipulation within the keyword engine."
             },
+            axios: {
+                title: "Axios",
+                content: "Used in the custom Download Manager to fetch files as Blobs with real-time download progress tracking (speed, loaded/total bytes, cancel/abort tokens)."
+            },
             viewSwitcher: {
                 title: "View Switcher Utility",
                 content: "A custom universal React hook (useViewSwitcher) utilizing localStorage and CustomEvent to seamlessly toggle between Grid and List views across Projects, Research, Recognition, and Tools."

@@ -12,6 +12,7 @@ import Research from './components/research.jsx'
 import Recognition from './components/recognition.jsx'
 import Tools from './components/tools.jsx'
 import Changelog, { ChangelogPopup } from './components/Changelog.jsx'
+import { DownloadManager } from './utils/DownloadManager.jsx'
 import { changelogData } from './data/changelog.js'
 import { siteContent } from './data/site_content.js'
 
@@ -37,6 +38,7 @@ function App() {
                 </div>
 
                 <ChangelogPopup />
+                <DownloadManager />
 
                 <Routes>
                     <Route path="/" element={<Home />} />

@@ -114,6 +114,13 @@ function Legal() {
                                         </div>
                                     </li>
                                     <li>
+                                        <p className="text-gray-900 dark:text-white font-bold mb-1">{legal.libraries.axios.title}</p>
+                                        {legal.libraries.axios.content}
+                                        <div className="flex flex-wrap gap-2">
+                                            <DocButton href="https://axios-http.com/" label="Axios" />
+                                        </div>
+                                    </li>
+                                    <li>
                                         <p className="text-gray-900 dark:text-white font-bold mb-1">{legal.libraries.viewSwitcher.title}</p>
                                         {legal.libraries.viewSwitcher.content}
                                     </li>

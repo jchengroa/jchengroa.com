@@ -13,7 +13,7 @@ export const researchData = {
             { label: "Operation Time", value: "2 Hours", detail: "Continuous mission" }
         ],
         info: "Investigatory Project | Junior High School",
-        links: [{ name: "View Full Paper", url: "https://drive.google.com/file/d/1U2mfHWQPqouZG4Q2d1coMnSEGCTOp2_V/view?usp=sharing" }]
+        links: [{ name: "View Full Paper", url: "/Documents/JHS1.pdf" }]
     },
     "shs-1": {
         id: "shs-1",
@@ -30,7 +30,7 @@ export const researchData = {
         ],
         info: "SHS Thesis | Senior High School",
         links: [
-            { name: "View Full Paper", url: "https://drive.google.com/file/d/1zCyFWjNYuWlXE4_jPsUOIy1Pe0hzzElU/view?usp=sharing" }
+            { name: "View Full Paper", url: "/Documents/SHS1.pdf" }
         ]
     },
     "shs-2": {
@@ -48,7 +48,7 @@ export const researchData = {
         ],
         info: "Capstone Project | Senior High School",
         links: [
-            { name: "View Full Paper", url: "https://drive.google.com/file/d/1kQ7vNaTu794-WY5LbNns8bi1vkntqiDZ/view?usp=sharing" }
+            { name: "View Full Paper", url: "/Documents/SHS2.pdf" }
         ]
     }
 };

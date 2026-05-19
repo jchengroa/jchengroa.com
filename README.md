@@ -13,12 +13,14 @@ A premium, multidisciplinary portfolio website showcasing engineering projects, 
 - **Immersive Visuals**: High-resolution image lightbox with zoom animations and backdrop blur effects.
 - **Responsive & Performant**: Fully optimized for all device sizes using React 19 and Tailwind CSS.
 - **Interactive Components**: Custom-built navigation, animated hero section, and a functional contact system.
+- **Custom Download Manager**: Integrated floating queue displaying active PDF downloads with speed, size, and progress bar, supporting background persistence and download controls.
 
 ## 🛠️ Tech Stack
 
 - **Frontend**: [React 19](https://react.dev/), [Vite](https://vitejs.dev/)
 - **Styling**: [Tailwind CSS 4.0](https://tailwindcss.com/)
 - **Animations & Navigation**: [Framer Motion](https://www.framer.com/motion/) — UI animations, scroll-linked effects, and animated hamburger menu
+- **HTTP Client & Downloads**: [Axios](https://axios-http.com/) — Used in the custom Download Manager to fetch files as Blobs with real-time download progress tracking
 - **Search Engine**: [Fuse.js](https://www.fusejs.io/)
 - **Carousel/Slider**: [Embla Carousel](https://www.embla-carousel.com/)
 - **Data Processing**: [Lodash](https://lodash.com/)
@@ -298,3 +300,8 @@ Added filtering tools to the recognition page.
 - [0.9.1] - 2026-05-19
 Fixed bug where changelog prompts were broken in mobile and small screens if the changelog details were too long.
 Fixed a visual bug in the changelog prompt.
+
+- [0.9.2] - 2026-05-19
+Added Download Manager to the website.
+Uploaded Documents into codebase to make them more accessible.
+Removed support for Google Drive downloads, ensuring reliability and consistency.

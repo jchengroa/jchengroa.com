@@ -268,5 +268,14 @@ export const changelogData = [
       "Fixed bug where changelog prompts were broken in mobile and small screens if the changelog details were too long.",
       "Fixed a visual bug in the changelog prompt."
     ]
+  },
+  {
+    "version": "0.9.2",
+    "date": "2026-05-19",
+    "content": [
+      "Added Download Manager to the website.",
+      "Uploaded Documents into codebase to make them more accessible.",
+      "Removed support for Google Drive downloads, ensuring reliability and consistency."
+    ]
   }
 ];
