@@ -260,5 +260,13 @@ export const changelogData = [
       "Added specific pages of each recognition.",
       "Added filtering tools to the recognition page."
     ]
+  },
+  {
+    "version": "0.9.1",
+    "date": "2026-05-19",
+    "content": [
+      "Fixed bug where changelog prompts were broken in mobile and small screens if the changelog details were too long.",
+      "Fixed a visual bug in the changelog prompt."
+    ]
   }
 ];

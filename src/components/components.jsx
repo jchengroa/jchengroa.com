@@ -20,9 +20,9 @@ function WorkCard(props) {
                 <div className="relative z-10 flex-grow">
                     {props.image && (
                         <div className="mb-8 rounded-2xl overflow-hidden aspect-[16/10] bg-gray-50 border border-gray-100 group-hover:shadow-lg transition-all duration-500">
-                            <img 
-                                src={props.image} 
-                                alt={props.title} 
+                            <img
+                                src={props.image}
+                                alt={props.title}
                                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                             />
                         </div>
@@ -84,7 +84,7 @@ function RecognitionCard(props) {
                     <p className="text-gray-500 text-base font-medium leading-relaxed mb-6 opacity-80">
                         <FormattedText text={description} />
                     </p>
-                    
+
                     {tech && (
                         <div className="flex flex-wrap gap-2 mb-6">
                             {tech.map((t, index) => (
@@ -105,14 +105,14 @@ function RecognitionCard(props) {
 
                 {/* Facebook Embed Container */}
                 <div className="mt-auto rounded-2xl overflow-hidden bg-gray-50 dark:bg-gray-800/30 border border-gray-100 dark:border-gray-700 flex items-center justify-center min-h-[400px]">
-                    <iframe 
-                        src={iframeSrc} 
-                        width="100%" 
-                        height="500" 
-                        style={{ border: 'none', overflow: 'hidden' }} 
-                        scrolling="no" 
-                        frameBorder="0" 
-                        allowFullScreen={true} 
+                    <iframe
+                        src={iframeSrc}
+                        width="100%"
+                        height="500"
+                        style={{ border: 'none', overflow: 'hidden' }}
+                        scrolling="no"
+                        frameBorder="0"
+                        allowFullScreen={true}
                         allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
                         title={title}
                         className="max-w-full"
@@ -141,7 +141,7 @@ function ContactCard(props) {
         const recipient = home.hero.email;
         const subject = encodeURIComponent(`Portfolio Message from ${name}`);
         const body = encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`);
-        
+
         window.location.href = `mailto:${recipient}?subject=${subject}&body=${body}`;
     };
 
@@ -157,16 +157,16 @@ function ContactCard(props) {
 
             <div className="relative z-10 flex-grow space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <input 
-                        type="text" 
+                    <input
+                        type="text"
                         name="name"
                         value={formData.name}
                         onChange={handleChange}
                         placeholder="Your Name"
                         className="w-full p-5 bg-gray-50 dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-2xl focus:ring-4 focus:ring-blue-100 dark:focus:ring-blue-900/20 focus:bg-white dark:focus:bg-gray-900 focus:border-blue-600 outline-none transition-all font-medium text-gray-700 dark:text-gray-200"
                     />
-                    <input 
-                        type="email" 
+                    <input
+                        type="email"
                         name="email"
                         value={formData.email}
                         onChange={handleChange}
@@ -211,7 +211,7 @@ function Title(props) {
                     {props.badge}
                 </motion.div>
             )}
-            <motion.h1 
+            <motion.h1
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
@@ -222,7 +222,7 @@ function Title(props) {
             </motion.h1>
             <AnimatePresence>
                 {isVisible && (props.subtitle || props.description) && (
-                    <motion.p 
+                    <motion.p
                         initial={{ opacity: 0, height: 0 }}
                         animate={{ opacity: 1, height: 'auto' }}
                         exit={{ opacity: 0, height: 0 }}
@@ -245,10 +245,10 @@ function Title(props) {
  */
 function FormattedText({ text }) {
     if (!text) return null;
-    
+
     // Split text by ** or [[tag:text]] patterns
     const parts = text.split(/(\*\*.*?\*\*|\[\[blue:.*?\]\]|\[\[status:.*?\]\])/g);
-    
+
     return (
         <span>
             {parts.map((part, i) => {
@@ -281,18 +281,25 @@ function SubTitle(props) {
 
 function NavBar() {
     const { navbar } = siteContent;
-    
+    const [outlineOpen, setOutlineOpen] = useState(false);
+
+    useEffect(() => {
+        const handler = (e) => setOutlineOpen(e.detail);
+        window.addEventListener('documentOutlineToggle', handler);
+        return () => window.removeEventListener('documentOutlineToggle', handler);
+    }, []);
+
     const iconMap = {
-        projects: <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="mr-2"><path d="M2 17V5c0-1.1.9-2 2-2h4l2 2h10c1.1 0 2 .9 2 2v10c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2Z"/><path d="M2 9h20"/></svg>,
-        research: <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="mr-2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>,
-        recognition: <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="mr-2"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg>,
-        docs: <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="mr-2"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/></svg>,
+        projects: <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="mr-2"><path d="M2 17V5c0-1.1.9-2 2-2h4l2 2h10c1.1 0 2 .9 2 2v10c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2Z" /><path d="M2 9h20" /></svg>,
+        research: <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="mr-2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" /><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" /></svg>,
+        recognition: <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="mr-2"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6" /><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18" /><path d="M4 22h16" /><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22" /><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22" /><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z" /></svg>,
+        docs: <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="mr-2"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z" /><polyline points="14 2 14 8 20 8" /></svg>,
         tools: <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="mr-2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path></svg>
     };
 
     return (
         <>
-            <div className="fixed top-0 left-0 w-full z-50 transition-all duration-300">
+            <div className={`fixed top-0 left-0 w-full transition-all duration-300 ${outlineOpen ? 'z-[40]' : 'z-50'}`}>
                 <div className="mx-auto mt-4 px-4 max-w-7xl">
                     <div className="flex items-center justify-between rounded-2xl border border-white/20 bg-white/80 px-5 py-4 shadow-lg backdrop-blur-lg dark:border-white/10 dark:bg-gray-900/80 sm:px-6">
                         <div className="flex items-center gap-8">
@@ -306,7 +313,7 @@ function NavBar() {
                             <nav className="hidden xl:flex items-center gap-1 border-l border-gray-100 dark:border-gray-800 pl-8 ml-2">
                                 {navbar.links.filter(l => l.showInNavbar).map((link) => (
                                     link.active ? (
-                                        <Link 
+                                        <Link
                                             key={link.label}
                                             to={link.to}
                                             className="flex items-center px-4 py-2 rounded-xl text-gray-500 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-all font-bold text-sm group"
@@ -317,7 +324,7 @@ function NavBar() {
                                             {link.label}
                                         </Link>
                                     ) : (
-                                        <div 
+                                        <div
                                             key={link.label}
                                             className="flex items-center px-4 py-2 rounded-xl text-gray-300 dark:text-gray-700 cursor-not-allowed font-bold text-sm select-none"
                                         >
@@ -358,10 +365,10 @@ function SearchBar({ searchQuery, setSearchQuery }) {
                             <stop offset="100%" stopColor="#8b5cf6" className="group-focus-within:stopColor-[#7c3aed]" />
                         </linearGradient>
                     </defs>
-                    <circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>
+                    <circle cx="11" cy="11" r="8" /><path d="m21 21-4.3-4.3" />
                 </svg>
             </div>
-            
+
             {/* Gradient Border Wrapper */}
             <div className="absolute inset-0 rounded-3xl bg-gradient-to-r from-blue-300 via-indigo-300 to-purple-300 dark:from-blue-900/50 dark:via-indigo-900/50 dark:to-purple-900/50 opacity-60 group-focus-within:opacity-100 group-focus-within:from-blue-500 group-focus-within:via-indigo-500 group-focus-within:to-purple-500 transition-all duration-500 p-[3px] shadow-lg group-focus-within:shadow-blue-500/25">
                 <div className="w-full h-full bg-blue-50/95 dark:bg-gray-900/95 backdrop-blur-md rounded-[calc(1.5rem-3px)] group-focus-within:bg-white dark:group-focus-within:bg-gray-900 transition-colors duration-500"></div>
@@ -375,7 +382,7 @@ function SearchBar({ searchQuery, setSearchQuery }) {
                     onChange={(e) => setSearchQuery(e.target.value)}
                     className="relative w-full pl-16 pr-32 py-5 bg-transparent outline-none font-black text-gray-800 dark:text-gray-100 text-lg placeholder:text-indigo-300/80 dark:placeholder:text-indigo-700/50 transition-all z-10"
                 />
-                <button 
+                <button
                     type="submit"
                     className="absolute right-4 px-6 py-2.5 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-2xl font-bold text-sm shadow-lg hover:shadow-blue-500/30 hover:scale-105 active:scale-95 transition-all z-20"
                 >
@@ -388,7 +395,7 @@ function SearchBar({ searchQuery, setSearchQuery }) {
 
 function FilterList({ activeFilter, setActiveFilter, filters }) {
     if (!filters || filters.length === 0) return null;
-    
+
     return (
         <div className="w-full max-w-3xl mx-auto mb-16 flex flex-wrap gap-3 justify-center z-10 relative">
             {filters.map(filter => (
@@ -419,7 +426,7 @@ function Prompt({ isOpen, onClose, keyword }) {
             {isOpen && (
                 <div className="fixed inset-0 z-[100] flex items-center justify-center p-6">
                     {/* Backdrop */}
-                    <motion.div 
+                    <motion.div
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
@@ -428,7 +435,7 @@ function Prompt({ isOpen, onClose, keyword }) {
                     />
 
                     {/* Modal Content */}
-                    <motion.div 
+                    <motion.div
                         initial={{ opacity: 0, scale: 0.9, y: 20 }}
                         animate={{ opacity: 1, scale: 1, y: 0 }}
                         exit={{ opacity: 0, scale: 0.9, y: 20 }}
@@ -446,11 +453,11 @@ function Prompt({ isOpen, onClose, keyword }) {
                                         {keyword}
                                     </h2>
                                 </div>
-                                <button 
+                                <button
                                     onClick={onClose}
                                     className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-xl transition-colors group"
                                 >
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="text-gray-400 dark:text-gray-600 group-hover:text-gray-900 dark:group-hover:text-white transition-colors"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="text-gray-400 dark:text-gray-600 group-hover:text-gray-900 dark:group-hover:text-white transition-colors"><path d="M18 6 6 18" /><path d="m6 6 12 12" /></svg>
                                 </button>
                             </div>
 
@@ -473,16 +480,16 @@ function Prompt({ isOpen, onClose, keyword }) {
                                 </div>
                             </div>
 
-                             {/* Footer */}
-                             <div className="mt-12 flex justify-end">
-                                 <button 
-                                     onClick={onClose}
-                                     className="px-8 py-3 bg-gray-900 dark:bg-white text-white dark:text-gray-900 font-black rounded-xl hover:bg-black dark:hover:bg-gray-100 transition-all hover:scale-105"
-                                 >
-                                     Close
-                                 </button>
-                             </div>
-                         </div>
+                            {/* Footer */}
+                            <div className="mt-12 flex justify-end">
+                                <button
+                                    onClick={onClose}
+                                    className="px-8 py-3 bg-gray-900 dark:bg-white text-white dark:text-gray-900 font-black rounded-xl hover:bg-black dark:hover:bg-gray-100 transition-all hover:scale-105"
+                                >
+                                    Close
+                                </button>
+                            </div>
+                        </div>
 
                         {/* Subtle accent line */}
                         <div className="h-1.5 w-full bg-gradient-to-r from-blue-600 to-indigo-600" />
@@ -565,10 +572,10 @@ function UniversalListCard(props) {
 
             <div className="flex flex-wrap items-center gap-4 flex-shrink-0 relative z-10 pt-4 md:pt-0 border-t md:border-t-0 border-gray-100 dark:border-gray-800">
                 {linkURL && (
-                    <a 
-                        href={linkURL} 
-                        target="_blank" 
-                        rel="noopener noreferrer" 
+                    <a
+                        href={linkURL}
+                        target="_blank"
+                        rel="noopener noreferrer"
                         className="inline-flex items-center gap-2 px-4 py-2 bg-gray-50 dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-xl text-xs font-bold transition-colors border border-gray-200 dark:border-gray-700"
                     >
                         {linkName || "Visit"}
@@ -577,10 +584,10 @@ function UniversalListCard(props) {
                 )}
 
                 {facebookUrl && (
-                    <a 
-                        href={facebookUrl} 
-                        target="_blank" 
-                        rel="noopener noreferrer" 
+                    <a
+                        href={facebookUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
                         className="inline-flex items-center gap-2 px-4 py-2 bg-blue-50 dark:bg-blue-900/30 hover:bg-blue-100 dark:hover:bg-blue-900/50 text-blue-600 dark:text-blue-400 rounded-xl text-xs font-bold transition-colors border border-blue-200 dark:border-blue-800"
                     >
                         Facebook Post
@@ -664,6 +671,14 @@ function DocumentTabs({ tabs = [] }) {
     };
 
     useEffect(() => {
+        window.dispatchEvent(new CustomEvent('documentOutlineToggle', { detail: mobileSheetState !== 'closed' }));
+    }, [mobileSheetState]);
+
+    useEffect(() => {
+        return () => window.dispatchEvent(new CustomEvent('documentOutlineToggle', { detail: false }));
+    }, []);
+
+    useEffect(() => {
         const handleScroll = () => {
             if (isScrollingRef.current) return;
 
@@ -718,7 +733,7 @@ function DocumentTabs({ tabs = [] }) {
             {/* Desktop View: Floating Left Sidebar */}
             <AnimatePresence>
                 {isDesktopOpen ? (
-                    <motion.div 
+                    <motion.div
                         initial={{ opacity: 0, x: -50 }}
                         animate={{ opacity: 1, x: 0 }}
                         exit={{ opacity: 0, x: -50 }}
@@ -729,16 +744,16 @@ function DocumentTabs({ tabs = [] }) {
                             <div className="flex items-center justify-between mb-8 px-1">
                                 <div className="flex items-center gap-3">
                                     <div className="p-2.5 bg-blue-50 dark:bg-blue-950/40 text-blue-600 dark:text-blue-400 rounded-2xl shadow-sm">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z"/><path d="M6 5h10"/><path d="M6 9h10"/><path d="M6 13h6"/></svg>
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z" /><path d="M6 5h10" /><path d="M6 9h10" /><path d="M6 13h6" /></svg>
                                     </div>
                                     <span className="text-sm font-black tracking-widest uppercase text-gray-900 dark:text-white">Outline</span>
                                 </div>
-                                <button 
-                                    onClick={() => toggleDesktopOpen(false)} 
-                                    className="p-2 text-gray-400 hover:text-gray-900 dark:hover:text-white rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800 transition-all" 
+                                <button
+                                    onClick={() => toggleDesktopOpen(false)}
+                                    className="p-2 text-gray-400 hover:text-gray-900 dark:hover:text-white rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800 transition-all"
                                     title="Hide Navigation"
                                 >
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M9 3v18"/><path d="m16 15-3-3 3-3"/></svg>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><rect width="18" height="18" x="3" y="3" rx="2" /><path d="M9 3v18" /><path d="m16 15-3-3 3-3" /></svg>
                                 </button>
                             </div>
                             <nav className="flex flex-col gap-2 relative overflow-y-auto max-h-[calc(100vh-16rem)] pr-1">
@@ -768,16 +783,16 @@ function DocumentTabs({ tabs = [] }) {
                         </div>
                     </motion.div>
                 ) : (
-                    <motion.button 
+                    <motion.button
                         initial={{ opacity: 0, x: -50 }}
                         animate={{ opacity: 1, x: 0 }}
                         exit={{ opacity: 0, x: -50 }}
                         transition={{ type: "spring", stiffness: 300, damping: 30 }}
-                        onClick={() => toggleDesktopOpen(true)} 
-                        className="hidden xl:flex fixed left-6 top-1/2 -translate-y-1/2 z-40 items-center justify-center w-14 h-14 bg-white dark:bg-gray-900 text-gray-900 dark:text-white rounded-full shadow-2xl border border-gray-200/50 dark:border-gray-800/50 backdrop-blur-xl hover:scale-110 active:scale-95 transition-all group" 
+                        onClick={() => toggleDesktopOpen(true)}
+                        className="hidden xl:flex fixed left-6 top-1/2 -translate-y-1/2 z-40 items-center justify-center w-14 h-14 bg-white dark:bg-gray-900 text-gray-900 dark:text-white rounded-full shadow-2xl border border-gray-200/50 dark:border-gray-800/50 backdrop-blur-xl hover:scale-110 active:scale-95 transition-all group"
                         title="Show Navigation"
                     >
-                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="group-hover:translate-x-0.5 transition-transform"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M9 3v18"/><path d="m14 9 3 3-3 3"/></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="group-hover:translate-x-0.5 transition-transform"><rect width="18" height="18" x="3" y="3" rx="2" /><path d="M9 3v18" /><path d="m14 9 3 3-3 3" /></svg>
                     </motion.button>
                 )}
             </AnimatePresence>
@@ -795,7 +810,7 @@ function DocumentTabs({ tabs = [] }) {
                             aria-label="Open Document Navigation"
                             className="fixed right-6 bottom-6 z-50 flex items-center justify-center w-14 h-14 bg-gray-900 dark:bg-white text-white dark:text-gray-900 rounded-full shadow-2xl hover:scale-110 active:scale-95 transition-all"
                         >
-                            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z"/><path d="M6 5h10"/><path d="M6 9h10"/><path d="M6 13h6"/></svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z" /><path d="M6 5h10" /><path d="M6 9h10" /><path d="M6 13h6" /></svg>
                         </motion.button>
                     )}
                 </AnimatePresence>
@@ -822,7 +837,7 @@ function DocumentTabs({ tabs = [] }) {
                                 className="fixed inset-x-0 bottom-0 z-[100] bg-white/95 dark:bg-gray-900/95 backdrop-blur-2xl border-t border-gray-200/50 dark:border-gray-800/50 rounded-t-[2.5rem] shadow-[0_-10px_50px_rgba(0,0,0,0.2)] flex flex-col overflow-hidden"
                             >
                                 {/* Handle Bar */}
-                                <div 
+                                <div
                                     onClick={() => setMobileSheetState(mobileSheetState === 'full' ? 'half' : 'full')}
                                     className="w-full pt-4 pb-2 flex items-center justify-center cursor-pointer group"
                                 >
@@ -833,23 +848,23 @@ function DocumentTabs({ tabs = [] }) {
                                 <div className="flex items-center justify-between px-8 pb-4 border-b border-gray-100 dark:border-gray-800/60 flex-shrink-0">
                                     <div className="flex items-center gap-3">
                                         <div className="p-2 bg-blue-50 dark:bg-blue-950/40 text-blue-600 dark:text-blue-400 rounded-xl shadow-sm">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z"/><path d="M6 5h10"/><path d="M6 9h10"/><path d="M6 13h6"/></svg>
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z" /><path d="M6 5h10" /><path d="M6 9h10" /><path d="M6 13h6" /></svg>
                                         </div>
                                         <span className="text-sm font-black tracking-widest uppercase text-gray-900 dark:text-white">Document Outline</span>
                                     </div>
 
                                     <div className="flex items-center gap-2">
-                                        <button 
-                                            onClick={() => setMobileSheetState(mobileSheetState === 'full' ? 'half' : 'full')} 
+                                        <button
+                                            onClick={() => setMobileSheetState(mobileSheetState === 'full' ? 'half' : 'full')}
                                             className="p-2 text-gray-400 hover:text-gray-900 dark:hover:text-white rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800 transition-all text-xs font-bold"
                                         >
                                             {mobileSheetState === 'full' ? 'Collapse' : 'Expand'}
                                         </button>
-                                        <button 
-                                            onClick={() => setMobileSheetState('closed')} 
+                                        <button
+                                            onClick={() => setMobileSheetState('closed')}
                                             className="p-2 text-gray-400 hover:text-gray-900 dark:hover:text-white rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800 transition-all"
                                         >
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6 6 18" /><path d="m6 6 12 12" /></svg>
                                         </button>
                                     </div>
                                 </div>

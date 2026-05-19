@@ -9,11 +9,20 @@ import Fuse from 'fuse.js';
  * ChangelogPopup Component
  * Automatically detects new versions and shows a popup once.
  */
-export function ChangelogPopup() {
+export function ChangelogPopup({ forceOpen = false, onForceClose }) {
     const [isOpen, setIsOpen] = useState(false);
     const [latestEntry, setLatestEntry] = useState(null);
 
     useEffect(() => {
+        if (forceOpen) {
+            // Debug mode: show latest entry without touching localStorage
+            if (changelogData.length > 0) {
+                setLatestEntry(changelogData[changelogData.length - 1]);
+                setIsOpen(true);
+            }
+            return;
+        }
+
         const checkChangelog = () => {
             if (changelogData.length > 0) {
                 const absoluteLatest = changelogData[changelogData.length - 1];
@@ -37,9 +46,14 @@ export function ChangelogPopup() {
         };
 
         checkChangelog();
-    }, []);
+    }, [forceOpen]);
 
     const handleClose = () => {
+        if (forceOpen) {
+            setIsOpen(false);
+            onForceClose?.();
+            return;
+        }
         if (latestEntry) {
             localStorage.setItem("seenVersion", latestEntry.version);
         }
@@ -67,9 +81,9 @@ export function ChangelogPopup() {
                         animate={{ opacity: 1, scale: 1, y: 0 }}
                         exit={{ opacity: 0, scale: 0.9, y: 30 }}
                         transition={{ type: "spring", damping: 25, stiffness: 300 }}
-                        className="relative w-full max-w-lg bg-white dark:bg-gray-900 rounded-[2.5rem] shadow-[0_32px_64px_-16px_rgba(0,0,0,0.3)] dark:shadow-black/50 overflow-hidden border border-gray-100 dark:border-gray-800"
+                        className="relative w-full max-w-lg max-h-[90vh] bg-white dark:bg-gray-900 rounded-[2.5rem] shadow-[0_32px_64px_-16px_rgba(0,0,0,0.3)] dark:shadow-black/50 overflow-hidden border border-gray-100 dark:border-gray-800 flex flex-col"
                     >
-                        <div className="p-8 md:p-12">
+                        <div className="p-8 md:p-12 flex flex-col flex-1 min-h-0">
                             {/* Header */}
                             <div className="flex justify-between items-start mb-8">
                                 <div>
@@ -93,8 +107,8 @@ export function ChangelogPopup() {
                                 </button>
                             </div>
 
-                            {/* Content */}
-                            <div className="space-y-6">
+                            {/* Content — scrollable */}
+                            <div className="overflow-y-auto flex-1 min-h-0 space-y-6 pr-1">
                                 <div className="space-y-3">
                                     {latestEntry.content.map((item, index) => (
                                         <div key={index} className="flex gap-4 items-start group">
@@ -108,7 +122,7 @@ export function ChangelogPopup() {
 
                                 <div className="p-5 bg-gray-50 dark:bg-gray-800/50 rounded-2xl border border-gray-100 dark:border-gray-800">
                                     <p className="text-xs text-gray-400 dark:text-gray-500 font-bold uppercase tracking-widest mb-1">Release Date</p>
-                                    <p className="text-gray-900 dark:text-100 font-black">
+                                    <p className="text-gray-900 dark:text-white font-black">
                                         {latestEntry.date}
                                     </p>
                                 </div>

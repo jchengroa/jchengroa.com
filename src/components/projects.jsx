@@ -23,10 +23,10 @@ function Projects() {
     const isSearching = isSearchingText || activeFilter !== "All";
 
     const engine = getKeywordEngine();
-    
+
     const filterItems = (items, categoryMatch) => {
         let filtered = items.filter(item => item.category === categoryMatch);
-        
+
         if (activeFilter !== "All" && activeFilter.toLowerCase() !== categoryMatch) {
             return [];
         }
@@ -38,7 +38,7 @@ function Projects() {
             });
             filtered = fuse.search(searchQuery).map(result => result.item);
         }
-        
+
         return filtered;
     };
 
@@ -54,7 +54,7 @@ function Projects() {
                         <h3 className="text-3xl font-black text-gray-900 dark:text-white tracking-tight mb-2">{title}</h3>
                         <AnimatePresence>
                             {isVisible && (
-                                <motion.p 
+                                <motion.p
                                     initial={{ opacity: 0, height: 0 }}
                                     animate={{ opacity: 1, height: 'auto' }}
                                     exit={{ opacity: 0, height: 0 }}
@@ -68,12 +68,12 @@ function Projects() {
                     </motion.div>
                 )}
             </AnimatePresence>
-            
+
             <AnimatePresence>
                 {!isSearching && (
                     <motion.div key="highlights" initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} transition={{ duration: 0.2 }} className="mb-10">
-                        <KeywordHighlights 
-                            highlights={engine.getCategoryHighlights(category)} 
+                        <KeywordHighlights
+                            highlights={engine.getCategoryHighlights(category)}
                             onKeywordClick={openPrompt}
                         />
                     </motion.div>
@@ -130,8 +130,8 @@ function Projects() {
                         title={projectsPageContent.title}
                         subtitle={projectsPageContent.subtitle}
                     />
-                    
-                    <SearchBar 
+
+                    <SearchBar
                         searchQuery={searchQuery}
                         setSearchQuery={setSearchQuery}
                     />
@@ -151,18 +151,18 @@ function Projects() {
                 </motion.div>
 
                 {isSearchingText ? null : (
-                    <DocumentTabs 
+                    <DocumentTabs
                         tabs={[
                             ...(softwareProjects.length > 0 ? [{ id: 'software', label: projectsPageContent.sections.software.title }] : []),
                             ...(hardwareProjects.length > 0 ? [{ id: 'hardware', label: projectsPageContent.sections.hardware.title }] : []),
                             ...(embeddedProjects.length > 0 ? [{ id: 'embedded', label: projectsPageContent.sections.embedded.title }] : []),
-                        ]} 
+                        ]}
                     />
                 )}
 
                 <div className="space-y-24">
                     {softwareProjects.length > 0 && (
-                        <ProjectSection 
+                        <ProjectSection
                             title={projectsPageContent.sections.software.title}
                             description={projectsPageContent.sections.software.description}
                             projects={softwareProjects}
@@ -172,7 +172,7 @@ function Projects() {
                     )}
 
                     {hardwareProjects.length > 0 && (
-                        <ProjectSection 
+                        <ProjectSection
                             title={projectsPageContent.sections.hardware.title}
                             description={projectsPageContent.sections.hardware.description}
                             projects={hardwareProjects}
@@ -182,7 +182,7 @@ function Projects() {
                     )}
 
                     {embeddedProjects.length > 0 && (
-                        <ProjectSection 
+                        <ProjectSection
                             title={projectsPageContent.sections.embedded.title}
                             description={projectsPageContent.sections.embedded.description}
                             projects={embeddedProjects}
@@ -191,7 +191,7 @@ function Projects() {
                         />
                     )}
                 </div>
-                
+
                 {softwareProjects.length === 0 && hardwareProjects.length === 0 && embeddedProjects.length === 0 && (
                     <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, ease: "easeOut" }} className="text-center py-20">
                         <h3 className="text-2xl font-black text-gray-400 dark:text-gray-500">{projectsPageContent.noResults.title}</h3>
@@ -200,7 +200,7 @@ function Projects() {
                 )}
             </div>
 
-            <Prompt 
+            <Prompt
                 isOpen={isPromptOpen}
                 onClose={() => setIsPromptOpen(false)}
                 keyword={selectedKeyword}

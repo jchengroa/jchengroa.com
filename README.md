@@ -294,3 +294,7 @@ Added Document Tabs sticky navigation sidebar with real-time active section high
 Added state persistence for document tabs navigation sidebar, theme, accent color, grid/list view selection, subheader visibility, and search functionality into local storage.
 Added specific pages of each recognition.
 Added filtering tools to the recognition page. 
+
+- [0.9.1] - 2026-05-19
+Fixed bug where changelog prompts were broken in mobile and small screens if the changelog details were too long.
+Fixed a visual bug in the changelog prompt.
