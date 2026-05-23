@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { fadeUp, TIMING, EASING } from "../utils/animations.js";
 import { changelogData } from "../data/changelog";
 import { NavBar, Title, FormattedText, SearchBar } from "./components";
 import { siteContent } from "../data/site_content";

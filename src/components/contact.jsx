@@ -1,5 +1,6 @@
 import { Title, ContactCard } from "./components.jsx";
 import { motion } from 'framer-motion';
+import { fadeUp, TIMING, EASING } from '../utils/animations.js';
 import { siteContent } from "../data/site_content";
 
 /* Icons */

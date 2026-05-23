@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { RecognitionCard, Title, SearchBar, FilterList, Prompt, ViewSwitcherButton, UniversalListCard, SubheaderToggleButton } from "./components.jsx";
 import { motion, AnimatePresence } from 'framer-motion';
+import { fadeUp, TIMING, EASING } from '../utils/animations.js';
 import { recognitionList, recognitionPageContent } from "../data/recognition_list";
 import { getKeywordEngine, KeywordHighlights } from "../utils/keywordEngine";
 import { useViewSwitcher } from "../utils/viewSwitcher";

@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { fadeUp, TIMING, EASING } from "../utils/animations.js";
 import axios from "axios";
 
 // Helper to format bytes to human-readable format

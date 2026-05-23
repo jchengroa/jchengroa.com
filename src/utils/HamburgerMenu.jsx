@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
+import { fade, TIMING, EASING, menuEntrance } from "../utils/animations.js";
 import { siteContent } from "../data/site_content";
 
 const { navbar } = siteContent;
@@ -227,7 +228,7 @@ function HamburgerMenu() {
                 aria-expanded={open}
                 aria-controls="hamburger-menu-panel"
                 onClick={() => setOpen((value) => !value)}
-                className="flex h-10 w-10 items-center justify-center rounded-xl transition-colors duration-200 hover:bg-gray-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 dark:hover:bg-gray-800"
+                className="flex h-11 w-11 items-center justify-center rounded-xl transition-colors duration-200 hover:bg-gray-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 dark:hover:bg-gray-800 min-h-[44px] min-w-[44px]"
             >
                 <HamburgerIcon open={open} />
             </button>
@@ -242,7 +243,7 @@ function HamburgerMenu() {
                         initial="hidden"
                         animate="visible"
                         exit="exit"
-                        className="absolute right-0 top-[calc(100%+0.75rem)] z-[120] w-[min(22rem,calc(100vw-2rem))] overflow-hidden rounded-[1.75rem] border border-gray-100 bg-white/95 shadow-[0_24px_60px_-24px_rgba(15,23,42,0.35)] backdrop-blur-2xl dark:border-gray-800 dark:bg-gray-900/95 dark:shadow-black/50"
+                        className="absolute right-0 top-[calc(100%+0.75rem)] z-[120] w-[min(20rem,calc(100vw-1rem))] sm:w-[min(22rem,calc(100vw-2rem))] overflow-hidden rounded-2xl md:rounded-[1.75rem] border border-gray-100 bg-white/95 shadow-[0_24px_60px_-24px_rgba(15,23,42,0.35)] backdrop-blur-2xl dark:border-gray-800 dark:bg-gray-900/95 dark:shadow-black/50"
                     >
                         <div className="max-h-[min(70vh,34rem)] overflow-y-auto p-2">
                             <div className="space-y-1">

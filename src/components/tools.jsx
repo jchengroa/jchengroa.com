@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Title, SearchBar, ViewSwitcherButton, UniversalListCard, WorkCard, SubheaderToggleButton } from "./components.jsx";
 import { motion } from 'framer-motion';
+import { fadeUp, TIMING, EASING } from '../utils/animations.js';
 import { toolsList, toolsPageContent } from "../data/tools_list";
 import { useViewSwitcher } from "../utils/viewSwitcher";
 import Fuse from 'fuse.js';

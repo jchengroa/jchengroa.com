@@ -277,5 +277,13 @@ export const changelogData = [
       "Uploaded Documents into codebase to make them more accessible.",
       "Removed support for Google Drive downloads, ensuring reliability and consistency."
     ]
+  },
+  {
+    "version": "0.9.3",
+    "date": "2026-05-23",
+    "content": [
+      "Updated all components to be more mobile friendly.",
+      "Created new animation utility to unify all animation in the entire website."
+    ]
   }
 ];

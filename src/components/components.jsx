@@ -5,6 +5,15 @@ import { keywordsData } from "../data/keywords";
 import { shortenKeyword } from "../utils/keywordEngine";
 import HamburgerMenu from "../utils/HamburgerMenu.jsx";
 import { siteContent } from "../data/site_content";
+import { 
+    fadeUp, 
+    viewportFadeUp, 
+    scaleUp, 
+    fade,
+    TIMING,
+    EASING,
+    tailwindAnimations 
+} from "../utils/animations.js";
 
 /* Objects */
 

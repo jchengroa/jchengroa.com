@@ -7,6 +7,7 @@ import { recognitionList } from '../data/recognition_list';
 import useEmblaCarousel from 'embla-carousel-react';
 import Autoplay from 'embla-carousel-autoplay';
 import { motion } from 'framer-motion';
+import { fadeUp, TIMING, EASING } from '../utils/animations.js';
 
 function WorkCarousel({ id, title, subtitle, items, bgClass, isResearch }) {
     const [emblaRef, emblaApi] = useEmblaCarousel(

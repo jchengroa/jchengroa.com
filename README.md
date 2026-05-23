@@ -305,3 +305,7 @@ Fixed a visual bug in the changelog prompt.
 Added Download Manager to the website.
 Uploaded Documents into codebase to make them more accessible.
 Removed support for Google Drive downloads, ensuring reliability and consistency.
+
+- [0.9.3] - 2026-05-23
+Updated all components to be more mobile friendly.
+Created new animation utility to unify all animation in the entire website.

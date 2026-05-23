@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { Title, FormattedText } from "./components.jsx";
 import { useEffect, useState } from "react";
 import { motion } from 'framer-motion';
+import { fadeUp, TIMING, EASING } from '../utils/animations.js';
 import { siteContent } from "../data/site_content";
 import { ChangelogPopup } from "./Changelog";
 

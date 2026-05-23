@@ -6,6 +6,7 @@ import { recognitionData } from "../data/recognition_list";
 import { getKeywordEngine, KeywordHighlights, shortenKeyword } from "../utils/keywordEngine";
 import { Prompt, FormattedText, DocumentTabs } from "./components.jsx";
 import { motion } from 'framer-motion';
+import { fadeUp, TIMING, EASING } from '../utils/animations.js';
 import { siteContent } from "../data/site_content";
 
 function WorkDetail() {
