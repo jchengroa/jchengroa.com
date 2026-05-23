@@ -3,6 +3,7 @@ import './index.css'
 
 
 import { BrowserRouter, Routes, Route, Link } from 'react-router-dom'
+import { useState, useEffect } from 'react'
 import NavBar from './components/components.jsx'
 import Home from './components/home.jsx'
 import Projects from './components/projects.jsx'
@@ -11,6 +12,9 @@ import Legal from './components/Legal.jsx'
 import Research from './components/research.jsx'
 import Recognition from './components/recognition.jsx'
 import Tools from './components/tools.jsx'
+import Docs from './components/docs.jsx'
+import DocDetail from './components/DocDetail.jsx'
+import SettingsModal from './components/SettingsModal.jsx'
 import Changelog, { ChangelogPopup } from './components/Changelog.jsx'
 import { DownloadManager } from './utils/DownloadManager.jsx'
 import { changelogData } from './data/changelog.js'
@@ -18,6 +22,14 @@ import { siteContent } from './data/site_content.js'
 
 function App() {
     const { footer } = siteContent;
+    const [settingsOpen, setSettingsOpen] = useState(false);
+
+    useEffect(() => {
+        const handler = () => setSettingsOpen(true);
+        window.addEventListener('openSettings', handler);
+        return () => window.removeEventListener('openSettings', handler);
+    }, []);
+
     const latestUpdate = changelogData[changelogData.length - 1];
     const currentVersion = latestUpdate?.version || "0.0.0";
     const lastUpdatedDate = latestUpdate?.date 
@@ -39,6 +51,7 @@ function App() {
 
                 <ChangelogPopup />
                 <DownloadManager />
+                <SettingsModal isOpen={settingsOpen} onClose={() => setSettingsOpen(false)} />
 
                 <Routes>
                     <Route path="/" element={<Home />} />
@@ -46,6 +59,8 @@ function App() {
                     <Route path="/research" element={<Research />} />
                     <Route path="/recognition" element={<Recognition />} />
                     <Route path="/tools" element={<Tools />} />
+                    <Route path="/docs" element={<Docs />} />
+                    <Route path="/docs/:id" element={<DocDetail />} />
                     <Route path="/project/:id" element={<WorkDetail />} />
                     <Route path="/legal" element={<Legal />} />
                     <Route path="/changelog" element={<Changelog />} />

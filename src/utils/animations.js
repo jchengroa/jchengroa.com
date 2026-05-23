@@ -278,6 +278,24 @@ export function useReducedMotion() {
   return prefersReducedMotion;
 }
 
+const ANIMATION_STORAGE_KEY = 'jchengroa_animation_level';
+
+export function useAnimationLevel() {
+  const [level, setLevel] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return localStorage.getItem(ANIMATION_STORAGE_KEY) || 'full';
+    }
+    return 'full';
+  });
+
+  const setAnimationLevel = (newLevel) => {
+    setLevel(newLevel);
+    localStorage.setItem(ANIMATION_STORAGE_KEY, newLevel);
+  };
+
+  return { level, setAnimationLevel, isReduced: level === 'reduced', isNone: level === 'none' };
+}
+
 // Get animation props with reduced motion support
 export function withReducedMotion(animationProps, reducedMotion) {
   if (reducedMotion) {

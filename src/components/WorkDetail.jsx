@@ -3,11 +3,13 @@ import { useEffect, useState } from "react";
 import { projectData } from "../data/projects";
 import { researchData } from "../data/research";
 import { recognitionData } from "../data/recognition_list";
+import { toolsList } from "../data/tools_list";
 import { getKeywordEngine, KeywordHighlights, shortenKeyword } from "../utils/keywordEngine";
 import { Prompt, FormattedText, DocumentTabs } from "./components.jsx";
 import { motion } from 'framer-motion';
 import { fadeUp, TIMING, EASING } from '../utils/animations.js';
 import { siteContent } from "../data/site_content";
+import TicTacToe from "../tools/TicTacToe";
 
 function WorkDetail() {
     const { common } = siteContent;
@@ -22,7 +24,7 @@ function WorkDetail() {
     };
 
     // Try to find the item in projectData first, then researchData, then recognitionData
-    const item = projectData[id] || researchData[id] || recognitionData[id];
+    const item = projectData[id] || researchData[id] || recognitionData[id] || toolsList.find(t => t.id === id);
 
     useEffect(() => {
         window.scrollTo(0, 0);
@@ -55,6 +57,45 @@ function WorkDetail() {
     else if (item.category === "research") techLabel = "Keywords";
     else if (item.category === "recognition") techLabel = "Tags";
 
+    const backLink = item.category === 'research' ? '/research'
+        : item.category === 'recognition' ? '/recognition'
+        : item.category === 'tool' ? '/tools'
+        : '/projects';
+
+    const backLabel = item.category === 'research' ? 'Research'
+        : item.category === 'recognition' ? 'Recognition'
+        : item.category === 'tool' ? 'Tools'
+        : 'Projects';
+
+    if (item.category === 'tool') {
+        return (
+            <div className="min-h-screen bg-white dark:bg-gray-950 text-gray-900 dark:text-gray-100 pt-32 pb-20 px-6">
+                <div className="max-w-5xl mx-auto">
+                    <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, ease: "easeOut" }}>
+                        <header className="mb-12">
+                            <Link
+                                to={backLink}
+                                className="inline-flex items-center gap-1.5 text-sm font-bold text-gray-400 dark:text-gray-500 hover:text-blue-600 dark:hover:text-blue-400 transition-colors mb-6 group"
+                            >
+                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="group-hover:-translate-x-0.5 transition-transform"><path d="m15 18-6-6 6-6"/></svg>
+                                {backLabel}
+                            </Link>
+                            <h1 className="text-6xl md:text-8xl font-black tracking-tighter mb-6 text-gray-900 dark:text-white leading-none">
+                                {item.title}
+                            </h1>
+                            <p className="text-2xl md:text-3xl font-bold text-blue-600 dark:text-blue-400 tracking-tight">
+                                {item.info}
+                            </p>
+                        </header>
+                        <div className="flex justify-center">
+                            {item.id === 'tictactoe' && <TicTacToe />}
+                        </div>
+                    </motion.div>
+                </div>
+            </div>
+        );
+    }
+
     const engine = getKeywordEngine();
     const itemHighlights = engine.getItemHighlights(item);
 
@@ -83,7 +124,14 @@ function WorkDetail() {
             <DocumentTabs tabs={workTabs} />
             <div className="max-w-5xl mx-auto">
                 <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, ease: "easeOut" }}>
-                    <header className="mb-20">
+                    <header className="mb-16">
+                        <Link
+                            to={backLink}
+                            className="inline-flex items-center gap-1.5 text-sm font-bold text-gray-400 dark:text-gray-500 hover:text-blue-600 dark:hover:text-blue-400 transition-colors mb-6 group"
+                        >
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="group-hover:-translate-x-0.5 transition-transform"><path d="m15 18-6-6 6-6"/></svg>
+                            {backLabel}
+                        </Link>
                         <h1 className="text-6xl md:text-8xl font-black tracking-tighter mb-6 text-gray-900 dark:text-white leading-none">
                             {item.title}
                         </h1>

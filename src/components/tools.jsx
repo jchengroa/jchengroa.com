@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { Title, SearchBar, ViewSwitcherButton, UniversalListCard, WorkCard, SubheaderToggleButton } from "./components.jsx";
 import { motion } from 'framer-motion';
-import { fadeUp, TIMING, EASING } from '../utils/animations.js';
 import { toolsList, toolsPageContent } from "../data/tools_list";
 import { useViewSwitcher } from "../utils/viewSwitcher";
 import Fuse from 'fuse.js';
@@ -73,6 +72,7 @@ function Tools() {
                                     linkURL={item.linkUrl}
                                     linkName={item.linkName}
                                     category={item.category}
+                                    linkTo={`/project/${item.id}`}
                                 />
                             ) : (
                                 <WorkCard
@@ -83,6 +83,7 @@ function Tools() {
                                     description={item.description}
                                     linkURL={item.linkUrl}
                                     linkName={item.linkName}
+                                    linkTo={`/project/${item.id}`}
                                 />
                             )}
                         </motion.div>

@@ -3,7 +3,7 @@ export const changelogData = [
     "version": "0.0.1",
     "date": "2026-04-25",
     "content": [
-      "Created initail files for the website.",
+      "Created initial files for the website.",
       "Used **Vite**, **React.js**, and **Tailwind CSS**."
     ]
   },
@@ -167,8 +167,8 @@ export const changelogData = [
     "content": [
       "Replaced the old inline navbar links with a new animated **Hamburger Menu** component.",
       "Created **HamburgerMenu.jsx** using **Framer Motion** for icon morph animations and staggered dropdown entrances.",
-      "Introduced the **Prompt** component (consolidated in `components.jsx`), a custom modal for displaying detailed keyword definitions and metrics from **keywords.js**.",
-      "Enhanced **KeywordHighlights** and **WorkDetail** sections (Key Metrics, Tech Tags) with interactivity and deep-insight modals.",
+      "Introduced the **Prompt** component, a custom modal for displaying detailed keyword definitions and metrics.",
+      "Enhanced **KeywordHighlights** and **WorkDetail** sections with interactivity and deep-insight modals.",
       "Integrated the navigation and prompt systems across the **Home**, **Projects**, **Research**, and **WorkDetail** pages.",
       "Updated **Legal.jsx** to reflect new features and technical documentation.",
       "Fixed visual bugs in Projects and Research pages."
@@ -183,7 +183,7 @@ export const changelogData = [
       "Added the **What's New** smart popup with version tracking to avoid repeated notifications.",
       "Created a dedicated **Changelog** timeline page with premium entrance animations.",
       "Refactored the **Title** component to match the premium site design and synced it across all pages.",
-      "Integrated a custom **Markdown-lite parser** to support **bold text** formatting in project descriptions and logs.",
+      "Integrated a custom **Markdown-lite parser** to support **bold text** formatting.",
       "Added the **Changelog** link to the animated Hamburger Menu."
     ]
   },
@@ -191,11 +191,10 @@ export const changelogData = [
     "version": "0.7.1",
     "date": "2026-05-04",
     "content": [
-      "Implemented a **Keyword Shortening System** to handle long technical terms (e.g., MAE, OOP, DSA).",
-      "Integrated shortening logic across the **Hero**, **Work Cards**, **Prompt Modals**, and **Detail Pages**.",
+      "Implemented a **Keyword Shortening System** to handle long technical terms.",
+      "Integrated shortening logic across the Hero, Work Cards, Prompt Modals, and Detail Pages.",
       "Added **Dynamic Font Sizing** for long labels to prevent UI overflow and maintain layout balance.",
-      "Fully expanded and cleaned up the **Project Structure** section in the README.",
-      "Optimized the **sync-changelog.js** script for word-for-word accuracy and heading collision avoidance."
+      "Optimized the **sync-changelog.js** script for word-for-word accuracy."
     ]
   },
   {
@@ -250,14 +249,13 @@ export const changelogData = [
     "date": "2026-05-18",
     "content": [
       "Added Featured Recognition section to the homepage.",
-      "Added the ability to switch from Grid View to List View for the projects, research, and recognition pages.",
-      "Added the ability to toggle subheader visibility for the projects, research, and recognition pages.",
-      "Added accent colors and an accent color picker in the settings dropdown in the hamburger menu.",
-      "Added an auto theme that detects the current theme (light or dark mode) of the operating system or browser theme and automatically switches to it.",
-      "Added Document Tabs navigation bar in projects and work detail pages.",
-      "Added Document Tabs sticky navigation sidebar with real-time active section highlighting for Projects and WorkDetail pages.",
-      "Added state persistence for document tabs navigation sidebar, theme, accent color, grid/list view selection, subheader visibility, and search functionality into local storage.",
-      "Added specific pages of each recognition.",
+      "Added the ability to switch from Grid View to List View across all pages.",
+      "Added the ability to toggle subheader visibility.",
+      "Added accent colors and an accent color picker in the settings dropdown.",
+      "Added an auto theme that detects the OS/browser theme.",
+      "Added Document Tabs sticky navigation sidebar with real-time active section highlighting.",
+      "Added state persistence for sidebar, theme, accent color, view selection, and subheader visibility.",
+      "Added specific pages for each recognition entry.",
       "Added filtering tools to the recognition page."
     ]
   },
@@ -265,7 +263,7 @@ export const changelogData = [
     "version": "0.9.1",
     "date": "2026-05-19",
     "content": [
-      "Fixed bug where changelog prompts were broken in mobile and small screens if the changelog details were too long.",
+      "Fixed bug where changelog prompts were broken on mobile and small screens.",
       "Fixed a visual bug in the changelog prompt."
     ]
   },
@@ -283,7 +281,23 @@ export const changelogData = [
     "date": "2026-05-23",
     "content": [
       "Updated all components to be more mobile friendly.",
-      "Created new animation utility to unify all animation in the entire website."
+      "Created new animation utility to unify all animations across the website."
+    ]
+  },
+  {
+    "version": "0.10.0",
+    "date": "2026-05-23",
+    "content": [
+      "Added the Documentation page with a dashboard-style layout and customizable icons for each document.",
+      "Added documentation detail pages with content sections and prev/next navigation.",
+      "Added a hierarchical documentation outline sidebar with expand/collapse sections, documents, headings, and subheadings.",
+      "Switched the outline sidebar to use a draggable bottom sheet on mobile for smoother resizing.",
+      "Added the Settings panel (full-screen overlay) with theme mode, accent color, animation level, dev tools, and data controls.",
+      "Added an Animation Level setting (Full, Reduced, None) with localStorage persistence.",
+      "Moved the Dev Tools section from the Legal page into the new Settings panel.",
+      "Added back links to WorkDetail pages (Projects, Research, Recognition, Tools).",
+      "Improved the Document Tabs outline to separate chevron toggle from navigation.",
+      "Built a Tic Tac Toe game on the Tools page using Minimax with alpha-beta pruning and three difficulty levels."
     ]
   }
 ];

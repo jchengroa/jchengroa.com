@@ -6,42 +6,37 @@ A premium, multidisciplinary portfolio website showcasing engineering projects, 
 
 ---
 
-## ✨ Key Features
+## Key Features
 
 - **Dynamic Project Gallery**: Interactive showcase of software, hardware, and embedded systems projects.
 - **Academic Research Hub**: Dedicated section for published research with structured findings, metrics, and full-paper access.
+- **Documentation System**: Dashboard-style docs page with a hierarchical outline sidebar and individual detail pages.
+- **Interactive Tools**: Built-in Tic Tac Toe game with Minimax AI at three difficulty levels.
 - **Immersive Visuals**: High-resolution image lightbox with zoom animations and backdrop blur effects.
 - **Responsive & Performant**: Fully optimized for all device sizes using React 19 and Tailwind CSS.
-- **Interactive Components**: Custom-built navigation, animated hero section, and a functional contact system.
-- **Custom Download Manager**: Integrated floating queue displaying active PDF downloads with speed, size, and progress bar, supporting background persistence and download controls.
+- **Settings Panel**: Full-screen overlay for theme mode, accent color, animation level, dev tools, and local storage management.
+- **Custom Download Manager**: Floating queue displaying active PDF downloads with speed, size, and progress bar.
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 - **Frontend**: [React 19](https://react.dev/), [Vite](https://vitejs.dev/)
 - **Styling**: [Tailwind CSS 4.0](https://tailwindcss.com/)
-- **Animations & Navigation**: [Framer Motion](https://www.framer.com/motion/) — UI animations, scroll-linked effects, and animated hamburger menu
-- **HTTP Client & Downloads**: [Axios](https://axios-http.com/) — Used in the custom Download Manager to fetch files as Blobs with real-time download progress tracking
-- **Search Engine**: [Fuse.js](https://www.fusejs.io/)
-- **Carousel/Slider**: [Embla Carousel](https://www.embla-carousel.com/)
-- **Data Processing**: [Lodash](https://lodash.com/)
-- **View Switcher**: Custom React Hook (useViewSwitcher) with localStorage and CustomEvent for universal Grid/List toggling
-- **Theme & Accent Engine**: Advanced localStorage-backed engine supporting Light/Dark/Auto OS matching and dynamic ROYGBV accent color switching
-- **Subheader Toggle**: Custom React Hook (useSubheaderToggle) for universal visibility customization
-- **Document Tabs Navigation**: Sleek, responsive Google Docs and React documentation-style sticky navigation sidebar with real-time active section highlighting
-- **Deployment**: Contabo VPS
-- **Typography**: [Outfit](https://fonts.google.com/specimen/Outfit) via Google Fonts
+- **Animations**: [Framer Motion](https://www.framer.com/motion/) — UI animations, scroll-linked effects, and animated hamburger menu
+- **Search**: [Fuse.js](https://www.fusejs.io/) — fuzzy search across projects, research, and tools
+- **Carousel**: [Embla Carousel](https://www.embla-carousel.com/) — hero section carousels
+- **Data**: [Lodash](https://lodash.com/) — keyword engine data processing
+- **HTTP**: [Axios](https://axios-http.com/) — download manager with progress tracking
+- **Deployment**: Contabo VPS via GitHub Actions
+- **Typography**: [Outfit](https://fonts.google.com/specimen/Outfit)
 - **Icons**: Lucide-inspired SVG components
-
 
 ---
 
-## 🚀 Getting Started
-
-Follow these steps to set up the development environment on your local machine.
+## Getting Started
 
 ### Prerequisites
 
-- [Node.js](https://nodejs.org/) (Latest LTS version recommended)
+- [Node.js](https://nodejs.org/) (Latest LTS recommended)
 - [npm](https://www.npmjs.com/)
 
 ### Installation
@@ -52,58 +47,49 @@ Follow these steps to set up the development environment on your local machine.
    cd jchengroa.com
    ```
 
-2. **If you are on Windows, allow script execution for the current session** *(run in PowerShell)*
-   ```powershell
-   Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope Process
-   ```
-
-3. **Install all dependencies**
+2. **Install dependencies**
    ```bash
    npm install
    ```
 
-4. **Start the development server**
+3. **Start the dev server**
    ```bash
    npm run dev
    ```
 
-   The app will be available at `http://localhost:5173` by default.
+   The app will be available at `http://localhost:5173`.
 
 ---
 
-## 🛠️ Development Utilities
+## Syncing the Changelog
 
-### Syncing the Changelog
+The website pulls changelog data from this README. After adding entries below:
 
-The website features an automated changelog system that pulls data directly from this `README.md`. To update the website after adding new entries to the `## Changelog:` section:
+```bash
+npm run sync-changelog
+```
 
-1. **Edit the Changelog** in this file.
-2. **Run the sync script**:
-   ```bash
-   npm run sync-changelog
-   ```
-
-This will parse the Markdown and regenerate `src/data/changelog.js` for the website.
+This regenerates `src/data/changelog.js`.
 
 ---
 
-## 🏗️ Project Structure
+## Project Structure
 
 ```
 jchengroa.com/
 ├── public/
-│   ├── CloudBasedResources/
-│   ├── jchengroacomResources/
-│   └── logo.png
 ├── scripts/
 │   └── sync-changelog.js
 ├── src/
 │   ├── components/
 │   │   ├── Changelog.jsx
+│   │   ├── DocDetail.jsx
+│   │   ├── DocsOutline.jsx
 │   │   ├── Legal.jsx
+│   │   ├── SettingsModal.jsx
 │   │   ├── WorkDetail.jsx
 │   │   ├── components.jsx
-│   │   ├── contact.jsx
+│   │   ├── docs.jsx
 │   │   ├── home.jsx
 │   │   ├── projects.jsx
 │   │   ├── recognition.jsx
@@ -111,36 +97,41 @@ jchengroa.com/
 │   │   └── tools.jsx
 │   ├── data/
 │   │   ├── changelog.js
+│   │   ├── docs.js
+│   │   ├── docs_list.js
 │   │   ├── keywords.js
 │   │   ├── projects.js
 │   │   ├── recognition_list.js
 │   │   ├── research.js
 │   │   ├── site_content.js
 │   │   └── tools_list.js
+│   ├── tools/
+│   │   └── TicTacToe.jsx
 │   ├── utils/
+│   │   ├── DownloadManager.jsx
 │   │   ├── HamburgerMenu.jsx
+│   │   ├── animations.js
 │   │   ├── keywordEngine.jsx
 │   │   └── viewSwitcher.jsx
 │   ├── index.css
 │   └── main.jsx
-├── .gitignore
 ├── index.html
-├── package-lock.json
 ├── package.json
 └── vite.config.js
 ```
 
 ---
 
-## 📝 License
+## License
 
 This project is personal and is used to showcase the work of **John Carlo Cheng Roa**. Feel free to explore the code for inspiration, but please do not redistribute the content as your own.
 
 ---
 
 ## Changelog:
+
 - [0.0.1] - 2026-04-25
-Created initail files for the website.
+Created initial files for the website.
 Used **Vite**, **React.js**, and **Tailwind CSS**.
 
 - [0.0.2] - 2026-04-25
@@ -155,7 +146,7 @@ Updated styling in **main.jsx**
 Added **Vercel Analytics** for website traffic tracking.
 
 - [0.0.5] - 2026-04-25
-Updated and organized the UI of the website to include projects. 
+Updated and organized the UI of the website to include projects.
 Added projects section with clickable links.
 Added some spacing and alignment in the UI.
 
@@ -164,10 +155,10 @@ Separated the objects from **main.jsx** to **components.jsx**
 Updated the UI to include a navigation bar that scrolls to the different sections of the website.
 Added a top bar to the navigation bar.
 Added the home section with clickable links to my professional accounts.
-Added the contact section template. 
+Added the contact section template.
 
 - [0.0.7] - 2026-04-26
-Restructured the UI of the website. 
+Restructured the UI of the website.
 Fixed Visual Bugs.
 
 - [0.1.0] - 2026-04-26
@@ -236,8 +227,8 @@ Updated the **Legal.jsx** to display and show links to the documentation of the 
 - [0.6.0] - 2026-05-04
 Replaced the old inline navbar links with a new animated **Hamburger Menu** component.
 Created **HamburgerMenu.jsx** using **Framer Motion** for icon morph animations and staggered dropdown entrances.
-Introduced the **Prompt** component (consolidated in `components.jsx`), a custom modal for displaying detailed keyword definitions and metrics from **keywords.js**.
-Enhanced **KeywordHighlights** and **WorkDetail** sections (Key Metrics, Tech Tags) with interactivity and deep-insight modals.
+Introduced the **Prompt** component, a custom modal for displaying detailed keyword definitions and metrics.
+Enhanced **KeywordHighlights** and **WorkDetail** sections with interactivity and deep-insight modals.
 Integrated the navigation and prompt systems across the **Home**, **Projects**, **Research**, and **WorkDetail** pages.
 Updated **Legal.jsx** to reflect new features and technical documentation.
 Fixed visual bugs in Projects and Research pages.
@@ -248,15 +239,14 @@ Implemented the automated **Changelog System** synced from README.md.
 Added the **What's New** smart popup with version tracking to avoid repeated notifications.
 Created a dedicated **Changelog** timeline page with premium entrance animations.
 Refactored the **Title** component to match the premium site design and synced it across all pages.
-Integrated a custom **Markdown-lite parser** to support **bold text** formatting in project descriptions and logs.
+Integrated a custom **Markdown-lite parser** to support **bold text** formatting.
 Added the **Changelog** link to the animated Hamburger Menu.
 
 - [0.7.1] - 2026-05-04
-Implemented a **Keyword Shortening System** to handle long technical terms (e.g., MAE, OOP, DSA).
-Integrated shortening logic across the **Hero**, **Work Cards**, **Prompt Modals**, and **Detail Pages**.
+Implemented a **Keyword Shortening System** to handle long technical terms.
+Integrated shortening logic across the Hero, Work Cards, Prompt Modals, and Detail Pages.
 Added **Dynamic Font Sizing** for long labels to prevent UI overflow and maintain layout balance.
-Fully expanded and cleaned up the **Project Structure** section in the README.
-Optimized the **sync-changelog.js** script for word-for-word accuracy and heading collision avoidance.
+Optimized the **sync-changelog.js** script for word-for-word accuracy.
 
 - [0.7.2] - 2026-05-04
 Implemented a auto-updating footer to display current version and last updated date.
@@ -287,18 +277,17 @@ Cleaned up codebase and resolved duplicate import build errors in components.jsx
 
 - [0.9.0] - 2026-05-18
 Added Featured Recognition section to the homepage.
-Added the ability to switch from Grid View to List View for the projects, research, and recognition pages.
-Added the ability to toggle subheader visibility for the projects, research, and recognition pages.
-Added accent colors and an accent color picker in the settings dropdown in the hamburger menu.
-Added an auto theme that detects the current theme (light or dark mode) of the operating system or browser theme and automatically switches to it.
-Added Document Tabs navigation bar in projects and work detail pages.
-Added Document Tabs sticky navigation sidebar with real-time active section highlighting for Projects and WorkDetail pages.
-Added state persistence for document tabs navigation sidebar, theme, accent color, grid/list view selection, subheader visibility, and search functionality into local storage.
-Added specific pages of each recognition.
-Added filtering tools to the recognition page. 
+Added the ability to switch from Grid View to List View across all pages.
+Added the ability to toggle subheader visibility.
+Added accent colors and an accent color picker in the settings dropdown.
+Added an auto theme that detects the OS/browser theme.
+Added Document Tabs sticky navigation sidebar with real-time active section highlighting.
+Added state persistence for sidebar, theme, accent color, view selection, and subheader visibility.
+Added specific pages for each recognition entry.
+Added filtering tools to the recognition page.
 
 - [0.9.1] - 2026-05-19
-Fixed bug where changelog prompts were broken in mobile and small screens if the changelog details were too long.
+Fixed bug where changelog prompts were broken on mobile and small screens.
 Fixed a visual bug in the changelog prompt.
 
 - [0.9.2] - 2026-05-19
@@ -308,4 +297,16 @@ Removed support for Google Drive downloads, ensuring reliability and consistency
 
 - [0.9.3] - 2026-05-23
 Updated all components to be more mobile friendly.
-Created new animation utility to unify all animation in the entire website.
+Created new animation utility to unify all animations across the website.
+
+- [0.10.0] - 2026-05-23
+Added the Documentation page with a dashboard-style layout and customizable icons for each document.
+Added documentation detail pages with content sections and prev/next navigation.
+Added a hierarchical documentation outline sidebar with expand/collapse sections, documents, headings, and subheadings.
+Switched the outline sidebar to use a draggable bottom sheet on mobile for smoother resizing.
+Added the Settings panel (full-screen overlay) with theme mode, accent color, animation level, dev tools, and data controls.
+Added an Animation Level setting (Full, Reduced, None) with localStorage persistence.
+Moved the Dev Tools section from the Legal page into the new Settings panel.
+Added back links to WorkDetail pages (Projects, Research, Recognition, Tools).
+Improved the Document Tabs outline to separate chevron toggle from navigation.
+Built a Tic Tac Toe game on the Tools page using Minimax with alpha-beta pruning and three difficulty levels.

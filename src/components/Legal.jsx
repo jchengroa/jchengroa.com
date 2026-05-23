@@ -1,10 +1,9 @@
 import { Link } from "react-router-dom";
 import { Title, FormattedText } from "./components.jsx";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { motion } from 'framer-motion';
 import { fadeUp, TIMING, EASING } from '../utils/animations.js';
 import { siteContent } from "../data/site_content";
-import { ChangelogPopup } from "./Changelog";
 
 const DocButton = ({ href, label }) => (
     <a
@@ -22,7 +21,6 @@ const DocButton = ({ href, label }) => (
 
 function Legal() {
     const { legal } = siteContent;
-    const [showChangelogDebug, setShowChangelogDebug] = useState(false);
 
     useEffect(() => {
         window.scrollTo(0, 0);
@@ -149,40 +147,14 @@ function Legal() {
                             </div>
                         </section>
 
-
-                        {/* Dev Tools */}
-                        <section>
-                            <h2 className="text-xs font-black tracking-[0.2em] uppercase text-gray-400 dark:text-gray-500 mb-8">Dev</h2>
-                            <div className="p-6 bg-gray-50 dark:bg-gray-900 rounded-2xl border border-dashed border-gray-200 dark:border-gray-700 flex flex-wrap items-center gap-4">
-                                <div>
-                                    <p className="text-gray-900 dark:text-white font-bold text-sm mb-0.5">Changelog Popup</p>
-                                    <p className="text-gray-500 dark:text-gray-400 text-xs font-medium">Force-show the update prompt regardless of version state.</p>
-                                </div>
-                                <button
-                                    onClick={() => setShowChangelogDebug(true)}
-                                    className="ml-auto shrink-0 px-4 py-2 bg-gray-900 dark:bg-white text-white dark:text-gray-900 text-xs font-black rounded-xl hover:bg-blue-600 dark:hover:bg-blue-600 dark:hover:text-white transition-all duration-200"
-                                >
-                                    Show Popup
-                                </button>
-                            </div>
-                        </section>
-
                         <div className="pt-10 border-t border-gray-100 dark:border-gray-800 flex flex-col md:flex-row justify-between items-center gap-6">
                             <p className="text-gray-400 dark:text-gray-500 font-bold text-sm uppercase tracking-widest italic">{legal.domainStatus.established}</p>
                         </div>
                     </div>
                 </motion.div>
             </div>
-
-            {showChangelogDebug && (
-                <ChangelogPopup
-                    forceOpen={true}
-                    onForceClose={() => setShowChangelogDebug(false)}
-                />
-            )}
         </div>
     );
 }
 
 export default Legal;
-
