@@ -3,7 +3,7 @@ import { researchList } from "../data/research";
 import { recognitionList } from "../data/recognition_list";
 import React from 'react';
 import _ from 'lodash';
-import { useSubheaderToggle } from "../components/components.jsx";
+import { useSubheaderToggle } from "./subheaderToggle.js";
 
 /**
  * Keyword Engine

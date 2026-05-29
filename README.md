@@ -26,6 +26,7 @@ A premium, multidisciplinary portfolio website showcasing engineering projects, 
 - **Carousel**: [Embla Carousel](https://www.embla-carousel.com/) — hero section carousels
 - **Data**: [Lodash](https://lodash.com/) — keyword engine data processing
 - **HTTP**: [Axios](https://axios-http.com/) — download manager with progress tracking
+- **Color**: [React Colorful](https://github.com/omgovich/react-colorful) — custom accent color picker with palette generation
 - **Deployment**: Contabo VPS via GitHub Actions
 - **Typography**: [Outfit](https://fonts.google.com/specimen/Outfit)
 - **Icons**: Lucide-inspired SVG components
@@ -77,46 +78,86 @@ This regenerates `src/data/changelog.js`.
 
 ```
 jchengroa.com/
+├── .github/
+│   └── workflows/
+│       └── deploy.yml
 ├── public/
+│   ├── CloudBasedResources/
+│   │   ├── cbimage1.png
+│   │   ├── cbimage2.png
+│   │   ├── cbimage3.png
+│   │   └── cbimage4.png
+│   ├── Documents/
+│   │   ├── JHS1.pdf
+│   │   ├── SHS1.pdf
+│   │   ├── SHS2.pdf
+│   │   └── UGP1.pdf
+│   ├── jchengroacomResources/
+│   │   ├── webcom1.png
+│   │   ├── webcom2.png
+│   │   ├── webcom3.png
+│   │   └── webcom4.png
+│   ├── hero_background_1.jpg
+│   ├── hero_background_2.jpg
+│   ├── hero_background_4.png
+│   ├── hero_background_5.png
+│   └── logo.png
 ├── scripts/
 │   └── sync-changelog.js
 ├── src/
 │   ├── components/
-│   │   ├── Changelog.jsx
+│   │   ├── ChangelogOutline.jsx
 │   │   ├── DocDetail.jsx
 │   │   ├── DocsOutline.jsx
+│   │   ├── DocumentTabs.jsx
+│   │   ├── Prompt.jsx
+│   │   ├── cards.jsx
+│   │   ├── components.jsx
+│   │   ├── controls.jsx
+│   │   ├── navigation.jsx
+│   │   └── typography.jsx
+│   ├── data/
+│   │   ├── changelog.js
+│   │   ├── docs.js
+│   │   ├── docs_list.js
+│   │   ├── keywords.js
+│   │   ├── project_list.js
+│   │   ├── projects.js
+│   │   ├── recognition_list.js
+│   │   ├── research.js
+│   │   ├── research_list.js
+│   │   ├── site_content.js
+│   │   └── tools_list.js
+│   ├── pages/
+│   │   ├── Changelog.jsx
 │   │   ├── Legal.jsx
 │   │   ├── SettingsModal.jsx
 │   │   ├── WorkDetail.jsx
-│   │   ├── components.jsx
 │   │   ├── docs.jsx
 │   │   ├── home.jsx
 │   │   ├── projects.jsx
 │   │   ├── recognition.jsx
 │   │   ├── research.jsx
 │   │   └── tools.jsx
-│   ├── data/
-│   │   ├── changelog.js
-│   │   ├── docs.js
-│   │   ├── docs_list.js
-│   │   ├── keywords.js
-│   │   ├── projects.js
-│   │   ├── recognition_list.js
-│   │   ├── research.js
-│   │   ├── site_content.js
-│   │   └── tools_list.js
 │   ├── tools/
 │   │   └── TicTacToe.jsx
 │   ├── utils/
 │   │   ├── DownloadManager.jsx
 │   │   ├── HamburgerMenu.jsx
 │   │   ├── animations.js
+│   │   ├── colorUtils.js
 │   │   ├── keywordEngine.jsx
+│   │   ├── subheaderToggle.js
 │   │   └── viewSwitcher.jsx
 │   ├── index.css
 │   └── main.jsx
+├── .gitignore
+├── Dockerfile
+├── Document
 ├── index.html
+├── package-lock.json
 ├── package.json
+├── README.md
 └── vite.config.js
 ```
 
@@ -310,3 +351,15 @@ Moved the Dev Tools section from the Legal page into the new Settings panel.
 Added back links to WorkDetail pages (Projects, Research, Recognition, Tools).
 Improved the Document Tabs outline to separate chevron toggle from navigation.
 Built a Tic Tac Toe game on the Tools page using Minimax with alpha-beta pruning and three difficulty levels.
+
+- [0.11.0] - 2026-05-29
+Added outline sidebar into the changelog page.
+Added a color picker for accent colors.
+Replaced all icons to a more stable React Lucide Library.
+Updated Settings panel with more customization options across the website.
+Updated Project Structure and abstracted many essential components.
+Updated some information.
+Updated Hamburger Menu to feel more comfortable.
+Fixed Mobile Specific Visual Bugs.
+Fixed Visual Bugs across all platforms ang pages.
+Fixed the features carousel visual bug.

@@ -299,5 +299,21 @@ export const changelogData = [
       "Improved the Document Tabs outline to separate chevron toggle from navigation.",
       "Built a Tic Tac Toe game on the Tools page using Minimax with alpha-beta pruning and three difficulty levels."
     ]
+  },
+  {
+    "version": "0.11.0",
+    "date": "2026-05-29",
+    "content": [
+      "Added outline sidebar into the changelog page.",
+      "Added a color picker for accent colors.",
+      "Replaced all icons to a more stable React Lucide Library.",
+      "Updated Settings panel with more customization options across the website.",
+      "Updated Project Structure and abstracted many essential components.",
+      "Updated some information.",
+      "Updated Hamburger Menu to feel more comfortable.",
+      "Fixed Mobile Specific Visual Bugs.",
+      "Fixed Visual Bugs across all platforms ang pages.",
+      "Fixed the features carousel visual bug."
+    ]
   }
 ];

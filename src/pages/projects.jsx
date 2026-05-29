@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { WorkCard, Title, SearchBar, FilterList, Prompt, ViewSwitcherButton, UniversalListCard, useSubheaderToggle, SubheaderToggleButton, DocumentTabs } from "./components.jsx";
+import { WorkCard, Title, SearchBar, FilterList, Prompt, ViewSwitcherButton, UniversalListCard, useSubheaderToggle, SubheaderToggleButton, DocumentTabs } from "../components/components.jsx";
 import { motion, AnimatePresence } from 'framer-motion';
 import { fadeUp, TIMING, EASING } from '../utils/animations.js';
 import { projectsList, projectsPageContent } from "../data/projects";

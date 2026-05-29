@@ -1,13 +1,15 @@
 import React from 'react';
-import Contact from './contact.jsx';
-import { WorkCard, Title, Prompt } from './components.jsx';
+import { WorkCard, Title, Prompt, ContactCard } from '../components/components.jsx';
 import { projectsList } from '../data/projects';
 import { researchList } from '../data/research';
 import { recognitionList } from '../data/recognition_list';
 import useEmblaCarousel from 'embla-carousel-react';
 import Autoplay from 'embla-carousel-autoplay';
 import { motion } from 'framer-motion';
-import { fadeUp, TIMING, EASING } from '../utils/animations.js';
+import { FaFacebookF, FaGithub, FaLinkedinIn } from 'react-icons/fa';
+import { LuChevronLeft, LuChevronRight, LuChevronsDown, LuMail } from 'react-icons/lu';
+import { getKeywordEngine, KeywordHighlights } from '../utils/keywordEngine';
+import { siteContent } from '../data/site_content';
 
 function WorkCarousel({ id, title, subtitle, items, bgClass, isResearch }) {
     const [emblaRef, emblaApi] = useEmblaCarousel(
@@ -37,7 +39,7 @@ function WorkCarousel({ id, title, subtitle, items, bgClass, isResearch }) {
                     className="absolute left-4 md:left-12 top-1/2 -translate-y-1/2 z-20 bg-white/80 dark:bg-gray-800/80 backdrop-blur-md p-4 rounded-full shadow-xl border border-gray-100 dark:border-gray-800 text-gray-800 dark:text-gray-200 hover:bg-black dark:hover:bg-white hover:text-white dark:hover:text-black transition-all duration-300 opacity-0 group-hover/section:opacity-100 scale-90 group-hover/section:scale-100"
                     aria-label="Previous"
                 >
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="m15 18-6-6 6-6" /></svg>
+                    <LuChevronLeft size={24} strokeWidth={3} />
                 </button>
 
                 <button
@@ -45,7 +47,7 @@ function WorkCarousel({ id, title, subtitle, items, bgClass, isResearch }) {
                     className="absolute right-4 md:right-12 top-1/2 -translate-y-1/2 z-20 bg-white/80 dark:bg-gray-800/80 backdrop-blur-md p-4 rounded-full shadow-xl border border-gray-100 dark:border-gray-800 text-gray-800 dark:text-gray-200 hover:bg-black dark:hover:bg-white hover:text-white dark:hover:text-black transition-all duration-300 opacity-0 group-hover/section:opacity-100 scale-90 group-hover/section:scale-100"
                     aria-label="Next"
                 >
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="m9 18 6-6-6-6" /></svg>
+                    <LuChevronRight size={24} strokeWidth={3} />
                 </button>
 
                 <div className={`absolute inset-y-0 left-0 w-16 md:w-48 bg-gradient-to-r ${bgClass === 'bg-white' ? 'from-white dark:from-gray-900 via-white/40 dark:via-gray-900/40' : 'from-gray-50 dark:from-gray-950 via-gray-50/20 dark:via-gray-950/20'} to-transparent z-10 pointer-events-none`}></div>
@@ -73,27 +75,68 @@ function WorkCarousel({ id, title, subtitle, items, bgClass, isResearch }) {
     );
 }
 
-/* Icons */
-const MailIcon = () => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mr-2 group-hover:animate-pulse">
-        <rect width="20" height="16" x="2" y="4" rx="2" /><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
-    </svg>
-);
+function Contact() {
+    const { title, subtitle, cardInfo, socials } = siteContent.contact;
 
-const GitHubIcon = () => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mr-2 group-hover:rotate-12 transition-transform">
-        <path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.28 1.15-.28 2.35 0 3.5-.73 1.02-1.08 2.25-1 3.5 0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4" /><path d="M9 18c-4.51 2-4.51-2-7-2" />
-    </svg>
-);
+    const socialLinks = [
+        {
+            label: "Facebook",
+            href: socials.facebook,
+            Icon: FaFacebookF,
+            className: "hover:bg-blue-600 hover:text-white dark:hover:bg-blue-600"
+        },
+        {
+            label: "Github",
+            href: socials.github,
+            Icon: FaGithub,
+            className: "hover:bg-gray-900 hover:text-white dark:hover:bg-white dark:hover:text-black"
+        },
+        {
+            label: "LinkedIn",
+            href: socials.linkedin,
+            Icon: FaLinkedinIn,
+            className: "hover:bg-blue-700 hover:text-white dark:hover:bg-blue-600"
+        }
+    ];
 
-const LinkedInIcon = () => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mr-2 group-hover:scale-110 transition-transform">
-        <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" /><rect width="4" height="12" x="2" y="9" /><circle cx="4" cy="4" r="2" />
-    </svg>
-);
+    return (
+        <section
+            id="contact"
+            className="relative min-h-screen flex flex-col justify-center items-center py-20 px-6 gap-12 overflow-hidden bg-gray-50/50 dark:bg-gray-950"
+        >
+            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full max-w-7xl pointer-events-none opacity-20 dark:opacity-10">
+                <div className="absolute bottom-1/4 right-0 w-80 h-80 bg-blue-200 dark:bg-blue-900 rounded-full mix-blend-multiply filter blur-3xl animate-pulse"></div>
+                <div className="absolute bottom-1/3 left-0 w-80 h-80 bg-indigo-200 dark:bg-indigo-900 rounded-full mix-blend-multiply filter blur-3xl animate-pulse delay-1000"></div>
+            </div>
 
-import { getKeywordEngine, KeywordHighlights } from '../utils/keywordEngine';
-import { siteContent } from '../data/site_content';
+            <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, ease: "easeOut" }} className="relative z-10 text-center">
+                <Title
+                    title={title}
+                    subtitle={subtitle}
+                />
+            </motion.div>
+
+            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 1.2, ease: "easeOut", delay: 0.2 }} className="relative z-10 flex flex-wrap justify-center gap-4">
+                {socialLinks.map(({ label, href, Icon, className }) => (
+                    <a
+                        key={label}
+                        href={href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className={`flex items-center bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 text-gray-800 dark:text-gray-200 px-8 py-4 rounded-2xl font-black hover:scale-105 hover:shadow-xl transition-all duration-300 ${className}`}
+                    >
+                        <Icon size={20} className="mr-2" />
+                        {label}
+                    </a>
+                ))}
+            </motion.div>
+
+            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 1.2, ease: "easeOut", delay: 0.4 }} className="relative z-10 w-full max-w-5xl">
+                <ContactCard info={cardInfo} />
+            </motion.div>
+        </section>
+    );
+}
 
 const HERO_IMAGES = [
     '/hero_background_1.jpg',
@@ -186,7 +229,7 @@ function Home() {
                                 href={`mailto:${hero.email}`}
                                 className="group flex items-center bg-gray-900 dark:bg-white text-white dark:text-gray-900 px-10 py-5 rounded-2xl font-black text-lg hover:bg-black dark:hover:bg-gray-100 hover:scale-105 hover:shadow-2xl transition-all duration-300"
                             >
-                                <MailIcon />
+                                <LuMail size={20} className="mr-2 group-hover:animate-pulse" />
                                 {hero.cta}
                             </a>
                             <div className="flex gap-4">
@@ -197,7 +240,7 @@ function Home() {
                                     className="group flex items-center justify-center bg-white/80 dark:bg-gray-800/80 backdrop-blur-md text-gray-900 dark:text-gray-100 p-5 rounded-2xl font-bold hover:scale-110 hover:shadow-xl transition-all duration-300 border border-gray-100 dark:border-gray-700"
                                     aria-label="GitHub"
                                 >
-                                    <GitHubIcon />
+                                    <FaGithub size={20} className="group-hover:rotate-12 transition-transform" />
                                 </a>
                                 <a
                                     href={hero.linkedin}
@@ -206,7 +249,7 @@ function Home() {
                                     className="group flex items-center justify-center bg-white/80 dark:bg-gray-800/80 backdrop-blur-md text-gray-900 dark:text-gray-100 p-5 rounded-2xl font-bold hover:scale-110 hover:shadow-xl transition-all duration-300 border border-gray-100 dark:border-gray-700"
                                     aria-label="LinkedIn"
                                 >
-                                    <LinkedInIcon />
+                                    <FaLinkedinIn size={20} className="group-hover:scale-110 transition-transform" />
                                 </a>
                             </div>
                         </div>
@@ -220,9 +263,7 @@ function Home() {
                         className="mt-16 text-gray-900/40 dark:text-gray-100/30 hover:text-gray-900/80 dark:hover:text-gray-100/70 transition-colors cursor-pointer outline-none group"
                         aria-label="Scroll to projects"
                     >
-                        <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="group-hover:stroke-[3px] transition-all">
-                            <path d="m7 13 5 5 5-5" /><path d="m7 6 5 5 5-5" />
-                        </svg>
+                        <LuChevronsDown size={36} className="group-hover:stroke-[3px] transition-all" />
                     </motion.button>
                 </div>
             </section>
@@ -248,9 +289,7 @@ function Home() {
                 items={recognitionList}
                 bgClass="bg-white"
             />
-            <div id="contact">
-                <Contact />
-            </div>
+            <Contact />
 
             <Prompt
                 isOpen={isPromptOpen}

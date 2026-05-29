@@ -1,8 +1,8 @@
 import { Link } from "react-router-dom";
-import { Title, FormattedText } from "./components.jsx";
+import { Title, FormattedText } from "../components/components.jsx";
 import { useEffect } from "react";
 import { motion } from 'framer-motion';
-import { fadeUp, TIMING, EASING } from '../utils/animations.js';
+import { LuExternalLink } from "react-icons/lu";
 import { siteContent } from "../data/site_content";
 
 const DocButton = ({ href, label }) => (
@@ -13,9 +13,7 @@ const DocButton = ({ href, label }) => (
         className="inline-flex items-center gap-2 mt-3 px-4 py-2 bg-gray-50 dark:bg-gray-800 hover:bg-blue-600 dark:hover:bg-blue-600 text-gray-900 dark:text-gray-200 hover:text-white rounded-xl text-xs font-bold transition-all duration-300 border border-gray-100 dark:border-gray-700 hover:border-blue-600 dark:hover:border-blue-600 group"
     >
         <span>{label} Docs</span>
-        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="opacity-50 group-hover:opacity-100 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all">
-            <path d="M7 7h10v10" /><path d="M7 17 17 7" />
-        </svg>
+        <LuExternalLink size={12} strokeWidth={3} className="opacity-50 group-hover:opacity-100 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all" />
     </a>
 );
 
@@ -120,12 +118,23 @@ function Legal() {
                                         </div>
                                     </li>
                                     <li>
+                                        <p className="text-gray-900 dark:text-white font-bold mb-1">{legal.libraries.reactIcons.title}</p>
+                                        {legal.libraries.reactIcons.content}
+                                        <div className="flex flex-wrap gap-2">
+                                            <DocButton href="https://react-icons.github.io/react-icons/" label="React Icons" />
+                                        </div>
+                                    </li>
+                                    <li>
                                         <p className="text-gray-900 dark:text-white font-bold mb-1">{legal.libraries.viewSwitcher.title}</p>
                                         {legal.libraries.viewSwitcher.content}
                                     </li>
                                     <li>
                                         <p className="text-gray-900 dark:text-white font-bold mb-1">{legal.libraries.documentTabs.title}</p>
                                         {legal.libraries.documentTabs.content}
+                                    </li>
+                                    <li>
+                                        <p className="text-gray-900 dark:text-white font-bold mb-1">{legal.libraries.reactColorful.title}</p>
+                                        {legal.libraries.reactColorful.content}
                                     </li>
                                 </ul>
                             </div>

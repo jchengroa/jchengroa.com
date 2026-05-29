@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Title, WorkCard, SearchBar, FilterList, Prompt, ViewSwitcherButton, UniversalListCard, SubheaderToggleButton } from "./components.jsx";
+import { Title, WorkCard, SearchBar, FilterList, Prompt, ViewSwitcherButton, UniversalListCard, SubheaderToggleButton } from "../components/components.jsx";
 import { motion, AnimatePresence } from 'framer-motion';
 import { fadeUp, TIMING, EASING } from '../utils/animations.js';
 import { researchList, researchPageContent } from "../data/research";

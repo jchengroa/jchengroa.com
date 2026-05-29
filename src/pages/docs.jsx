@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { Title, SearchBar, ViewSwitcherButton, UniversalListCard, SubheaderToggleButton, useSubheaderToggle } from "./components.jsx";
+import { Title, SearchBar, ViewSwitcherButton, UniversalListCard, SubheaderToggleButton, useSubheaderToggle } from "../components/components.jsx";
 import { motion, AnimatePresence } from 'framer-motion';
 import { docsList, docsSections, docsPageContent } from "../data/docs";
 import { useViewSwitcher } from "../utils/viewSwitcher";
-import DocsOutline from "./DocsOutline";
+import DocsOutline from "../components/DocsOutline";
 import Fuse from 'fuse.js';
 
 const iconLibrary = {

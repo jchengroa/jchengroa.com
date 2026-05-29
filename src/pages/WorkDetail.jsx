@@ -5,7 +5,7 @@ import { researchData } from "../data/research";
 import { recognitionData } from "../data/recognition_list";
 import { toolsList } from "../data/tools_list";
 import { getKeywordEngine, KeywordHighlights, shortenKeyword } from "../utils/keywordEngine";
-import { Prompt, FormattedText, DocumentTabs } from "./components.jsx";
+import { Prompt, FormattedText, DocumentTabs } from "../components/components.jsx";
 import { motion } from 'framer-motion';
 import { fadeUp, TIMING, EASING } from '../utils/animations.js';
 import { siteContent } from "../data/site_content";

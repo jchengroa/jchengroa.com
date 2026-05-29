@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Title, SearchBar, ViewSwitcherButton, UniversalListCard, WorkCard, SubheaderToggleButton } from "./components.jsx";
+import { Title, SearchBar, ViewSwitcherButton, UniversalListCard, WorkCard, SubheaderToggleButton } from "../components/components.jsx";
 import { motion } from 'framer-motion';
 import { toolsList, toolsPageContent } from "../data/tools_list";
 import { useViewSwitcher } from "../utils/viewSwitcher";

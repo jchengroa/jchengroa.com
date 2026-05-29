@@ -2,8 +2,9 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { fadeUp, TIMING, EASING } from "../utils/animations.js";
 import { changelogData } from "../data/changelog";
-import { NavBar, Title, FormattedText, SearchBar } from "./components";
+import { NavBar, Title, FormattedText, SearchBar } from "../components/components";
 import { siteContent } from "../data/site_content";
+import ChangelogOutline from "../components/ChangelogOutline";
 import Fuse from 'fuse.js';
 
 /**
@@ -155,6 +156,8 @@ export default function Changelog() {
     const [entries, setEntries] = useState([]);
     const [loading, setLoading] = useState(true);
 
+    const versionList = changelogData.slice().reverse().map(e => e.version);
+
     useEffect(() => {
         const loadChangelog = () => {
             let data = [...changelogData].reverse(); // Show newest first
@@ -177,6 +180,8 @@ export default function Changelog() {
     return (
         <div className="min-h-screen bg-gray-50/50 dark:bg-gray-950">
             <NavBar name="jchengroa" />
+
+            <ChangelogOutline versions={versionList} />
 
             <main className="max-w-4xl mx-auto px-6 pt-32 pb-24">
                 <AnimatePresence mode="wait">
@@ -217,12 +222,13 @@ export default function Changelog() {
                         <AnimatePresence mode="popLayout">
                             {entries.map((entry, index) => (
                                 <motion.section
+                                    id={`changelog-${entry.version}`}
                                     key={entry.version}
                                     initial={{ opacity: 0, y: 20 }}
                                     animate={{ opacity: 1, y: 0 }}
                                     exit={{ opacity: 0, scale: 0.95 }}
                                     transition={{ duration: 0.4, delay: index * 0.05 }}
-                                    className="relative pl-12 pb-12 border-l-2 border-gray-100 dark:border-gray-800 last:border-0"
+                                    className="relative pl-12 pb-12 border-l-2 border-gray-100 dark:border-gray-800 last:border-0 scroll-mt-36"
                                 >
                                     {/* Timeline Dot */}
                                     <div className="absolute left-[-9px] top-0 w-4 h-4 rounded-full bg-white dark:bg-gray-900 border-4 border-blue-600 shadow-sm" />

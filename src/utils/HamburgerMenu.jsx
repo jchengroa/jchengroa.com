@@ -7,13 +7,13 @@ import { siteContent } from "../data/site_content";
 const { navbar } = siteContent;
 
 const iconMap = {
-    projects: <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.25" strokeLinecap="round" strokeLinejoin="round"><path d="M2 17V5c0-1.1.9-2 2-2h4l2 2h10c1.1 0 2 .9 2 2v10c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2Z" /><path d="M2 9h20" /></svg>,
-    research: <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.25" strokeLinecap="round" strokeLinejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" /><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" /></svg>,
-    recognition: <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.25" strokeLinecap="round" strokeLinejoin="round"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6" /><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18" /><path d="M4 22h16" /><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22" /><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22" /><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z" /></svg>,
-    docs: <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.25" strokeLinecap="round" strokeLinejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z" /><polyline points="14 2 14 8 20 8" /></svg>,
-    tools: <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.25" strokeLinecap="round" strokeLinejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path></svg>,
-    changelog: <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.25" strokeLinecap="round" strokeLinejoin="round"><path d="M12 20h9" /><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4 12.5-12.5z" /></svg>,
-    legal: <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.25" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" /></svg>
+    projects: <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M2 17V5c0-1.1.9-2 2-2h4l2 2h10c1.1 0 2 .9 2 2v10c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2Z" /><path d="M2 9h20" /></svg>,
+    research: <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" /><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" /></svg>,
+    recognition: <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6" /><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18" /><path d="M4 22h16" /><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22" /><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22" /><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z" /></svg>,
+    docs: <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z" /><polyline points="14 2 14 8 20 8" /></svg>,
+    tools: <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path></svg>,
+    changelog: <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 20h9" /><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4 12.5-12.5z" /></svg>,
+    legal: <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" /></svg>
 };
 
 const MENU_ITEMS = navbar.links.map((link) => ({
@@ -64,10 +64,10 @@ const itemVariants = {
 
 function HamburgerIcon({ open }) {
     return (
-        <div className="relative flex h-4 w-5 flex-col justify-between">
+        <div className="relative flex h-5 w-6 flex-col justify-between">
             <motion.span
                 className="block h-[2px] rounded-full bg-gray-900 dark:bg-gray-100"
-                animate={open ? { rotate: 45, y: 7 } : { rotate: 0, y: 0 }}
+                animate={open ? { rotate: 45, y: 9 } : { rotate: 0, y: 0 }}
                 transition={{ duration: 0.2, ease: [0.4, 0, 0.2, 1] }}
             />
             <motion.span
@@ -77,7 +77,7 @@ function HamburgerIcon({ open }) {
             />
             <motion.span
                 className="block h-[2px] rounded-full bg-gray-900 dark:bg-gray-100"
-                animate={open ? { rotate: -45, y: -7 } : { rotate: 0, y: 0 }}
+                animate={open ? { rotate: -45, y: -9 } : { rotate: 0, y: 0 }}
                 transition={{ duration: 0.2, ease: [0.4, 0, 0.2, 1] }}
             />
         </div>
@@ -89,8 +89,8 @@ function MenuItem({ item, activePath, onSelect }) {
 
     if (!item.active) {
         return (
-            <div className="flex items-center justify-between rounded-xl px-3 py-2.5 text-sm font-semibold text-gray-300 dark:text-gray-600">
-                <div className="flex items-center gap-3">
+            <div className="flex items-center justify-between rounded-xl px-4 py-3 text-sm font-semibold text-gray-300 dark:text-gray-600">
+                <div className="flex items-center gap-3.5">
                     <span className="text-gray-300 dark:text-gray-700">{item.icon}</span>
                     <span>{item.label}</span>
                 </div>
@@ -106,12 +106,12 @@ function MenuItem({ item, activePath, onSelect }) {
             to={item.to}
             onClick={onSelect}
             aria-current={isCurrent ? "page" : undefined}
-            className={`group flex items-center justify-between rounded-xl px-3 py-2.5 text-sm font-semibold transition-colors ${isCurrent
+            className={`group flex items-center justify-between rounded-xl px-4 py-3 text-sm font-semibold transition-colors ${isCurrent
                 ? "bg-blue-50 text-blue-700 dark:bg-blue-950/40 dark:text-blue-200"
                 : "text-gray-700 hover:bg-gray-50 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-gray-800 dark:hover:text-white"
                 }`}
         >
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-3.5">
                 <span className={isCurrent ? "text-blue-600 dark:text-blue-300" : "text-gray-400 group-hover:text-blue-600 dark:text-gray-500 dark:group-hover:text-blue-400"}>
                     {item.icon}
                 </span>
@@ -228,7 +228,7 @@ function HamburgerMenu() {
                 aria-expanded={open}
                 aria-controls="hamburger-menu-panel"
                 onClick={() => setOpen((value) => !value)}
-                className="flex h-11 w-11 items-center justify-center rounded-xl transition-colors duration-200 hover:bg-gray-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 dark:hover:bg-gray-800 min-h-[44px] min-w-[44px]"
+                className="flex h-12 w-12 items-center justify-center rounded-xl transition-colors duration-200 hover:bg-gray-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 dark:hover:bg-gray-800 min-h-[48px] min-w-[48px]"
             >
                 <HamburgerIcon open={open} />
             </button>
@@ -243,9 +243,9 @@ function HamburgerMenu() {
                         initial="hidden"
                         animate="visible"
                         exit="exit"
-                        className="absolute right-0 top-[calc(100%+0.75rem)] z-[120] w-[min(20rem,calc(100vw-1rem))] sm:w-[min(22rem,calc(100vw-2rem))] overflow-hidden rounded-2xl md:rounded-[1.75rem] border border-gray-100 bg-white/95 shadow-[0_24px_60px_-24px_rgba(15,23,42,0.35)] backdrop-blur-2xl dark:border-gray-800 dark:bg-gray-900/95 dark:shadow-black/50"
+                        className="absolute right-0 top-[calc(100%+0.75rem)] z-[120] w-[min(22rem,calc(100vw-1rem))] sm:w-[min(24rem,calc(100vw-2rem))] overflow-hidden rounded-2xl md:rounded-[1.75rem] border border-gray-100 bg-white/95 shadow-[0_24px_60px_-24px_rgba(15,23,42,0.35)] backdrop-blur-2xl dark:border-gray-800 dark:bg-gray-900/95 dark:shadow-black/50"
                     >
-                        <div className="max-h-[min(70vh,34rem)] overflow-y-auto p-2">
+                        <div className="max-h-[min(70vh,34rem)] overflow-y-auto p-3">
                             <div className="space-y-1">
                                 {PRIMARY_ITEMS.map((item, index) => (
                                     <motion.div
@@ -265,7 +265,7 @@ function HamburgerMenu() {
                             </div>
 
                             {SECONDARY_ITEMS.length > 0 && (
-                                <div className="mt-3 border-t border-gray-100 pt-3 dark:border-gray-800">
+                                <div className="mt-4 border-t border-gray-100 pt-4 dark:border-gray-800">
                                     <div className="space-y-1">
                                         {SECONDARY_ITEMS.map((item, index) => (
                                             <motion.div
@@ -286,7 +286,7 @@ function HamburgerMenu() {
                                 </div>
                             )}
 
-                            <div className="mt-3 border-t border-gray-100 pt-3 dark:border-gray-800">
+                            <div className="mt-4 border-t border-gray-100 pt-4 dark:border-gray-800">
                                 <div className="flex items-center rounded-xl text-sm font-semibold text-gray-700 transition-colors hover:bg-gray-50 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-gray-800 dark:hover:text-white group">
                                     <button
                                         ref={firstActionRef}
@@ -295,10 +295,10 @@ function HamburgerMenu() {
                                             window.dispatchEvent(new CustomEvent('openSettings'));
                                             setOpen(false);
                                         }}
-                                        className="flex items-center gap-3 flex-1 px-3 py-2.5 text-left"
+                                        className="flex items-center gap-3.5 flex-1 px-4 py-3 text-left"
                                     >
                                         <span className="text-gray-400 dark:text-gray-500 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.25" strokeLinecap="round" strokeLinejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z" /><circle cx="12" cy="12" r="3" /></svg>
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.25" strokeLinecap="round" strokeLinejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z" /><circle cx="12" cy="12" r="3" /></svg>
                                         </span>
                                         <span>{navbar.settings.title}</span>
                                     </button>
@@ -308,7 +308,7 @@ function HamburgerMenu() {
                                             e.stopPropagation();
                                             setSettingsOpen((value) => !value);
                                         }}
-                                        className="p-2 mr-1 rounded-lg hover:bg-gray-200/50 dark:hover:bg-gray-700/50 transition-colors flex-shrink-0"
+                                        className="p-2.5 mr-1 rounded-lg hover:bg-gray-200/50 dark:hover:bg-gray-700/50 transition-colors flex-shrink-0"
                                     >
                                         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.25" strokeLinecap="round" strokeLinejoin="round" className={`transition-transform ${settingsOpen ? "rotate-90" : "opacity-40"}`}>
                                             <path d="m9 18 6-6-6-6" />
@@ -324,11 +324,11 @@ function HamburgerMenu() {
                                             exit={{ height: 0, opacity: 0 }}
                                             className="overflow-hidden"
                                         >
-                                            <div className="mt-1 space-y-1.5 rounded-xl bg-gray-50/70 p-2 dark:bg-gray-950/40">
-                                                <div className="flex items-center justify-between rounded-lg px-3 py-2 text-sm font-medium text-gray-600 dark:text-gray-400">
+                                            <div className="mt-1.5 space-y-2 rounded-xl bg-gray-50/70 p-3 dark:bg-gray-950/40">
+                                                <div className="flex items-center justify-between rounded-lg px-3 py-2.5 text-sm font-medium text-gray-600 dark:text-gray-400">
                                                     <div className="flex items-center gap-3">
                                                         <span>
-                                                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.25" strokeLinecap="round" strokeLinejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z" /></svg>
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.25" strokeLinecap="round" strokeLinejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z" /></svg>
                                                         </span>
                                                         <span>{navbar.settings.themeMode || "Theme Mode"}</span>
                                                     </div>
@@ -357,10 +357,10 @@ function HamburgerMenu() {
                                                     </div>
                                                 </div>
 
-                                                <div className="flex items-center justify-between rounded-lg px-3 py-2 text-sm font-medium text-gray-600 dark:text-gray-400 border-t border-gray-100 dark:border-gray-800/50 pt-2.5">
+                                                <div className="flex items-center justify-between rounded-lg px-3 py-2.5 text-sm font-medium text-gray-600 dark:text-gray-400 border-t border-gray-100 dark:border-gray-800/50 pt-3">
                                                     <div className="flex items-center gap-3">
                                                         <span>
-                                                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.25" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z" /></svg>
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.25" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z" /></svg>
                                                         </span>
                                                         <span>{navbar.settings.accentColor || "Accent Color"}</span>
                                                     </div>
@@ -387,7 +387,7 @@ function HamburgerMenu() {
                                                             window.location.reload();
                                                         }
                                                     }}
-                                                    className="flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-red-500/80 transition-colors hover:bg-red-50 hover:text-red-600 dark:text-red-400/80 dark:hover:bg-red-950/20 dark:hover:text-red-300 border-t border-gray-100 dark:border-gray-800/50 mt-1 pt-2.5"
+                                                    className="flex w-full items-center gap-3 rounded-lg px-3 py-3 text-sm font-medium text-red-500/80 transition-colors hover:bg-red-50 hover:text-red-600 dark:text-red-400/80 dark:hover:bg-red-950/20 dark:hover:text-red-300 border-t border-gray-100 dark:border-gray-800/50 mt-1.5 pt-3"
                                                 >
                                                     <span>
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.25" strokeLinecap="round" strokeLinejoin="round"><path d="M3 6h18" /><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" /><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" /><line x1="10" y1="11" x2="10" y2="17" /><line x1="14" y1="11" x2="14" y2="17" /></svg>

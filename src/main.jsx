@@ -5,24 +5,38 @@ import './index.css'
 import { BrowserRouter, Routes, Route, Link } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import NavBar from './components/components.jsx'
-import Home from './components/home.jsx'
-import Projects from './components/projects.jsx'
-import WorkDetail from './components/WorkDetail.jsx'
-import Legal from './components/Legal.jsx'
-import Research from './components/research.jsx'
-import Recognition from './components/recognition.jsx'
-import Tools from './components/tools.jsx'
-import Docs from './components/docs.jsx'
+import Home from './pages/home.jsx'
+import Projects from './pages/projects.jsx'
+import WorkDetail from './pages/WorkDetail.jsx'
+import Legal from './pages/Legal.jsx'
+import Research from './pages/research.jsx'
+import Recognition from './pages/recognition.jsx'
+import Tools from './pages/tools.jsx'
+import Docs from './pages/docs.jsx'
 import DocDetail from './components/DocDetail.jsx'
-import SettingsModal from './components/SettingsModal.jsx'
-import Changelog, { ChangelogPopup } from './components/Changelog.jsx'
+import SettingsModal from './pages/SettingsModal.jsx'
+import Changelog, { ChangelogPopup } from './pages/Changelog.jsx'
 import { DownloadManager } from './utils/DownloadManager.jsx'
 import { changelogData } from './data/changelog.js'
 import { siteContent } from './data/site_content.js'
+import { applyCustomAccent } from './utils/colorUtils.js'
 
 function App() {
     const { footer } = siteContent;
     const [settingsOpen, setSettingsOpen] = useState(false);
+
+    useEffect(() => {
+        const accentColor = localStorage.getItem('accentColor');
+        const customHex = localStorage.getItem('customAccentColor');
+        if (accentColor === 'custom' && customHex) {
+            applyCustomAccent(customHex);
+            document.documentElement.setAttribute('data-custom-accent', 'true');
+        }
+        const monochrome = localStorage.getItem('jchengroa_monochrome');
+        if (monochrome === 'true') {
+            document.documentElement.setAttribute('data-monochrome', 'true');
+        }
+    }, []);
 
     useEffect(() => {
         const handler = () => setSettingsOpen(true);

@@ -2,8 +2,8 @@ export const siteContent = {
     home: {
         hero: {
             title: "John Carlo Cheng Roa",
-            subtitle: "I am a 2nd-year Computer Engineering student at De La Salle University with a passion for building robust digital systems.",
-            description: "Currently maintaining cloud-hosted ERPNext instances and managing secure infrastructure reliability, with a drive toward systems administration and DevOps.",
+            subtitle: "I am a 2nd year Computer Engineering student at De La Salle University with experience in systems administration, DevOps, and full-stack web development.",
+            description: " I have experience maintaining a small-scale home lab environment utilizing TrueNAS and Nginx as a reverse proxy to host and manage a private Nextcloud server. Currently, I'm maintaining a secure, cloud-hosted ERPNext instance for an SME.",
             cta: "Get In Touch",
             email: "johncarlochengroa07@gmail.com",
             github: "https://github.com/jchengroa",
@@ -76,6 +76,10 @@ export const siteContent = {
                 title: "Axios",
                 content: "Used in the custom Download Manager to fetch files as Blobs with real-time download progress tracking (speed, loaded/total bytes, cancel/abort tokens)."
             },
+            reactIcons: {
+                title: "React Icons",
+                content: "Provides reusable React icon components for brand marks and Lucide-style utility icons, reducing repeated inline SVG markup."
+            },
             viewSwitcher: {
                 title: "View Switcher Utility",
                 content: "A custom universal React hook (useViewSwitcher) utilizing localStorage and CustomEvent to seamlessly toggle between Grid and List views across Projects, Research, Recognition, and Tools."
@@ -83,6 +87,10 @@ export const siteContent = {
             documentTabs: {
                 title: "Document Tabs Navigation",
                 content: "A sleek, responsive Google Docs and React documentation-style sticky navigation sidebar built with Framer Motion, enabling smooth scrolling and real-time active section highlighting."
+            },
+            reactColorful: {
+                title: "React Colorful",
+                content: "A tiny, tree-shakeable color picker component used in the Settings panel for custom accent color selection with full palette generation."
             }
         },
         privacy: {
