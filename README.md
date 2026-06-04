@@ -81,83 +81,83 @@ jchengroa.com/
 ├── .github/
 │   └── workflows/
 │       └── deploy.yml
+├── .gitignore
+├── Dockerfile
+├── docs/
+│   └── index.html
+├── index.html
+├── package-lock.json
+├── package.json
 ├── public/
-│   ├── CloudBasedResources/
-│   │   ├── cbimage1.png
-│   │   ├── cbimage2.png
-│   │   ├── cbimage3.png
-│   │   └── cbimage4.png
+│   ├── bg1.jpg
+│   ├── bg2.jpg
+│   ├── bg3.jpg
+│   ├── bg4.jpg
+│   ├── cloud1.jpg
+│   ├── cloud2.jpg
+│   ├── cloud3.jpg
+│   ├── cloud4.jpg
 │   ├── Documents/
 │   │   ├── JHS1.pdf
 │   │   ├── SHS1.pdf
 │   │   ├── SHS2.pdf
 │   │   └── UGP1.pdf
-│   ├── jchengroacomResources/
-│   │   ├── webcom1.png
-│   │   ├── webcom2.png
-│   │   ├── webcom3.png
-│   │   └── webcom4.png
-│   ├── hero_background_1.jpg
-│   ├── hero_background_2.jpg
-│   ├── hero_background_4.png
-│   ├── hero_background_5.png
-│   └── logo.png
+│   ├── logo.png
+│   ├── web1.jpg
+│   ├── web2.jpg
+│   ├── web3.jpg
+│   └── web4.jpg
+├── README.md
 ├── scripts/
 │   └── sync-changelog.js
 ├── src/
 │   ├── components/
-│   │   ├── ChangelogOutline.jsx
-│   │   ├── DocDetail.jsx
-│   │   ├── DocsOutline.jsx
-│   │   ├── DocumentTabs.jsx
-│   │   ├── Prompt.jsx
 │   │   ├── cards.jsx
+│   │   ├── changelogOutline.jsx
 │   │   ├── components.jsx
 │   │   ├── controls.jsx
+│   │   ├── docDetail.jsx
+│   │   ├── docsOutline.jsx
+│   │   ├── documentTabs.jsx
 │   │   ├── navigation.jsx
+│   │   ├── prompt.jsx
 │   │   └── typography.jsx
 │   ├── data/
 │   │   ├── changelog.js
 │   │   ├── docs.js
-│   │   ├── docs_list.js
+│   │   ├── docsList.js
 │   │   ├── keywords.js
-│   │   ├── project_list.js
+│   │   ├── projectList.js
 │   │   ├── projects.js
-│   │   ├── recognition_list.js
+│   │   ├── recognitionList.js
 │   │   ├── research.js
-│   │   ├── research_list.js
-│   │   ├── site_content.js
-│   │   └── tools_list.js
+│   │   ├── researchList.js
+│   │   ├── siteContent.js
+│   │   └── toolsList.js
+│   ├── docsMain.jsx
+│   ├── index.css
+│   ├── main.jsx
 │   ├── pages/
-│   │   ├── Changelog.jsx
-│   │   ├── Legal.jsx
-│   │   ├── SettingsModal.jsx
-│   │   ├── WorkDetail.jsx
+│   │   ├── changelog.jsx
 │   │   ├── docs.jsx
 │   │   ├── home.jsx
+│   │   ├── legal.jsx
 │   │   ├── projects.jsx
 │   │   ├── recognition.jsx
 │   │   ├── research.jsx
-│   │   └── tools.jsx
+│   │   ├── settingsModal.jsx
+│   │   ├── tools.jsx
+│   │   └── workDetail.jsx
 │   ├── tools/
-│   │   └── TicTacToe.jsx
-│   ├── utils/
-│   │   ├── DownloadManager.jsx
-│   │   ├── HamburgerMenu.jsx
-│   │   ├── animations.js
-│   │   ├── colorUtils.js
-│   │   ├── keywordEngine.jsx
-│   │   ├── subheaderToggle.js
-│   │   └── viewSwitcher.jsx
-│   ├── index.css
-│   └── main.jsx
-├── .gitignore
-├── Dockerfile
-├── Document
-├── index.html
-├── package-lock.json
-├── package.json
-├── README.md
+│   │   └── ticTacToe.jsx
+│   └── utils/
+│       ├── animations.js
+│       ├── colorUtils.js
+│       ├── downloadManager.jsx
+│       ├── hamburgerMenu.jsx
+│       ├── keywordEngine.jsx
+│       ├── subheaderToggle.js
+│       └── viewSwitcher.jsx
 └── vite.config.js
 ```
 
