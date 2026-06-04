@@ -368,3 +368,6 @@ Fixed the features carousel visual bug.
 Updated docs section to its own page to be more functional and focused.
 Optimized the entire website and compressed image files to make it faster and work better on low end devices.
 Reorganized some files for a more efficient workflow.
+
+- [0.11.2] - 2026-06-05
+Fixed severe routing bugs.

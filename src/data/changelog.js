@@ -324,5 +324,12 @@ export const changelogData = [
       "Optimized the entire website and compressed image files to make it faster and work better on low end devices.",
       "Reorganized some files for a more efficient workflow."
     ]
+  },
+  {
+    "version": "0.11.2",
+    "date": "2026-06-05",
+    "content": [
+      "Fixed severe routing bugs."
+    ]
   }
 ];
