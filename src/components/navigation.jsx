@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
-import HamburgerMenu from "../utils/HamburgerMenu.jsx";
-import { siteContent } from "../data/site_content";
+import HamburgerMenu from "../utils/hamburgerMenu.jsx";
+import { siteContent } from "../data/siteContent";
 
 function NavBar() {
     const { navbar } = siteContent;
@@ -35,18 +35,21 @@ function NavBar() {
 
                             {/* Desktop Navigation Links */}
                             <nav className="hidden xl:flex items-center gap-1 border-l border-gray-100 dark:border-gray-800 pl-8 ml-2">
-                                {navbar.links.filter(l => l.showInNavbar).map((link) => (
-                                    link.active ? (
-                                        <Link
+                                {navbar.links.filter(l => l.showInNavbar).map((link) => {
+                                    const NavComponent = link.to === '/docs' ? 'a' : Link;
+                                    const navProps = link.to === '/docs' ? { href: link.to } : { to: link.to };
+                                    
+                                    return link.active ? (
+                                        <NavComponent
                                             key={link.label}
-                                            to={link.to}
+                                            {...navProps}
                                             className="flex items-center px-4 py-2 rounded-xl text-gray-500 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-all font-bold text-sm group"
                                         >
                                             <span className="opacity-50 group-hover:opacity-100 transition-opacity">
                                                 {iconMap[link.icon]}
                                             </span>
                                             {link.label}
-                                        </Link>
+                                        </NavComponent>
                                     ) : (
                                         <div
                                             key={link.label}
@@ -57,8 +60,8 @@ function NavBar() {
                                             </span>
                                             {link.label}
                                         </div>
-                                    )
-                                ))}
+                                    );
+                                })}
                             </nav>
                         </div>
 

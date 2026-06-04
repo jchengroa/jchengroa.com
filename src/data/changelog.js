@@ -315,5 +315,14 @@ export const changelogData = [
       "Fixed Visual Bugs across all platforms ang pages.",
       "Fixed the features carousel visual bug."
     ]
+  },
+  {
+    "version": "0.11.1",
+    "date": "2026-06-05",
+    "content": [
+      "Updated docs section to its own page to be more functional and focused.",
+      "Optimized the entire website and compressed image files to make it faster and work better on low end devices.",
+      "Reorganized some files for a more efficient workflow."
+    ]
   }
 ];

@@ -2,14 +2,14 @@ import React from 'react';
 import { WorkCard, Title, Prompt, ContactCard } from '../components/components.jsx';
 import { projectsList } from '../data/projects';
 import { researchList } from '../data/research';
-import { recognitionList } from '../data/recognition_list';
+import { recognitionList } from '../data/recognitionList';
 import useEmblaCarousel from 'embla-carousel-react';
 import Autoplay from 'embla-carousel-autoplay';
 import { motion } from 'framer-motion';
 import { FaFacebookF, FaGithub, FaLinkedinIn } from 'react-icons/fa';
 import { LuChevronLeft, LuChevronRight, LuChevronsDown, LuMail } from 'react-icons/lu';
 import { getKeywordEngine, KeywordHighlights } from '../utils/keywordEngine';
-import { siteContent } from '../data/site_content';
+import { siteContent } from '../data/siteContent';
 
 function WorkCarousel({ id, title, subtitle, items, bgClass, isResearch }) {
     const [emblaRef, emblaApi] = useEmblaCarousel(
@@ -139,10 +139,10 @@ function Contact() {
 }
 
 const HERO_IMAGES = [
-    '/hero_background_1.jpg',
-    '/hero_background_2.jpg',
-    '/hero_background_4.png',
-    '/hero_background_5.png'
+    '/bg1.jpg',
+    '/bg2.jpg',
+    '/bg3.jpg',
+    '/bg4.jpg'
 ];
 
 function Home() {

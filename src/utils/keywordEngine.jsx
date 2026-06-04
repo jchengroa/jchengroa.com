@@ -1,6 +1,6 @@
 import { projectsList } from "../data/projects";
 import { researchList } from "../data/research";
-import { recognitionList } from "../data/recognition_list";
+import { recognitionList } from "../data/recognitionList";
 import React from 'react';
 import _ from 'lodash';
 import { useSubheaderToggle } from "./subheaderToggle.js";

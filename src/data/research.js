@@ -1,4 +1,4 @@
-import { researchList, researchData } from './research_list';
+import { researchList, researchData } from './researchList';
 
 export const researchPageContent = {
     title: "Research",

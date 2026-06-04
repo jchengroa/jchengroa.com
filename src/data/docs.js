@@ -1,4 +1,4 @@
-import { docsList, docsSections } from './docs_list';
+import { docsList, docsSections } from './docsList';
 
 export const docsPageContent = {
     title: "Temporary",

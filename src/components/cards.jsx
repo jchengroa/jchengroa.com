@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import { shortenKeyword } from "../utils/keywordEngine";
-import { siteContent } from "../data/site_content";
+import { siteContent } from "../data/siteContent";
 import { FormattedText } from "./typography.jsx";
 
 function WorkCard(props) {

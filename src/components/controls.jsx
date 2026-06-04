@@ -1,6 +1,6 @@
 import { useViewSwitcher } from "../utils/viewSwitcher";
 import { useSubheaderToggle } from "../utils/subheaderToggle.js";
-import { siteContent } from "../data/site_content";
+import { siteContent } from "../data/siteContent";
 
 function SearchBar({ searchQuery, setSearchQuery }) {
     const { common } = siteContent;

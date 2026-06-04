@@ -7,18 +7,17 @@ import { useState, useEffect } from 'react'
 import NavBar from './components/components.jsx'
 import Home from './pages/home.jsx'
 import Projects from './pages/projects.jsx'
-import WorkDetail from './pages/WorkDetail.jsx'
-import Legal from './pages/Legal.jsx'
+import WorkDetail from './pages/workDetail.jsx'
+import Legal from './pages/legal.jsx'
 import Research from './pages/research.jsx'
 import Recognition from './pages/recognition.jsx'
 import Tools from './pages/tools.jsx'
-import Docs from './pages/docs.jsx'
-import DocDetail from './components/DocDetail.jsx'
-import SettingsModal from './pages/SettingsModal.jsx'
-import Changelog, { ChangelogPopup } from './pages/Changelog.jsx'
-import { DownloadManager } from './utils/DownloadManager.jsx'
+
+import SettingsModal from './pages/settingsModal.jsx'
+import Changelog, { ChangelogPopup } from './pages/changelog.jsx'
+import { DownloadManager } from './utils/downloadManager.jsx'
 import { changelogData } from './data/changelog.js'
-import { siteContent } from './data/site_content.js'
+import { siteContent } from './data/siteContent.js'
 import { applyCustomAccent } from './utils/colorUtils.js'
 
 function App() {
@@ -73,8 +72,7 @@ function App() {
                     <Route path="/research" element={<Research />} />
                     <Route path="/recognition" element={<Recognition />} />
                     <Route path="/tools" element={<Tools />} />
-                    <Route path="/docs" element={<Docs />} />
-                    <Route path="/docs/:id" element={<DocDetail />} />
+
                     <Route path="/project/:id" element={<WorkDetail />} />
                     <Route path="/legal" element={<Legal />} />
                     <Route path="/changelog" element={<Changelog />} />

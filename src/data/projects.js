@@ -1,4 +1,4 @@
-import { projectsList, projectData } from './project_list';
+import { projectsList, projectData } from './projectList';
 
 export const projectsPageContent = {
     title: "Projects",

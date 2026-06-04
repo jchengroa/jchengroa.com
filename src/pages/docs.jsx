@@ -4,7 +4,7 @@ import { Title, SearchBar, ViewSwitcherButton, UniversalListCard, SubheaderToggl
 import { motion, AnimatePresence } from 'framer-motion';
 import { docsList, docsSections, docsPageContent } from "../data/docs";
 import { useViewSwitcher } from "../utils/viewSwitcher";
-import DocsOutline from "../components/DocsOutline";
+import DocsOutline from "../components/docsOutline";
 import Fuse from 'fuse.js';
 
 const iconLibrary = {
@@ -48,7 +48,7 @@ function DocCard({ doc, id }) {
 
   return (
     <div id={id} className="block group h-full scroll-mt-36">
-      <Link to={doc.linkUrl} className="block h-full">
+      <Link to={`/${doc.id}`} className="block h-full">
         <div className="bg-white dark:bg-gray-900 rounded-[2.5rem] p-8 border border-gray-100 dark:border-gray-800 shadow-sm hover:shadow-3xl transition-all duration-500 h-full flex flex-col overflow-hidden relative">
           <div className="absolute -inset-1 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-[2.5rem] blur-xl opacity-0 group-hover:opacity-5 dark:group-hover:opacity-10 transition duration-500"></div>
 
@@ -109,39 +109,40 @@ function Docs() {
   const filteredDocs = filterDocs();
 
   return (
-    <section
-      id="docs"
-      className="relative min-h-screen pt-32 pb-20 px-6 flex flex-col items-center overflow-hidden bg-gray-50/50 dark:bg-gray-950"
-    >
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full max-w-7xl pointer-events-none opacity-20 dark:opacity-10">
-        <div className="absolute top-1/4 left-0 w-96 h-96 bg-blue-200 dark:bg-blue-900 rounded-full mix-blend-multiply filter blur-3xl animate-pulse"></div>
-        <div className="absolute bottom-1/4 right-0 w-96 h-96 bg-emerald-200 dark:bg-emerald-900 rounded-full mix-blend-multiply filter blur-3xl animate-pulse delay-700"></div>
-      </div>
+    <div className="flex w-full min-h-[calc(100vh-64px)] items-start">
+      {!isSearchingText && (
+        <DocsOutline sections={docsSections} docs={filteredDocs} />
+      )}
 
-      <div className="max-w-6xl w-full z-10">
-        <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, ease: "easeOut" }} className="relative text-center w-full mb-16">
-          <Title
-            title={docsPageContent.title}
-            subtitle={docsPageContent.subtitle}
-          />
+      <section
+        id="docs"
+        className="flex-1 min-w-0 relative flex flex-col items-center pt-16 pb-20 px-6 overflow-hidden"
+      >
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full max-w-7xl pointer-events-none opacity-20 dark:opacity-10">
+          <div className="absolute top-1/4 left-0 w-96 h-96 bg-blue-200 dark:bg-blue-900 rounded-full mix-blend-multiply filter blur-3xl animate-pulse"></div>
+          <div className="absolute bottom-1/4 right-0 w-96 h-96 bg-emerald-200 dark:bg-emerald-900 rounded-full mix-blend-multiply filter blur-3xl animate-pulse delay-700"></div>
+        </div>
 
-          <SearchBar
-            searchQuery={searchQuery}
-            setSearchQuery={setSearchQuery}
-          />
-          <AnimatePresence>
-            {!isSearchingText && (
-              <motion.div key="controls" initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} transition={{ duration: 0.2 }} className="flex flex-wrap items-center justify-center gap-4 mt-6">
-                <ViewSwitcherButton />
-                <SubheaderToggleButton />
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </motion.div>
+        <div className="w-full z-10 flex flex-col items-center max-w-6xl mx-auto">
+          <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, ease: "easeOut" }} className="relative text-center w-full max-w-4xl mb-16">
+            <Title
+              title={docsPageContent.title}
+              subtitle={docsPageContent.subtitle}
+            />
 
-        {!isSearchingText && (
-          <DocsOutline sections={docsSections} docs={filteredDocs} />
-        )}
+            <SearchBar
+              searchQuery={searchQuery}
+              setSearchQuery={setSearchQuery}
+            />
+            <AnimatePresence>
+              {!isSearchingText && (
+                <motion.div key="controls" initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} transition={{ duration: 0.2 }} className="flex flex-wrap items-center justify-center gap-4 mt-6">
+                  <ViewSwitcherButton />
+                  <SubheaderToggleButton />
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </motion.div>
 
         <div className="space-y-24">
           {isSearchingText ? (
@@ -179,8 +180,9 @@ function Docs() {
             <p className="text-gray-500 dark:text-gray-600 mt-2">{docsPageContent.noResults.subtitle}</p>
           </motion.div>
         )}
-      </div>
-    </section>
+        </div>
+      </section>
+    </div>
   );
 }
 
@@ -222,10 +224,10 @@ function DocSection({ id, title, description, docs, view, delay, hideHeader, isV
                 info={docsSections.find(s => s.id === doc.section)?.title || doc.section}
                 tech={doc.tech}
                 description={doc.description}
-                linkURL={doc.linkUrl}
+                linkURL={`/${doc.id}`}
                 linkName="View Docs"
                 category={doc.section}
-                linkTo={`/docs/${doc.id}`}
+                linkTo={`/${doc.id}`}
               />
             ) : (
               <DocCard doc={doc} id={`doc-${doc.id}`} />
