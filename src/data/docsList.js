@@ -1,511 +1,159 @@
 export const docsSections = [
-  { id: "temporary-1", title: "Temporary", description: "Temporary" },
-  { id: "temporary-2", title: "Temporary", description: "Temporary" },
-  { id: "temporary-3", title: "Temporary", description: "Temporary" },
-  { id: "temporary-4", title: "Temporary", description: "Temporary" },
-  { id: "temporary-5", title: "Temporary", description: "Temporary" }
+  { id: "getting-started", title: "Getting Started", description: "Setting up, running locally, and overall folder structure of the website." },
+  { id: "customization", title: "Theme & Styling", description: "Configuration of accent colors, custom colors, dark/light modes, and animations." },
+  { id: "interactive-tools", title: "Interactive Tools", description: "Deep-dives into features like the Minimax AI Tic-Tac-Toe and other tool views." },
+  { id: "core-engines", title: "Core Engines", description: "Understanding the keyword highlights and the client-side fuzzy search implementation." },
+  { id: "operations", title: "Operations & Build", description: "Details about Docker, CI/CD, and deployment on a Contabo VPS." }
 ];
 
 export const docsList = [
   {
-    id: "temporary-1",
-    title: "Temporary",
-    description: "Temporary",
+    id: "getting-started-overview",
+    title: "Project Overview & Structure",
+    description: "An overview of the portfolio architecture and folder conventions.",
     icon: "rocket",
     iconColor: "blue",
-    section: "temporary-1",
-    tech: ["Temporary", "Temporary", "Temporary"],
-    linkUrl: "/docs/temporary-1",
+    section: "getting-started",
+    tech: ["React 19", "Vite", "Tailwind CSS"],
+    linkUrl: "/docs/getting-started-overview",
+    lastUpdated: "2026-06-10",
     outline: [
-      { id: "temporary-1", label: "Temporary", sub: ["Temporary", "Temporary", "Temporary"] },
-      { id: "temporary-2", label: "Temporary", sub: ["Temporary", "Temporary", "Temporary"] },
-      { id: "temporary-3", label: "Temporary", sub: ["Temporary", "Temporary", "Temporary"] }
+      { id: "architecture", label: "System Architecture", sub: ["Frontend Stack", "Routing Scheme"] },
+      { id: "folders", label: "Folder Conventions", sub: ["Components", "Data", "Pages"] }
     ],
     content: {
-      intro: "Temporary",
+      intro: "This portfolio is a single-page application built using modern frontend paradigms to achieve maximum responsiveness and high-resolution visual layout aesthetics.",
       sections: [
-        { heading: "Temporary", subheading: "Temporary", text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat." },
-        { heading: "Temporary", subheading: "Temporary", text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua." },
-        { heading: "Temporary", subheading: "Temporary", text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris." }
+        {
+          heading: "System Architecture",
+          subheading: "Architecture",
+          text: "The application uses React 19 as the core UI rendering library, coupled with Vite for extremely fast hot-module replacement (HMR) during development. Tailwind CSS v4.0 is integrated for utility-first styling, using a fully fluid layout design that stretches to fit mobile devices and ultrawide screens alike."
+        },
+        {
+          heading: "Folder Structure Overview",
+          subheading: "Folders",
+          text: "The codebase is organized logically into key sub-directories under src/:\n- `components/`: Pure visual cards, outlines, navigation, and feedback wrappers.\n- `data/`: Centralized site content, project databases, and list variables.\n- `pages/`: Individual entry pages (e.g., Home, Projects, Tools, Docs).\n- `utils/`: Reusable helper scripts, download managers, and math logic engines."
+        }
       ]
     }
   },
   {
-    id: "temporary-2",
-    title: "Temporary",
-    description: "Temporary",
-    icon: "package",
-    iconColor: "green",
-    section: "temporary-1",
-    tech: ["Temporary", "Temporary", "Temporary"],
-    linkUrl: "/docs/temporary-2",
-    outline: [
-      { id: "temporary-4", label: "Temporary", sub: ["Temporary", "Temporary", "Temporary"] },
-      { id: "temporary-5", label: "Temporary", sub: ["Temporary", "Temporary", "Temporary"] },
-      { id: "temporary-6", label: "Temporary", sub: ["Temporary", "Temporary", "Temporary"] }
-    ],
-    content: {
-      intro: "Temporary",
-      sections: [
-        { heading: "Temporary", subheading: "Temporary", text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua." },
-        { heading: "Temporary", subheading: "Temporary", text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam." },
-        { heading: "Temporary", subheading: "Temporary", text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip." }
-      ]
-    }
-  },
-  {
-    id: "temporary-3",
-    title: "Temporary",
-    description: "Temporary",
+    id: "theme-customization",
+    title: "Theme & Accent Customization",
+    description: "Detailed guide on the custom accent color generator and light/dark theme matching.",
     icon: "wrench",
     iconColor: "amber",
-    section: "temporary-1",
-    tech: ["Temporary", "Temporary", "Temporary"],
-    linkUrl: "/docs/temporary-3",
+    section: "customization",
+    tech: ["CSS variables", "LocalStorage", "React Colorful"],
+    linkUrl: "/docs/theme-customization",
+    lastUpdated: "2026-06-10",
     outline: [
-      { id: "temporary-7", label: "Temporary", sub: ["Temporary", "Temporary", "Temporary"] },
-      { id: "temporary-8", label: "Temporary", sub: ["Temporary", "Temporary", "Temporary"] }
+      { id: "accent-colors", label: "Accent Colors Engine", sub: ["Default Palettes", "Custom Hex Color Picker"] },
+      { id: "theme-detection", label: "Auto Theme Detection", sub: ["OS Prefers Color Scheme", "Theme Persistence"] }
     ],
     content: {
-      intro: "Temporary",
+      intro: "The website implements a robust customization engine allowing users to select preset accent colors, pick custom colors using an HSV color-wheel, and configure animation levels.",
       sections: [
-        { heading: "Temporary", subheading: "Temporary", text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua." },
-        { heading: "Temporary", subheading: "Temporary", text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris." }
+        {
+          heading: "Dynamic Accent Colors",
+          subheading: "Accent Color Engine",
+          text: "Accent colors are updated dynamically using CSS custom properties (variables) defined at the document root level. When a user selects a color or inputs a custom hexadecimal value, the system computes related shades and sets the root styling variables. This propagates instantly through all Tailwind-styled borders, buttons, and gradient overlays."
+        },
+        {
+          heading: "Theme Syncing & Dark Mode",
+          subheading: "Themes",
+          text: "Theme management supports Light Mode, Dark Mode, and System Default. When set to 'System Default', the app utilizes media queries (`window.matchMedia('(prefers-color-scheme: dark)')`) to detect the browser's current theme, adding or removing the 'dark' utility class dynamically."
+        }
       ]
     }
   },
   {
-    id: "temporary-4",
-    title: "Temporary",
-    description: "Temporary",
-    icon: "folder",
-    iconColor: "purple",
-    section: "temporary-1",
-    tech: ["Temporary", "Temporary"],
-    linkUrl: "/docs/temporary-4",
-    outline: [
-      { id: "temporary-9", label: "Temporary", sub: ["Temporary", "Temporary", "Temporary"] },
-      { id: "temporary-10", label: "Temporary", sub: ["Temporary", "Temporary", "Temporary"] },
-      { id: "temporary-11", label: "Temporary", sub: ["Temporary", "Temporary", "Temporary"] }
-    ],
-    content: {
-      intro: "Temporary",
-      sections: [
-        { heading: "Temporary", subheading: "Temporary", text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua." },
-        { heading: "Temporary", subheading: "Temporary", text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam." },
-        { heading: "Temporary", subheading: "Temporary", text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation." }
-      ]
-    }
-  },
-  {
-    id: "temporary-5",
-    title: "Temporary",
-    description: "Temporary",
-    icon: "layers",
-    iconColor: "indigo",
-    section: "temporary-2",
-    tech: ["Temporary", "Temporary", "Temporary"],
-    linkUrl: "/docs/temporary-5",
-    outline: [
-      { id: "temporary-12", label: "Temporary", sub: ["Temporary", "Temporary", "Temporary"] },
-      { id: "temporary-13", label: "Temporary", sub: ["Temporary", "Temporary", "Temporary"] },
-      { id: "temporary-14", label: "Temporary", sub: ["Temporary", "Temporary", "Temporary"] }
-    ],
-    content: {
-      intro: "Temporary",
-      sections: [
-        { heading: "Temporary", subheading: "Temporary", text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua." },
-        { heading: "Temporary", subheading: "Temporary", text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam." },
-        { heading: "Temporary", subheading: "Temporary", text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco." }
-      ]
-    }
-  },
-  {
-    id: "temporary-6",
-    title: "Temporary",
-    description: "Temporary",
-    icon: "chart",
-    iconColor: "blue",
-    section: "temporary-2",
-    tech: ["Temporary", "Temporary", "Temporary"],
-    linkUrl: "/docs/temporary-6",
-    outline: [
-      { id: "temporary-15", label: "Temporary", sub: ["Temporary", "Temporary", "Temporary"] },
-      { id: "temporary-16", label: "Temporary", sub: ["Temporary", "Temporary", "Temporary"] },
-      { id: "temporary-17", label: "Temporary", sub: ["Temporary", "Temporary", "Temporary"] }
-    ],
-    content: {
-      intro: "Temporary",
-      sections: [
-        { heading: "Temporary", subheading: "Temporary", text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua." },
-        { heading: "Temporary", subheading: "Temporary", text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam." },
-        { heading: "Temporary", subheading: "Temporary", text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris." }
-      ]
-    }
-  },
-  {
-    id: "temporary-7",
-    title: "Temporary",
-    description: "Temporary",
-    icon: "book",
-    iconColor: "amber",
-    section: "temporary-2",
-    tech: ["Temporary", "Temporary"],
-    linkUrl: "/docs/temporary-7",
-    outline: [
-      { id: "temporary-18", label: "Temporary", sub: ["Temporary", "Temporary", "Temporary"] },
-      { id: "temporary-19", label: "Temporary", sub: ["Temporary", "Temporary", "Temporary"] }
-    ],
-    content: {
-      intro: "Temporary",
-      sections: [
-        { heading: "Temporary", subheading: "Temporary", text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua." },
-        { heading: "Temporary", subheading: "Temporary", text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation." }
-      ]
-    }
-  },
-  {
-    id: "temporary-8",
-    title: "Temporary",
-    description: "Temporary",
-    icon: "shield",
-    iconColor: "red",
-    section: "temporary-2",
-    tech: ["Temporary", "Temporary", "Temporary"],
-    linkUrl: "/docs/temporary-8",
-    outline: [
-      { id: "temporary-20", label: "Temporary", sub: ["Temporary", "Temporary", "Temporary"] },
-      { id: "temporary-21", label: "Temporary", sub: ["Temporary", "Temporary", "Temporary"] },
-      { id: "temporary-22", label: "Temporary", sub: ["Temporary", "Temporary", "Temporary"] }
-    ],
-    content: {
-      intro: "Temporary",
-      sections: [
-        { heading: "Temporary", subheading: "Temporary", text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua." },
-        { heading: "Temporary", subheading: "Temporary", text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam." },
-        { heading: "Temporary", subheading: "Temporary", text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco." }
-      ]
-    }
-  },
-  {
-    id: "temporary-9",
-    title: "Temporary",
-    description: "Temporary",
-    icon: "code",
-    iconColor: "green",
-    section: "temporary-3",
-    tech: ["Temporary", "Temporary", "Temporary"],
-    linkUrl: "/docs/temporary-9",
-    outline: [
-      { id: "temporary-23", label: "Temporary", sub: ["Temporary", "Temporary", "Temporary"] },
-      { id: "temporary-24", label: "Temporary", sub: ["Temporary", "Temporary", "Temporary"] },
-      { id: "temporary-25", label: "Temporary", sub: ["Temporary", "Temporary", "Temporary"] }
-    ],
-    content: {
-      intro: "Temporary",
-      sections: [
-        { heading: "Temporary", subheading: "Temporary", text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua." },
-        { heading: "Temporary", subheading: "Temporary", text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam." },
-        { heading: "Temporary", subheading: "Temporary", text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud." }
-      ]
-    }
-  },
-  {
-    id: "temporary-10",
-    title: "Temporary",
-    description: "Temporary",
-    icon: "zap",
-    iconColor: "pink",
-    section: "temporary-3",
-    tech: ["Temporary", "Temporary", "Temporary"],
-    linkUrl: "/docs/temporary-10",
-    outline: [
-      { id: "temporary-26", label: "Temporary", sub: ["Temporary", "Temporary", "Temporary"] },
-      { id: "temporary-27", label: "Temporary", sub: ["Temporary", "Temporary", "Temporary"] },
-      { id: "temporary-28", label: "Temporary", sub: ["Temporary", "Temporary", "Temporary"] }
-    ],
-    content: {
-      intro: "Temporary",
-      sections: [
-        { heading: "Temporary", subheading: "Temporary", text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua." },
-        { heading: "Temporary", subheading: "Temporary", text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam." },
-        { heading: "Temporary", subheading: "Temporary", text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris." }
-      ]
-    }
-  },
-  {
-    id: "temporary-11",
-    title: "Temporary",
-    description: "Temporary",
-    icon: "globe",
-    iconColor: "purple",
-    section: "temporary-3",
-    tech: ["Temporary", "Temporary", "Temporary"],
-    linkUrl: "/docs/temporary-11",
-    outline: [
-      { id: "temporary-29", label: "Temporary", sub: ["Temporary", "Temporary", "Temporary"] },
-      { id: "temporary-30", label: "Temporary", sub: ["Temporary", "Temporary", "Temporary"] },
-      { id: "temporary-31", label: "Temporary", sub: ["Temporary", "Temporary", "Temporary"] }
-    ],
-    content: {
-      intro: "Temporary",
-      sections: [
-        { heading: "Temporary", subheading: "Temporary", text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua." },
-        { heading: "Temporary", subheading: "Temporary", text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam." },
-        { heading: "Temporary", subheading: "Temporary", text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud." }
-      ]
-    }
-  },
-  {
-    id: "temporary-12",
-    title: "Temporary",
-    description: "Temporary",
+    id: "tic-tac-toe-ai",
+    title: "Minimax AI Tic-Tac-Toe",
+    description: "Algorithm walkthrough of the alpha-beta pruning minimax AI opponent.",
     icon: "puzzle",
-    iconColor: "amber",
-    section: "temporary-3",
-    tech: ["Temporary", "Temporary", "Temporary"],
-    linkUrl: "/docs/temporary-12",
+    iconColor: "green",
+    section: "interactive-tools",
+    tech: ["Algorithms", "Minimax", "Recursion"],
+    linkUrl: "/docs/tic-tac-toe-ai",
+    lastUpdated: "2026-06-10",
     outline: [
-      { id: "temporary-32", label: "Temporary", sub: ["Temporary", "Temporary", "Temporary"] },
-      { id: "temporary-33", label: "Temporary", sub: ["Temporary", "Temporary", "Temporary"] },
-      { id: "temporary-34", label: "Temporary", sub: ["Temporary", "Temporary", "Temporary"] }
+      { id: "minimax-algo", label: "The Minimax Algorithm", sub: ["Base Recursion", "Alpha-Beta Pruning Optimization"] },
+      { id: "difficulties", label: "Difficulty Levels", sub: ["Easy (Randomizer)", "Medium (Partial heuristic)", "Hard (Perfect play)"] }
     ],
     content: {
-      intro: "Temporary",
+      intro: "The built-in Tic-Tac-Toe tool is powered by a custom minimax decision algorithm, providing three distinct gameplay difficulty levels.",
       sections: [
-        { heading: "Temporary", subheading: "Temporary", text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua." },
-        { heading: "Temporary", subheading: "Temporary", text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam." },
-        { heading: "Temporary", subheading: "Temporary", text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation." }
+        {
+          heading: "Minimax with Alpha-Beta Pruning",
+          subheading: "Algorithms",
+          text: "The hard difficulty mode computes the optimal move by traversing the game state tree. It scores game terminals (+10 for AI win, -10 for human win, 0 for draw) and uses alpha-beta pruning to discard branches that cannot influence the final decision, reducing calculation steps from thousands to under a hundred per turn."
+        },
+        {
+          heading: "Simulating Human Error",
+          subheading: "Heuristics",
+          text: "To ensure that easy and medium difficulties are winnable, the AI alternates between calculating the best minimax move and selecting random moves. In Easy mode, it chooses random placements 80% of the time, while in Medium mode, it plays optimally 50% of the time, allowing human players to construct traps."
+        }
       ]
     }
   },
   {
-    id: "temporary-13",
-    title: "Temporary",
-    description: "Temporary",
-    icon: "git",
-    iconColor: "orange",
-    section: "temporary-4",
-    tech: ["Temporary", "Temporary", "Temporary"],
-    linkUrl: "/docs/temporary-13",
+    id: "search-keyword-engine",
+    title: "Fuzzy Search & Keywords",
+    description: "How Fuse.js and Lodash are utilized to highlight technical keywords.",
+    icon: "layers",
+    iconColor: "purple",
+    section: "core-engines",
+    tech: ["Fuse.js", "Lodash", "Regex"],
+    linkUrl: "/docs/search-keyword-engine",
+    lastUpdated: "2026-06-10",
     outline: [
-      { id: "temporary-35", label: "Temporary", sub: ["Temporary", "Temporary", "Temporary"] },
-      { id: "temporary-36", label: "Temporary", sub: ["Temporary", "Temporary", "Temporary"] },
-      { id: "temporary-37", label: "Temporary", sub: ["Temporary", "Temporary", "Temporary"] }
+      { id: "fuzzy-search", label: "Fuzzy Search Engine", sub: ["Fuse.js Keys", "Threshold Configurations"] },
+      { id: "keyword-system", label: "Keyword Tooltips", sub: ["Regex Matching", "Global Engine Register"] }
     ],
     content: {
-      intro: "Temporary",
+      intro: "Search functionality across projects, research, and documentation leverages fuzzy string matching and regex-based tooltips.",
       sections: [
-        { heading: "Temporary", subheading: "Temporary", text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua." },
-        { heading: "Temporary", subheading: "Temporary", text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam." },
-        { heading: "Temporary", subheading: "Temporary", text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud." }
+        {
+          heading: "Fuse.js Indexing & Matching",
+          subheading: "Fuzzy Search",
+          text: "Search queries are evaluated in real-time. Fuse.js is configured with a threshold value of `0.3`, allowing it to tolerate minor spelling errors or incomplete queries while searching indexed fields like title, tech stack, and description."
+        },
+        {
+          heading: "Interactive Technical Highlights",
+          subheading: "Keyword Engine",
+          text: "The keyword highlight system registers technical definitions globally. A parser walks through texts on the pages, wraps matching keywords with custom interaction boundaries, and shows a floating insight drawer explaining definitions on click."
+        }
       ]
     }
   },
   {
-    id: "temporary-14",
-    title: "Temporary",
-    description: "Temporary",
+    id: "operations-deployment",
+    title: "Docker & Deployment Pipeline",
+    description: "Walkthrough of GitHub Actions and containerization for VPS deployments.",
     icon: "server",
     iconColor: "blue",
-    section: "temporary-4",
-    tech: ["Temporary", "Temporary", "Temporary"],
-    linkUrl: "/docs/temporary-14",
+    section: "operations",
+    tech: ["Docker", "GitHub Actions", "VPS"],
+    linkUrl: "/docs/operations-deployment",
+    lastUpdated: "2026-06-10",
     outline: [
-      { id: "temporary-38", label: "Temporary", sub: ["Temporary", "Temporary", "Temporary"] },
-      { id: "temporary-39", label: "Temporary", sub: ["Temporary", "Temporary", "Temporary"] },
-      { id: "temporary-40", label: "Temporary", sub: ["Temporary", "Temporary", "Temporary"] }
+      { id: "dockerization", label: "Containerization", sub: ["Dockerfile setup", "Nginx static serving"] },
+      { id: "ci-cd-workflow", label: "CI/CD Deployment", sub: ["GitHub Actions runner", "SSH deployment scripts"] }
     ],
     content: {
-      intro: "Temporary",
+      intro: "This documentation outlines the automated pipeline that builds, tests, and deploys the static site to a remote Linux VPS container.",
       sections: [
-        { heading: "Temporary", subheading: "Temporary", text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua." },
-        { heading: "Temporary", subheading: "Temporary", text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam." },
-        { heading: "Temporary", subheading: "Temporary", text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco." }
-      ]
-    }
-  },
-  {
-    id: "temporary-15",
-    title: "Temporary",
-    description: "Temporary",
-    icon: "cloud",
-    iconColor: "sky",
-    section: "temporary-4",
-    tech: ["Temporary", "Temporary", "Temporary"],
-    linkUrl: "/docs/temporary-15",
-    outline: [
-      { id: "temporary-41", label: "Temporary", sub: ["Temporary", "Temporary", "Temporary"] },
-      { id: "temporary-42", label: "Temporary", sub: ["Temporary", "Temporary", "Temporary"] },
-      { id: "temporary-43", label: "Temporary", sub: ["Temporary", "Temporary", "Temporary"] }
-    ],
-    content: {
-      intro: "Temporary",
-      sections: [
-        { heading: "Temporary", subheading: "Temporary", text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua." },
-        { heading: "Temporary", subheading: "Temporary", text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam." },
-        { heading: "Temporary", subheading: "Temporary", text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud." }
-      ]
-    }
-  },
-  {
-    id: "temporary-16",
-    title: "Temporary",
-    description: "Temporary",
-    icon: "cpu",
-    iconColor: "red",
-    section: "temporary-4",
-    tech: ["Temporary", "Temporary", "Temporary"],
-    linkUrl: "/docs/temporary-16",
-    outline: [
-      { id: "temporary-44", label: "Temporary", sub: ["Temporary", "Temporary", "Temporary"] },
-      { id: "temporary-45", label: "Temporary", sub: ["Temporary", "Temporary", "Temporary"] },
-      { id: "temporary-46", label: "Temporary", sub: ["Temporary", "Temporary", "Temporary"] }
-    ],
-    content: {
-      intro: "Temporary",
-      sections: [
-        { heading: "Temporary", subheading: "Temporary", text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua." },
-        { heading: "Temporary", subheading: "Temporary", text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam." },
-        { heading: "Temporary", subheading: "Temporary", text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi." }
-      ]
-    }
-  },
-  {
-    id: "temporary-17",
-    title: "Temporary",
-    description: "Temporary",
-    icon: "layers",
-    iconColor: "violet",
-    section: "temporary-5",
-    tech: ["Temporary", "Temporary", "Temporary"],
-    linkUrl: "/docs/temporary-17",
-    outline: [
-      { id: "temporary-47", label: "Temporary", sub: ["Temporary", "Temporary", "Temporary", "Temporary"] },
-      { id: "temporary-48", label: "Temporary", sub: ["Temporary", "Temporary", "Temporary", "Temporary"] },
-      { id: "temporary-49", label: "Temporary", sub: ["Temporary", "Temporary", "Temporary", "Temporary"] }
-    ],
-    content: {
-      intro: "Temporary",
-      sections: [
-        { heading: "Temporary", subheading: "Temporary", text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua." },
-        { heading: "Temporary", subheading: "Temporary", text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam." },
-        { heading: "Temporary", subheading: "Temporary", text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco." }
-      ]
-    }
-  },
-  {
-    id: "temporary-18",
-    title: "Temporary",
-    description: "Temporary",
-    icon: "zap",
-    iconColor: "amber",
-    section: "temporary-5",
-    tech: ["Temporary", "Temporary", "Temporary"],
-    linkUrl: "/docs/temporary-18",
-    outline: [
-      { id: "temporary-50", label: "Temporary", sub: ["Temporary", "Temporary", "Temporary"] },
-      { id: "temporary-51", label: "Temporary", sub: ["Temporary", "Temporary", "Temporary"] },
-      { id: "temporary-52", label: "Temporary", sub: ["Temporary", "Temporary", "Temporary"] }
-    ],
-    content: {
-      intro: "Temporary",
-      sections: [
-        { heading: "Temporary", subheading: "Temporary", text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua." },
-        { heading: "Temporary", subheading: "Temporary", text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam." },
-        { heading: "Temporary", subheading: "Temporary", text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation." }
-      ]
-    }
-  },
-  {
-    id: "temporary-19",
-    title: "Temporary",
-    description: "Temporary",
-    icon: "wrench",
-    iconColor: "green",
-    section: "temporary-5",
-    tech: ["Temporary", "Temporary", "Temporary"],
-    linkUrl: "/docs/temporary-19",
-    outline: [
-      { id: "temporary-53", label: "Temporary", sub: ["Temporary", "Temporary", "Temporary"] },
-      { id: "temporary-54", label: "Temporary", sub: ["Temporary", "Temporary", "Temporary"] },
-      { id: "temporary-55", label: "Temporary", sub: ["Temporary", "Temporary", "Temporary"] }
-    ],
-    content: {
-      intro: "Temporary",
-      sections: [
-        { heading: "Temporary", subheading: "Temporary", text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua." },
-        { heading: "Temporary", subheading: "Temporary", text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam." },
-        { heading: "Temporary", subheading: "Temporary", text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud." }
-      ]
-    }
-  },
-  {
-    id: "temporary-20",
-    title: "Temporary",
-    description: "Temporary",
-    icon: "shield",
-    iconColor: "purple",
-    section: "temporary-5",
-    tech: ["Temporary", "Temporary", "Temporary"],
-    linkUrl: "/docs/temporary-20",
-    outline: [
-      { id: "temporary-56", label: "Temporary", sub: ["Temporary", "Temporary", "Temporary"] },
-      { id: "temporary-57", label: "Temporary", sub: ["Temporary", "Temporary", "Temporary"] },
-      { id: "temporary-58", label: "Temporary", sub: ["Temporary", "Temporary", "Temporary"] }
-    ],
-    content: {
-      intro: "Temporary",
-      sections: [
-        { heading: "Temporary", subheading: "Temporary", text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua." },
-        { heading: "Temporary", subheading: "Temporary", text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam." },
-        { heading: "Temporary", subheading: "Temporary", text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco." }
-      ]
-    }
-  },
-  {
-    id: "temporary-21",
-    title: "Temporary",
-    description: "Temporary",
-    icon: "database",
-    iconColor: "blue",
-    section: "temporary-1",
-    tech: ["Temporary", "Temporary", "Temporary"],
-    linkUrl: "/docs/temporary-21",
-    outline: [
-      { id: "temporary-59", label: "Temporary", sub: ["Temporary", "Temporary", "Temporary"] },
-      { id: "temporary-60", label: "Temporary", sub: ["Temporary", "Temporary", "Temporary"] },
-      { id: "temporary-61", label: "Temporary", sub: ["Temporary", "Temporary", "Temporary"] }
-    ],
-    content: {
-      intro: "Temporary",
-      sections: [
-        { heading: "Temporary", subheading: "Temporary", text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua." },
-        { heading: "Temporary", subheading: "Temporary", text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam." },
-        { heading: "Temporary", subheading: "Temporary", text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip." }
-      ]
-    }
-  },
-  {
-    id: "temporary-22",
-    title: "Temporary",
-    description: "Temporary",
-    icon: "terminal",
-    iconColor: "slate",
-    section: "temporary-1",
-    tech: ["Temporary", "Temporary", "Temporary"],
-    linkUrl: "/docs/temporary-22",
-    outline: [
-      { id: "temporary-62", label: "Temporary", sub: ["Temporary", "Temporary", "Temporary"] },
-      { id: "temporary-63", label: "Temporary", sub: ["Temporary", "Temporary", "Temporary"] },
-      { id: "temporary-64", label: "Temporary", sub: ["Temporary", "Temporary", "Temporary"] }
-    ],
-    content: {
-      intro: "Temporary",
-      sections: [
-        { heading: "Temporary", subheading: "Temporary", text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua." },
-        { heading: "Temporary", subheading: "Temporary", text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam." },
-        { heading: "Temporary", subheading: "Temporary", text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation." }
+        {
+          heading: "Docker Container Setup",
+          subheading: "Infrastructure",
+          text: "The application is built inside a multi-stage Docker environment. The first stage uses Node.js to install dependencies and run the production build. The second stage copies the static built files into an Nginx image, optimizing caching rules and headers."
+        },
+        {
+          heading: "GitHub Actions Automation",
+          subheading: "CI/CD Pipeline",
+          text: "Upon pushing to the main branch, a workflow runs. It validates that the project builds, builds a Docker image, pushes it to a private container registry, and logs into the Contabo VPS to pull and restart the container."
+        }
       ]
     }
   }

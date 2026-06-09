@@ -31,13 +31,6 @@ export default function DocsOutline({ sections, docs }) {
   const dragStartHeight = useRef(0);
   const isScrollingRef = useRef(false);
 
-  const toggleDesktopOpen = (val) => {
-    setIsDesktopOpen(val);
-    localStorage.setItem(OUTLINE_STORAGE_KEY, val.toString());
-  };
-
-  const sheetOpen = isOpen;
-
   useEffect(() => {
     window.dispatchEvent(new CustomEvent('documentOutlineToggle', { detail: isOpen }));
   }, [isOpen]);
@@ -190,7 +183,7 @@ export default function DocsOutline({ sections, docs }) {
     return () => window.removeEventListener('scroll', handleScroll);
   }, [sections, docs]);
 
-  const renderOutlineContent = () => (
+  const renderOutlineContent = (isMobile = false) => (
     <nav className="flex flex-col xl:overflow-y-auto xl:max-h-[calc(100vh-16rem)] pr-1">
       {sections.map(section => {
         const sectionDocs = docs.filter(d => d.section === section.id);
@@ -225,13 +218,13 @@ export default function DocsOutline({ sections, docs }) {
                   className="overflow-hidden ml-4 border-l border-gray-200 dark:border-gray-800 pl-3"
                 >
                   {sectionDocs.map(doc => {
-                    const docOpen = expandedDocs[doc.id];
+                    const docOpen = expandedDocs[doc.id] || (isMobile && activePath?.startsWith(`doc-${doc.id}`));
                     const isDocActive = activePath?.startsWith(`doc-${doc.id}`);
 
                     return (
                       <div key={doc.id}>
                         <div className={`flex items-center gap-0 w-full rounded-xl transition-all group ${isDocActive ? 'bg-blue-50/30 dark:bg-blue-950/10' : 'hover:bg-gray-50 dark:hover:bg-gray-800/50'}`}>
-                          {doc.outline && doc.outline.length > 0 ? (
+                          {doc.outline && doc.outline.length > 0 && isMobile ? (
                             <button
                               onClick={() => toggleDoc(doc.id)}
                               className="p-2 text-gray-400 dark:text-gray-600 hover:text-gray-500 transition-colors flex-shrink-0 rounded-xl hover:bg-gray-100/50 dark:hover:bg-gray-700/30"
@@ -249,7 +242,7 @@ export default function DocsOutline({ sections, docs }) {
                           </button>
                         </div>
 
-                        {doc.outline && doc.outline.length > 0 && (
+                        {doc.outline && doc.outline.length > 0 && isMobile && (
                           <AnimatePresence initial={false}>
                             {docOpen && (
                               <motion.div
@@ -323,7 +316,7 @@ export default function DocsOutline({ sections, docs }) {
               <span className="text-xs font-black tracking-widest uppercase text-gray-900 dark:text-white">Outline</span>
             </div>
           </div>
-          {renderOutlineContent()}
+          {renderOutlineContent(false)}
         </div>
         <div className="pt-3 border-t border-gray-100 dark:border-gray-800/60 flex items-center justify-center gap-2">
           <button
@@ -423,7 +416,7 @@ export default function DocsOutline({ sections, docs }) {
                 </div>
 
                 <div className="flex-1 overflow-y-auto overscroll-contain px-5 pb-6">
-                  {renderOutlineContent()}
+                  {renderOutlineContent(true)}
                 </div>
               </motion.div>
             </>

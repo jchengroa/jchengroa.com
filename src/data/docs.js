@@ -1,8 +1,8 @@
 import { docsList, docsSections } from './docsList';
 
 export const docsPageContent = {
-    title: "Temporary",
-    subtitle: "Temporary",
+    title: "Documentation",
+    subtitle: "Explore the technical architecture, custom design components, algorithm engines, and deployment structures of this portfolio.",
     sections: docsSections.reduce((acc, section) => {
         acc[section.id] = section;
         return acc;

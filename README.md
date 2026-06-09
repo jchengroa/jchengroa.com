@@ -12,6 +12,7 @@ A premium, multidisciplinary portfolio website showcasing engineering projects, 
 - **Academic Research Hub**: Dedicated section for published research with structured findings, metrics, and full-paper access.
 - **Documentation System**: Dashboard-style docs page with a hierarchical outline sidebar and individual detail pages.
 - **Interactive Tools**: Built-in Tic Tac Toe game with Minimax AI at three difficulty levels.
+- **Socials Page**: A premium landing space for social profiles (Facebook, Reddit, Twitter/X, LinkedIn, GitHub) built with beautiful custom visual states.
 - **Immersive Visuals**: High-resolution image lightbox with zoom animations and backdrop blur effects.
 - **Responsive & Performant**: Fully optimized for all device sizes using React 19 and Tailwind CSS.
 - **Settings Panel**: Full-screen overlay for theme mode, accent color, animation level, dev tools, and local storage management.
@@ -89,7 +90,6 @@ jchengroa.com/
 ├── package-lock.json
 ├── package.json
 ├── public/
-│   ├── bg1.jpg
 │   ├── bg2.jpg
 │   ├── bg3.jpg
 │   ├── bg4.jpg
@@ -133,6 +133,7 @@ jchengroa.com/
 │   │   ├── research.js
 │   │   ├── researchList.js
 │   │   ├── siteContent.js
+│   │   ├── socialsList.js
 │   │   └── toolsList.js
 │   ├── docsMain.jsx
 │   ├── index.css
@@ -146,6 +147,7 @@ jchengroa.com/
 │   │   ├── recognition.jsx
 │   │   ├── research.jsx
 │   │   ├── settingsModal.jsx
+│   │   ├── socials.jsx
 │   │   ├── tools.jsx
 │   │   └── workDetail.jsx
 │   ├── tools/
@@ -371,3 +373,9 @@ Reorganized some files for a more efficient workflow.
 
 - [0.11.2] - 2026-06-05
 Fixed severe routing bugs.
+
+- [0.11.3] - 2026-06-10
+Removed some bg images from the hero section.
+Updated Documenation Page with a more sleek design and better functionality.
+Added Socials Page.
+Cleaned up code and files.

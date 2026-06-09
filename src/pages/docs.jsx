@@ -49,10 +49,10 @@ function DocCard({ doc, id }) {
   return (
     <div id={id} className="block group h-full scroll-mt-36">
       <Link to={`/${doc.id}`} className="block h-full">
-        <div className="bg-white dark:bg-gray-900 rounded-[2.5rem] p-8 border border-gray-100 dark:border-gray-800 shadow-sm hover:shadow-3xl transition-all duration-500 h-full flex flex-col overflow-hidden relative">
+        <div className="bg-white dark:bg-gray-900 rounded-[2.5rem] p-8 shadow-sm hover:shadow-3xl transition-all duration-500 h-full flex flex-col overflow-hidden relative">
           <div className="absolute -inset-1 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-[2.5rem] blur-xl opacity-0 group-hover:opacity-5 dark:group-hover:opacity-10 transition duration-500"></div>
 
-          <div className="relative z-10 flex-grow flex flex-col">
+          <div className="relative z-10 flex-grow flex flex-col flex-1">
             <div className={`inline-flex items-center justify-center w-14 h-14 rounded-2xl mb-6 transition-transform duration-300 group-hover:scale-110 ${colorClasses.split(' ').filter(c => c.includes('bg-') || c.includes('text-')).join(' ')}`}>
               {iconEl}
             </div>

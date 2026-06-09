@@ -331,5 +331,15 @@ export const changelogData = [
     "content": [
       "Fixed severe routing bugs."
     ]
+  },
+  {
+    "version": "0.11.3",
+    "date": "2026-06-10",
+    "content": [
+      "Removed some bg images from the hero section.",
+      "Updated Documenation Page with a more sleek design and better functionality.",
+      "Added Socials Page.",
+      "Cleaned up code and files."
+    ]
   }
 ];
