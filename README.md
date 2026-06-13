@@ -22,9 +22,9 @@ A premium, multidisciplinary portfolio website showcasing engineering projects, 
 
 - **Frontend**: [React 19](https://react.dev/), [Vite](https://vitejs.dev/)
 - **Styling**: [Tailwind CSS 4.0](https://tailwindcss.com/)
-- **Animations**: [Framer Motion](https://www.framer.com/motion/) — UI animations, scroll-linked effects, and animated hamburger menu
+- **Animations**: [Framer Motion](https://www.framer.com/motion/) — UI animations, scroll-linked effects, dynamic hero background cross-fading slideshow, and animated hamburger menu
 - **Search**: [Fuse.js](https://www.fusejs.io/) — fuzzy search across projects, research, and tools
-- **Carousel**: [Embla Carousel](https://www.embla-carousel.com/) — hero section carousels
+- **Carousel**: [Embla Carousel](https://www.embla-carousel.com/) — featured work sliders (projects, research, and recognition)
 - **Data**: [Lodash](https://lodash.com/) — keyword engine data processing
 - **HTTP**: [Axios](https://axios-http.com/) — download manager with progress tracking
 - **Color**: [React Colorful](https://github.com/omgovich/react-colorful) — custom accent color picker with palette generation
@@ -378,4 +378,10 @@ Fixed severe routing bugs.
 Removed some bg images from the hero section.
 Updated Documenation Page with a more sleek design and better functionality.
 Added Socials Page.
+Cleaned up code and files.
+
+- [0.11.4] - 2026-06-13
+Updated Home Page UI.
+Updated Tech Stack with better libraries.
+Added better mobile support.
 Cleaned up code and files.

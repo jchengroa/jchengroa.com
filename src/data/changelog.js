@@ -341,5 +341,15 @@ export const changelogData = [
       "Added Socials Page.",
       "Cleaned up code and files."
     ]
+  },
+  {
+    "version": "0.11.4",
+    "date": "2026-06-13",
+    "content": [
+      "Updated Home Page UI.",
+      "Updated Tech Stack with better libraries.",
+      "Added better mobile support.",
+      "Cleaned up code and files."
+    ]
   }
 ];

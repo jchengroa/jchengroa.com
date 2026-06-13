@@ -9,9 +9,9 @@ function WorkCard(props) {
     const linkTo = props.linkTo || `/project/${props.id}`;
     return (
         <Link to={linkTo} className="block group h-full">
-            <div className="bg-white dark:bg-gray-900 rounded-[2.5rem] p-10 border border-gray-100 dark:border-gray-800 shadow-sm hover:shadow-3xl transition-all duration-500 h-full flex flex-col justify-between overflow-hidden relative">
+            <div className="bg-white dark:bg-gray-900 rounded-[2rem] md:rounded-[2.5rem] p-6 md:p-10 border border-gray-100 dark:border-gray-800 shadow-sm hover:shadow-3xl transition-all duration-500 h-full flex flex-col justify-between overflow-hidden relative">
                 {/* Subtle Gradient Glow on Hover */}
-                <div className="absolute -inset-1 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-[2.5rem] blur-xl opacity-0 group-hover:opacity-5 dark:group-hover:opacity-10 transition duration-500"></div>
+                <div className="absolute -inset-1 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-[2rem] md:rounded-[2.5rem] blur-xl opacity-0 group-hover:opacity-5 dark:group-hover:opacity-10 transition duration-500"></div>
 
                 <div className="relative z-10 flex-grow">
                     {props.image && (
@@ -27,12 +27,12 @@ function WorkCard(props) {
                     <span className="text-xs font-black tracking-[0.2em] text-blue-600 uppercase mb-4 block">
                         {props.info}
                     </span>
-                    <h2 className="text-4xl md:text-5xl font-black text-gray-900 dark:text-white mb-6 tracking-tighter leading-tight">
+                    <h2 className="text-2xl md:text-5xl font-black text-gray-900 dark:text-white mb-4 md:mb-6 tracking-tighter leading-tight">
                         <span className="bg-clip-text group-hover:text-transparent group-hover:bg-gradient-to-r group-hover:from-gray-900 dark:group-hover:from-white group-hover:via-blue-800 dark:group-hover:via-blue-400 group-hover:to-indigo-900 dark:group-hover:to-blue-600 transition-all duration-500">
                             {props.title}
                         </span>
                     </h2>
-                    <p className="text-gray-500 text-lg font-medium leading-relaxed mb-8 opacity-80 group-hover:opacity-100 transition-opacity">
+                    <p className="text-gray-500 text-sm md:text-lg font-medium leading-relaxed mb-6 md:mb-8 opacity-80 group-hover:opacity-100 transition-opacity">
                         <FormattedText text={props.summary || props.description} />
                     </p>
 
@@ -63,9 +63,9 @@ function RecognitionCard(props) {
     const iframeSrc = `https://www.facebook.com/plugins/post.php?href=${encodedUrl}&show_text=true&width=auto`;
 
     return (
-        <div className="bg-white dark:bg-gray-900 rounded-[2.5rem] p-8 border border-gray-100 dark:border-gray-800 shadow-sm hover:shadow-3xl transition-all duration-500 h-full flex flex-col overflow-hidden relative group">
+        <div className="bg-white dark:bg-gray-900 rounded-[2rem] md:rounded-[2.5rem] p-6 md:p-8 border border-gray-100 dark:border-gray-800 shadow-sm hover:shadow-3xl transition-all duration-500 h-full flex flex-col overflow-hidden relative group">
             {/* Subtle Gradient Glow on Hover */}
-            <div className="absolute -inset-1 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-[2.5rem] blur-xl opacity-0 group-hover:opacity-5 dark:group-hover:opacity-10 transition duration-500"></div>
+            <div className="absolute -inset-1 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-[2rem] md:rounded-[2.5rem] blur-xl opacity-0 group-hover:opacity-5 dark:group-hover:opacity-10 transition duration-500"></div>
 
             <div className="relative z-10 flex-grow flex flex-col">
                 <div className="mb-6">
@@ -142,9 +142,9 @@ function ContactCard(props) {
     };
 
     return (
-        <div className="bg-white dark:bg-gray-900 rounded-[2.5rem] p-12 border border-gray-100 dark:border-gray-800 shadow-sm flex flex-col gap-8 h-full w-full max-w-4xl mx-auto relative overflow-hidden group">
+        <div className="bg-white dark:bg-gray-900 rounded-[2rem] md:rounded-[2.5rem] p-6 md:p-12 border border-gray-100 dark:border-gray-800 shadow-sm flex flex-col gap-6 md:gap-8 h-full w-full max-w-4xl mx-auto relative overflow-hidden group">
             {/* Subtle Gradient Glow */}
-            <div className="absolute -inset-1 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-[2.5rem] blur-xl opacity-0 group-hover:opacity-[0.03] transition duration-500 pointer-events-none"></div>
+            <div className="absolute -inset-1 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-[2rem] md:rounded-[2.5rem] blur-xl opacity-0 group-hover:opacity-[0.03] transition duration-500 pointer-events-none"></div>
 
             <div className="relative z-10">
                 <h2 className="text-3xl md:text-4xl font-black text-gray-900 dark:text-white mb-2 tracking-tight">Send a Message</h2>

@@ -58,7 +58,7 @@ export const siteContent = {
         libraries: {
             framer: {
                 title: "Framer Motion",
-                content: "Used for advanced UI animations, scroll-linked effects, smooth transitions, and the animated hamburger navigation menu — including the icon morph and staggered dropdown entrance via motion and AnimatePresence."
+                content: "Used for advanced UI animations, scroll-linked effects, smooth transitions, the dynamic hero background cross-fading slideshow, and the animated hamburger navigation menu — including the icon morph and staggered dropdown entrance via motion and AnimatePresence."
             },
             fuse: {
                 title: "Fuse.js",
