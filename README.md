@@ -2,7 +2,7 @@
 
 A premium, multidisciplinary portfolio website showcasing engineering projects, academic research, and professional experience. Built with a focus on modern aesthetics and smooth performance.
 
-![Portfolio Preview](/public/jchengroacomResources/webcom1.png)
+![Portfolio Preview](/public/web1.jpg)
 
 ---
 
