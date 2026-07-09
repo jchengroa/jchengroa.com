@@ -1,8 +1,7 @@
 import { createRoot } from 'react-dom/client'
 import './index.css'
 
-
-import { BrowserRouter, Routes, Route, Link } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, Link, useLocation } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import NavBar from './components/components.jsx'
 import Home from './pages/home.jsx'
@@ -21,9 +20,11 @@ import { changelogData } from './data/changelog.js'
 import { siteContent } from './data/siteContent.js'
 import { applyCustomAccent } from './utils/colorUtils.js'
 
-function App() {
+function MainLayout() {
     const { footer } = siteContent;
     const [settingsOpen, setSettingsOpen] = useState(false);
+    const location = useLocation();
+    const isHome = location.pathname === "/";
 
     useEffect(() => {
         const accentColor = localStorage.getItem('accentColor');
@@ -55,31 +56,31 @@ function App() {
         : "Unknown";
 
     return (
-        <BrowserRouter>
-            <div className="p-2.5">
-                <div id="navbar">
-                    <NavBar
-                        name="jchengroa"
-                    />
-                </div>
+        <div className={isHome ? "w-full h-screen overflow-hidden relative" : "p-2.5 pb-28 min-h-screen relative"}>
+            <div id="navbar">
+                <NavBar
+                    name="jchengroa"
+                />
+            </div>
 
-                <ChangelogPopup />
-                <DownloadManager />
-                <SettingsModal isOpen={settingsOpen} onClose={() => setSettingsOpen(false)} />
+            <ChangelogPopup />
+            <DownloadManager />
+            <SettingsModal isOpen={settingsOpen} onClose={() => setSettingsOpen(false)} />
 
-                <Routes>
-                    <Route path="/" element={<Home />} />
-                    <Route path="/projects" element={<Projects />} />
-                    <Route path="/research" element={<Research />} />
-                    <Route path="/recognition" element={<Recognition />} />
-                    <Route path="/tools" element={<Tools />} />
-                    <Route path="/socials" element={<Socials />} />
+            <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/projects" element={<Projects />} />
+                <Route path="/research" element={<Research />} />
+                <Route path="/recognition" element={<Recognition />} />
+                <Route path="/tools" element={<Tools />} />
+                <Route path="/socials" element={<Socials />} />
 
-                    <Route path="/project/:id" element={<WorkDetail />} />
-                    <Route path="/legal" element={<Legal />} />
-                    <Route path="/changelog" element={<Changelog />} />
-                </Routes>
+                <Route path="/project/:id" element={<WorkDetail />} />
+                <Route path="/legal" element={<Legal />} />
+                <Route path="/changelog" element={<Changelog />} />
+            </Routes>
 
+            {!isHome && (
                 <div id="footer" className="p-5 text-center mt-12">
                     <p className="text-sm text-gray-900 dark:text-gray-100">
                         <Link to="/legal" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
@@ -94,7 +95,15 @@ function App() {
                         </Link>
                     </p>
                 </div>
-            </div>
+            )}
+        </div>
+    );
+}
+
+function App() {
+    return (
+        <BrowserRouter>
+            <MainLayout />
         </BrowserRouter>
     );
 }

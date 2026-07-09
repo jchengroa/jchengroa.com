@@ -142,24 +142,24 @@ function ContactCard(props) {
     };
 
     return (
-        <div className="bg-white dark:bg-gray-900 rounded-[2rem] md:rounded-[2.5rem] p-6 md:p-12 border border-gray-100 dark:border-gray-800 shadow-sm flex flex-col gap-6 md:gap-8 h-full w-full max-w-4xl mx-auto relative overflow-hidden group">
+        <div className="bg-white dark:bg-gray-900 rounded-[1.5rem] md:rounded-[2rem] p-4 md:p-6 border border-gray-100 dark:border-gray-800 shadow-sm flex flex-col gap-4 md:gap-5 h-full w-full max-w-4xl mx-auto relative overflow-hidden group">
             {/* Subtle Gradient Glow */}
-            <div className="absolute -inset-1 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-[2rem] md:rounded-[2.5rem] blur-xl opacity-0 group-hover:opacity-[0.03] transition duration-500 pointer-events-none"></div>
+            <div className="absolute -inset-1 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-[1.5rem] md:rounded-[2rem] blur-xl opacity-0 group-hover:opacity-[0.03] transition duration-500 pointer-events-none"></div>
 
             <div className="relative z-10">
-                <h2 className="text-3xl md:text-4xl font-black text-gray-900 dark:text-white mb-2 tracking-tight">Send a Message</h2>
-                <p className="text-gray-500 dark:text-gray-400 font-medium text-lg mb-4">{props.info}</p>
+                <h2 className="text-xl md:text-2xl font-black text-gray-900 dark:text-white mb-0.5 tracking-tight">Send a Message</h2>
+                <p className="text-gray-500 dark:text-gray-400 font-medium text-xs md:text-sm">{props.info}</p>
             </div>
 
-            <div className="relative z-10 flex-grow space-y-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="relative z-10 flex-grow space-y-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <input
                         type="text"
                         name="name"
                         value={formData.name}
                         onChange={handleChange}
                         placeholder="Your Name"
-                        className="w-full p-5 bg-gray-50 dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-2xl focus:ring-4 focus:ring-blue-100 dark:focus:ring-blue-900/20 focus:bg-white dark:focus:bg-gray-900 focus:border-blue-600 outline-none transition-all font-medium text-gray-700 dark:text-gray-200"
+                        className="w-full p-3.5 bg-gray-50 dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-xl focus:ring-4 focus:ring-blue-100 dark:focus:ring-blue-900/20 focus:bg-white dark:focus:bg-gray-900 focus:border-blue-600 outline-none transition-all font-medium text-xs text-gray-700 dark:text-gray-200"
                     />
                     <input
                         type="email"
@@ -167,15 +167,15 @@ function ContactCard(props) {
                         value={formData.email}
                         onChange={handleChange}
                         placeholder="Your Email"
-                        className="w-full p-5 bg-gray-50 dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-2xl focus:ring-4 focus:ring-blue-100 dark:focus:ring-blue-900/20 focus:bg-white dark:focus:bg-gray-900 focus:border-blue-600 outline-none transition-all font-medium text-gray-700 dark:text-gray-200"
+                        className="w-full p-3.5 bg-gray-50 dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-xl focus:ring-4 focus:ring-blue-100 dark:focus:ring-blue-900/20 focus:bg-white dark:focus:bg-gray-900 focus:border-blue-600 outline-none transition-all font-medium text-xs text-gray-700 dark:text-gray-200"
                     />
                 </div>
                 <textarea
                     name="message"
                     value={formData.message}
                     onChange={handleChange}
-                    className="w-full p-5 bg-gray-50 dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-2xl focus:ring-4 focus:ring-blue-100 dark:focus:ring-blue-900/20 focus:bg-white dark:focus:bg-gray-900 focus:border-blue-600 outline-none transition-all resize-none text-gray-700 dark:text-gray-200 font-medium"
-                    rows="6"
+                    className="w-full p-3.5 bg-gray-50 dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-xl focus:ring-4 focus:ring-blue-100 dark:focus:ring-blue-900/20 focus:bg-white dark:focus:bg-gray-900 focus:border-blue-600 outline-none transition-all resize-none text-xs text-gray-700 dark:text-gray-200 font-medium"
+                    rows="3"
                     placeholder="Tell me about your project..."
                 ></textarea>
             </div>
@@ -183,10 +183,10 @@ function ContactCard(props) {
             <div className="relative z-10 flex justify-end">
                 <button
                     onClick={handleSend}
-                    className="group flex items-center bg-gray-900 dark:bg-white text-white dark:text-gray-900 px-10 py-4 rounded-2xl font-black text-lg hover:bg-black dark:hover:bg-gray-100 hover:scale-105 hover:shadow-2xl dark:hover:shadow-none transition-all duration-300"
+                    className="group flex items-center bg-gray-900 dark:bg-white text-white dark:text-gray-900 px-6 py-2.5 rounded-xl font-black text-xs hover:bg-black dark:hover:bg-gray-100 hover:scale-105 hover:shadow-lg transition-all duration-300"
                 >
                     {common.sendMessage}
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="ml-2 group-hover:translate-x-1 transition-transform"><path d="m22 2-7 20-4-9-9-4Z" /><path d="M22 2 11 13" /></svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="ml-1.5 group-hover:translate-x-1 transition-transform"><path d="m22 2-7 20-4-9-9-4Z" /><path d="M22 2 11 13" /></svg>
                 </button>
             </div>
         </div>

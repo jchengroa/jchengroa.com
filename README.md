@@ -15,6 +15,7 @@ A premium, multidisciplinary portfolio website showcasing engineering projects, 
 - **Socials Page**: A premium landing space for social profiles (Facebook, Reddit, Twitter/X, LinkedIn, GitHub) built with beautiful custom visual states.
 - **Immersive Visuals**: High-resolution image lightbox with zoom animations and backdrop blur effects.
 - **Responsive & Performant**: Fully optimized for all device sizes using React 19 and Tailwind CSS.
+- **Floating Dock Navigation**: A premium bottom-floating dock (pill-style navigation) inspired by iOS/macOS. Selecting a topic reveals a secondary expanded floating bar displaying sub-options.
 - **Settings Panel**: Full-screen overlay for theme mode, accent color, animation level, dev tools, and local storage management.
 - **Custom Download Manager**: Floating queue displaying active PDF downloads with speed, size, and progress bar.
 
@@ -22,7 +23,7 @@ A premium, multidisciplinary portfolio website showcasing engineering projects, 
 
 - **Frontend**: [React 19](https://react.dev/), [Vite](https://vitejs.dev/)
 - **Styling**: [Tailwind CSS 4.0](https://tailwindcss.com/)
-- **Animations**: [Framer Motion](https://www.framer.com/motion/) — UI animations, scroll-linked effects, dynamic hero background cross-fading slideshow, and animated hamburger menu
+- **Animations**: [Framer Motion](https://www.framer.com/motion/) — UI animations, scroll-linked effects, dynamic hero background cross-fading slideshow, and bottom-floating dock with dynamic sub-menus
 - **Search**: [Fuse.js](https://www.fusejs.io/) — fuzzy search across projects, research, and tools
 - **Carousel**: [Embla Carousel](https://www.embla-carousel.com/) — featured work sliders (projects, research, and recognition)
 - **Data**: [Lodash](https://lodash.com/) — keyword engine data processing
@@ -51,11 +52,13 @@ A premium, multidisciplinary portfolio website showcasing engineering projects, 
 
 2. **Install dependencies**
    ```bash
+   Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
    npm install
    ```
 
 3. **Start the dev server**
    ```bash
+   Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
    npm run dev
    ```
 
@@ -127,6 +130,7 @@ jchengroa.com/
 │   │   ├── docs.js
 │   │   ├── docsList.js
 │   │   ├── keywords.js
+│   │   ├── navbar.js
 │   │   ├── projectList.js
 │   │   ├── projects.js
 │   │   ├── recognitionList.js
@@ -385,3 +389,15 @@ Updated Home Page UI.
 Updated Tech Stack with better libraries.
 Added better mobile support.
 Cleaned up code and files.
+
+- [0.12.0] - 2026-07-10
+Updated Home Hero Section, removing borders, removing background carousel.
+Updated Home Featured Sections, removing carousel, focusing on one feature.
+Updated Navigation Bar to the floating dock pill design.
+Changed Settings Dropdown to a more modern and compact design.
+Added Explorer in Navigation Bar mechanics.
+Optimized the home page to work better on low end devices.
+Significantly improved mobile support and mobile UI.
+Implemented scroll to sections instead of regular scrolling for home page.
+Added subtle background gradients throughout the home page.
+Cleaned up codebase and resolved duplicate import build errors in components.jsx.

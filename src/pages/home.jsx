@@ -1,82 +1,99 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { WorkCard, Title, Prompt, ContactCard } from '../components/components.jsx';
 import { projectsList } from '../data/projects';
 import { researchList } from '../data/research';
 import { recognitionList } from '../data/recognitionList';
-import useEmblaCarousel from 'embla-carousel-react';
-import Autoplay from 'embla-carousel-autoplay';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { FaFacebookF, FaGithub, FaLinkedinIn } from 'react-icons/fa';
-import { LuChevronLeft, LuChevronRight, LuChevronsDown, LuMail } from 'react-icons/lu';
+import { LuMail, LuFileText } from 'react-icons/lu';
 import { getKeywordEngine, KeywordHighlights } from '../utils/keywordEngine';
 import { siteContent } from '../data/siteContent';
+import { changelogData } from '../data/changelog.js';
 
-function WorkCarousel({ id, title, subtitle, items, bgClass, isResearch }) {
-    const [emblaRef, emblaApi] = useEmblaCarousel(
-        { loop: true, align: 'center', skipSnaps: false },
-        [Autoplay({ delay: 3500, stopOnInteraction: true })]
-    );
+function FeaturedSection({ id, title, subtitle, items, isResearch, bgClass, glowColors = { first: "bg-blue-500/5 dark:bg-blue-600/10", second: "bg-indigo-500/5 dark:bg-indigo-600/10" } }) {
+    const [featuredItem, setFeaturedItem] = React.useState(null);
 
-    const scrollPrev = React.useCallback(() => {
-        if (emblaApi) emblaApi.scrollPrev();
-    }, [emblaApi]);
-
-    const scrollNext = React.useCallback(() => {
-        if (emblaApi) emblaApi.scrollNext();
-    }, [emblaApi]);
+    React.useEffect(() => {
+        if (items && items.length > 0) {
+            const randomIndex = Math.floor(Math.random() * items.length);
+            setFeaturedItem(items[randomIndex]);
+        }
+    }, [items]);
 
     return (
-        <section id={id} className={`py-16 md:py-24 ${bgClass} dark:bg-gray-900 overflow-hidden relative group/section`}>
-            <Title
-                title={title}
-                subtitle={subtitle}
-                className="mb-12"
-            />
+        <section 
+            id={id} 
+            className={`snap-start shrink-0 h-screen w-full flex flex-col justify-center pt-10 pb-28 px-6 relative overflow-hidden border-none rounded-none ${bgClass}`}
+        >
+            {/* Ambient Background Glows */}
+            <div className={`absolute top-1/4 left-1/3 w-72 h-72 rounded-full ${glowColors.first} blur-3xl pointer-events-none animate-pulse`}></div>
+            <div className={`absolute bottom-1/4 right-1/3 w-72 h-72 rounded-full ${glowColors.second} blur-3xl pointer-events-none animate-pulse delay-1000`}></div>
 
-            <div className="w-full relative px-4" onMouseEnter={() => emblaApi?.plugins()?.autoplay?.stop()} onMouseLeave={() => emblaApi?.plugins()?.autoplay?.play()}>
-                <button
-                    onClick={scrollPrev}
-                    className="absolute left-4 md:left-12 top-1/2 -translate-y-1/2 z-20 bg-white/80 dark:bg-gray-800/80 backdrop-blur-md p-4 rounded-full shadow-xl border border-gray-100 dark:border-gray-800 text-gray-800 dark:text-gray-200 hover:bg-black dark:hover:bg-white hover:text-white dark:hover:text-black transition-all duration-300 opacity-0 group-hover/section:opacity-100 scale-90 group-hover/section:scale-100 hidden md:block"
-                    aria-label="Previous"
-                >
-                    <LuChevronLeft size={24} strokeWidth={3} />
-                </button>
+            <div className="max-w-7xl w-full mx-auto flex flex-col justify-center h-full relative z-10">
+                <Title
+                    title={title}
+                    subtitle={subtitle}
+                    className="mb-6 md:mb-8"
+                />
 
-                <button
-                    onClick={scrollNext}
-                    className="absolute right-4 md:right-12 top-1/2 -translate-y-1/2 z-20 bg-white/80 dark:bg-gray-800/80 backdrop-blur-md p-4 rounded-full shadow-xl border border-gray-100 dark:border-gray-800 text-gray-800 dark:text-gray-200 hover:bg-black dark:hover:bg-white hover:text-white dark:hover:text-black transition-all duration-300 opacity-0 group-hover/section:opacity-100 scale-90 group-hover/section:scale-100 hidden md:block"
-                    aria-label="Next"
-                >
-                    <LuChevronRight size={24} strokeWidth={3} />
-                </button>
-
-                <div className={`absolute inset-y-0 left-0 w-16 md:w-48 bg-gradient-to-r ${bgClass === 'bg-white' ? 'from-white dark:from-gray-900 via-white/40 dark:via-gray-900/40' : 'from-gray-50 dark:from-gray-950 via-gray-50/20 dark:via-gray-950/20'} to-transparent z-10 pointer-events-none`}></div>
-                <div className={`absolute inset-y-0 right-0 w-16 md:w-48 bg-gradient-to-l ${bgClass === 'bg-white' ? 'from-white dark:from-gray-900 via-white/40 dark:via-gray-900/40' : 'from-gray-50 dark:from-gray-950 via-gray-50/20 dark:via-gray-950/20'} to-transparent z-10 pointer-events-none`}></div>
-
-                <div className="overflow-hidden px-4 md:px-48 py-4" ref={emblaRef}>
-                    <div className="flex gap-4 md:gap-8">
-                        {items.map((item) => (
-                            <div key={item.id} className="flex-[0_0_240px] sm:flex-[0_0_320px] md:flex-[0_0_500px] min-w-0">
-                                <WorkCard
-                                    id={item.id}
-                                    title={item.title}
-                                    info={item.info}
-                                    stack={item.tech}
-                                    description={isResearch ? item.summary : item.description}
-                                    image={isResearch ? undefined : (item.images && item.images[0])}
-                                    linkTo={isResearch ? "/research" : undefined}
+                {featuredItem && (
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center mt-2 md:mt-4 w-full">
+                        {/* Left Column: Landscape visual mockup */}
+                        <div className="w-full aspect-[16/10] rounded-[2rem] overflow-hidden border border-gray-150 dark:border-white/10 shadow-xl bg-gray-100 dark:bg-gray-950 flex items-center justify-center relative group">
+                            {featuredItem.images && featuredItem.images[0] ? (
+                                <img 
+                                    src={featuredItem.images[0]} 
+                                    alt={featuredItem.title} 
+                                    className="w-full h-full object-cover group-hover:scale-102 transition-transform duration-500" 
                                 />
+                            ) : (
+                                <div className="flex flex-col items-center justify-center p-6 text-center text-gray-400 dark:text-gray-600">
+                                    <LuFileText size={48} className="mb-2 text-blue-500/80" />
+                                    <span className="text-[10px] font-black uppercase tracking-[0.2em]">{featuredItem.info || "Showcase Work"}</span>
+                                </div>
+                            )}
+                        </div>
+
+                        {/* Right Column: Info & Description */}
+                        <div className="flex flex-col gap-3.5 text-left max-w-xl">
+                            <span className="text-[10px] font-black uppercase tracking-[0.2em] text-blue-600 dark:text-blue-400">
+                                {featuredItem.info || "Featured Work"}
+                            </span>
+                            <h3 className="text-2xl sm:text-3xl font-black text-gray-900 dark:text-white leading-tight">
+                                {featuredItem.title}
+                            </h3>
+                            <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 leading-relaxed font-medium line-clamp-4">
+                                {isResearch ? featuredItem.summary : featuredItem.description}
+                            </p>
+                            {/* Tech Stack */}
+                            <div className="flex flex-wrap gap-2 mt-1">
+                                {featuredItem.tech && featuredItem.tech.map((tag) => (
+                                    <span key={tag} className="px-3 py-1 text-[9px] font-black uppercase bg-blue-50/80 dark:bg-blue-950/40 text-blue-600 dark:text-blue-400 rounded-lg">
+                                        {tag}
+                                    </span>
+                                ))}
                             </div>
-                        ))}
+                            {/* CTA button */}
+                            <div className="mt-3">
+                                <Link 
+                                    to={isResearch ? "/research" : `/project/${featuredItem.id}`} 
+                                    className="inline-flex items-center justify-center bg-gray-900 dark:bg-white text-white dark:text-gray-950 px-6 py-2.5 rounded-xl font-black text-xs hover:bg-black dark:hover:bg-gray-100 hover:scale-105 hover:shadow-lg transition-all duration-300"
+                                >
+                                    Explore Details
+                                </Link>
+                            </div>
+                        </div>
                     </div>
-                </div>
+                )}
             </div>
         </section>
     );
 }
 
-function Contact() {
+function Contact({ bgClass }) {
     const { title, subtitle, cardInfo, socials } = siteContent.contact;
+    const { footer } = siteContent;
 
     const socialLinks = [
         {
@@ -99,54 +116,80 @@ function Contact() {
         }
     ];
 
+    const latestUpdate = changelogData[changelogData.length - 1];
+    const currentVersion = latestUpdate?.version || "0.0.0";
+    const lastUpdatedDate = latestUpdate?.date 
+        ? new Date(latestUpdate.date).toLocaleDateString('en-US', {
+            month: 'long',
+            day: 'numeric',
+            year: 'numeric'
+          })
+        : "Unknown";
+
     return (
         <section
             id="contact"
-            className="relative min-h-[80vh] md:min-h-screen flex flex-col justify-center items-center py-16 md:py-20 px-6 gap-8 md:gap-12 overflow-hidden bg-gray-50/50 dark:bg-gray-950"
+            className={`snap-start shrink-0 h-screen w-full flex flex-col justify-between items-center pt-10 pb-28 px-6 relative overflow-hidden border-none rounded-none ${bgClass}`}
         >
-            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full max-w-7xl pointer-events-none opacity-20 dark:opacity-10">
-                <div className="absolute bottom-1/4 right-0 w-80 h-80 bg-blue-200 dark:bg-blue-900 rounded-full mix-blend-multiply filter blur-3xl animate-pulse"></div>
-                <div className="absolute bottom-1/3 left-0 w-80 h-80 bg-indigo-200 dark:bg-indigo-900 rounded-full mix-blend-multiply filter blur-3xl animate-pulse delay-1000"></div>
+            {/* Ambient Background Glows */}
+            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full max-w-7xl pointer-events-none opacity-20 dark:opacity-10 z-0">
+                <div className="absolute bottom-1/4 right-0 w-80 h-80 bg-blue-300 dark:bg-blue-900/40 rounded-full blur-3xl animate-pulse"></div>
+                <div className="absolute bottom-1/3 left-0 w-80 h-80 bg-indigo-300 dark:bg-indigo-900/40 rounded-full blur-3xl animate-pulse delay-1000"></div>
             </div>
 
-            <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, ease: "easeOut" }} className="relative z-10 text-center">
-                <Title
-                    title={title}
-                    subtitle={subtitle}
-                />
-            </motion.div>
+            <div className="w-full flex flex-col items-center gap-6 mt-6 overflow-y-auto no-scrollbar pb-2 max-w-7xl mx-auto relative z-10">
+                <motion.div initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, ease: "easeOut" }} className="relative z-10 text-center">
+                    <Title
+                        title={title}
+                        subtitle={subtitle}
+                        className="!mb-0"
+                    />
+                </motion.div>
 
-            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 1.2, ease: "easeOut", delay: 0.2 }} className="relative z-10 flex flex-wrap justify-center gap-4">
-                {socialLinks.map(({ label, href, Icon, className }) => (
-                    <a
-                        key={label}
-                        href={href}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className={`flex items-center bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 text-gray-800 dark:text-gray-200 px-6 py-3 md:px-8 md:py-4 rounded-2xl font-black hover:scale-105 hover:shadow-xl transition-all duration-300 ${className}`}
-                    >
-                        <Icon size={20} className="mr-2" />
-                        {label}
-                    </a>
-                ))}
-            </motion.div>
+                <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.8, ease: "easeOut", delay: 0.1 }} className="relative z-10 flex flex-wrap justify-center gap-3">
+                    {socialLinks.map(({ label, href, Icon, className }) => (
+                        <a
+                            key={label}
+                            href={href}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className={`flex items-center bg-white dark:bg-gray-950 border border-gray-100 dark:border-gray-800 text-gray-800 dark:text-gray-200 px-5 py-2.5 rounded-xl font-black text-xs hover:scale-105 hover:shadow-lg transition-all duration-300 ${className}`}
+                        >
+                            <Icon size={14} className="mr-2" />
+                            {label}
+                        </a>
+                    ))}
+                </motion.div>
 
-            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 1.2, ease: "easeOut", delay: 0.4 }} className="relative z-10 w-full max-w-5xl">
-                <ContactCard info={cardInfo} />
-            </motion.div>
+                <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }} className="relative z-10 w-full max-w-4xl">
+                    <ContactCard info={cardInfo} />
+                </motion.div>
+            </div>
+
+            {/* Inline Footer for Snapping Layout */}
+            <div className="w-full text-center pt-2 pb-2 z-10 max-w-7xl mx-auto mt-4 relative z-10">
+                <p className="text-[14px] font-black text-gray-900 dark:text-white mb-1.5 tracking-tight select-none lowercase">
+                    jchengroa
+                </p>
+                <p className="text-xs text-gray-900 dark:text-gray-100">
+                    <Link to="/legal" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
+                        <b>{footer.legalLink}</b>
+                    </Link>
+                </p>
+                <p className="text-[10px] text-gray-500 dark:text-gray-400 mt-1">
+                    <Link to="/changelog" className="hover:text-blue-600 dark:hover:text-blue-400 transition-all duration-300 group inline-flex items-center gap-1">
+                        <span className="opacity-70 group-hover:opacity-100">{footer.versionPrefix} {currentVersion}</span>
+                        <span className="opacity-30">|</span>
+                        <span className="opacity-70 group-hover:opacity-100">{footer.updatedPrefix}: {lastUpdatedDate}</span>
+                    </Link>
+                </p>
+            </div>
         </section>
     );
 }
 
-const HERO_IMAGES = [
-    '/bg2.jpg',
-    '/bg3.jpg',
-    '/bg4.jpg'
-];
-
 function Home() {
     const { hero, featuredProjects, featuredResearch, featuredRecognition } = siteContent.home;
-    const [currentImage, setCurrentImage] = React.useState(() => Math.floor(Math.random() * HERO_IMAGES.length));
     const [isPromptOpen, setIsPromptOpen] = React.useState(false);
     const [selectedKeyword, setSelectedKeyword] = React.useState("");
 
@@ -154,156 +197,155 @@ function Home() {
         setSelectedKeyword(keyword);
         setIsPromptOpen(true);
     };
-    React.useEffect(() => {
-        const interval = setInterval(() => {
-            setCurrentImage((prev) => {
-                let next;
-                do {
-                    next = Math.floor(Math.random() * HERO_IMAGES.length);
-                } while (next === prev && HERO_IMAGES.length > 1);
-                return next;
-            });
-        }, 6000);
-        return () => clearInterval(interval);
-    }, []);
 
     const engine = getKeywordEngine();
     const highlights = engine.getHeroHighlights();
 
+    // Landscape frames representation
+    const frames = [
+        { url: '/bg2.jpg', rotation: '-rotate-6' },
+        { url: '/bg3.jpg', rotation: 'rotate-1' },
+        { url: '/bg4.jpg', rotation: 'rotate-6' }
+    ];
+
     return (
-        <>
+        <div className="h-screen w-full overflow-y-auto snap-y snap-mandatory scroll-smooth no-scrollbar select-none flex flex-col">
+            
+            {/* Section 1: True Full-Screen Theme-Aware Hero with Dynamic Space Ambient Glows */}
             <section
                 id="home"
-                className="relative min-h-[90vh] flex items-center justify-center text-center p-5 rounded-[3rem] overflow-hidden shadow-2xl transition-all duration-700 hover:shadow-3xl mt-24 mx-2 bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 isolate"
+                className="relative snap-start shrink-0 h-screen w-full flex flex-col items-center justify-center pt-6 pb-28 px-6 border-none rounded-none bg-gradient-to-br from-blue-50 via-white to-indigo-50 dark:from-indigo-950 dark:via-gray-950 dark:to-blue-950 text-gray-900 dark:text-white isolate"
             >
-                {/* Cross-fading Background Images */}
-                <AnimatePresence mode="popLayout">
+                {/* Dynamic Space Ambient Glows */}
+                <div className="absolute top-1/4 left-1/4 w-80 sm:w-96 h-80 sm:h-96 rounded-full bg-blue-500/10 dark:bg-blue-600/15 blur-3xl pointer-events-none animate-pulse"></div>
+                <div className="absolute bottom-1/4 right-1/4 w-80 sm:w-96 h-80 sm:h-96 rounded-full bg-indigo-500/10 dark:bg-indigo-600/15 blur-3xl pointer-events-none animate-pulse delay-1000"></div>
+                <div className="absolute inset-0 bg-black/[0.01] dark:bg-black/20 pointer-events-none"></div>
+
+                {/* Hero Centered Container */}
+                <div className="relative z-10 max-w-4xl w-full px-6 flex flex-col items-center justify-center h-full my-auto gap-4 md:gap-6">
                     <motion.div
-                        key={currentImage}
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
-                        transition={{ duration: 2, ease: "easeInOut" }}
-                        className="absolute inset-0"
-                        style={{
-                            backgroundImage: `url(${HERO_IMAGES[currentImage]})`,
-                            backgroundSize: 'cover',
-                            backgroundPosition: 'center 40%'
-                        }}
-                    />
-                </AnimatePresence>
-
-                {/* Glassmorphic Overlay for Readability */}
-                <div className="absolute inset-0 bg-white/70 dark:bg-gray-950/70 backdrop-blur-[2px] pointer-events-none"></div>
-
-                <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full bg-gradient-to-b from-blue-50/20 dark:from-blue-900/10 to-transparent pointer-events-none"></div>
-
-                {/* Bottom gradient fade to prevent blunt cut transition */}
-                <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-white dark:from-gray-900 to-transparent pointer-events-none"></div>
-
-                <div className="relative z-10 text-black dark:text-white max-w-5xl px-4 flex flex-col items-center">
-                    <motion.div
-                        initial={{ opacity: 0, y: 30 }}
+                        initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.8, ease: "easeOut" }}
                         className="flex flex-col items-center w-full"
                     >
-                        <h1 className="text-5xl sm:text-7xl md:text-8xl font-black mb-6 md:mb-8 tracking-tighter text-gray-900 dark:text-white drop-shadow-sm leading-none text-center">
+                        <h1 className="text-5xl sm:text-6xl md:text-7xl font-black mb-3 md:mb-4 tracking-tighter text-gray-900 dark:text-white drop-shadow-md leading-none text-center">
                             {hero.title}
                         </h1>
 
-                        <div className="max-w-3xl mx-auto space-y-4 md:space-y-6 mb-8 md:mb-12 text-center">
-                            <p className="text-2xl sm:text-2xl md:text-3xl text-gray-800 dark:text-gray-100 font-black leading-tight tracking-tight">
+                        <div className="max-w-2xl mx-auto space-y-1.5 md:space-y-2 mb-4 text-center">
+                            <p className="text-2xl sm:text-2xl md:text-3xl text-gray-800 dark:text-gray-150 font-bold leading-snug tracking-tight">
                                 {hero.subtitle}
                             </p>
-                            <p className="text-base md:text-lg text-gray-500 dark:text-gray-400 font-medium leading-relaxed max-w-2xl mx-auto">
+                            <p className="text-xs sm:text-sm md:text-base text-gray-500 dark:text-gray-300 font-medium leading-relaxed max-w-xl mx-auto">
                                 {hero.description}
                             </p>
                         </div>
 
-                        {/* Keyword Summaries / Highlights - Restored to original position but perfectly centered */}
-                        <div className="w-full mb-12">
+                        {/* Keyword Highlights */}
+                        <div className="w-full mb-4 hidden md:block">
                             <KeywordHighlights
                                 highlights={highlights}
                                 onKeywordClick={openPrompt}
-                                className="max-w-4xl mx-auto"
+                                className="max-w-3xl mx-auto"
                             />
                         </div>
 
-                        <div className="flex flex-wrap justify-center gap-3 md:gap-4 w-full px-2 sm:px-0">
+                        {/* Call to Actions */}
+                        <div className="flex flex-wrap justify-center gap-2.5 w-full px-2 sm:px-0">
                             <a
                                 href={`mailto:${hero.email}`}
-                                className="group flex items-center justify-center bg-gray-900 dark:bg-white text-white dark:text-gray-900 px-6 py-3.5 md:px-10 md:py-5 rounded-2xl font-black text-base md:text-lg hover:bg-black dark:hover:bg-gray-100 hover:scale-105 hover:shadow-2xl transition-all duration-300 w-full sm:w-auto"
+                                className="group flex items-center justify-center bg-gray-900 dark:bg-white text-white dark:text-gray-950 px-7 py-3 rounded-xl font-black text-xs sm:text-sm hover:bg-black dark:hover:bg-gray-100 hover:scale-105 hover:shadow-lg transition-all duration-300 w-full sm:w-auto"
                             >
-                                <LuMail size={20} className="mr-2 group-hover:animate-pulse" />
+                                <LuMail size={14} className="mr-1.5 group-hover:animate-pulse" />
                                 {hero.cta}
                             </a>
-                            <div className="flex gap-3 md:gap-4 w-full sm:w-auto justify-center">
+                            <div className="flex gap-2.5 w-full sm:w-auto justify-center">
                                 <a
                                     href={hero.github}
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="group flex flex-1 sm:flex-initial items-center justify-center bg-white/80 dark:bg-gray-800/80 backdrop-blur-md text-gray-900 dark:text-gray-100 p-4 md:p-5 rounded-2xl font-bold hover:scale-110 hover:shadow-xl transition-all duration-300 border border-gray-100 dark:border-gray-700"
+                                    className="group flex flex-1 sm:flex-initial items-center justify-center bg-white dark:bg-white/10 backdrop-blur-md text-gray-800 dark:text-white p-3.5 rounded-xl font-bold hover:bg-gray-100 dark:hover:bg-white/20 hover:scale-110 hover:shadow-lg transition-all duration-300 border border-gray-200/50 dark:border-white/10 shadow-sm"
                                     aria-label="GitHub"
                                 >
-                                    <FaGithub size={20} className="group-hover:rotate-12 transition-transform" />
+                                    <FaGithub size={14} className="group-hover:rotate-12 transition-transform" />
                                 </a>
                                 <a
                                     href={hero.linkedin}
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="group flex flex-1 sm:flex-initial items-center justify-center bg-white/80 dark:bg-gray-800/80 backdrop-blur-md text-gray-900 dark:text-gray-100 p-4 md:p-5 rounded-2xl font-bold hover:scale-110 hover:shadow-xl transition-all duration-300 border border-gray-100 dark:border-gray-700"
+                                    className="group flex flex-1 sm:flex-initial items-center justify-center bg-white dark:bg-white/10 backdrop-blur-md text-gray-800 dark:text-white p-3.5 rounded-xl font-bold hover:bg-gray-100 dark:hover:bg-white/20 hover:scale-110 hover:shadow-lg transition-all duration-300 border border-gray-200/50 dark:border-white/10 shadow-sm"
                                     aria-label="LinkedIn"
                                 >
-                                    <FaLinkedinIn size={20} className="group-hover:scale-110 transition-transform" />
+                                    <FaLinkedinIn size={14} className="group-hover:scale-110 transition-transform" />
                                 </a>
                             </div>
                         </div>
                     </motion.div>
 
-                    {/* Animated Scroll Indicator */}
-                    <motion.button
-                        animate={{ y: ["-5%", "0%", "-5%"] }}
-                        transition={{ duration: 2, ease: "easeInOut", repeat: Infinity }}
-                        onClick={() => document.getElementById('featured-projects')?.scrollIntoView({ behavior: 'smooth' })}
-                        className="mt-10 md:mt-16 text-gray-900/40 dark:text-gray-100/30 hover:text-gray-900/80 dark:hover:text-gray-100/70 transition-colors cursor-pointer outline-none group"
-                        aria-label="Scroll to projects"
-                    >
-                        <LuChevronsDown size={36} className="group-hover:stroke-[3px] transition-all" />
-                    </motion.button>
+                    {/* Redesigned Landscape Frames - Responsive Swipe on Mobile, Fanned on Desktop */}
+                    <div className="w-full mt-4 md:mt-6 mb-2 relative z-10 max-w-5xl mx-auto">
+                        <div className="flex -space-x-4 sm:-space-x-6 overflow-x-auto px-6 pb-2 no-scrollbar sm:overflow-x-visible sm:justify-center sm:px-0">
+                            {frames.map((frame, index) => (
+                                <motion.div
+                                    key={index}
+                                    whileHover={{ scale: 1.05, rotate: 0, zIndex: 30 }}
+                                    className={`shrink-0 w-36 sm:w-48 md:w-56 aspect-[4/3] rounded-2xl border-4 border-white dark:border-white/15 shadow-xl overflow-hidden cursor-pointer transform ${frame.rotation} transition-all duration-300`}
+                                >
+                                    <img 
+                                        src={frame.url} 
+                                        alt={`Portfolio landscape showcase ${index + 1}`} 
+                                        className="w-full h-full object-cover" 
+                                        loading="lazy"
+                                    />
+                                </motion.div>
+                            ))}
+                        </div>
+                    </div>
                 </div>
             </section>
-            <WorkCarousel
+
+            {/* Section 2: Featured Projects Snapping Slide */}
+            <FeaturedSection
                 id="featured-projects"
                 title={featuredProjects.title}
                 subtitle={featuredProjects.subtitle}
                 items={projectsList}
-                bgClass="bg-transparent"
+                bgClass="bg-gradient-to-tr from-white via-blue-50/15 to-white dark:from-gray-900 dark:via-blue-950/10 dark:to-gray-900 text-gray-900 dark:text-white"
+                glowColors={{ first: "bg-blue-500/5 dark:bg-blue-600/10", second: "bg-indigo-500/5 dark:bg-indigo-600/10" }}
             />
-            <WorkCarousel
+
+            {/* Section 3: Featured Research Snapping Slide */}
+            <FeaturedSection
                 id="featured-research"
                 title={featuredResearch.title}
                 subtitle={featuredResearch.subtitle}
                 items={researchList}
-                bgClass="bg-gray-50/50"
                 isResearch={true}
+                bgClass="bg-gradient-to-br from-gray-50 via-indigo-50/20 to-gray-50 dark:from-gray-950 dark:via-indigo-950/10 dark:to-gray-950 text-gray-900 dark:text-white"
+                glowColors={{ first: "bg-indigo-500/5 dark:bg-indigo-600/10", second: "bg-blue-500/5 dark:bg-blue-600/10" }}
             />
-            <WorkCarousel
+
+            {/* Section 4: Featured Recognition Snapping Slide */}
+            <FeaturedSection
                 id="featured-recognition"
                 title={featuredRecognition.title}
                 subtitle={featuredRecognition.subtitle}
                 items={recognitionList}
-                bgClass="bg-transparent"
+                bgClass="bg-gradient-to-tr from-white via-blue-50/15 to-white dark:from-gray-900 dark:via-blue-950/10 dark:to-gray-900 text-gray-900 dark:text-white"
+                glowColors={{ first: "bg-blue-500/5 dark:bg-blue-600/10", second: "bg-indigo-500/5 dark:bg-indigo-600/10" }}
             />
-            <Contact />
+
+            {/* Section 5: Snapping Contact & Footer Page */}
+            <Contact bgClass="bg-gradient-to-br from-gray-50 via-indigo-50/20 to-gray-50 dark:from-gray-950 dark:via-indigo-950/10 dark:to-gray-950 text-gray-900 dark:text-white" />
 
             <Prompt
                 isOpen={isPromptOpen}
                 onClose={() => setIsPromptOpen(false)}
                 keyword={selectedKeyword}
             />
-        </>
+        </div>
     );
 }
 
-export default Home
+export default Home;

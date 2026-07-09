@@ -351,5 +351,21 @@ export const changelogData = [
       "Added better mobile support.",
       "Cleaned up code and files."
     ]
+  },
+  {
+    "version": "0.12.0",
+    "date": "2026-07-10",
+    "content": [
+      "Updated Home Hero Section, removing borders, removing background carousel.",
+      "Updated Home Featured Sections, removing carousel, focusing on one feature.",
+      "Updated Navigation Bar to the floating dock pill design.",
+      "Changed Settings Dropdown to a more modern and compact design.",
+      "Added Explorer in Navigation Bar mechanics.",
+      "Optimized the home page to work better on low end devices.",
+      "Significantly improved mobile support and mobile UI.",
+      "Implemented scroll to sections instead of regular scrolling for home page.",
+      "Added subtle background gradients throughout the home page.",
+      "Cleaned up codebase and resolved duplicate import build errors in components.jsx."
+    ]
   }
 ];
