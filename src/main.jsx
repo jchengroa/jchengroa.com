@@ -27,15 +27,20 @@ function MainLayout() {
     const isHome = location.pathname === "/";
 
     useEffect(() => {
-        const accentColor = localStorage.getItem('accentColor');
+        const savedAccent = localStorage.getItem('accentColor');
+        const accentColor = savedAccent || 'monochrome';
         const customHex = localStorage.getItem('customAccentColor');
         if (accentColor === 'custom' && customHex) {
             applyCustomAccent(customHex);
             document.documentElement.setAttribute('data-custom-accent', 'true');
+        } else {
+            document.documentElement.setAttribute('data-accent', accentColor);
         }
         const monochrome = localStorage.getItem('jchengroa_monochrome');
-        if (monochrome === 'true') {
+        if (monochrome === 'true' || accentColor === 'monochrome' || !savedAccent) {
             document.documentElement.setAttribute('data-monochrome', 'true');
+        } else {
+            document.documentElement.setAttribute('data-monochrome', 'false');
         }
     }, []);
 
@@ -56,7 +61,7 @@ function MainLayout() {
         : "Unknown";
 
     return (
-        <div className={isHome ? "w-full h-screen overflow-hidden relative" : "p-2.5 pb-28 min-h-screen relative"}>
+        <div className={isHome ? "w-full h-screen overflow-hidden relative" : "p-2.5 pb-28 sm:pb-12 sm:pt-28 min-h-screen relative"}>
             <div id="navbar">
                 <NavBar
                     name="jchengroa"

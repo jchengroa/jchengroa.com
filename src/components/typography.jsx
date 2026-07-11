@@ -4,7 +4,7 @@ import { useSubheaderToggle } from "../utils/subheaderToggle.js";
 function Title(props) {
     const { isVisible } = useSubheaderToggle();
     return (
-        <header className={`mb-20 text-center ${props.className || ''}`}>
+        <header className={`text-center ${props.className ? props.className : 'mb-20'}`}>
             {props.badge && (
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
@@ -20,7 +20,7 @@ function Title(props) {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: 0.1 }}
-                className="text-6xl md:text-7xl font-black text-gray-900 dark:text-white tracking-tighter mb-8"
+                className="text-4xl sm:text-5xl md:text-7xl font-black text-gray-900 dark:text-white tracking-tighter mb-3 md:mb-8"
             >
                 {props.title}
             </motion.h1>
@@ -31,7 +31,7 @@ function Title(props) {
                         animate={{ opacity: 1, height: 'auto' }}
                         exit={{ opacity: 0, height: 0 }}
                         transition={{ duration: 0.3 }}
-                        className="text-gray-500 text-xl font-medium max-w-2xl mx-auto leading-relaxed overflow-hidden"
+                        className="text-gray-500 text-sm md:text-xl font-medium max-w-2xl mx-auto leading-relaxed overflow-hidden"
                     >
                         {props.subtitle || props.description}
                     </motion.p>

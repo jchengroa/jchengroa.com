@@ -36,11 +36,11 @@ function SearchBar({ searchQuery, setSearchQuery }) {
                     placeholder={common.searchPlaceholder}
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    className="relative w-full pl-16 pr-32 py-5 bg-transparent outline-none font-black text-gray-800 dark:text-gray-100 text-lg placeholder:text-indigo-300/80 dark:placeholder:text-indigo-700/50 transition-all z-10"
+                    className="relative w-full pl-14 md:pl-16 pr-28 md:pr-32 py-3.5 md:py-5 bg-transparent outline-none font-black text-gray-800 dark:text-gray-150 text-sm md:text-lg placeholder:text-indigo-300/80 dark:placeholder:text-indigo-700/50 transition-all z-10"
                 />
                 <button
                     type="submit"
-                    className="absolute right-4 px-6 py-2.5 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-2xl font-bold text-sm shadow-lg hover:shadow-blue-500/30 hover:scale-105 active:scale-95 transition-all z-20"
+                    className="absolute right-2 md:right-4 px-4 py-2 md:px-6 md:py-2.5 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-xl md:rounded-2xl font-bold text-xs md:text-sm shadow-lg hover:shadow-blue-500/30 hover:scale-105 active:scale-95 transition-all z-20"
                 >
                     {common.searchButton}
                 </button>
@@ -53,12 +53,12 @@ function FilterList({ activeFilter, setActiveFilter, filters }) {
     if (!filters || filters.length === 0) return null;
 
     return (
-        <div className="w-full max-w-3xl mx-auto mb-16 flex flex-wrap gap-3 justify-center z-10 relative">
+        <div className="w-full max-w-3xl mx-auto mb-6 md:mb-16 flex overflow-x-auto md:flex-wrap gap-2 md:gap-3 justify-start md:justify-center z-10 relative no-scrollbar pb-2 pt-1 px-1 flex-nowrap shrink-0">
             {filters.map(filter => (
                 <button
                     key={filter}
                     onClick={() => setActiveFilter(filter)}
-                    className={`px-6 py-2.5 rounded-full text-xs font-black uppercase tracking-widest transition-all duration-300 ${activeFilter === filter ? 'bg-gray-900 dark:bg-white text-white dark:text-gray-900 shadow-lg scale-105' : 'bg-white/80 dark:bg-gray-800/80 border border-gray-100 dark:border-gray-700 text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white'}`}
+                    className={`px-4 py-2 md:px-6 md:py-2.5 rounded-full text-[10px] md:text-xs font-black uppercase tracking-widest transition-all duration-300 shrink-0 ${activeFilter === filter ? 'bg-gray-900 dark:bg-white text-white dark:text-gray-900 shadow-lg scale-105' : 'bg-white/80 dark:bg-gray-800/80 border border-gray-100 dark:border-gray-700 text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white'}`}
                 >
                     {filter}
                 </button>

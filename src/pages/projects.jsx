@@ -117,7 +117,7 @@ function Projects() {
     return (
         <section
             id="projects"
-            className="relative min-h-screen pt-32 pb-20 px-6 flex flex-col items-center overflow-hidden bg-gray-50/50 dark:bg-gray-950"
+            className="relative min-h-screen pt-20 md:pt-32 pb-12 md:pb-20 px-4 md:px-6 flex flex-col items-center overflow-hidden bg-gray-50/50 dark:bg-gray-950"
         >
             {/* Background Decorative Element */}
             <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full max-w-7xl pointer-events-none opacity-20 dark:opacity-10">
@@ -126,7 +126,7 @@ function Projects() {
             </div>
 
             <div className="max-w-6xl w-full z-10">
-                <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, ease: "easeOut" }} className="relative text-center w-full mb-16">
+                <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, ease: "easeOut" }} className="relative text-center w-full mb-6 md:mb-16">
                     <Title
                         title={projectsPageContent.title}
                         subtitle={projectsPageContent.subtitle}
@@ -138,14 +138,16 @@ function Projects() {
                     />
                     <AnimatePresence>
                         {!isSearchingText && (
-                            <motion.div key="filters" initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} transition={{ duration: 0.2 }} className="flex flex-wrap items-center justify-center gap-4 mt-6">
+                            <motion.div key="filters" initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} transition={{ duration: 0.2 }} className="flex flex-col items-center gap-3 mt-4">
                                 <FilterList
                                     activeFilter={activeFilter}
                                     setActiveFilter={setActiveFilter}
                                     filters={["All", "Software", "Hardware", "Embedded"]}
                                 />
-                                <ViewSwitcherButton />
-                                <SubheaderToggleButton />
+                                <div className="flex items-center justify-center gap-3 w-full">
+                                    <ViewSwitcherButton />
+                                    <SubheaderToggleButton />
+                                </div>
                             </motion.div>
                         )}
                     </AnimatePresence>

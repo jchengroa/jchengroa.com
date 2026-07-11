@@ -3,7 +3,6 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { HexColorPicker } from 'react-colorful';
 import { ChangelogPopup } from "./changelog";
 import { siteContent } from "../data/siteContent";
-import { useAnimationLevel } from "../utils/animations.js";
 import { applyCustomAccent, clearCustomAccent } from "../utils/colorUtils.js";
 
 const accentColors = [
@@ -13,6 +12,7 @@ const accentColors = [
     { id: 'green', name: 'Green', hex: '#16a34a' },
     { id: 'blue', name: 'Blue', hex: '#2563eb' },
     { id: 'violet', name: 'Violet', hex: '#7c3aed' },
+    { id: 'monochrome', name: 'Monochrome', hex: '#737373' },
 ];
 
 const STORAGE_KEYS = {
@@ -21,8 +21,6 @@ const STORAGE_KEYS = {
     customColor: 'customAccentColor',
     darkMode: 'darkMode',
     monochrome: 'jchengroa_monochrome',
-    animationLevel: 'jchengroa_animation_level',
-    animationSpeed: 'jchengroa_animation_speed',
     seenVersion: 'seenVersion',
     view: 'jchengroa_view_preference',
     subheader: 'jchengroa_subheader_visible',
@@ -36,9 +34,6 @@ const ICONS = {
     appearance: (
         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a10 10 0 0 1 0 20"/><path d="M2 12h20"/></svg>
     ),
-    animations: (
-        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="17 10 12 15 7 10"/><rect x="3" y="3" width="18" height="18" rx="2"/></svg>
-    ),
     developer: (
         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
     ),
@@ -49,7 +44,6 @@ const ICONS = {
 
 const SIDEBAR_ITEMS = [
     { id: 'appearance', label: 'Appearance', icon: ICONS.appearance },
-    { id: 'animations', label: 'Animations', icon: ICONS.animations },
     { id: 'developer', label: 'Developer', icon: ICONS.developer },
     { id: 'data', label: 'Data', icon: ICONS.data },
 ];
@@ -68,7 +62,7 @@ function ToggleSwitch({ enabled, onChange, label }) {
     );
 }
 
-function AppearanceSettings({ themeMode, setThemeMode, accentColor, setAccentColor, customHex, setCustomHex, monochrome, setMonochrome }) {
+function AppearanceSettings({ themeMode, setThemeMode, accentColor, setAccentColor, customHex, setCustomHex }) {
     const [pickerOpen, setPickerOpen] = useState(false);
     const [tempHex, setTempHex] = useState(customHex || '#2563eb');
 
@@ -128,17 +122,15 @@ function AppearanceSettings({ themeMode, setThemeMode, accentColor, setAccentCol
                             type="button"
                             onClick={() => handlePresetClick(color.id)}
                             title={color.name}
-                            disabled={monochrome}
-                            className={`w-10 h-10 rounded-full transition-all ${monochrome ? 'opacity-30 cursor-not-allowed' : ''} ${accentColor === color.id && !monochrome ? 'scale-125 ring-2 ring-gray-900 dark:ring-white ring-offset-2 ring-offset-white dark:ring-offset-gray-900 shadow-lg' : 'hover:scale-110 opacity-70 hover:opacity-100'}`}
-                            style={{ backgroundColor: color.hex }}
+                            className={`w-10 h-10 rounded-full transition-all ${accentColor === color.id ? 'scale-125 ring-2 ring-gray-900 dark:ring-white ring-offset-2 ring-offset-white dark:ring-offset-gray-900 shadow-lg' : 'hover:scale-110 opacity-70 hover:opacity-100'}`}
+                            style={color.id === 'monochrome' ? { background: 'linear-gradient(135deg, #171717 50%, #f5f5f5 50%)', border: '1px solid #e5e7eb' } : { backgroundColor: color.hex }}
                         />
                     ))}
                     <button
                         type="button"
                         onClick={handlePickerOpen}
                         title="Custom color"
-                        disabled={monochrome}
-                        className={`w-10 h-10 rounded-full border-2 border-dashed transition-all flex items-center justify-center ${monochrome ? 'opacity-30 cursor-not-allowed border-gray-300 dark:border-gray-600' : isCustom ? 'scale-125 ring-2 ring-gray-900 dark:ring-white ring-offset-2 ring-offset-white dark:ring-offset-gray-900 shadow-lg border-gray-900 dark:border-white' : 'border-gray-300 dark:border-gray-600 hover:scale-110 hover:border-gray-400 dark:hover:border-gray-500'}`}
+                        className={`w-10 h-10 rounded-full border-2 border-dashed transition-all flex items-center justify-center ${isCustom ? 'scale-125 ring-2 ring-gray-900 dark:ring-white ring-offset-2 ring-offset-white dark:ring-offset-gray-900 shadow-lg border-gray-900 dark:border-white' : 'border-gray-300 dark:border-gray-600 hover:scale-110 hover:border-gray-400 dark:hover:border-gray-500'}`}
                         style={isCustom ? { backgroundColor: currentHex } : { backgroundColor: 'transparent' }}
                     >
                         {!isCustom && (
@@ -152,7 +144,7 @@ function AppearanceSettings({ themeMode, setThemeMode, accentColor, setAccentCol
                     </div>
                 )}
                 <p className="text-gray-400 dark:text-gray-500 text-xs font-medium mt-3 leading-relaxed">
-                    Choose a preset or pick your own custom color. Disabled when monochrome mode is active.
+                    Choose a preset or pick your own custom color.
                 </p>
             </div>
 
@@ -201,75 +193,6 @@ function AppearanceSettings({ themeMode, setThemeMode, accentColor, setAccentCol
                     </div>
                 </div>
             )}
-
-            <div>
-                <h3 className="text-xs font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-4">
-                    Monochrome Mode
-                </h3>
-                <div className="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-800/30 rounded-2xl border border-gray-100 dark:border-gray-800">
-                    <div className="flex-1 mr-4">
-                        <p className="text-gray-900 dark:text-white font-bold text-sm">Black &amp; White Design</p>
-                        <p className="text-gray-500 dark:text-gray-400 text-xs font-medium mt-0.5 leading-relaxed">
-                            Strips all color accents, replacing them with grayscale tones for a clean, minimalist look.
-                        </p>
-                    </div>
-                    <ToggleSwitch enabled={monochrome} onChange={setMonochrome} />
-                </div>
-            </div>
-        </div>
-    );
-}
-
-function AnimationSettings({ animationLevel, setAnimationLevel, animationSpeed, setAnimationSpeed }) {
-    return (
-        <div className="space-y-10">
-            <div>
-                <h3 className="text-xs font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-4">
-                    Animation Level
-                </h3>
-                <div className="bg-gray-50 dark:bg-gray-800/50 rounded-2xl p-1.5 flex flex-col sm:flex-row gap-1">
-                    {['full', 'reduced', 'none'].map(level => (
-                        <button
-                            key={level}
-                            onClick={() => setAnimationLevel(level)}
-                            className={`flex-1 min-w-0 px-4 py-3 rounded-xl text-sm font-bold transition-all duration-200 ${animationLevel === level ? 'bg-white dark:bg-gray-700 text-gray-900 dark:text-white shadow-sm' : 'text-gray-500 hover:text-gray-700 dark:hover:text-gray-300'}`}
-                        >
-                            {level.charAt(0).toUpperCase() + level.slice(1)}
-                        </button>
-                    ))}
-                </div>
-                <p className="text-gray-400 dark:text-gray-500 text-xs font-medium mt-3 leading-relaxed">
-                    Full enables all motion effects. Reduced minimizes motion for accessibility. None disables all animations.
-                </p>
-            </div>
-
-            <div>
-                <h3 className="text-xs font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-4">
-                    Animation Speed
-                </h3>
-                <div className="space-y-4">
-                    <div className="flex items-center gap-4">
-                        <span className="text-[10px] font-black text-gray-400 uppercase tracking-wider shrink-0">0.5x</span>
-                        <input
-                            type="range"
-                            min="0.5"
-                            max="2"
-                            step="0.25"
-                            value={animationSpeed}
-                            onChange={(e) => setAnimationSpeed(parseFloat(e.target.value))}
-                            className="flex-1 h-2 rounded-full appearance-none bg-gray-200 dark:bg-gray-700 accent-gray-900 dark:accent-white cursor-pointer min-w-0"
-                        />
-                        <span className="text-[10px] font-black text-gray-400 uppercase tracking-wider shrink-0">2x</span>
-                    </div>
-                    <div className="flex justify-between text-[10px] font-bold text-gray-400 dark:text-gray-500 px-1">
-                        <span>Slower</span>
-                        <span>Faster</span>
-                    </div>
-                </div>
-                <p className="text-gray-400 dark:text-gray-500 text-xs font-medium mt-4 leading-relaxed">
-                    Controls the global speed multiplier for all animations. Lower values create a more relaxed feel; higher values feel snappier.
-                </p>
-            </div>
         </div>
     );
 }
@@ -306,12 +229,6 @@ const DATA_CATEGORIES = [
         label: 'Appearance',
         description: 'Theme mode, accent color, and monochrome settings.',
         keys: [STORAGE_KEYS.themeMode, STORAGE_KEYS.darkMode, STORAGE_KEYS.accentColor, STORAGE_KEYS.monochrome],
-    },
-    {
-        id: 'animations',
-        label: 'Animation Preferences',
-        description: 'Animation level, speed, and motion preferences.',
-        keys: [STORAGE_KEYS.animationLevel, STORAGE_KEYS.animationSpeed],
     },
     {
         id: 'layout',
@@ -406,7 +323,6 @@ function DataSettings() {
 
 export default function SettingsModal({ isOpen, onClose }) {
     const { navbar } = siteContent;
-    const { level: animationLevel, speed: animationSpeed, setAnimationLevel, setAnimationSpeed } = useAnimationLevel();
     const [activeTab, setActiveTab] = useState('appearance');
     const [themeMode, setThemeMode] = useState(() => {
         if (typeof window !== "undefined") {
@@ -422,19 +338,13 @@ export default function SettingsModal({ isOpen, onClose }) {
             const saved = localStorage.getItem(STORAGE_KEYS.accentColor);
             if (saved) return saved;
         }
-        return 'blue';
+        return 'monochrome';
     });
     const [customHex, setCustomHex] = useState(() => {
         if (typeof window !== "undefined") {
             return localStorage.getItem(STORAGE_KEYS.customColor) || null;
         }
         return null;
-    });
-    const [monochrome, setMonochrome] = useState(() => {
-        if (typeof window !== "undefined") {
-            return localStorage.getItem(STORAGE_KEYS.monochrome) === 'true';
-        }
-        return false;
     });
     const [showChangelogDebug, setShowChangelogDebug] = useState(false);
 
@@ -457,6 +367,10 @@ export default function SettingsModal({ isOpen, onClose }) {
     }, [themeMode]);
 
     useEffect(() => {
+        const isMono = accentColor === 'monochrome';
+        document.documentElement.setAttribute("data-monochrome", isMono.toString());
+        localStorage.setItem(STORAGE_KEYS.monochrome, isMono.toString());
+
         if (accentColor === 'custom' && customHex) {
             applyCustomAccent(customHex);
             document.documentElement.setAttribute('data-custom-accent', 'true');
@@ -473,29 +387,20 @@ export default function SettingsModal({ isOpen, onClose }) {
     }, [accentColor, customHex]);
 
     useEffect(() => {
-        document.documentElement.setAttribute("data-monochrome", monochrome.toString());
-        localStorage.setItem(STORAGE_KEYS.monochrome, monochrome.toString());
-    }, [monochrome]);
-
-    useEffect(() => {
         if (isOpen) {
             const syncedTheme = localStorage.getItem(STORAGE_KEYS.themeMode) || 'auto';
             setThemeMode(syncedTheme);
-            const syncedAccent = localStorage.getItem(STORAGE_KEYS.accentColor) || 'blue';
+            const syncedAccent = localStorage.getItem(STORAGE_KEYS.accentColor) || 'monochrome';
             setAccentColor(syncedAccent);
             const syncedCustomHex = localStorage.getItem(STORAGE_KEYS.customColor) || null;
             setCustomHex(syncedCustomHex);
-            const syncedMono = localStorage.getItem(STORAGE_KEYS.monochrome) === 'true';
-            setMonochrome(syncedMono);
         }
     }, [isOpen]);
 
     const renderContent = () => {
         switch (activeTab) {
             case 'appearance':
-                return <AppearanceSettings themeMode={themeMode} setThemeMode={setThemeMode} accentColor={accentColor} setAccentColor={setAccentColor} customHex={customHex} setCustomHex={setCustomHex} monochrome={monochrome} setMonochrome={setMonochrome} />;
-            case 'animations':
-                return <AnimationSettings animationLevel={animationLevel} setAnimationLevel={setAnimationLevel} animationSpeed={animationSpeed} setAnimationSpeed={setAnimationSpeed} />;
+                return <AppearanceSettings themeMode={themeMode} setThemeMode={setThemeMode} accentColor={accentColor} setAccentColor={setAccentColor} customHex={customHex} setCustomHex={setCustomHex} />;
             case 'developer':
                 return <DeveloperSettings onShowChangelog={() => setShowChangelogDebug(true)} />;
             case 'data':
@@ -503,6 +408,42 @@ export default function SettingsModal({ isOpen, onClose }) {
             default:
                 return null;
         }
+    };
+
+    const renderAllContentMobile = () => {
+        return (
+            <div className="space-y-12">
+                <div>
+                    <div className="flex items-center gap-2.5 mb-6 border-b border-gray-100 dark:border-gray-800 pb-3">
+                        <span className="text-blue-600 dark:text-blue-400">
+                            {ICONS.appearance}
+                        </span>
+                        <h3 className="text-lg font-black text-gray-900 dark:text-white tracking-tight">Appearance</h3>
+                    </div>
+                    <AppearanceSettings themeMode={themeMode} setThemeMode={setThemeMode} accentColor={accentColor} setAccentColor={setAccentColor} customHex={customHex} setCustomHex={setCustomHex} />
+                </div>
+                
+                <div>
+                    <div className="flex items-center gap-2.5 mb-6 border-b border-gray-100 dark:border-gray-800 pb-3">
+                        <span className="text-blue-600 dark:text-blue-400">
+                            {ICONS.developer}
+                        </span>
+                        <h3 className="text-lg font-black text-gray-900 dark:text-white tracking-tight">Developer Tools</h3>
+                    </div>
+                    <DeveloperSettings onShowChangelog={() => setShowChangelogDebug(true)} />
+                </div>
+
+                <div>
+                    <div className="flex items-center gap-2.5 mb-6 border-b border-gray-100 dark:border-gray-800 pb-3">
+                        <span className="text-blue-600 dark:text-blue-400">
+                            {ICONS.data}
+                        </span>
+                        <h3 className="text-lg font-black text-gray-900 dark:text-white tracking-tight">Clear Storage Data</h3>
+                    </div>
+                    <DataSettings />
+                </div>
+            </div>
+        );
     };
 
     const activeItem = SIDEBAR_ITEMS.find(i => i.id === activeTab);
@@ -561,36 +502,12 @@ export default function SettingsModal({ isOpen, onClose }) {
                                 ))}
                             </div>
 
-                            <div className="sm:hidden w-full flex-shrink-0 border-b border-gray-100 dark:border-gray-800 bg-gray-50/30 dark:bg-gray-950/30">
-                                <nav className="flex overflow-x-auto px-3 py-2 gap-1 scrollbar-none">
-                                    {SIDEBAR_ITEMS.map(item => (
-                                        <button
-                                            key={item.id}
-                                            onClick={() => setActiveTab(item.id)}
-                                            className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition-all flex-shrink-0 ${activeTab === item.id ? 'bg-white dark:bg-gray-800 text-gray-900 dark:text-white shadow-sm' : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300'}`}
-                                        >
-                                            <span className={activeTab === item.id ? 'text-blue-600 dark:text-blue-400' : 'text-gray-400 dark:text-gray-500'}>
-                                                {item.icon}
-                                            </span>
-                                            {item.label}
-                                        </button>
-                                    ))}
-                                </nav>
-                            </div>
-
                             <div className="flex-1 min-w-0 overflow-y-auto overscroll-contain">
-                                {activeItem && (
-                                    <div className="sm:hidden px-4 pt-4 pb-1">
-                                        <div className="flex items-center gap-2.5">
-                                            <span className="text-blue-600 dark:text-blue-400">
-                                                {activeItem.icon}
-                                            </span>
-                                            <h3 className="text-lg font-black text-gray-900 dark:text-white tracking-tight">{activeItem.label}</h3>
-                                        </div>
-                                    </div>
-                                )}
-                                <div className="px-4 sm:px-8 py-4 sm:py-6">
+                                <div className="hidden sm:block px-8 py-6">
                                     {renderContent()}
+                                </div>
+                                <div className="sm:hidden px-5 py-6">
+                                    {renderAllContentMobile()}
                                 </div>
                             </div>
                         </div>

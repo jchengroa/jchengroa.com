@@ -41,7 +41,7 @@ function Research() {
         filteredResearch = fuse.search(searchQuery).map(result => result.item);
     }
     return (
-        <section className="min-h-screen pt-32 pb-20 px-6 bg-gray-50/50 dark:bg-gray-950 flex flex-col items-center">
+        <section className="min-h-screen pt-20 md:pt-32 pb-12 md:pb-20 px-4 md:px-6 bg-gray-50/50 dark:bg-gray-950 flex flex-col items-center">
             <div className="max-w-6xl w-full">
                 <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, ease: "easeOut" }} className="text-center mb-4">
                     <AnimatePresence>
@@ -61,14 +61,16 @@ function Research() {
                     />
                     <AnimatePresence>
                         {!isSearchingText && (
-                            <motion.div key="filters" initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} transition={{ duration: 0.2 }} className="flex flex-wrap items-center justify-center gap-4 mt-6">
+                            <motion.div key="filters" initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} transition={{ duration: 0.2 }} className="flex flex-col items-center gap-3 mt-4">
                                 <FilterList
                                     activeFilter={activeFilter}
                                     setActiveFilter={setActiveFilter}
                                     filters={filters}
                                 />
-                                <ViewSwitcherButton />
-                                <SubheaderToggleButton />
+                                <div className="flex items-center justify-center gap-3 w-full">
+                                    <ViewSwitcherButton />
+                                    <SubheaderToggleButton />
+                                </div>
                             </motion.div>
                         )}
                     </AnimatePresence>
@@ -104,6 +106,7 @@ function Research() {
                                     info={research.info}
                                     stack={research.tech}
                                     description={research.summary}
+                                    image={research.images && research.images[0]}
                                 />
                             )}
                         </div>

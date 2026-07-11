@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { WorkCard, Title, Prompt, ContactCard } from '../components/components.jsx';
+import { WorkCard, Title, Prompt, ContactCard, SectionIndicator } from '../components/components.jsx';
 import { projectsList } from '../data/projects';
 import { researchList } from '../data/research';
 import { recognitionList } from '../data/recognitionList';
@@ -24,8 +24,18 @@ function FeaturedSection({ id, title, subtitle, items, isResearch, bgClass, glow
     return (
         <section 
             id={id} 
-            className={`snap-start shrink-0 h-screen w-full flex flex-col justify-center pt-10 pb-28 px-6 relative overflow-hidden border-none rounded-none ${bgClass}`}
+            className="snap-start shrink-0 h-screen w-full flex flex-col justify-center pt-10 sm:pt-28 pb-28 sm:pb-12 px-6 relative overflow-hidden border-none rounded-none bg-blue-50/50 dark:bg-blue-950/20 text-gray-900 dark:text-white isolate transition-colors duration-300"
         >
+            {/* Split Left Background (Desktop Only) */}
+            <div className="absolute left-0 top-0 bottom-0 w-full md:w-[48%] bg-white dark:bg-gray-950 z-0 transition-colors duration-300" />
+            
+            {/* Wave Divider SVG (Desktop Only) */}
+            <div className="absolute left-[48%] top-0 bottom-0 w-[100px] h-full z-0 hidden md:block text-white dark:text-gray-950 fill-current transition-colors duration-300">
+                <svg viewBox="0 0 100 1000" preserveAspectRatio="none" className="w-full h-full">
+                    <path d="M0,0 Q60,250 30,500 Q0,750 50,1000 L0,1000 Z" />
+                </svg>
+            </div>
+
             {/* Ambient Background Glows */}
             <div className={`absolute top-1/4 left-1/3 w-72 h-72 rounded-full ${glowColors.first} blur-3xl pointer-events-none animate-pulse`}></div>
             <div className={`absolute bottom-1/4 right-1/3 w-72 h-72 rounded-full ${glowColors.second} blur-3xl pointer-events-none animate-pulse delay-1000`}></div>
@@ -33,14 +43,34 @@ function FeaturedSection({ id, title, subtitle, items, isResearch, bgClass, glow
             <div className="max-w-7xl w-full mx-auto flex flex-col justify-center h-full relative z-10">
                 <Title
                     title={title}
-                    subtitle={subtitle}
-                    className="mb-6 md:mb-8"
+                    className="mb-3 md:mb-6"
                 />
 
                 {featuredItem && (
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center mt-2 md:mt-4 w-full">
-                        {/* Left Column: Landscape visual mockup */}
-                        <div className="w-full aspect-[16/10] rounded-[2rem] overflow-hidden border border-gray-150 dark:border-white/10 shadow-xl bg-gray-100 dark:bg-gray-950 flex items-center justify-center relative group">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8 items-center mt-1 md:mt-3 w-full">
+                        {/* Left Column (Desktop) / Second Block (Mobile): Info & Description */}
+                        <div className="flex flex-col gap-3 text-center md:text-left items-center md:items-start max-w-xl mx-auto md:mx-0 order-2 md:order-1">
+                            <h3 className="text-xl sm:text-2xl md:text-3xl font-black text-gray-900 dark:text-white leading-tight">
+                                {featuredItem.title}
+                            </h3>
+                            <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 leading-relaxed font-medium line-clamp-4">
+                                {isResearch ? featuredItem.summary : featuredItem.description}
+                            </p>
+                            {/* Tech Stack */}
+                            <div className="flex flex-wrap justify-center md:justify-start gap-2 mt-1">
+                                {featuredItem.tech && featuredItem.tech.map((tag) => (
+                                    <span key={tag} className="px-3 py-1 text-[9px] font-black uppercase bg-blue-50/80 dark:bg-blue-950/40 text-blue-600 dark:text-blue-400 rounded-lg">
+                                        {tag}
+                                    </span>
+                                ))}
+                            </div>
+                        </div>
+
+                        {/* Right Column (Desktop) / First Block (Mobile): Landscape visual mockup */}
+                        <Link
+                            to={isResearch ? "/research" : `/project/${featuredItem.id}`}
+                            className="w-full aspect-[16/10] rounded-[2rem] overflow-hidden border border-gray-150 dark:border-white/10 shadow-xl bg-gray-100 dark:bg-gray-950 flex items-center justify-center relative group cursor-pointer block hover:scale-[1.01] hover:shadow-2xl transition-all duration-500 order-1 md:order-2"
+                        >
                             {featuredItem.images && featuredItem.images[0] ? (
                                 <img 
                                     src={featuredItem.images[0]} 
@@ -53,37 +83,7 @@ function FeaturedSection({ id, title, subtitle, items, isResearch, bgClass, glow
                                     <span className="text-[10px] font-black uppercase tracking-[0.2em]">{featuredItem.info || "Showcase Work"}</span>
                                 </div>
                             )}
-                        </div>
-
-                        {/* Right Column: Info & Description */}
-                        <div className="flex flex-col gap-3.5 text-left max-w-xl">
-                            <span className="text-[10px] font-black uppercase tracking-[0.2em] text-blue-600 dark:text-blue-400">
-                                {featuredItem.info || "Featured Work"}
-                            </span>
-                            <h3 className="text-2xl sm:text-3xl font-black text-gray-900 dark:text-white leading-tight">
-                                {featuredItem.title}
-                            </h3>
-                            <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 leading-relaxed font-medium line-clamp-4">
-                                {isResearch ? featuredItem.summary : featuredItem.description}
-                            </p>
-                            {/* Tech Stack */}
-                            <div className="flex flex-wrap gap-2 mt-1">
-                                {featuredItem.tech && featuredItem.tech.map((tag) => (
-                                    <span key={tag} className="px-3 py-1 text-[9px] font-black uppercase bg-blue-50/80 dark:bg-blue-950/40 text-blue-600 dark:text-blue-400 rounded-lg">
-                                        {tag}
-                                    </span>
-                                ))}
-                            </div>
-                            {/* CTA button */}
-                            <div className="mt-3">
-                                <Link 
-                                    to={isResearch ? "/research" : `/project/${featuredItem.id}`} 
-                                    className="inline-flex items-center justify-center bg-gray-900 dark:bg-white text-white dark:text-gray-950 px-6 py-2.5 rounded-xl font-black text-xs hover:bg-black dark:hover:bg-gray-100 hover:scale-105 hover:shadow-lg transition-all duration-300"
-                                >
-                                    Explore Details
-                                </Link>
-                            </div>
-                        </div>
+                        </Link>
                     </div>
                 )}
             </div>
@@ -129,15 +129,19 @@ function Contact({ bgClass }) {
     return (
         <section
             id="contact"
-            className={`snap-start shrink-0 h-screen w-full flex flex-col justify-between items-center pt-10 pb-28 px-6 relative overflow-hidden border-none rounded-none ${bgClass}`}
+            className="snap-start shrink-0 h-screen w-full flex flex-col justify-between items-center pt-10 sm:pt-28 pb-28 sm:pb-10 px-6 relative overflow-hidden border-none rounded-none bg-blue-50/50 dark:bg-blue-950/20 text-gray-900 dark:text-white isolate transition-colors duration-300"
         >
-            {/* Ambient Background Glows */}
-            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full max-w-7xl pointer-events-none opacity-20 dark:opacity-10 z-0">
-                <div className="absolute bottom-1/4 right-0 w-80 h-80 bg-blue-300 dark:bg-blue-900/40 rounded-full blur-3xl animate-pulse"></div>
-                <div className="absolute bottom-1/3 left-0 w-80 h-80 bg-indigo-300 dark:bg-indigo-900/40 rounded-full blur-3xl animate-pulse delay-1000"></div>
+            {/* Split Left Background (Desktop Only) */}
+            <div className="absolute left-0 top-0 bottom-0 w-full md:w-[48%] bg-white dark:bg-gray-950 z-0 transition-colors duration-300" />
+            
+            {/* Wave Divider SVG (Desktop Only) */}
+            <div className="absolute left-[48%] top-0 bottom-0 w-[100px] h-full z-0 hidden md:block text-white dark:text-gray-950 fill-current transition-colors duration-300">
+                <svg viewBox="0 0 100 1000" preserveAspectRatio="none" className="w-full h-full">
+                    <path d="M0,0 Q60,250 30,500 Q0,750 50,1000 L0,1000 Z" />
+                </svg>
             </div>
 
-            <div className="w-full flex flex-col items-center gap-6 mt-6 overflow-y-auto no-scrollbar pb-2 max-w-7xl mx-auto relative z-10">
+            <div className="w-full flex flex-col items-center gap-6 my-auto overflow-y-auto no-scrollbar pb-2 max-w-7xl mx-auto relative z-10">
                 <motion.div initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, ease: "easeOut" }} className="relative z-10 text-center">
                     <Title
                         title={title}
@@ -192,6 +196,51 @@ function Home() {
     const { hero, featuredProjects, featuredResearch, featuredRecognition } = siteContent.home;
     const [isPromptOpen, setIsPromptOpen] = React.useState(false);
     const [selectedKeyword, setSelectedKeyword] = React.useState("");
+    const [activeSection, setActiveSection] = React.useState("home");
+
+    React.useEffect(() => {
+        const sections = ["home", "featured-projects", "featured-research", "featured-recognition", "contact"];
+        const observerOptions = {
+            root: null,
+            rootMargin: "-25% 0px -25% 0px", // Trigger when in center area of viewport
+            threshold: 0.2
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    setActiveSection(entry.target.id);
+                }
+            });
+        }, observerOptions);
+
+        sections.forEach((id) => {
+            const el = document.getElementById(id);
+            if (el) observer.observe(el);
+        });
+
+        return () => {
+            sections.forEach((id) => {
+                const el = document.getElementById(id);
+                if (el) observer.unobserve(el);
+            });
+        };
+    }, []);
+
+    const sectionsConfig = [
+        { id: "home", label: "Home" },
+        { id: "featured-projects", label: "Projects" },
+        { id: "featured-research", label: "Research" },
+        { id: "featured-recognition", label: "Awards" },
+        { id: "contact", label: "Contact" }
+    ];
+
+    const scrollToSection = (id) => {
+        const el = document.getElementById(id);
+        if (el) {
+            el.scrollIntoView({ behavior: "smooth" });
+        }
+    };
 
     const openPrompt = (keyword) => {
         setSelectedKeyword(keyword);
@@ -209,16 +258,31 @@ function Home() {
     ];
 
     return (
-        <div className="h-screen w-full overflow-y-auto snap-y snap-mandatory scroll-smooth no-scrollbar select-none flex flex-col">
+        <div className="h-screen w-full overflow-y-auto snap-y snap-mandatory scroll-smooth no-scrollbar flex flex-col relative">
+            {/* Fluid Section Indicator (Desktop Only) */}
+            <SectionIndicator
+                sectionsConfig={sectionsConfig}
+                activeSection={activeSection}
+                scrollToSection={scrollToSection}
+            />
             
-            {/* Section 1: True Full-Screen Theme-Aware Hero with Dynamic Space Ambient Glows */}
+            {/* Section 1: True Full-Screen Theme-Aware Hero with Split Organic Wave Layout */}
             <section
                 id="home"
-                className="relative snap-start shrink-0 h-screen w-full flex flex-col items-center justify-center pt-6 pb-28 px-6 border-none rounded-none bg-gradient-to-br from-blue-50 via-white to-indigo-50 dark:from-indigo-950 dark:via-gray-950 dark:to-blue-950 text-gray-900 dark:text-white isolate"
+                className="relative snap-start shrink-0 h-screen w-full flex flex-col items-center justify-center border-none rounded-none overflow-hidden bg-blue-50/50 dark:bg-blue-950/20 text-gray-900 dark:text-white isolate transition-colors duration-300"
             >
+                {/* Split Left Background (Desktop Only) */}
+                <div className="absolute left-0 top-0 bottom-0 w-full md:w-[48%] bg-white dark:bg-gray-950 z-0 transition-colors duration-300" />
+                
+                {/* Wave Divider SVG (Desktop Only) */}
+                <div className="absolute left-[48%] top-0 bottom-0 w-[100px] h-full z-0 hidden md:block text-white dark:text-gray-950 fill-current transition-colors duration-300">
+                    <svg viewBox="0 0 100 1000" preserveAspectRatio="none" className="w-full h-full">
+                        <path d="M0,0 Q60,250 30,500 Q0,750 50,1000 L0,1000 Z" />
+                    </svg>
+                </div>
+
                 {/* Dynamic Space Ambient Glows */}
-                <div className="absolute top-1/4 left-1/4 w-80 sm:w-96 h-80 sm:h-96 rounded-full bg-blue-500/10 dark:bg-blue-600/15 blur-3xl pointer-events-none animate-pulse"></div>
-                <div className="absolute bottom-1/4 right-1/4 w-80 sm:w-96 h-80 sm:h-96 rounded-full bg-indigo-500/10 dark:bg-indigo-600/15 blur-3xl pointer-events-none animate-pulse delay-1000"></div>
+                <div className="absolute top-1/4 right-1/4 w-80 sm:w-96 h-80 sm:h-96 rounded-full bg-blue-500/10 dark:bg-blue-600/15 blur-3xl pointer-events-none animate-pulse"></div>
                 <div className="absolute inset-0 bg-black/[0.01] dark:bg-black/20 pointer-events-none"></div>
 
                 {/* Hero Centered Container */}
@@ -234,7 +298,7 @@ function Home() {
                         </h1>
 
                         <div className="max-w-2xl mx-auto space-y-1.5 md:space-y-2 mb-4 text-center">
-                            <p className="text-2xl sm:text-2xl md:text-3xl text-gray-800 dark:text-gray-150 font-bold leading-snug tracking-tight">
+                            <p className="text-2xl sm:text-2xl md:text-3xl text-blue-600 dark:text-blue-400 font-bold leading-snug tracking-tight">
                                 {hero.subtitle}
                             </p>
                             <p className="text-xs sm:text-sm md:text-base text-gray-500 dark:text-gray-300 font-medium leading-relaxed max-w-xl mx-auto">
@@ -284,7 +348,7 @@ function Home() {
                     </motion.div>
 
                     {/* Redesigned Landscape Frames - Responsive Swipe on Mobile, Fanned on Desktop */}
-                    <div className="w-full mt-4 md:mt-6 mb-2 relative z-10 max-w-5xl mx-auto">
+                    <div className="w-full mt-4 mb-2 relative z-10 max-w-5xl mx-auto">
                         <div className="flex -space-x-4 sm:-space-x-6 overflow-x-auto px-6 pb-2 no-scrollbar sm:overflow-x-visible sm:justify-center sm:px-0">
                             {frames.map((frame, index) => (
                                 <motion.div

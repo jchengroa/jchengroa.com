@@ -401,3 +401,17 @@ Significantly improved mobile support and mobile UI.
 Implemented scroll to sections instead of regular scrolling for home page.
 Added subtle background gradients throughout the home page.
 Cleaned up codebase and resolved duplicate import build errors in components.jsx.
+
+- [0.12.1] - 2026-07-11
+Added new images for Research and Recognition pages.
+Added new section indicator for the home page.
+Added a new minimalist background design in the home page.
+Added the hover expansion of the explorer for the desktop navbar.
+Adjusted behaviors of navbar on desktop and mobile views.
+Tweaked featured sections for more compactness, especially for mobile.
+Improved mobile settings page.
+Removed animation customization settings and options.
+Optimized website codebase and resolved duplicate imports.
+Fixed mobile UI bugs.
+Fixed home page alignment issues.
+Overall, small tweaks that refines the feel of the new UI.

@@ -71,7 +71,7 @@ function WorkDetail() {
         return (
             <div className="min-h-screen bg-white dark:bg-gray-950 text-gray-900 dark:text-gray-100 pt-32 pb-20 px-6">
                 <div className="max-w-5xl mx-auto">
-                    <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, ease: "easeOut" }}>
+                    <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: TIMING.dramatic, ease: EASING.easeOut }}>
                         <header className="mb-12">
                             <Link
                                 to={backLink}
@@ -102,7 +102,7 @@ function WorkDetail() {
     const workTabs = [
         ...(item.stats ? [{ id: 'metrics', label: item.category === "recognition" ? "Competition Results" : common.keyMetrics }] : []),
         { id: 'overview', label: item.category === "research" ? common.abstractOverview : item.category === "recognition" ? "Competition Overview" : common.challengeSolution },
-        ...(item.category !== "research" && item.images && item.images.length > 0 ? [{ id: 'gallery', label: common.visualGallery }] : []),
+        ...(item.images && item.images.length > 0 ? [{ id: 'gallery', label: common.visualGallery }] : []),
         { id: 'tech', label: techLabel },
         ...(item.links && item.links.length > 0 ? [{ id: 'resources', label: common.resources }] : []),
     ];
@@ -123,7 +123,7 @@ function WorkDetail() {
         <div className="min-h-screen bg-white dark:bg-gray-950 text-gray-900 dark:text-gray-100 pt-32 pb-20 px-6">
             <DocumentTabs tabs={workTabs} />
             <div className="max-w-5xl mx-auto">
-                <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, ease: "easeOut" }}>
+                <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: TIMING.dramatic, ease: EASING.easeOut }}>
                     <header className="mb-16">
                         <Link
                             to={backLink}
@@ -143,7 +143,7 @@ function WorkDetail() {
                     <div className="grid grid-cols-1 lg:grid-cols-3 gap-16">
                         <div className="lg:col-span-2 space-y-16">
                             {item.stats && (
-                                <motion.section id="metrics" initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, ease: "easeOut" }} className="scroll-mt-36">
+                                <motion.section id="metrics" initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: TIMING.dramatic, ease: EASING.easeOut }} className="scroll-mt-36">
                                     <h3 className="text-xs font-black tracking-[0.2em] uppercase text-gray-400 dark:text-gray-500 mb-10">
                                         {item.category === "recognition" ? "Competition Results" : common.keyMetrics}
                                     </h3>
@@ -185,7 +185,7 @@ function WorkDetail() {
                                 </p>
                             </section>
 
-                            {item.category !== "research" && item.images && item.images.length > 0 && (
+                            {item.images && item.images.length > 0 && (
                                 <section id="gallery" className="scroll-mt-36">
                                     <h3 className="text-xs font-black tracking-[0.2em] uppercase text-gray-400 dark:text-gray-500 mb-8">{common.visualGallery}</h3>
                                     <div className="grid grid-cols-1 gap-8">

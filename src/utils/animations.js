@@ -278,46 +278,6 @@ export function useReducedMotion() {
   return prefersReducedMotion;
 }
 
-const ANIMATION_STORAGE_KEY = 'jchengroa_animation_level';
-const SPEED_STORAGE_KEY = 'jchengroa_animation_speed';
-
-export function useAnimationLevel() {
-  const [level, setLevel] = useState(() => {
-    if (typeof window !== 'undefined') {
-      return localStorage.getItem(ANIMATION_STORAGE_KEY) || 'full';
-    }
-    return 'full';
-  });
-
-  const [speed, setSpeed] = useState(() => {
-    if (typeof window !== 'undefined') {
-      return parseFloat(localStorage.getItem(SPEED_STORAGE_KEY)) || 1;
-    }
-    return 1;
-  });
-
-  const setAnimationLevel = (newLevel) => {
-    setLevel(newLevel);
-    localStorage.setItem(ANIMATION_STORAGE_KEY, newLevel);
-  };
-
-  const setAnimationSpeed = (newSpeed) => {
-    setSpeed(newSpeed);
-    localStorage.setItem(SPEED_STORAGE_KEY, newSpeed.toString());
-    if (typeof document !== 'undefined') {
-      document.documentElement.style.setProperty('--animation-speed', newSpeed.toString());
-    }
-  };
-
-  useEffect(() => {
-    if (typeof document !== 'undefined') {
-      document.documentElement.style.setProperty('--animation-speed', speed.toString());
-    }
-  }, [speed]);
-
-  return { level, speed, setAnimationLevel, setAnimationSpeed, isReduced: level === 'reduced', isNone: level === 'none' };
-}
-
 // Get animation props with reduced motion support
 export function withReducedMotion(animationProps, reducedMotion) {
   if (reducedMotion) {

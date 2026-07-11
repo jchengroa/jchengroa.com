@@ -456,9 +456,6 @@ html {
     }  
 }
 /* Monochrome mode */
-:root {
-    --animation-speed: 1;
-}
 
 html[data-monochrome="true"] {
     --accent-50: #f9fafb;
@@ -516,3 +513,4 @@ html[data-monochrome="true"] {
     -ms-overflow-style: none;  /* IE and Edge */
     scrollbar-width: none;  /* Firefox */
 }
+

@@ -36,34 +36,6 @@ export const projectData = {
             "/cloud4.jpg"
         ],
         info: "Multi-Warehouse Cloud-Based Inventory Management System"
-    },
-    "hardware-placeholder": {
-        id: "hardware-placeholder",
-        category: "hardware",
-        title: "Hardware Concept",
-        subtitle: "Circuit Design & Prototyping",
-        description: "A conceptual hardware project involving PCB design and system architecture. This placeholder represents ongoing work in hardware engineering and physical computing.",
-        tech: ["KiCad", "Circuit Simulation", "Prototyping"],
-        keywords: ["PCB Design", "Hardware", "Circuits"],
-        links: [
-            { name: "Documentation", url: "#" }
-        ],
-        images: [],
-        info: "Hardware Engineering"
-    },
-    "embedded-placeholder": {
-        id: "embedded-placeholder",
-        category: "embedded",
-        title: "Embedded System",
-        subtitle: "Microcontroller Firmware",
-        description: "An embedded systems project focused on firmware development and sensor integration. This placeholder highlights upcoming work in real-time operating systems and C-based firmware.",
-        tech: ["C", "C++", "FreeRTOS", "STM32"],
-        keywords: ["Firmware", "Microcontrollers", "RTOS"],
-        links: [
-            { name: "Source Code", url: "#" }
-        ],
-        images: [],
-        info: "Embedded Development"
     }
 };
 

@@ -5,4 +5,5 @@ export { SearchBar, FilterList, ViewSwitcherButton, SubheaderToggleButton } from
 export { useSubheaderToggle } from "../utils/subheaderToggle.js";
 export { Prompt } from "./prompt.jsx";
 export { DocumentTabs } from "./documentTabs.jsx";
+export { SectionIndicator } from "./sectionIndicator.jsx";
 export { default } from "./navigation.jsx";

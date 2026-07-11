@@ -37,7 +37,7 @@ export const recognitionData = {
         links: [
             { name: "Facebook Announcement", url: "https://www.facebook.com/upcircuit.squeeeze/photos/1341119214728625/" }
         ],
-        images: []
+        images: ["/sqz.jpg"]
     }
 };
 

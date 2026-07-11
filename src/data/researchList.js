@@ -13,7 +13,8 @@ export const researchData = {
             { label: "Operation Time", value: "2 Hours", detail: "Continuous mission" }
         ],
         info: "Investigatory Project | Junior High School",
-        links: [{ name: "View Full Paper", url: "/Documents/JHS1.pdf" }]
+        links: [{ name: "View Full Paper", url: "/Documents/JHS1.pdf" }],
+        images: ["/jhs1.png"]
     },
     "shs-1": {
         id: "shs-1",
@@ -31,7 +32,8 @@ export const researchData = {
         info: "SHS Thesis | Senior High School",
         links: [
             { name: "View Full Paper", url: "/Documents/SHS1.pdf" }
-        ]
+        ],
+        images: ["/shs2-1.jpg", "/shs2-2.jpg"]
     },
     "shs-2": {
         id: "shs-2",
@@ -49,7 +51,8 @@ export const researchData = {
         info: "Capstone Project | Senior High School",
         links: [
             { name: "View Full Paper", url: "/Documents/SHS2.pdf" }
-        ]
+        ],
+        images: ["/shs2.jpg"]
     }
 };
 
