@@ -514,3 +514,86 @@ html[data-monochrome="true"] {
     scrollbar-width: none;  /* Firefox */
 }
 
+/* Responsive adjustments for short viewports/small windows */
+@media (max-height: 780px) {
+    /* Scale down hero typography and padding */
+    #home h1 {
+        font-size: clamp(2rem, 9vh, 3.5rem) !important;
+        margin-bottom: 0.25rem !important;
+    }
+    #home p.text-2xl {
+        font-size: clamp(1.1rem, 4vh, 1.5rem) !important;
+    }
+    #home p.text-xs {
+        font-size: clamp(0.7rem, 2vh, 0.8rem) !important;
+        margin-bottom: 0.25rem !important;
+    }
+    #home .shrink-0 {
+        width: clamp(6.5rem, 16vh, 9.5rem) !important;
+    }
+    #home .relative.z-10.max-w-4xl {
+        gap: 0.5rem !important;
+    }
+    
+    /* Scale down featured sections */
+    section[id^="featured-"] h3 {
+        font-size: clamp(1.1rem, 3.5vh, 1.5rem) !important;
+    }
+    section[id^="featured-"] p {
+        font-size: clamp(0.7rem, 2vh, 0.8rem) !important;
+        line-clamp: 2 !important;
+    }
+    section[id^="featured-"] a[class*="aspect-"] {
+        max-height: clamp(140px, 26vh, 300px) !important;
+    }
+    section[id^="featured-"] .max-w-7xl {
+        gap: 0.5rem !important;
+    }
+    section[id^="featured-"] .grid {
+        gap: 0.75rem !important;
+        margin-top: 0.25rem !important;
+    }
+    
+    /* Scale down contact section components */
+    #contact .my-auto {
+        gap: 0.5rem !important;
+    }
+    #contact a {
+        padding: 0.5rem 0.75rem !important;
+        font-size: 0.7rem !important;
+    }
+    #contact .my-auto > div:first-child {
+        margin-bottom: 0px !important;
+    }
+    /* ContactCard fields scale */
+    #contact input, 
+    #contact textarea {
+        padding: 0.5rem 0.75rem !important;
+        font-size: 0.75rem !important;
+    }
+    #contact textarea {
+        height: 60px !important;
+    }
+    #contact button {
+        padding-top: 0.5rem !important;
+        padding-bottom: 0.5rem !important;
+        font-size: 0.75rem !important;
+    }
+    #contact .bg-white {
+        padding: 1rem !important;
+        gap: 0.75rem !important;
+    }
+}
+
+@media (min-width: 640px) and (max-height: 780px) {
+    /* Push content down below the floating top navbar when viewport height is small */
+    #home, 
+    section[id^="featured-"], 
+    #contact {
+        justify-content: flex-start !important;
+        padding-top: 110px !important;
+    }
+}
+
+
+

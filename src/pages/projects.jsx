@@ -1,29 +1,20 @@
 import { useState } from "react";
-import { WorkCard, Title, SearchBar, FilterList, Prompt, ViewSwitcherButton, UniversalListCard, useSubheaderToggle, SubheaderToggleButton, DocumentTabs } from "../components/components.jsx";
+import { WorkCard, Title, SearchBar, FilterList, ViewSwitcherButton, UniversalListCard, useSubheaderToggle, SubheaderToggleButton, QuickNav } from "../components/components.jsx";
 import { motion, AnimatePresence } from 'framer-motion';
 import { fadeUp, TIMING, EASING } from '../utils/animations.js';
 import { projectsList, projectsPageContent } from "../data/projects";
-import { getKeywordEngine, KeywordHighlights } from "../utils/keywordEngine";
 import { useViewSwitcher } from "../utils/viewSwitcher";
 import Fuse from 'fuse.js';
 
 function Projects() {
     const [searchQuery, setSearchQuery] = useState("");
     const [activeFilter, setActiveFilter] = useState("All");
-    const [isPromptOpen, setIsPromptOpen] = useState(false);
-    const [selectedKeyword, setSelectedKeyword] = useState("");
     const { view } = useViewSwitcher();
     const { isVisible } = useSubheaderToggle();
-
-    const openPrompt = (keyword) => {
-        setSelectedKeyword(keyword);
-        setIsPromptOpen(true);
-    };
 
     const isSearchingText = searchQuery.trim() !== "";
     const isSearching = isSearchingText || activeFilter !== "All";
 
-    const engine = getKeywordEngine();
 
     const filterItems = (items, categoryMatch) => {
         let filtered = items.filter(item => item.category === categoryMatch);
@@ -34,7 +25,7 @@ function Projects() {
 
         if (searchQuery.trim() !== "") {
             const fuse = new Fuse(filtered, {
-                keys: ['title', 'description', 'tech', 'keywords'],
+                keys: ['title', 'description', 'tech'],
                 threshold: 0.3
             });
             filtered = fuse.search(searchQuery).map(result => result.item);
@@ -70,16 +61,7 @@ function Projects() {
                 )}
             </AnimatePresence>
 
-            <AnimatePresence>
-                {!isSearching && (
-                    <motion.div key="highlights" initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} transition={{ duration: 0.2 }} className="mb-10">
-                        <KeywordHighlights
-                            highlights={engine.getCategoryHighlights(category)}
-                            onKeywordClick={openPrompt}
-                        />
-                    </motion.div>
-                )}
-            </AnimatePresence>
+
 
             <div className={view === 'list' ? "grid grid-cols-1 gap-4" : "grid grid-cols-1 md:grid-cols-2 gap-8"}>
                 {projects.map((project, index) => (
@@ -126,35 +108,43 @@ function Projects() {
             </div>
 
             <div className="max-w-6xl w-full z-10">
-                <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, ease: "easeOut" }} className="relative text-center w-full mb-6 md:mb-16">
-                    <Title
-                        title={projectsPageContent.title}
-                        subtitle={projectsPageContent.subtitle}
-                    />
+                <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, ease: "easeOut" }} className="w-full mb-12 lg:mb-20">
+                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-start">
+                        {/* Left Column: Title and description */}
+                        <div className="lg:col-span-5 text-center lg:text-left">
+                            <Title
+                                title={projectsPageContent.title}
+                                subtitle={projectsPageContent.subtitle}
+                            />
+                        </div>
 
-                    <SearchBar
-                        searchQuery={searchQuery}
-                        setSearchQuery={setSearchQuery}
-                    />
-                    <AnimatePresence>
-                        {!isSearchingText && (
-                            <motion.div key="filters" initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} transition={{ duration: 0.2 }} className="flex flex-col items-center gap-3 mt-4">
-                                <FilterList
-                                    activeFilter={activeFilter}
-                                    setActiveFilter={setActiveFilter}
-                                    filters={["All", "Software", "Hardware", "Embedded"]}
-                                />
-                                <div className="flex items-center justify-center gap-3 w-full">
-                                    <ViewSwitcherButton />
-                                    <SubheaderToggleButton />
-                                </div>
-                            </motion.div>
-                        )}
-                    </AnimatePresence>
+                        {/* Right Column: Search, filters, switcher & toggle */}
+                        <div className="lg:col-span-7 flex flex-col items-center lg:items-end gap-4 w-full">
+                            <SearchBar
+                                searchQuery={searchQuery}
+                                setSearchQuery={setSearchQuery}
+                            />
+                            <AnimatePresence>
+                                {!isSearchingText && (
+                                    <motion.div key="filters" initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} transition={{ duration: 0.2 }} className="flex flex-col items-center lg:items-end gap-4 w-full">
+                                        <FilterList
+                                            activeFilter={activeFilter}
+                                            setActiveFilter={setActiveFilter}
+                                            filters={["All", "Software", "Hardware", "Embedded"]}
+                                        />
+                                        <div className="flex items-center justify-center lg:justify-end gap-3 w-full">
+                                            <ViewSwitcherButton />
+                                            <SubheaderToggleButton />
+                                        </div>
+                                    </motion.div>
+                                )}
+                            </AnimatePresence>
+                        </div>
+                    </div>
                 </motion.div>
 
                 {isSearchingText ? null : (
-                    <DocumentTabs
+                    <QuickNav
                         tabs={[
                             ...(softwareProjects.length > 0 ? [{ id: 'software', label: projectsPageContent.sections.software.title }] : []),
                             ...(hardwareProjects.length > 0 ? [{ id: 'hardware', label: projectsPageContent.sections.hardware.title }] : []),
@@ -203,11 +193,6 @@ function Projects() {
                 )}
             </div>
 
-            <Prompt
-                isOpen={isPromptOpen}
-                onClose={() => setIsPromptOpen(false)}
-                keyword={selectedKeyword}
-            />
         </section>
     );
 }

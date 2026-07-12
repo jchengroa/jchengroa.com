@@ -21,16 +21,10 @@ export const navigationData = {
         recognition: [
             { label: "All Recognition", to: "/recognition", desc: "Hackathon wins and competitive milestones.", icon: "all" }
         ],
-        tools: [
-            { label: "All Tools", to: "/tools", desc: "Interactive widgets and custom scripts.", icon: "all" },
-            { label: "Tic Tac Toe", to: "/project/tictactoe-minimax", desc: "Unbeatable Minimax AI engine.", icon: "gamepad" }
-        ],
         more: [
-            { label: "Documentation", to: "/docs", desc: "Technical system diagrams and codebase guides.", icon: "docs" },
             { label: "Socials", to: "/socials", desc: "Find me on GitHub, LinkedIn, Reddit, & Facebook.", icon: "share" },
             { label: "Changelog", to: "/changelog", desc: "A timeline of technical rollouts.", icon: "history" },
             { label: "Legal & Domain", to: "/legal", desc: "Terms, VPS configs, & domain details.", icon: "scale" },
-            { label: "Tools Explorer", to: "tools", desc: "Interactive widgets and custom scripts.", icon: "tools", action: "explore_tools" },
             { label: "Settings Panel", to: "settings", desc: "Adjust theme and custom accent colors.", icon: "settings", action: "settings" }
         ]
     }

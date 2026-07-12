@@ -3,7 +3,7 @@ export { Title, SubTitle, FormattedText } from "./typography.jsx";
 export { NavBar } from "./navigation.jsx";
 export { SearchBar, FilterList, ViewSwitcherButton, SubheaderToggleButton } from "./controls.jsx";
 export { useSubheaderToggle } from "../utils/subheaderToggle.js";
-export { Prompt } from "./prompt.jsx";
-export { DocumentTabs } from "./documentTabs.jsx";
+export { QuickNav } from "./quickNav.jsx";
 export { SectionIndicator } from "./sectionIndicator.jsx";
 export { default } from "./navigation.jsx";
+

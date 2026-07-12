@@ -40,7 +40,7 @@ function SearchBar({ searchQuery, setSearchQuery }) {
                 />
                 <button
                     type="submit"
-                    className="absolute right-2 md:right-4 px-4 py-2 md:px-6 md:py-2.5 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-xl md:rounded-2xl font-bold text-xs md:text-sm shadow-lg hover:shadow-blue-500/30 hover:scale-105 active:scale-95 transition-all z-20"
+                    className="absolute right-2 md:right-4 px-4 py-2 md:px-6 md:py-2.5 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-xl md:rounded-2xl font-bold text-xs md:text-sm shadow-lg hover:shadow-blue-500/30 hover:scale-105 active:scale-95 transition-all z-20 whitespace-nowrap"
                 >
                     {common.searchButton}
                 </button>

@@ -122,8 +122,6 @@ function NavBar() {
         if (path.startsWith("/projects") || path.startsWith("/project/jchengroa-com") || path.startsWith("/project/cloudbased") || path.startsWith("/project/hardware-placeholder") || path.startsWith("/project/embedded-placeholder")) return "projects";
         if (path.startsWith("/research") || path.startsWith("/project/jhs-1") || path.startsWith("/project/shs-1") || path.startsWith("/project/shs-2")) return "research";
         if (path.startsWith("/recognition")) return "recognition";
-        if (path.startsWith("/docs")) return "more";
-        if (path.startsWith("/tools") || path.startsWith("/project/tictactoe-minimax")) return "more";
         if (path.startsWith("/socials") || path.startsWith("/changelog") || path.startsWith("/legal")) return "more";
         return "";
     };
@@ -332,7 +330,7 @@ function NavBar() {
             {/* Main Dock / Pills Navigation */}
             <div 
                 ref={dockRef}
-                className="flex items-stretch gap-3 animate-navbar-entrance"
+                className="flex items-stretch gap-3 w-[95vw] sm:w-auto animate-navbar-entrance"
             >
                 {/* Brand Logo Pill (Desktop Only) */}
                 <Link
@@ -345,14 +343,14 @@ function NavBar() {
                         setSubmenuOpen(false);
                         setActiveTopic(null);
                     }}
-                    className="hidden sm:flex items-center justify-center rounded-full border border-gray-200/50 bg-white/85 px-6 shadow-2xl backdrop-blur-xl dark:border-white/10 dark:bg-gray-900/80 font-black text-xs tracking-wider uppercase text-gray-800 dark:text-gray-200 hover:text-gray-900 dark:hover:text-white hover:bg-gray-50 dark:hover:bg-white/5 transition-all duration-300 select-none shadow-[0_24px_50px_-12px_rgba(0,0,0,0.15)]"
+                    className="hidden sm:flex items-center justify-center rounded-full border border-gray-200/50 bg-white/85 px-6 shadow-2xl backdrop-blur-xl dark:border-white/10 dark:bg-gray-900/80 font-black text-sm tracking-tight lowercase text-gray-900 dark:text-white hover:bg-gray-50 dark:hover:bg-white/5 transition-all duration-300 select-none"
                 >
                     jchengroa
                 </Link>
 
-                <nav className="flex items-center gap-2 sm:gap-2 rounded-full border border-gray-200/50 bg-white/85 p-2.5 sm:p-2 shadow-2xl backdrop-blur-xl dark:border-white/10 dark:bg-gray-900/80 max-w-[95vw] transition-all duration-300">
+                <nav className="flex items-center justify-around w-full sm:w-auto gap-1 sm:gap-2 rounded-full border border-gray-200/50 bg-white/85 p-2.5 sm:p-2 shadow-2xl backdrop-blur-xl dark:border-white/10 dark:bg-gray-900/80 max-w-[95vw] transition-all duration-300">
                     {!isDesktop && submenuOpen && (activeTopic === "more" || activeTopic === "tools") ? (
-                        <div className="flex items-center gap-2 overflow-x-auto no-scrollbar py-1 pr-2 max-w-[85vw]">
+                        <div className="flex items-center justify-around w-full sm:w-auto gap-1 sm:gap-2 overflow-x-auto no-scrollbar py-1 pr-2 max-w-[85vw]">
                             {/* Back Button */}
                             <button
                                 onClick={() => {

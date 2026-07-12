@@ -10,7 +10,6 @@ import WorkDetail from './pages/workDetail.jsx'
 import Legal from './pages/legal.jsx'
 import Research from './pages/research.jsx'
 import Recognition from './pages/recognition.jsx'
-import Tools from './pages/tools.jsx'
 import Socials from './pages/socials.jsx'
 
 import SettingsModal from './pages/settingsModal.jsx'
@@ -77,7 +76,6 @@ function MainLayout() {
                 <Route path="/projects" element={<Projects />} />
                 <Route path="/research" element={<Research />} />
                 <Route path="/recognition" element={<Recognition />} />
-                <Route path="/tools" element={<Tools />} />
                 <Route path="/socials" element={<Socials />} />
 
                 <Route path="/project/:id" element={<WorkDetail />} />

@@ -3,28 +3,19 @@ import { useEffect, useState } from "react";
 import { projectData } from "../data/projects";
 import { researchData } from "../data/research";
 import { recognitionData } from "../data/recognitionList";
-import { toolsList } from "../data/toolsList";
-import { getKeywordEngine, KeywordHighlights, shortenKeyword } from "../utils/keywordEngine";
-import { Prompt, FormattedText, DocumentTabs } from "../components/components.jsx";
+import { FormattedText, QuickNav } from "../components/components.jsx";
 import { motion } from 'framer-motion';
 import { fadeUp, TIMING, EASING } from '../utils/animations.js';
 import { siteContent } from "../data/siteContent";
-import TicTacToe from "../tools/ticTacToe";
 
 function WorkDetail() {
     const { common } = siteContent;
     const { id } = useParams();
     const [selectedImage, setSelectedImage] = useState(null);
-    const [isPromptOpen, setIsPromptOpen] = useState(false);
-    const [selectedKeyword, setSelectedKeyword] = useState("");
 
-    const openPrompt = (keyword) => {
-        setSelectedKeyword(keyword);
-        setIsPromptOpen(true);
-    };
 
     // Try to find the item in projectData first, then researchData, then recognitionData
-    const item = projectData[id] || researchData[id] || recognitionData[id] || toolsList.find(t => t.id === id);
+    const item = projectData[id] || researchData[id] || recognitionData[id];
 
     useEffect(() => {
         window.scrollTo(0, 0);
@@ -96,8 +87,7 @@ function WorkDetail() {
         );
     }
 
-    const engine = getKeywordEngine();
-    const itemHighlights = engine.getItemHighlights(item);
+
 
     const workTabs = [
         ...(item.stats ? [{ id: 'metrics', label: item.category === "recognition" ? "Competition Results" : common.keyMetrics }] : []),
@@ -121,7 +111,7 @@ function WorkDetail() {
 
     return (
         <div className="min-h-screen bg-white dark:bg-gray-950 text-gray-900 dark:text-gray-100 pt-32 pb-20 px-6">
-            <DocumentTabs tabs={workTabs} />
+            <QuickNav tabs={workTabs} />
             <div className="max-w-5xl mx-auto">
                 <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: TIMING.dramatic, ease: EASING.easeOut }}>
                     <header className="mb-16">
@@ -151,10 +141,9 @@ function WorkDetail() {
                                         {item.stats.map((stat, i) => (
                                             <div 
                                                 key={i} 
-                                                onClick={() => openPrompt(stat.label)}
-                                                className="p-8 bg-gray-50 dark:bg-gray-900 rounded-[2rem] border border-gray-100 dark:border-gray-800 hover:bg-white dark:hover:bg-gray-800 hover:shadow-xl dark:hover:shadow-black/50 transition-all group cursor-pointer"
+                                                className="p-8 bg-gray-50 dark:bg-gray-900 rounded-[2rem] border border-gray-100 dark:border-gray-800 hover:shadow-lg dark:hover:shadow-black/30 transition-all"
                                             >
-                                                <div className="text-4xl md:text-5xl font-black text-blue-600 dark:text-blue-400 mb-2 tracking-tighter group-hover:scale-105 transition-transform origin-left">
+                                                <div className="text-4xl md:text-5xl font-black text-blue-600 dark:text-blue-400 mb-2 tracking-tighter">
                                                     {stat.value}
                                                 </div>
                                                 <div className="text-sm font-black text-gray-900 dark:text-white uppercase tracking-widest mb-1">
@@ -169,17 +158,10 @@ function WorkDetail() {
                                 </motion.section>
                             )}
 
-                            <section id="overview" className="scroll-mt-36">
+                             <section id="overview" className="scroll-mt-36">
                                 <h3 className="text-xs font-black tracking-[0.2em] uppercase text-gray-400 dark:text-gray-500 mb-6">
                                     {item.category === "research" ? common.abstractOverview : item.category === "recognition" ? "Competition Overview" : common.challengeSolution}
                                 </h3>
-                                <div className="mb-10">
-                                    <KeywordHighlights 
-                                        highlights={itemHighlights} 
-                                        className="grid-cols-2 md:grid-cols-4" 
-                                        onKeywordClick={openPrompt}
-                                    />
-                                </div>
                                 <p className="text-2xl text-gray-600 dark:text-gray-400 leading-relaxed font-medium">
                                     <FormattedText text={item.description} />
                                 </p>
@@ -213,14 +195,13 @@ function WorkDetail() {
                         </div>
 
                         <aside className="space-y-12">
-                            <div id="tech" className="scroll-mt-36">
+                             <div id="tech" className="scroll-mt-36">
                                 <h3 className="text-xs font-black tracking-[0.2em] uppercase text-gray-400 dark:text-gray-500 mb-6">{techLabel}</h3>
                                 <div className="flex flex-wrap gap-3">
                                     {item.tech.map(t => (
                                         <span 
                                             key={t} 
-                                            onClick={() => openPrompt(t)}
-                                            className="px-5 py-2.5 bg-gray-50 dark:bg-gray-800 rounded-2xl text-sm font-bold text-gray-700 dark:text-gray-300 border border-gray-100 dark:border-gray-700 hover:bg-white dark:hover:bg-gray-700 hover:shadow-md dark:hover:shadow-black/50 transition-all cursor-pointer"
+                                            className="px-5 py-2.5 bg-gray-50 dark:bg-gray-800 rounded-2xl text-sm font-bold text-gray-700 dark:text-gray-300 border border-gray-100 dark:border-gray-700 transition-all"
                                         >
                                             {t}
                                         </span>
@@ -290,11 +271,7 @@ function WorkDetail() {
                 </motion.div>
             )}
 
-            <Prompt 
-                isOpen={isPromptOpen}
-                onClose={() => setIsPromptOpen(false)}
-                keyword={selectedKeyword}
-            />
+
         </div>
     );
 }

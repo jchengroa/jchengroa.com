@@ -17,7 +17,7 @@ export const recognitionData = {
         links: [
             { name: "Facebook Announcement", url: "https://www.facebook.com/TheLaSallian/posts/1329321892577023" }
         ],
-        images: []
+        images: ["/adp.jpg"]
     },
     "squeeze-tech-decon-2026": {
         id: "squeeze-tech-decon-2026",

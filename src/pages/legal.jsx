@@ -104,13 +104,6 @@ function Legal() {
                                         </div>
                                     </li>
                                     <li>
-                                        <p className="text-gray-900 dark:text-white font-bold mb-1">{legal.libraries.lodash.title}</p>
-                                        {legal.libraries.lodash.content}
-                                        <div className="flex flex-wrap gap-2">
-                                            <DocButton href="https://lodash.com/" label="Lodash" />
-                                        </div>
-                                    </li>
-                                    <li>
                                         <p className="text-gray-900 dark:text-white font-bold mb-1">{legal.libraries.axios.title}</p>
                                         {legal.libraries.axios.content}
                                         <div className="flex flex-wrap gap-2">
@@ -129,8 +122,8 @@ function Legal() {
                                         {legal.libraries.viewSwitcher.content}
                                     </li>
                                     <li>
-                                        <p className="text-gray-900 dark:text-white font-bold mb-1">{legal.libraries.documentTabs.title}</p>
-                                        {legal.libraries.documentTabs.content}
+                                        <p className="text-gray-900 dark:text-white font-bold mb-1">{legal.libraries.quickNav.title}</p>
+                                        {legal.libraries.quickNav.content}
                                     </li>
                                     <li>
                                         <p className="text-gray-900 dark:text-white font-bold mb-1">{legal.libraries.reactColorful.title}</p>

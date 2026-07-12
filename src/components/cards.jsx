@@ -1,8 +1,27 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
-import { shortenKeyword } from "../utils/keywordEngine";
 import { siteContent } from "../data/siteContent";
 import { FormattedText } from "./typography.jsx";
+
+const shortenKeyword = (text) => {
+    if (!text) return "";
+    const mappings = {
+        "Microwave-Assisted Extraction": "MAE",
+        "Phytochemical Screening": "Phytochem",
+        "Allium Cepa Assay": "Allium Cepa",
+        "Cytotoxicity Evaluation": "Cytotoxicity",
+        "Post-Harvest Preservation": "Preservation",
+        "Shelf-Life Testing": "Shelf-Life",
+        "Object-Oriented Programming": "OOP",
+        "Data Structures and Algorithms": "DSA",
+        "Software Engineering": "SWE",
+        "Computer Engineering": "CpE",
+        "Artificial Intelligence": "AI",
+        "Machine Learning": "ML"
+    };
+    return mappings[text] || text;
+};
+
 
 function WorkCard(props) {
     const { common } = siteContent;

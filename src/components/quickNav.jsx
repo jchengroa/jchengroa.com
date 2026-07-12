@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
-function DocumentTabs({ tabs = [] }) {
+function QuickNav({ tabs = [] }) {
     const [activeTab, setActiveTab] = useState(tabs[0]?.id || "");
     const [isDesktopOpen, setIsDesktopOpen] = useState(() => {
         return localStorage.getItem('jchengroa_doc_tabs_desktop_open') !== 'false';
@@ -16,7 +16,18 @@ function DocumentTabs({ tabs = [] }) {
     const toggleDesktopOpen = (nextState) => {
         setIsDesktopOpen(nextState);
         localStorage.setItem('jchengroa_doc_tabs_desktop_open', nextState.toString());
+        window.dispatchEvent(new CustomEvent('jchengroa_projects_outline_setting_changed', { detail: nextState }));
     };
+
+    useEffect(() => {
+        const handleSettingChange = (e) => {
+            setIsDesktopOpen(e.detail);
+        };
+        window.addEventListener('jchengroa_projects_outline_setting_changed', handleSettingChange);
+        return () => {
+            window.removeEventListener('jchengroa_projects_outline_setting_changed', handleSettingChange);
+        };
+    }, []);
 
     useEffect(() => {
         window.dispatchEvent(new CustomEvent('documentOutlineToggle', { detail: isOpen }));
@@ -278,4 +289,4 @@ function DocumentTabs({ tabs = [] }) {
     );
 }
 
-export { DocumentTabs };
+export { QuickNav };

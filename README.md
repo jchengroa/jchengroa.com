@@ -26,7 +26,6 @@ A premium, multidisciplinary portfolio website showcasing engineering projects, 
 - **Animations**: [Framer Motion](https://www.framer.com/motion/) — UI animations, scroll-linked effects, dynamic hero background cross-fading slideshow, and bottom-floating dock with dynamic sub-menus
 - **Search**: [Fuse.js](https://www.fusejs.io/) — fuzzy search across projects, research, and tools
 - **Carousel**: [Embla Carousel](https://www.embla-carousel.com/) — featured work sliders (projects, research, and recognition)
-- **Data**: [Lodash](https://lodash.com/) — keyword engine data processing
 - **HTTP**: [Axios](https://axios-http.com/) — download manager with progress tracking
 - **Color**: [React Colorful](https://github.com/omgovich/react-colorful) — custom accent color picker with palette generation
 - **Deployment**: Contabo VPS via GitHub Actions
@@ -87,8 +86,6 @@ jchengroa.com/
 │       └── deploy.yml
 ├── .gitignore
 ├── Dockerfile
-├── docs/
-│   └── index.html
 ├── index.html
 ├── package-lock.json
 ├── package.json
@@ -119,17 +116,11 @@ jchengroa.com/
 │   │   ├── changelogOutline.jsx
 │   │   ├── components.jsx
 │   │   ├── controls.jsx
-│   │   ├── docDetail.jsx
-│   │   ├── docsOutline.jsx
-│   │   ├── documentTabs.jsx
+│   │   ├── quickNav.jsx
 │   │   ├── navigation.jsx
-│   │   ├── prompt.jsx
 │   │   └── typography.jsx
 │   ├── data/
 │   │   ├── changelog.js
-│   │   ├── docs.js
-│   │   ├── docsList.js
-│   │   ├── keywords.js
 │   │   ├── navbar.js
 │   │   ├── projectList.js
 │   │   ├── projects.js
@@ -137,14 +128,11 @@ jchengroa.com/
 │   │   ├── research.js
 │   │   ├── researchList.js
 │   │   ├── siteContent.js
-│   │   ├── socialsList.js
-│   │   └── toolsList.js
-│   ├── docsMain.jsx
+│   │   └── socialsList.js
 │   ├── index.css
 │   ├── main.jsx
 │   ├── pages/
 │   │   ├── changelog.jsx
-│   │   ├── docs.jsx
 │   │   ├── home.jsx
 │   │   ├── legal.jsx
 │   │   ├── projects.jsx
@@ -152,16 +140,12 @@ jchengroa.com/
 │   │   ├── research.jsx
 │   │   ├── settingsModal.jsx
 │   │   ├── socials.jsx
-│   │   ├── tools.jsx
 │   │   └── workDetail.jsx
-│   ├── tools/
-│   │   └── ticTacToe.jsx
 │   └── utils/
 │       ├── animations.js
 │       ├── colorUtils.js
 │       ├── downloadManager.jsx
 │       ├── hamburgerMenu.jsx
-│       ├── keywordEngine.jsx
 │       ├── subheaderToggle.js
 │       └── viewSwitcher.jsx
 └── vite.config.js
@@ -415,3 +399,14 @@ Optimized website codebase and resolved duplicate imports.
 Fixed mobile UI bugs.
 Fixed home page alignment issues.
 Overall, small tweaks that refines the feel of the new UI.
+
+- [0.13.0] - 2026-07-12
+Added new images for the website.
+Removed Keyword Highlighting System.
+Removed Keyword Prompt Modal system.
+Removed Documentation Page and all related features.
+Removed Tools Page and all related features.
+Changed Projects, Research, Recognition pages in desktop view to a grid layout.
+Optimized view for mobile devices.
+Fixed home page bugs, specifically for smaller screens. 
+* Note: These features are removed for now and will be added after the official release

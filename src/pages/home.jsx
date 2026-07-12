@@ -1,13 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { WorkCard, Title, Prompt, ContactCard, SectionIndicator } from '../components/components.jsx';
+import { WorkCard, Title, ContactCard, SectionIndicator } from '../components/components.jsx';
 import { projectsList } from '../data/projects';
 import { researchList } from '../data/research';
 import { recognitionList } from '../data/recognitionList';
 import { motion } from 'framer-motion';
 import { FaFacebookF, FaGithub, FaLinkedinIn } from 'react-icons/fa';
 import { LuMail, LuFileText } from 'react-icons/lu';
-import { getKeywordEngine, KeywordHighlights } from '../utils/keywordEngine';
 import { siteContent } from '../data/siteContent';
 import { changelogData } from '../data/changelog.js';
 
@@ -24,7 +23,7 @@ function FeaturedSection({ id, title, subtitle, items, isResearch, bgClass, glow
     return (
         <section 
             id={id} 
-            className="snap-start shrink-0 h-screen w-full flex flex-col justify-center pt-10 sm:pt-28 pb-28 sm:pb-12 px-6 relative overflow-hidden border-none rounded-none bg-blue-50/50 dark:bg-blue-950/20 text-gray-900 dark:text-white isolate transition-colors duration-300"
+            className="snap-start shrink-0 min-h-screen md:h-screen w-full flex flex-col justify-center py-16 md:py-0 px-6 relative overflow-y-auto no-scrollbar md:overflow-hidden border-none rounded-none bg-blue-50/50 dark:bg-blue-950/20 text-gray-900 dark:text-white isolate transition-colors duration-300"
         >
             {/* Split Left Background (Desktop Only) */}
             <div className="absolute left-0 top-0 bottom-0 w-full md:w-[48%] bg-white dark:bg-gray-950 z-0 transition-colors duration-300" />
@@ -40,10 +39,10 @@ function FeaturedSection({ id, title, subtitle, items, isResearch, bgClass, glow
             <div className={`absolute top-1/4 left-1/3 w-72 h-72 rounded-full ${glowColors.first} blur-3xl pointer-events-none animate-pulse`}></div>
             <div className={`absolute bottom-1/4 right-1/3 w-72 h-72 rounded-full ${glowColors.second} blur-3xl pointer-events-none animate-pulse delay-1000`}></div>
 
-            <div className="max-w-7xl w-full mx-auto flex flex-col justify-center h-full relative z-10">
+            <div className="max-w-7xl w-full mx-auto flex flex-col justify-center min-h-[inherit] md:h-full relative z-10">
                 <Title
                     title={title}
-                    className="mb-3 md:mb-6"
+                    className="mb-2 md:mb-6"
                 />
 
                 {featuredItem && (
@@ -69,7 +68,7 @@ function FeaturedSection({ id, title, subtitle, items, isResearch, bgClass, glow
                         {/* Right Column (Desktop) / First Block (Mobile): Landscape visual mockup */}
                         <Link
                             to={isResearch ? "/research" : `/project/${featuredItem.id}`}
-                            className="w-full aspect-[16/10] rounded-[2rem] overflow-hidden border border-gray-150 dark:border-white/10 shadow-xl bg-gray-100 dark:bg-gray-950 flex items-center justify-center relative group cursor-pointer block hover:scale-[1.01] hover:shadow-2xl transition-all duration-500 order-1 md:order-2"
+                            className="w-full max-w-lg mx-auto md:mx-0 aspect-[16/10] rounded-[2rem] overflow-hidden border border-gray-150 dark:border-white/10 shadow-xl bg-gray-100 dark:bg-gray-950 flex items-center justify-center relative group cursor-pointer block hover:scale-[1.01] hover:shadow-2xl transition-all duration-500 order-1 md:order-2"
                         >
                             {featuredItem.images && featuredItem.images[0] ? (
                                 <img 
@@ -129,7 +128,7 @@ function Contact({ bgClass }) {
     return (
         <section
             id="contact"
-            className="snap-start shrink-0 h-screen w-full flex flex-col justify-between items-center pt-10 sm:pt-28 pb-28 sm:pb-10 px-6 relative overflow-hidden border-none rounded-none bg-blue-50/50 dark:bg-blue-950/20 text-gray-900 dark:text-white isolate transition-colors duration-300"
+            className="snap-start shrink-0 min-h-screen md:h-screen w-full flex flex-col justify-between items-center py-16 md:py-10 px-6 relative overflow-y-auto no-scrollbar md:overflow-hidden border-none rounded-none bg-blue-50/50 dark:bg-blue-950/20 text-gray-900 dark:text-white isolate transition-colors duration-300"
         >
             {/* Split Left Background (Desktop Only) */}
             <div className="absolute left-0 top-0 bottom-0 w-full md:w-[48%] bg-white dark:bg-gray-950 z-0 transition-colors duration-300" />
@@ -194,8 +193,6 @@ function Contact({ bgClass }) {
 
 function Home() {
     const { hero, featuredProjects, featuredResearch, featuredRecognition } = siteContent.home;
-    const [isPromptOpen, setIsPromptOpen] = React.useState(false);
-    const [selectedKeyword, setSelectedKeyword] = React.useState("");
     const [activeSection, setActiveSection] = React.useState("home");
 
     React.useEffect(() => {
@@ -242,13 +239,7 @@ function Home() {
         }
     };
 
-    const openPrompt = (keyword) => {
-        setSelectedKeyword(keyword);
-        setIsPromptOpen(true);
-    };
 
-    const engine = getKeywordEngine();
-    const highlights = engine.getHeroHighlights();
 
     // Landscape frames representation
     const frames = [
@@ -269,7 +260,7 @@ function Home() {
             {/* Section 1: True Full-Screen Theme-Aware Hero with Split Organic Wave Layout */}
             <section
                 id="home"
-                className="relative snap-start shrink-0 h-screen w-full flex flex-col items-center justify-center border-none rounded-none overflow-hidden bg-blue-50/50 dark:bg-blue-950/20 text-gray-900 dark:text-white isolate transition-colors duration-300"
+                className="relative snap-start shrink-0 min-h-screen md:h-screen w-full flex flex-col items-center justify-center border-none rounded-none overflow-y-auto no-scrollbar md:overflow-hidden bg-blue-50/50 dark:bg-blue-950/20 text-gray-900 dark:text-white isolate transition-colors duration-300 py-16 md:py-0"
             >
                 {/* Split Left Background (Desktop Only) */}
                 <div className="absolute left-0 top-0 bottom-0 w-full md:w-[48%] bg-white dark:bg-gray-950 z-0 transition-colors duration-300" />
@@ -286,7 +277,7 @@ function Home() {
                 <div className="absolute inset-0 bg-black/[0.01] dark:bg-black/20 pointer-events-none"></div>
 
                 {/* Hero Centered Container */}
-                <div className="relative z-10 max-w-4xl w-full px-6 flex flex-col items-center justify-center h-full my-auto gap-4 md:gap-6">
+                <div className="relative z-10 max-w-4xl w-full px-6 flex flex-col items-center justify-center min-h-[inherit] md:h-full my-auto gap-4 md:gap-6">
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
@@ -306,14 +297,7 @@ function Home() {
                             </p>
                         </div>
 
-                        {/* Keyword Highlights */}
-                        <div className="w-full mb-4 hidden md:block">
-                            <KeywordHighlights
-                                highlights={highlights}
-                                onKeywordClick={openPrompt}
-                                className="max-w-3xl mx-auto"
-                            />
-                        </div>
+
 
                         {/* Call to Actions */}
                         <div className="flex flex-wrap justify-center gap-2.5 w-full px-2 sm:px-0">
@@ -403,11 +387,7 @@ function Home() {
             {/* Section 5: Snapping Contact & Footer Page */}
             <Contact bgClass="bg-gradient-to-br from-gray-50 via-indigo-50/20 to-gray-50 dark:from-gray-950 dark:via-indigo-950/10 dark:to-gray-950 text-gray-900 dark:text-white" />
 
-            <Prompt
-                isOpen={isPromptOpen}
-                onClose={() => setIsPromptOpen(false)}
-                keyword={selectedKeyword}
-            />
+
         </div>
     );
 }

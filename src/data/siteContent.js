@@ -68,10 +68,6 @@ export const siteContent = {
                 title: "Embla Carousel",
                 content: "Provides the lightweight, touch-enabled slider components for featured work."
             },
-            lodash: {
-                title: "Lodash",
-                content: "Utilized for efficient data manipulation within the keyword engine."
-            },
             axios: {
                 title: "Axios",
                 content: "Used in the custom Download Manager to fetch files as Blobs with real-time download progress tracking (speed, loaded/total bytes, cancel/abort tokens)."
@@ -84,9 +80,9 @@ export const siteContent = {
                 title: "View Switcher Utility",
                 content: "A custom universal React hook (useViewSwitcher) utilizing localStorage and CustomEvent to seamlessly toggle between Grid and List views across Projects, Research, Recognition, and Tools."
             },
-            documentTabs: {
-                title: "Document Tabs Navigation",
-                content: "A sleek, responsive Google Docs and React documentation-style sticky navigation sidebar built with Framer Motion, enabling smooth scrolling and real-time active section highlighting."
+            quickNav: {
+                title: "Quick Nav Outline",
+                content: "A sleek, responsive sticky navigation sidebar built with Framer Motion, enabling smooth scrolling and real-time active section highlighting."
             },
             reactColorful: {
                 title: "React Colorful",

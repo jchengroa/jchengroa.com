@@ -32,13 +32,13 @@ const STORAGE_KEYS = {
 
 const ICONS = {
     appearance: (
-        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a10 10 0 0 1 0 20"/><path d="M2 12h20"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10" /><path d="M12 2a10 10 0 0 1 0 20" /><path d="M2 12h20" /></svg>
     ),
     developer: (
-        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="16 18 22 12 16 6" /><polyline points="8 6 2 12 8 18" /></svg>
     ),
     data: (
-        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/><path d="M3 12c0 1.66 4 3 9 3s9-1.34 9-3"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3" /><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5" /><path d="M3 12c0 1.66 4 3 9 3s9-1.34 9-3" /></svg>
     ),
 };
 
@@ -62,7 +62,7 @@ function ToggleSwitch({ enabled, onChange, label }) {
     );
 }
 
-function AppearanceSettings({ themeMode, setThemeMode, accentColor, setAccentColor, customHex, setCustomHex }) {
+function AppearanceSettings({ themeMode, setThemeMode, accentColor, setAccentColor, customHex, setCustomHex, docsTabs, setDocsTabs }) {
     const [pickerOpen, setPickerOpen] = useState(false);
     const [tempHex, setTempHex] = useState(customHex || '#2563eb');
 
@@ -134,7 +134,7 @@ function AppearanceSettings({ themeMode, setThemeMode, accentColor, setAccentCol
                         style={isCustom ? { backgroundColor: currentHex } : { backgroundColor: 'transparent' }}
                     >
                         {!isCustom && (
-                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-gray-400 dark:text-gray-500"><circle cx="12" cy="12" r="10"/><path d="M12 8v8"/><path d="M8 12h8"/></svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-gray-400 dark:text-gray-500"><circle cx="12" cy="12" r="10" /><path d="M12 8v8" /><path d="M8 12h8" /></svg>
                         )}
                     </button>
                 </div>
@@ -147,6 +147,22 @@ function AppearanceSettings({ themeMode, setThemeMode, accentColor, setAccentCol
                     Choose a preset or pick your own custom color.
                 </p>
             </div>
+
+            <div>
+                <h3 className="text-xs font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-4">
+                    Layout Settings
+                </h3>
+                <div className="space-y-4">
+                    <div className="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-800/30 rounded-2xl border border-gray-100 dark:border-gray-800">
+                        <div className="flex-1 pr-4 text-left">
+                            <p className="text-gray-900 dark:text-white font-bold text-sm">Quick Nav Outline</p>
+                            <p className="text-gray-500 dark:text-gray-400 text-xs font-medium mt-0.5 leading-relaxed">Show or hide the quick navigation outline sidebar on pages.</p>
+                        </div>
+                        <ToggleSwitch enabled={docsTabs} onChange={setDocsTabs} />
+                    </div>
+                </div>
+            </div>
+
 
             {pickerOpen && (
                 <div className="bg-gray-50 dark:bg-gray-800/30 rounded-2xl border border-gray-100 dark:border-gray-800 p-5">
@@ -181,7 +197,7 @@ function AppearanceSettings({ themeMode, setThemeMode, accentColor, setAccentCol
                         />
                     </div>
                     <div className="flex flex-wrap gap-2 mt-4 justify-center">
-                        {['#dc2626','#ea580c','#eab308','#16a34a','#2563eb','#7c3aed','#ec4899','#06b6d4','#14b8a6','#84cc16'].map(hex => (
+                        {['#dc2626', '#ea580c', '#eab308', '#16a34a', '#2563eb', '#7c3aed', '#ec4899', '#06b6d4', '#14b8a6', '#84cc16'].map(hex => (
                             <button
                                 key={hex}
                                 type="button"
@@ -346,7 +362,28 @@ export default function SettingsModal({ isOpen, onClose }) {
         }
         return null;
     });
+    const [docsTabs, setDocsTabs] = useState(() => {
+        if (typeof window !== "undefined") {
+            return localStorage.getItem(STORAGE_KEYS.docsTabs) !== 'false';
+        }
+        return true;
+    });
     const [showChangelogDebug, setShowChangelogDebug] = useState(false);
+
+    useEffect(() => {
+        localStorage.setItem(STORAGE_KEYS.docsTabs, docsTabs.toString());
+        window.dispatchEvent(new CustomEvent('jchengroa_projects_outline_setting_changed', { detail: docsTabs }));
+    }, [docsTabs]);
+
+    useEffect(() => {
+        const handleSettingChange = (e) => {
+            setDocsTabs(e.detail);
+        };
+        window.addEventListener('jchengroa_projects_outline_setting_changed', handleSettingChange);
+        return () => {
+            window.removeEventListener('jchengroa_projects_outline_setting_changed', handleSettingChange);
+        };
+    }, []);
 
     useEffect(() => {
         const applyTheme = (mode) => {
@@ -394,13 +431,15 @@ export default function SettingsModal({ isOpen, onClose }) {
             setAccentColor(syncedAccent);
             const syncedCustomHex = localStorage.getItem(STORAGE_KEYS.customColor) || null;
             setCustomHex(syncedCustomHex);
+            const syncedDocsTabs = localStorage.getItem(STORAGE_KEYS.docsTabs) !== 'false';
+            setDocsTabs(syncedDocsTabs);
         }
     }, [isOpen]);
 
     const renderContent = () => {
         switch (activeTab) {
             case 'appearance':
-                return <AppearanceSettings themeMode={themeMode} setThemeMode={setThemeMode} accentColor={accentColor} setAccentColor={setAccentColor} customHex={customHex} setCustomHex={setCustomHex} />;
+                return <AppearanceSettings themeMode={themeMode} setThemeMode={setThemeMode} accentColor={accentColor} setAccentColor={setAccentColor} customHex={customHex} setCustomHex={setCustomHex} docsTabs={docsTabs} setDocsTabs={setDocsTabs} />;
             case 'developer':
                 return <DeveloperSettings onShowChangelog={() => setShowChangelogDebug(true)} />;
             case 'data':
@@ -420,9 +459,9 @@ export default function SettingsModal({ isOpen, onClose }) {
                         </span>
                         <h3 className="text-lg font-black text-gray-900 dark:text-white tracking-tight">Appearance</h3>
                     </div>
-                    <AppearanceSettings themeMode={themeMode} setThemeMode={setThemeMode} accentColor={accentColor} setAccentColor={setAccentColor} customHex={customHex} setCustomHex={setCustomHex} />
+                    <AppearanceSettings themeMode={themeMode} setThemeMode={setThemeMode} accentColor={accentColor} setAccentColor={setAccentColor} customHex={customHex} setCustomHex={setCustomHex} docsTabs={docsTabs} setDocsTabs={setDocsTabs} />
                 </div>
-                
+
                 <div>
                     <div className="flex items-center gap-2.5 mb-6 border-b border-gray-100 dark:border-gray-800 pb-3">
                         <span className="text-blue-600 dark:text-blue-400">
