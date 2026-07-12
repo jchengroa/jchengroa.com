@@ -385,5 +385,20 @@ export const changelogData = [
       "Fixed home page alignment issues.",
       "Overall, small tweaks that refines the feel of the new UI."
     ]
+  },
+  {
+    "version": "0.13.0",
+    "date": "2026-07-12",
+    "content": [
+      "Added new images for the website.",
+      "Removed Keyword Highlighting System.",
+      "Removed Keyword Prompt Modal system.",
+      "Removed Documentation Page and all related features.",
+      "Removed Tools Page and all related features.",
+      "Changed Projects, Research, Recognition pages in desktop view to a grid layout.",
+      "Optimized view for mobile devices.",
+      "Fixed home page bugs, specifically for smaller screens.",
+      "* Note: These features are removed for now and will be added after the official release"
+    ]
   }
 ];
