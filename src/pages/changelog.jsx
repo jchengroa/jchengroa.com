@@ -178,12 +178,13 @@ export default function Changelog() {
     }, [searchQuery]);
 
     return (
-        <div className="min-h-screen bg-gray-50/50 dark:bg-gray-950">
+        <div className="relative min-h-screen bg-transparent overflow-x-hidden">
             <NavBar name="jchengroa" />
 
-            <ChangelogOutline versions={versionList} />
+            <div>
+                <ChangelogOutline versions={versionList} />
 
-            <main className="max-w-4xl mx-auto px-6 pt-32 pb-24">
+                <main className="max-w-4xl mx-auto px-6 pt-32 pb-24">
                 <AnimatePresence mode="wait">
                     {!searchQuery && (
                         <motion.div
@@ -271,6 +272,7 @@ export default function Changelog() {
                     </div>
                 )}
             </main>
+            </div>
         </div>
     );
 }

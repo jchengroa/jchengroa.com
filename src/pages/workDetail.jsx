@@ -32,12 +32,14 @@ function WorkDetail() {
 
     if (!item) {
         return (
-            <div className="min-h-screen flex flex-col items-center justify-center p-6 text-center bg-white dark:bg-gray-950">
-                <h1 className="text-4xl font-black mb-4 tracking-tighter text-gray-900 dark:text-white">{common.itemNotFound}</h1>
-                <p className="text-gray-500 dark:text-gray-400 mb-8">{common.notFoundDescription}</p>
-                <Link to="/" className="px-8 py-4 bg-gray-900 dark:bg-white text-white dark:text-gray-900 rounded-2xl font-bold hover:bg-black dark:hover:bg-gray-100 transition-all">
-                    {common.returnHome}
-                </Link>
+            <div className="relative min-h-screen flex flex-col items-center justify-center p-6 text-center bg-transparent overflow-x-hidden">
+                <div className="relative z-10">
+                    <h1 className="text-4xl font-black mb-4 tracking-tighter text-gray-900 dark:text-white">{common.itemNotFound}</h1>
+                    <p className="text-gray-500 dark:text-gray-400 mb-8">{common.notFoundDescription}</p>
+                    <Link to="/" className="px-8 py-4 bg-gray-900 dark:bg-white text-white dark:text-gray-900 rounded-2xl font-bold hover:bg-black dark:hover:bg-gray-100 transition-all">
+                        {common.returnHome}
+                    </Link>
+                </div>
             </div>
         );
     }
@@ -60,8 +62,8 @@ function WorkDetail() {
 
     if (item.category === 'tool') {
         return (
-            <div className="min-h-screen bg-white dark:bg-gray-950 text-gray-900 dark:text-gray-100 pt-32 pb-20 px-6">
-                <div className="max-w-5xl mx-auto">
+            <div className="relative min-h-screen pt-32 pb-20 px-6 bg-transparent overflow-x-hidden">
+                <div className="max-w-5xl mx-auto relative z-10">
                     <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: TIMING.dramatic, ease: EASING.easeOut }}>
                         <header className="mb-12">
                             <Link
@@ -110,9 +112,9 @@ function WorkDetail() {
     };
 
     return (
-        <div className="min-h-screen bg-white dark:bg-gray-950 text-gray-900 dark:text-gray-100 pt-32 pb-20 px-6">
+        <div className="relative min-h-screen pt-32 pb-20 px-6 bg-transparent overflow-x-hidden">
             <QuickNav tabs={workTabs} />
-            <div className="max-w-5xl mx-auto">
+            <div className="max-w-5xl mx-auto relative z-10">
                 <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: TIMING.dramatic, ease: EASING.easeOut }}>
                     <header className="mb-16">
                         <Link

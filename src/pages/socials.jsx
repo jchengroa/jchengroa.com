@@ -31,13 +31,8 @@ function Socials() {
     return (
         <section
             id="socials"
-            className="relative min-h-screen pt-32 pb-20 px-6 flex flex-col items-center overflow-hidden bg-gray-50/50 dark:bg-gray-950"
+            className="relative min-h-screen pt-32 pb-20 px-6 flex flex-col items-center overflow-x-hidden bg-transparent"
         >
-            {/* Background Decorative Element */}
-            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full max-w-7xl pointer-events-none opacity-20 dark:opacity-10">
-                <div className="absolute top-1/4 left-0 w-96 h-96 bg-blue-200 dark:bg-blue-900 rounded-full mix-blend-multiply filter blur-3xl animate-pulse"></div>
-                <div className="absolute bottom-1/4 right-0 w-96 h-96 bg-purple-200 dark:bg-purple-900 rounded-full mix-blend-multiply filter blur-3xl animate-pulse delay-700"></div>
-            </div>
 
             <div className="max-w-6xl w-full z-10">
                 <motion.div 

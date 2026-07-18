@@ -39,7 +39,7 @@ function FeaturedSection({ id, title, subtitle, items, isResearch, bgClass, glow
             <div className={`absolute top-1/4 left-1/3 w-72 h-72 rounded-full ${glowColors.first} blur-3xl pointer-events-none animate-pulse`}></div>
             <div className={`absolute bottom-1/4 right-1/3 w-72 h-72 rounded-full ${glowColors.second} blur-3xl pointer-events-none animate-pulse delay-1000`}></div>
 
-            <div className="max-w-7xl w-full mx-auto flex flex-col justify-center min-h-[inherit] md:h-full relative z-10">
+            <div className="max-w-7xl w-full mx-auto flex flex-col justify-center min-h-0 md:h-full relative z-10">
                 <Title
                     title={title}
                     className="mb-2 md:mb-6"
@@ -128,7 +128,7 @@ function Contact({ bgClass }) {
     return (
         <section
             id="contact"
-            className="snap-start shrink-0 min-h-screen md:h-screen w-full flex flex-col justify-between items-center py-16 md:py-10 px-6 relative overflow-y-auto no-scrollbar md:overflow-hidden border-none rounded-none bg-blue-50/50 dark:bg-blue-950/20 text-gray-900 dark:text-white isolate transition-colors duration-300"
+            className="snap-start shrink-0 min-h-screen md:h-screen w-full flex flex-col justify-between items-center pt-16 pb-28 md:py-10 px-6 relative overflow-y-auto no-scrollbar md:overflow-hidden border-none rounded-none bg-blue-50/50 dark:bg-blue-950/20 text-gray-900 dark:text-white isolate transition-colors duration-300"
         >
             {/* Split Left Background (Desktop Only) */}
             <div className="absolute left-0 top-0 bottom-0 w-full md:w-[48%] bg-white dark:bg-gray-950 z-0 transition-colors duration-300" />
@@ -277,7 +277,7 @@ function Home() {
                 <div className="absolute inset-0 bg-black/[0.01] dark:bg-black/20 pointer-events-none"></div>
 
                 {/* Hero Centered Container */}
-                <div className="relative z-10 max-w-4xl w-full px-6 flex flex-col items-center justify-center min-h-[inherit] md:h-full my-auto gap-4 md:gap-6">
+                <div className="relative z-10 max-w-4xl w-full px-6 flex flex-col items-center justify-center min-h-0 md:h-full my-auto gap-4 md:gap-6">
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}

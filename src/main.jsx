@@ -60,45 +60,61 @@ function MainLayout() {
         : "Unknown";
 
     return (
-        <div className={isHome ? "w-full h-screen overflow-hidden relative" : "p-2.5 pb-28 sm:pb-12 sm:pt-28 min-h-screen relative"}>
-            <div id="navbar">
-                <NavBar
-                    name="jchengroa"
-                />
-            </div>
-
-            <ChangelogPopup />
-            <DownloadManager />
-            <SettingsModal isOpen={settingsOpen} onClose={() => setSettingsOpen(false)} />
-
-            <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/projects" element={<Projects />} />
-                <Route path="/research" element={<Research />} />
-                <Route path="/recognition" element={<Recognition />} />
-                <Route path="/socials" element={<Socials />} />
-
-                <Route path="/project/:id" element={<WorkDetail />} />
-                <Route path="/legal" element={<Legal />} />
-                <Route path="/changelog" element={<Changelog />} />
-            </Routes>
-
+        <div className={isHome ? "w-full h-screen overflow-hidden relative" : "p-2.5 pb-28 sm:pb-12 sm:pt-28 min-h-screen relative bg-blue-50/50 dark:bg-blue-950/20 text-gray-900 dark:text-white isolate transition-colors duration-300"}>
             {!isHome && (
-                <div id="footer" className="p-5 text-center mt-12">
-                    <p className="text-sm text-gray-900 dark:text-gray-100">
-                        <Link to="/legal" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
-                            <b>{footer.legalLink}</b>
-                        </Link>
-                    </p>
-                    <p className="text-sm text-gray-500 dark:text-gray-400">
-                        <Link to="/changelog" className="hover:text-blue-600 dark:hover:text-blue-400 transition-all duration-300 group inline-flex items-center gap-1.5">
-                            <span className="opacity-70 group-hover:opacity-100">{footer.versionPrefix} {currentVersion}</span>
-                            <span className="opacity-30">|</span>
-                            <span className="opacity-70 group-hover:opacity-100">{footer.updatedPrefix}: {lastUpdatedDate}</span>
-                        </Link>
-                    </p>
-                </div>
+                <>
+                    {/* Split Left Background (Desktop Only) */}
+                    <div className="absolute left-0 top-0 bottom-0 w-full md:w-[48%] bg-white dark:bg-gray-950 z-0 transition-colors duration-300" />
+                    
+                    {/* Wave Divider SVG (Desktop Only) */}
+                    <div className="absolute left-[48%] top-0 bottom-0 w-[100px] h-full z-0 hidden md:block text-white dark:text-gray-950 fill-current transition-colors duration-300">
+                        <svg viewBox="0 0 100 1000" preserveAspectRatio="none" className="w-full h-full">
+                            <path d="M0,0 Q60,250 30,500 Q0,750 50,1000 L0,1000 Z" />
+                        </svg>
+                    </div>
+                </>
             )}
+
+            <div className={isHome ? "relative w-full h-full" : "relative z-10 w-full"}>
+                <div id="navbar">
+                    <NavBar
+                        name="jchengroa"
+                    />
+                </div>
+
+                <ChangelogPopup />
+                <DownloadManager />
+                <SettingsModal isOpen={settingsOpen} onClose={() => setSettingsOpen(false)} />
+
+                <Routes>
+                    <Route path="/" element={<Home />} />
+                    <Route path="/projects" element={<Projects />} />
+                    <Route path="/research" element={<Research />} />
+                    <Route path="/recognition" element={<Recognition />} />
+                    <Route path="/socials" element={<Socials />} />
+
+                    <Route path="/project/:id" element={<WorkDetail />} />
+                    <Route path="/legal" element={<Legal />} />
+                    <Route path="/changelog" element={<Changelog />} />
+                </Routes>
+
+                {!isHome && (
+                    <div id="footer" className="p-5 text-center mt-12">
+                        <p className="text-sm text-gray-900 dark:text-gray-100">
+                            <Link to="/legal" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
+                                <b>{footer.legalLink}</b>
+                            </Link>
+                        </p>
+                        <p className="text-sm text-gray-500 dark:text-gray-400">
+                            <Link to="/changelog" className="hover:text-blue-600 dark:hover:text-blue-400 transition-all duration-300 group inline-flex items-center gap-1.5">
+                                <span className="opacity-70 group-hover:opacity-100">{footer.versionPrefix} {currentVersion}</span>
+                                <span className="opacity-30">|</span>
+                                <span className="opacity-70 group-hover:opacity-100">{footer.updatedPrefix}: {lastUpdatedDate}</span>
+                            </Link>
+                        </p>
+                    </div>
+                )}
+            </div>
         </div>
     );
 }

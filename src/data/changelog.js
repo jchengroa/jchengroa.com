@@ -400,5 +400,15 @@ export const changelogData = [
       "Fixed home page bugs, specifically for smaller screens.",
       "* Note: These features are removed for now and will be added after the official release"
     ]
+  },
+  {
+    "version": "0.13.1",
+    "date": "2026-07-18",
+    "content": [
+      "Added the minimalistic background design for all pages in the desktop view.",
+      "Fixed vertical alignment issues of home page for both desktop and mobile view.",
+      "Fixed bug where footer isn't displayed correctly in mobile view.",
+      "Fixed design background consistency issues throughout the website."
+    ]
   }
 ];

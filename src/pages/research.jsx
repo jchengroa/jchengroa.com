@@ -68,8 +68,9 @@ function Research() {
     );
 
     return (
-        <section className="min-h-screen pt-20 md:pt-32 pb-12 md:pb-20 px-4 md:px-6 bg-gray-50/50 dark:bg-gray-950 flex flex-col items-center">
-            <div className="max-w-6xl w-full">
+        <section className="relative min-h-screen pt-20 md:pt-32 pb-32 md:pb-20 px-4 md:px-6 bg-transparent flex flex-col items-center overflow-x-hidden">
+
+            <div className="max-w-6xl w-full z-10">
                 <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, ease: "easeOut" }} className="w-full mb-12 lg:mb-20">
                     <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-start">
                         {/* Left Column: Title and description */}

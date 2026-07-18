@@ -25,7 +25,7 @@ function Legal() {
     }, []);
 
     return (
-        <div className="min-h-screen bg-white dark:bg-gray-950 text-gray-900 dark:text-gray-100 pt-32 pb-20 px-6">
+        <div className="relative min-h-screen pt-32 pb-20 px-6 bg-transparent overflow-x-hidden">
             <div className="max-w-4xl mx-auto">
 
 
