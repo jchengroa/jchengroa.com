@@ -1,25 +1,30 @@
 import { useParams, Link } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { projectData } from "../data/projects";
-import { researchData } from "../data/research";
-import { recognitionData } from "../data/recognitionList";
 import { FormattedText, QuickNav } from "../components/components.jsx";
 import { motion } from 'framer-motion';
 import { fadeUp, TIMING, EASING } from '../utils/animations.js';
-import { siteContent } from "../data/siteContent";
+import { useData } from "../context/DataContext.jsx";
 
 function WorkDetail() {
+    const { projects, research, recognition, siteContent, loading } = useData();
     const { common } = siteContent;
     const { id } = useParams();
     const [selectedImage, setSelectedImage] = useState(null);
-
-
-    // Try to find the item in projectData first, then researchData, then recognitionData
-    const item = projectData[id] || researchData[id] || recognitionData[id];
+    const [item, setItem] = useState(null);
 
     useEffect(() => {
         window.scrollTo(0, 0);
     }, []);
+
+    useEffect(() => {
+        if (!loading) {
+            const foundItem = 
+                projects.find(p => p.id === id) || 
+                research.find(r => r.id === id) || 
+                recognition.find(rec => rec.id === id);
+            setItem(foundItem);
+        }
+    }, [id, projects, research, recognition, loading]);
 
     // Prevent scrolling when an image is open
     useEffect(() => {
@@ -29,6 +34,14 @@ function WorkDetail() {
             document.body.style.overflow = "unset";
         }
     }, [selectedImage]);
+
+    if (loading) {
+        return (
+            <div className="relative min-h-screen flex items-center justify-center bg-transparent">
+                <div className="w-8 h-8 border-4 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
+            </div>
+        );
+    }
 
     if (!item) {
         return (

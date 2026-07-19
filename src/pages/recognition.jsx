@@ -2,11 +2,13 @@ import { useState } from "react";
 import { RecognitionCard, Title, SearchBar, FilterList, ViewSwitcherButton, UniversalListCard, SubheaderToggleButton, QuickNav } from "../components/components.jsx";
 import { motion, AnimatePresence } from 'framer-motion';
 import { fadeUp, TIMING, EASING } from '../utils/animations.js';
-import { recognitionList, recognitionPageContent } from "../data/recognitionList";
 import { useViewSwitcher } from "../utils/viewSwitcher";
+import { useData } from "../context/DataContext.jsx";
 import Fuse from 'fuse.js';
 
 function Recognition() {
+    const { recognition, siteContent } = useData();
+    const recognitionPageContent = siteContent.recognition;
     const [searchQuery, setSearchQuery] = useState("");
     const [activeFilter, setActiveFilter] = useState("All");
     const { view } = useViewSwitcher();
@@ -16,7 +18,7 @@ function Recognition() {
 
     const filters = ["All", "Hackathon", "Tech Decon", "Prototyping"];
 
-    let filteredItems = recognitionList.filter(item => {
+    let filteredItems = recognition.filter(item => {
         return activeFilter === "All" || (item.keywords && item.keywords.includes(activeFilter));
     });
 

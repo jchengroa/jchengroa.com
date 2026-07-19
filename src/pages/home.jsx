@@ -1,14 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { WorkCard, Title, ContactCard, SectionIndicator } from '../components/components.jsx';
-import { projectsList } from '../data/projects';
-import { researchList } from '../data/research';
-import { recognitionList } from '../data/recognitionList';
 import { motion } from 'framer-motion';
 import { FaFacebookF, FaGithub, FaLinkedinIn } from 'react-icons/fa';
 import { LuMail, LuFileText } from 'react-icons/lu';
-import { siteContent } from '../data/siteContent';
-import { changelogData } from '../data/changelog.js';
+import { useData } from '../context/DataContext.jsx';
 
 function FeaturedSection({ id, title, subtitle, items, isResearch, bgClass, glowColors = { first: "bg-blue-500/5 dark:bg-blue-600/10", second: "bg-indigo-500/5 dark:bg-indigo-600/10" } }) {
     const [featuredItem, setFeaturedItem] = React.useState(null);
@@ -91,6 +87,7 @@ function FeaturedSection({ id, title, subtitle, items, isResearch, bgClass, glow
 }
 
 function Contact({ bgClass }) {
+    const { siteContent, changelogs } = useData();
     const { title, subtitle, cardInfo, socials } = siteContent.contact;
     const { footer } = siteContent;
 
@@ -115,7 +112,7 @@ function Contact({ bgClass }) {
         }
     ];
 
-    const latestUpdate = changelogData[changelogData.length - 1];
+    const latestUpdate = changelogs[changelogs.length - 1];
     const currentVersion = latestUpdate?.version || "0.0.0";
     const lastUpdatedDate = latestUpdate?.date 
         ? new Date(latestUpdate.date).toLocaleDateString('en-US', {
@@ -192,6 +189,7 @@ function Contact({ bgClass }) {
 }
 
 function Home() {
+    const { projects, research, recognition, siteContent } = useData();
     const { hero, featuredProjects, featuredResearch, featuredRecognition } = siteContent.home;
     const [activeSection, setActiveSection] = React.useState("home");
 
@@ -243,9 +241,9 @@ function Home() {
 
     // Landscape frames representation
     const frames = [
-        { url: '/bg2.jpg', rotation: '-rotate-6' },
-        { url: '/bg3.jpg', rotation: 'rotate-1' },
-        { url: '/bg4.jpg', rotation: 'rotate-6' }
+        { url: 'https://pzjdkplcjcdjktuelqfp.supabase.co/storage/v1/object/public/jchengroa-assets/bg2.jpg', rotation: '-rotate-6' },
+        { url: 'https://pzjdkplcjcdjktuelqfp.supabase.co/storage/v1/object/public/jchengroa-assets/bg3.jpg', rotation: 'rotate-1' },
+        { url: 'https://pzjdkplcjcdjktuelqfp.supabase.co/storage/v1/object/public/jchengroa-assets/bg4.jpg', rotation: 'rotate-6' }
     ];
 
     return (
@@ -358,7 +356,7 @@ function Home() {
                 id="featured-projects"
                 title={featuredProjects.title}
                 subtitle={featuredProjects.subtitle}
-                items={projectsList}
+                items={projects}
                 bgClass="bg-gradient-to-tr from-white via-blue-50/15 to-white dark:from-gray-900 dark:via-blue-950/10 dark:to-gray-900 text-gray-900 dark:text-white"
                 glowColors={{ first: "bg-blue-500/5 dark:bg-blue-600/10", second: "bg-indigo-500/5 dark:bg-indigo-600/10" }}
             />
@@ -368,7 +366,7 @@ function Home() {
                 id="featured-research"
                 title={featuredResearch.title}
                 subtitle={featuredResearch.subtitle}
-                items={researchList}
+                items={research}
                 isResearch={true}
                 bgClass="bg-gradient-to-br from-gray-50 via-indigo-50/20 to-gray-50 dark:from-gray-950 dark:via-indigo-950/10 dark:to-gray-950 text-gray-900 dark:text-white"
                 glowColors={{ first: "bg-indigo-500/5 dark:bg-indigo-600/10", second: "bg-blue-500/5 dark:bg-blue-600/10" }}
@@ -379,7 +377,7 @@ function Home() {
                 id="featured-recognition"
                 title={featuredRecognition.title}
                 subtitle={featuredRecognition.subtitle}
-                items={recognitionList}
+                items={recognition}
                 bgClass="bg-gradient-to-tr from-white via-blue-50/15 to-white dark:from-gray-900 dark:via-blue-950/10 dark:to-gray-900 text-gray-900 dark:text-white"
                 glowColors={{ first: "bg-blue-500/5 dark:bg-blue-600/10", second: "bg-indigo-500/5 dark:bg-indigo-600/10" }}
             />

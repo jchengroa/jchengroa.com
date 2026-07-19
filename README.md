@@ -1,30 +1,31 @@
 # jchengroa.com
 
-A premium, multidisciplinary portfolio website showcasing engineering projects, academic research, and professional experience. Built with a focus on modern aesthetics and smooth performance.
+A premium, multidisciplinary portfolio website showcasing engineering projects, academic research, and professional experience. Built with a focus on modern aesthetics, smooth performance, and database-driven content.
 
-![Portfolio Preview](/public/web1.jpg)
+![Portfolio Preview](https://pzjdkplcjcdjktuelqfp.supabase.co/storage/v1/object/public/jchengroa-assets/web1.jpg)
 
 ---
 
 ## Key Features
 
-- **Dynamic Project Gallery**: Interactive showcase of software, hardware, and embedded systems projects.
+- **Dynamic Project Gallery**: Interactive showcase of software, hardware, and embedded systems projects loaded in real-time from Supabase.
 - **Academic Research Hub**: Dedicated section for published research with structured findings, metrics, and full-paper access.
-- **Documentation System**: Dashboard-style docs page with a hierarchical outline sidebar and individual detail pages.
-- **Interactive Tools**: Built-in Tic Tac Toe game with Minimax AI at three difficulty levels.
 - **Socials Page**: A premium landing space for social profiles (Facebook, Reddit, Twitter/X, LinkedIn, GitHub) built with beautiful custom visual states.
-- **Immersive Visuals**: High-resolution image lightbox with zoom animations and backdrop blur effects.
+- **Immersive Visuals**: High-resolution image lightbox with zoom animations and backdrop blur effects, served instantly via CDN storage.
 - **Responsive & Performant**: Fully optimized for all device sizes using React 19 and Tailwind CSS.
 - **Floating Dock Navigation**: A premium bottom-floating dock (pill-style navigation) inspired by iOS/macOS. Selecting a topic reveals a secondary expanded floating bar displaying sub-options.
-- **Settings Panel**: Full-screen overlay for theme mode, accent color, animation level, dev tools, and local storage management.
+- **Settings Panel**: Full-screen overlay for theme mode, accent color, live database status indicator, and local storage management.
 - **Custom Download Manager**: Floating queue displaying active PDF downloads with speed, size, and progress bar.
+- **Database Offline Overlay**: Elegant maintenance/offline overlay that intercepts rendering if connection is lost or toggled off by the admin.
 
 ## Tech Stack
 
 - **Frontend**: [React 19](https://react.dev/), [Vite](https://vitejs.dev/)
+- **Database**: [Supabase](https://supabase.com/) — PostgreSQL relational database storing projects, research papers, changelogs, site text labels, and social profiles.
+- **Asset Storage**: [Supabase Storage](https://supabase.com/docs/guides/storage) — Public bucket hosting all visual galleries, background frame graphics, and academic PDFs.
 - **Styling**: [Tailwind CSS 4.0](https://tailwindcss.com/)
 - **Animations**: [Framer Motion](https://www.framer.com/motion/) — UI animations, scroll-linked effects, dynamic hero background cross-fading slideshow, and bottom-floating dock with dynamic sub-menus
-- **Search**: [Fuse.js](https://www.fusejs.io/) — fuzzy search across projects, research, and tools
+- **Search**: [Fuse.js](https://www.fusejs.io/) — fuzzy search across projects, research, and changelogs
 - **Carousel**: [Embla Carousel](https://www.embla-carousel.com/) — featured work sliders (projects, research, and recognition)
 - **HTTP**: [Axios](https://axios-http.com/) — download manager with progress tracking
 - **Color**: [React Colorful](https://github.com/omgovich/react-colorful) — custom accent color picker with palette generation
@@ -49,13 +50,20 @@ A premium, multidisciplinary portfolio website showcasing engineering projects, 
    cd jchengroa.com
    ```
 
-2. **Install dependencies**
+2. **Configure Environment Variables**
+   Create a `.env` file in the root directory and add your Supabase credentials:
+   ```env
+   VITE_SUPABASE_URL=https://your-project-id.supabase.co
+   VITE_SUPABASE_ANON_KEY=your-anon-key
+   ```
+
+3. **Install dependencies**
    ```bash
    Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
    npm install
    ```
 
-3. **Start the dev server**
+4. **Start the dev server**
    ```bash
    Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
    npm run dev
@@ -67,13 +75,13 @@ A premium, multidisciplinary portfolio website showcasing engineering projects, 
 
 ## Syncing the Changelog
 
-The website pulls changelog data from this README. After adding entries below:
+The website pulls changelog data from this README. After adding entries below, run:
 
 ```bash
 npm run sync-changelog
 ```
 
-This regenerates `src/data/changelog.js`.
+This automatically parses the README, connects to Supabase, and updates the `changelogs` table.
 
 ---
 
@@ -90,23 +98,7 @@ jchengroa.com/
 ├── package-lock.json
 ├── package.json
 ├── public/
-│   ├── bg2.jpg
-│   ├── bg3.jpg
-│   ├── bg4.jpg
-│   ├── cloud1.jpg
-│   ├── cloud2.jpg
-│   ├── cloud3.jpg
-│   ├── cloud4.jpg
-│   ├── Documents/
-│   │   ├── JHS1.pdf
-│   │   ├── SHS1.pdf
-│   │   ├── SHS2.pdf
-│   │   └── UGP1.pdf
-│   ├── logo.png
-│   ├── web1.jpg
-│   ├── web2.jpg
-│   ├── web3.jpg
-│   └── web4.jpg
+│   └── logo.png
 ├── README.md
 ├── scripts/
 │   └── sync-changelog.js
@@ -118,17 +110,10 @@ jchengroa.com/
 │   │   ├── controls.jsx
 │   │   ├── quickNav.jsx
 │   │   ├── navigation.jsx
+│   │   ├── offlineOverlay.jsx
 │   │   └── typography.jsx
-│   ├── data/
-│   │   ├── changelog.js
-│   │   ├── navbar.js
-│   │   ├── projectList.js
-│   │   ├── projects.js
-│   │   ├── recognitionList.js
-│   │   ├── research.js
-│   │   ├── researchList.js
-│   │   ├── siteContent.js
-│   │   └── socialsList.js
+│   ├── context/
+│   │   └── DataContext.jsx
 │   ├── index.css
 │   ├── main.jsx
 │   ├── pages/
@@ -147,6 +132,7 @@ jchengroa.com/
 │       ├── downloadManager.jsx
 │       ├── hamburgerMenu.jsx
 │       ├── subheaderToggle.js
+│       ├── supabaseClient.js
 │       └── viewSwitcher.jsx
 └── vite.config.js
 ```
@@ -416,3 +402,13 @@ Added the minimalistic background design for all pages in the desktop view.
 Fixed vertical alignment issues of home page for both desktop and mobile view.
 Fixed bug where footer isn't displayed correctly in mobile view.
 Fixed design background consistency issues throughout the website.
+
+- [0.14.0] - 2026-07-29
+Created a new external database (Supabase).
+Migrated All Site Data and Files into the external database.
+Added a new database status indicator.
+Added a new overlay for when the database is offline or in maintenance mode.
+Added a new toggle to enable/disable Force Offline Fallback for testing.
+Added a new sort filter (Newest to Oldest, Oldest to Newest) for the changelog page.
+Updated the sync-changelog.js to sync both with the fallbackData AND the DB.
+Updated all website files to respond with the new database changes.

@@ -2,11 +2,13 @@ import { useState } from "react";
 import { Title, WorkCard, SearchBar, FilterList, ViewSwitcherButton, UniversalListCard, SubheaderToggleButton, QuickNav } from "../components/components.jsx";
 import { motion, AnimatePresence } from 'framer-motion';
 import { fadeUp, TIMING, EASING } from '../utils/animations.js';
-import { researchList, researchPageContent } from "../data/research";
 import { useViewSwitcher } from "../utils/viewSwitcher";
+import { useData } from "../context/DataContext.jsx";
 import Fuse from 'fuse.js';
 
 function Research() {
+    const { research, siteContent } = useData();
+    const researchPageContent = siteContent.research;
     const [searchQuery, setSearchQuery] = useState("");
     const [activeFilter, setActiveFilter] = useState("All");
     const { view } = useViewSwitcher();
@@ -15,11 +17,11 @@ function Research() {
     const isSearching = isSearchingText || activeFilter !== "All";
 
     // Extract top 3 unique keywords to use as filters for research
-    const researchKeywords = Array.from(new Set(researchList.flatMap(r => r.keywords || []))).slice(0, 3);
+    const researchKeywords = Array.from(new Set(research.flatMap(r => r.keywords || []))).slice(0, 3);
     const filters = ["All", ...researchKeywords];
 
     // Filtering logic
-    let filteredResearch = researchList.filter(item => {
+    let filteredResearch = research.filter(item => {
         return activeFilter === "All" || (item.keywords && item.keywords.includes(activeFilter));
     });
 

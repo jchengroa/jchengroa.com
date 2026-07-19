@@ -1,16 +1,34 @@
-
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { createClient } from '@supabase/supabase-js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const README_PATH = path.join(__dirname, '../README.md');
-const DATA_PATH = path.join(__dirname, '../src/data/changelog.js');
+const FALLBACK_DATA_PATH = path.join(__dirname, '../src/utils/fallbackData.js');
+const ENV_PATH = path.join(__dirname, '../.env');
+
+// Helper to manually parse .env variables
+function getEnvConfig() {
+    if (!fs.existsSync(ENV_PATH)) return {};
+    const content = fs.readFileSync(ENV_PATH, 'utf8');
+    const config = {};
+    content.split(/\r?\n/).forEach(line => {
+        const match = line.match(/^\s*([\w.-]+)\s*=\s*(.*)?\s*$/);
+        if (match) {
+            let value = match[2] ? match[2].trim() : '';
+            // Remove wrapping quotes if present
+            if (value.startsWith('"') && value.endsWith('"')) value = value.slice(1, -1);
+            if (value.startsWith("'") && value.endsWith("'")) value = value.slice(1, -1);
+            config[match[1]] = value;
+        }
+    });
+    return config;
+}
 
 function parseChangelog(markdown) {
-    // Use a more specific split to avoid matching the instructions section
     const parts = markdown.split(/^## Changelog:$/im);
     const changelogSection = parts[parts.length - 1];
     if (!changelogSection || parts.length < 2) return [];
@@ -23,7 +41,6 @@ function parseChangelog(markdown) {
         const trimmedLine = line.trim();
         if (!trimmedLine) continue;
 
-        // Check if line is a version header: - [version] - date
         const headerMatch = trimmedLine.match(/^- \[(.*?)\] - (.*)$/);
         
         if (headerMatch) {
@@ -34,8 +51,6 @@ function parseChangelog(markdown) {
                 content: []
             };
         } else if (currentEntry) {
-            // It's a content line for the current version
-            // Clean up bullet points but keep everything else "word for word"
             const contentLine = trimmedLine.replace(/^- /, '').trim();
             if (contentLine) {
                 currentEntry.content.push(contentLine);
@@ -43,24 +58,45 @@ function parseChangelog(markdown) {
         }
     }
 
-    // Don't forget the last entry
     if (currentEntry) entries.push(currentEntry);
-
     return entries;
 }
 
-try {
-    const markdown = fs.readFileSync(README_PATH, 'utf8');
-    const entries = parseChangelog(markdown);
-    
-    if (entries.length === 0) {
-        console.warn('⚠️ No changelog entries found. Check your README.md format.');
+async function sync() {
+    try {
+        const markdown = fs.readFileSync(README_PATH, 'utf8');
+        const entries = parseChangelog(markdown);
+        
+        if (entries.length === 0) {
+            console.warn('⚠️ No changelog entries found in README.md.');
+            return;
+        }
+
+        // 1. Sync to Supabase Online Database
+        const env = getEnvConfig();
+        const supabaseUrl = env.VITE_SUPABASE_URL;
+        const supabaseAnonKey = env.VITE_SUPABASE_ANON_KEY;
+
+        if (supabaseUrl && supabaseAnonKey) {
+            console.log('Connecting to Supabase...');
+            const supabase = createClient(supabaseUrl, supabaseAnonKey);
+
+            // Push each entry to the DB using upsert
+            const { error } = await supabase
+                .from('changelogs')
+                .upsert(entries, { onConflict: 'version' });
+
+            if (error) {
+                throw error;
+            }
+            console.log(`✅ Supabase Database updated! Synced ${entries.length} entries successfully.`);
+        } else {
+            console.warn('⚠️ Supabase credentials missing in .env. Skipping online sync.');
+        }
+
+    } catch (error) {
+        console.error('❌ Error syncing changelog:', error.message || error);
     }
-    
-    const jsContent = `export const changelogData = ${JSON.stringify(entries, null, 2)};`;
-    
-    fs.writeFileSync(DATA_PATH, jsContent);
-    console.log(`✅ Changelog synced successfully! Found ${entries.length} entries.`);
-} catch (error) {
-    console.error('❌ Error syncing changelog:', error);
 }
+
+sync();

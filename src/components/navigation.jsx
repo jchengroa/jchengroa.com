@@ -1,7 +1,7 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { navigationData } from "../data/navbar.js";
+import { useData } from "../context/DataContext.jsx";
 import { 
     LuHouse, 
     LuFolder, 
@@ -61,6 +61,8 @@ const iconMap = {
 };
 
 function NavBar() {
+    const { siteContent } = useData();
+    const navigationData = siteContent.navigation_data;
     const { mainLinks, subLinks } = navigationData;
     const location = useLocation();
     const navigate = useNavigate();

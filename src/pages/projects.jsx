@@ -2,11 +2,13 @@ import { useState } from "react";
 import { WorkCard, Title, SearchBar, FilterList, ViewSwitcherButton, UniversalListCard, useSubheaderToggle, SubheaderToggleButton, QuickNav } from "../components/components.jsx";
 import { motion, AnimatePresence } from 'framer-motion';
 import { fadeUp, TIMING, EASING } from '../utils/animations.js';
-import { projectsList, projectsPageContent } from "../data/projects";
 import { useViewSwitcher } from "../utils/viewSwitcher";
+import { useData } from "../context/DataContext.jsx";
 import Fuse from 'fuse.js';
 
 function Projects() {
+    const { projects, siteContent } = useData();
+    const projectsPageContent = siteContent.projects;
     const [searchQuery, setSearchQuery] = useState("");
     const [activeFilter, setActiveFilter] = useState("All");
     const { view } = useViewSwitcher();
@@ -34,9 +36,9 @@ function Projects() {
         return filtered;
     };
 
-    const softwareProjects = filterItems(projectsList, "software");
-    const hardwareProjects = filterItems(projectsList, "hardware");
-    const embeddedProjects = filterItems(projectsList, "embedded");
+    const softwareProjects = filterItems(projects, "software");
+    const hardwareProjects = filterItems(projects, "hardware");
+    const embeddedProjects = filterItems(projects, "embedded");
 
     const ProjectSection = ({ title, description, projects, category, delay }) => (
         <motion.div id={category} initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, ease: "easeOut", delay: delay / 1000 }} className="w-full max-w-6xl space-y-10 scroll-mt-36">

@@ -1,8 +1,9 @@
+import { useData } from "../context/DataContext.jsx";
 import { useViewSwitcher } from "../utils/viewSwitcher";
 import { useSubheaderToggle } from "../utils/subheaderToggle.js";
-import { siteContent } from "../data/siteContent";
 
 function SearchBar({ searchQuery, setSearchQuery }) {
+    const { siteContent } = useData();
     const { common } = siteContent;
 
     const handleSubmit = (e) => {

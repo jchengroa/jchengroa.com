@@ -15,12 +15,11 @@ import Socials from './pages/socials.jsx'
 import SettingsModal from './pages/settingsModal.jsx'
 import Changelog, { ChangelogPopup } from './pages/changelog.jsx'
 import { DownloadManager } from './utils/downloadManager.jsx'
-import { changelogData } from './data/changelog.js'
-import { siteContent } from './data/siteContent.js'
 import { applyCustomAccent } from './utils/colorUtils.js'
+import { DataProvider, useData } from './context/DataContext.jsx'
 
 function MainLayout() {
-    const { footer } = siteContent;
+    const { siteContent, changelogs, loading } = useData();
     const [settingsOpen, setSettingsOpen] = useState(false);
     const location = useLocation();
     const isHome = location.pathname === "/";
@@ -49,7 +48,16 @@ function MainLayout() {
         return () => window.removeEventListener('openSettings', handler);
     }, []);
 
-    const latestUpdate = changelogData[changelogData.length - 1];
+    if (loading) {
+        return (
+            <div className="w-full h-screen flex items-center justify-center bg-white dark:bg-gray-950 text-gray-900 dark:text-white">
+                <div className="w-8 h-8 border-4 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
+            </div>
+        );
+    }
+
+    const { footer } = siteContent;
+    const latestUpdate = changelogs[changelogs.length - 1];
     const currentVersion = latestUpdate?.version || "0.0.0";
     const lastUpdatedDate = latestUpdate?.date 
         ? new Date(latestUpdate.date).toLocaleDateString('en-US', {
@@ -121,9 +129,11 @@ function MainLayout() {
 
 function App() {
     return (
-        <BrowserRouter>
-            <MainLayout />
-        </BrowserRouter>
+        <DataProvider>
+            <BrowserRouter>
+                <MainLayout />
+            </BrowserRouter>
+        </DataProvider>
     );
 }
 

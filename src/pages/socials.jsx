@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
 import { Title } from "../components/components.jsx";
-import { socialsList, socialsPageContent } from "../data/socialsList";
 import { FaFacebook, FaReddit, FaXTwitter, FaLinkedin, FaGithub } from 'react-icons/fa6';
+import { useData } from "../context/DataContext.jsx";
 
 const iconMap = {
     facebook: <FaFacebook className="w-8 h-8 transition-transform duration-300 group-hover:scale-110" />,
@@ -28,6 +28,9 @@ const gradientGlowMap = {
 };
 
 function Socials() {
+    const { socials, siteContent } = useData();
+    const socialsPageContent = siteContent.socials;
+
     return (
         <section
             id="socials"
@@ -48,7 +51,7 @@ function Socials() {
                 </motion.div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    {socialsList.map((item, index) => (
+                    {socials.map((item, index) => (
                         <motion.div
                             key={item.id}
                             initial={{ opacity: 0, y: 20 }}

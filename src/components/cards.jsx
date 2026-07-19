@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
-import { siteContent } from "../data/siteContent";
+import { useData } from "../context/DataContext.jsx";
 import { FormattedText } from "./typography.jsx";
 
 const shortenKeyword = (text) => {
@@ -24,6 +24,7 @@ const shortenKeyword = (text) => {
 
 
 function WorkCard(props) {
+    const { siteContent } = useData();
     const { common } = siteContent;
     const linkTo = props.linkTo || `/project/${props.id}`;
     return (
@@ -77,6 +78,7 @@ function WorkCard(props) {
 
 function RecognitionCard(props) {
     const { facebookUrl, title, info, description, tech, id } = props;
+    const { siteContent } = useData();
     const { common } = siteContent;
     const encodedUrl = encodeURIComponent(facebookUrl);
     const iframeSrc = `https://www.facebook.com/plugins/post.php?href=${encodedUrl}&show_text=true&width=auto`;
@@ -139,6 +141,7 @@ function RecognitionCard(props) {
 }
 
 function ContactCard(props) {
+    const { siteContent } = useData();
     const { common, home } = siteContent;
     const [formData, setFormData] = useState({
         name: "",
@@ -214,6 +217,7 @@ function ContactCard(props) {
 
 function UniversalListCard(props) {
     const { id, title, info, description, tech, linkURL, linkName, facebookUrl } = props;
+    const { siteContent } = useData();
     const { common } = siteContent;
     const linkTo = props.linkTo || (id ? `/project/${id}` : undefined);
 

@@ -1,10 +1,9 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { fadeUp, TIMING, EASING } from "../utils/animations.js";
-import { changelogData } from "../data/changelog";
-import { NavBar, Title, FormattedText, SearchBar } from "../components/components";
-import { siteContent } from "../data/siteContent";
+import { NavBar, Title, FormattedText, SearchBar, FilterList } from "../components/components";
 import ChangelogOutline from "../components/changelogOutline";
+import { useData } from "../context/DataContext.jsx";
 import Fuse from 'fuse.js';
 
 /**
@@ -12,62 +11,52 @@ import Fuse from 'fuse.js';
  * Automatically detects new versions and shows a popup once.
  */
 export function ChangelogPopup({ forceOpen = false, onForceClose }) {
+    const { changelogs } = useData();
     const [isOpen, setIsOpen] = useState(false);
     const [latestEntry, setLatestEntry] = useState(null);
 
     useEffect(() => {
-        if (forceOpen) {
-            // Debug mode: show latest entry without touching localStorage
-            if (changelogData.length > 0) {
-                setLatestEntry(changelogData[changelogData.length - 1]);
+        if (changelogs && changelogs.length > 0) {
+            const absoluteLatest = changelogs[changelogs.length - 1];
+
+            if (forceOpen) {
+                setLatestEntry(absoluteLatest);
+                setIsOpen(true);
+                return;
+            }
+
+            const seenVersion = localStorage.getItem("seenVersion");
+
+            // If it's a new user (never seen any version), we mark current version as seen
+            // but we DON'T show the popup. This satisfies the requirement that it won't
+            // show simply because a new user entered the website.
+            if (seenVersion === null) {
+                localStorage.setItem("seenVersion", absoluteLatest.version);
+                return;
+            }
+
+            // If they are a returning user and the version has changed, show the popup.
+            if (seenVersion !== absoluteLatest.version) {
+                setLatestEntry(absoluteLatest);
                 setIsOpen(true);
             }
-            return;
         }
-
-        const checkChangelog = () => {
-            if (changelogData.length > 0) {
-                const absoluteLatest = changelogData[changelogData.length - 1];
-
-                const seenVersion = localStorage.getItem("seenVersion");
-                
-                // If it's a new user (never seen any version), we mark current version as seen
-                // but we DON'T show the popup. This satisfies the requirement that it won't
-                // show simply because a new user entered the website.
-                if (seenVersion === null) {
-                    localStorage.setItem("seenVersion", absoluteLatest.version);
-                    return;
-                }
-
-                // If they are a returning user and the version has changed, show the popup.
-                if (seenVersion !== absoluteLatest.version) {
-                    setLatestEntry(absoluteLatest);
-                    setIsOpen(true);
-                }
-            }
-        };
-
-        checkChangelog();
-    }, [forceOpen]);
+    }, [changelogs, forceOpen]);
 
     const handleClose = () => {
-        if (forceOpen) {
-            setIsOpen(false);
-            onForceClose?.();
-            return;
-        }
         if (latestEntry) {
             localStorage.setItem("seenVersion", latestEntry.version);
         }
         setIsOpen(false);
+        if (onForceClose) onForceClose();
     };
 
-    if (!latestEntry) return null;
+    if (!isOpen || !latestEntry) return null;
 
     return (
         <AnimatePresence>
             {isOpen && (
-                <div className="fixed inset-0 z-[200] flex items-center justify-center p-6">
+                <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
                     {/* Backdrop */}
                     <motion.div
                         initial={{ opacity: 0 }}
@@ -77,61 +66,48 @@ export function ChangelogPopup({ forceOpen = false, onForceClose }) {
                         className="absolute inset-0 bg-black/60 backdrop-blur-md"
                     />
 
-                    {/* Modal Content */}
+                    {/* Popup Box */}
                     <motion.div
-                        initial={{ opacity: 0, scale: 0.9, y: 30 }}
+                        initial={{ opacity: 0, scale: 0.9, y: 20 }}
                         animate={{ opacity: 1, scale: 1, y: 0 }}
-                        exit={{ opacity: 0, scale: 0.9, y: 30 }}
-                        transition={{ type: "spring", damping: 25, stiffness: 300 }}
-                        className="relative w-full max-w-lg max-h-[90vh] bg-white dark:bg-gray-900 rounded-[2.5rem] shadow-[0_32px_64px_-16px_rgba(0,0,0,0.3)] dark:shadow-black/50 overflow-hidden border border-gray-100 dark:border-gray-800 flex flex-col"
+                        exit={{ opacity: 0, scale: 0.9, y: 20 }}
+                        transition={{ type: "spring", damping: 25, stiffness: 350 }}
+                        className="relative w-full max-w-xl bg-white dark:bg-gray-900 rounded-[2.5rem] overflow-hidden border border-gray-100 dark:border-gray-800 shadow-2xl flex flex-col max-h-[85vh] z-10"
                     >
-                        <div className="p-8 md:p-12 flex flex-col flex-1 min-h-0">
-                            {/* Header */}
-                            <div className="flex justify-between items-start mb-8">
-                                <div>
-                                    <div className="flex items-center gap-3 mb-2">
-                                        <span className="px-3 py-1 bg-blue-600 text-white text-[10px] font-black tracking-widest uppercase rounded-full">
-                                            New Update
-                                        </span>
-                                        <span className="text-[10px] font-black tracking-[0.2em] text-gray-400 uppercase">
-                                            v{latestEntry.version}
-                                        </span>
-                                    </div>
-                                    <h2 className="text-4xl font-black text-gray-900 dark:text-white tracking-tighter">
-                                        What's New
-                                    </h2>
-                                </div>
-                                <button
-                                    onClick={handleClose}
-                                    className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-xl transition-colors group"
-                                >
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="text-gray-400 dark:text-gray-600 group-hover:text-gray-900 dark:group-hover:text-white transition-colors"><path d="M18 6 6 18" /><path d="m6 6 12 12" /></svg>
-                                </button>
+                        {/* Header */}
+                        <div className="p-8 pb-4 border-b border-gray-100 dark:border-gray-850 flex-shrink-0 flex items-start justify-between">
+                            <div>
+                                <span className="text-[10px] font-black tracking-[0.25em] text-blue-600 uppercase mb-2 block">
+                                    Release Update
+                                </span>
+                                <h3 className="text-3xl font-black text-gray-900 dark:text-white tracking-tight">
+                                    Version {latestEntry.version}
+                                </h3>
+                                <p className="text-xs font-bold text-gray-400 dark:text-gray-500 mt-1">
+                                    Released on {new Date(latestEntry.date).toLocaleDateString('en-US', {
+                                        month: 'long',
+                                        day: 'numeric',
+                                        year: 'numeric'
+                                    })}
+                                </p>
                             </div>
+                        </div>
 
-                            {/* Content — scrollable */}
-                            <div className="overflow-y-auto flex-1 min-h-0 space-y-6 pr-1">
-                                <div className="space-y-3">
-                                    {latestEntry.content.map((item, index) => (
-                                        <div key={index} className="flex gap-4 items-start group">
-                                            <div className="mt-1.5 w-1.5 h-1.5 rounded-full bg-blue-600 shrink-0 group-hover:scale-150 transition-transform" />
-                                            <p className="text-gray-600 dark:text-gray-400 font-medium leading-relaxed">
-                                                <FormattedText text={item} />
-                                            </p>
-                                        </div>
-                                    ))}
-                                </div>
+                        {/* Content */}
+                        <div className="p-8 pt-6 overflow-y-auto flex-grow text-left">
+                            <h4 className="text-xs font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-4">
+                                What's New
+                            </h4>
+                            <ul className="space-y-4 font-medium text-gray-650 dark:text-gray-350 leading-relaxed text-sm md:text-base">
+                                {latestEntry.content.map((point, idx) => (
+                                    <li key={idx} className="flex items-start gap-3">
+                                        <span className="w-1.5 h-1.5 rounded-full bg-blue-600 dark:bg-blue-400 mt-2.5 shrink-0" />
+                                        <span className="flex-1"><FormattedText text={point} /></span>
+                                    </li>
+                                ))}
+                            </ul>
 
-                                <div className="p-5 bg-gray-50 dark:bg-gray-800/50 rounded-2xl border border-gray-100 dark:border-gray-800">
-                                    <p className="text-xs text-gray-400 dark:text-gray-500 font-bold uppercase tracking-widest mb-1">Release Date</p>
-                                    <p className="text-gray-900 dark:text-white font-black">
-                                        {latestEntry.date}
-                                    </p>
-                                </div>
-                            </div>
-
-                            {/* Footer */}
-                            <div className="mt-12 flex flex-col sm:flex-row gap-4">
+                            <div className="mt-8 flex gap-3">
                                 <button
                                     onClick={handleClose}
                                     className="flex-grow px-8 py-4 bg-gray-900 dark:bg-white text-white dark:text-gray-900 font-black rounded-2xl hover:bg-black dark:hover:bg-gray-100 transition-all hover:scale-105 shadow-xl shadow-gray-200 dark:shadow-none"
@@ -140,9 +116,6 @@ export function ChangelogPopup({ forceOpen = false, onForceClose }) {
                                 </button>
                             </div>
                         </div>
-
-                        {/* Subtle accent line */}
-                        <div className="h-2 w-full bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600" />
                     </motion.div>
                 </div>
             )}
@@ -151,31 +124,49 @@ export function ChangelogPopup({ forceOpen = false, onForceClose }) {
 }
 
 export default function Changelog() {
+    const { siteContent, changelogs, loading } = useData();
     const { changelog } = siteContent;
     const [searchQuery, setSearchQuery] = useState("");
     const [entries, setEntries] = useState([]);
-    const [loading, setLoading] = useState(true);
-
-    const versionList = changelogData.slice().reverse().map(e => e.version);
+    const [sortOrder, setSortOrder] = useState("Newest to Oldest");
 
     useEffect(() => {
-        const loadChangelog = () => {
-            let data = [...changelogData].reverse(); // Show newest first
-            
-            if (searchQuery.trim() !== "") {
-                const fuse = new Fuse(data, {
-                    keys: ['version', 'date', 'content'],
-                    threshold: 0.3
-                });
-                data = fuse.search(searchQuery).map(result => result.item);
-            }
+        let data = [...changelogs];
+        
+        if (searchQuery.trim() !== "") {
+            const fuse = new Fuse(data, {
+                keys: ['version', 'date', 'content'],
+                threshold: 0.3
+            });
+            data = fuse.search(searchQuery).map(result => result.item);
+        }
 
-            setEntries(data);
-            setLoading(false);
+        // Parse version array helper
+        const parseVersion = (v) => v.split('.').map(Number);
+        
+        // Compare version helper
+        const compareVersions = (a, b) => {
+            const va = parseVersion(a.version);
+            const vb = parseVersion(b.version);
+            for (let i = 0; i < Math.max(va.length, vb.length); i++) {
+                const numA = va[i] || 0;
+                const numB = vb[i] || 0;
+                if (numA !== numB) return numA - numB;
+            }
+            return new Date(a.date) - new Date(b.date);
         };
-        loadChangelog();
-        if (!searchQuery) window.scrollTo(0, 0);
-    }, [searchQuery]);
+
+        if (sortOrder === "Newest to Oldest") {
+            data.sort((a, b) => compareVersions(b, a));
+        } else {
+            data.sort((a, b) => compareVersions(a, b));
+        }
+
+        setEntries(data);
+        if (!searchQuery && changelogs.length > 0) window.scrollTo(0, 0);
+    }, [searchQuery, changelogs, sortOrder]);
+
+    const versionList = entries.map(e => e.version);
 
     return (
         <div className="relative min-h-screen bg-transparent overflow-x-hidden">
@@ -206,12 +197,19 @@ export default function Changelog() {
                     initial={{ opacity: 0, y: 30 }} 
                     animate={{ opacity: 1, y: 0 }} 
                     transition={{ duration: 0.8, ease: "easeOut" }}
-                    className="mb-12"
+                    className="mb-8"
                 >
                     <SearchBar 
                         searchQuery={searchQuery}
                         setSearchQuery={setSearchQuery}
                     />
+                    <div className="-mt-4">
+                        <FilterList 
+                            activeFilter={sortOrder}
+                            setActiveFilter={setSortOrder}
+                            filters={["Newest to Oldest", "Oldest to Newest"]}
+                        />
+                    </div>
                 </motion.div>
 
                 {loading ? (

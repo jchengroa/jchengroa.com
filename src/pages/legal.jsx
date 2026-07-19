@@ -3,7 +3,7 @@ import { Title, FormattedText } from "../components/components.jsx";
 import { useEffect } from "react";
 import { motion } from 'framer-motion';
 import { LuExternalLink } from "react-icons/lu";
-import { siteContent } from "../data/siteContent";
+import { useData } from "../context/DataContext.jsx";
 
 const DocButton = ({ href, label }) => (
     <a
@@ -18,6 +18,7 @@ const DocButton = ({ href, label }) => (
 );
 
 function Legal() {
+    const { siteContent } = useData();
     const { legal } = siteContent;
 
     useEffect(() => {
