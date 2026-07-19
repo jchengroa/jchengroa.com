@@ -49,6 +49,9 @@ export function DataProvider({ children }) {
             }
 
             try {
+                if (!supabase) {
+                    throw new Error("Supabase credentials missing. Check VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY in Vercel settings.");
+                }
                 const [
                     { data: projects, error: projectsErr },
                     { data: research, error: researchErr },

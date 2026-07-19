@@ -17,6 +17,8 @@ import Changelog, { ChangelogPopup } from './pages/changelog.jsx'
 import { DownloadManager } from './utils/downloadManager.jsx'
 import { applyCustomAccent } from './utils/colorUtils.js'
 import { DataProvider, useData } from './context/DataContext.jsx'
+import { SpeedInsights } from "@vercel/speed-insights/react"
+import { Analytics } from "@vercel/analytics/react"
 
 function MainLayout() {
     const { siteContent, changelogs, loading } = useData();
@@ -132,6 +134,8 @@ function App() {
         <DataProvider>
             <BrowserRouter>
                 <MainLayout />
+                <SpeedInsights />
+                <Analytics />
             </BrowserRouter>
         </DataProvider>
     );

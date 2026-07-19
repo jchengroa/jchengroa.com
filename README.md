@@ -403,7 +403,7 @@ Fixed vertical alignment issues of home page for both desktop and mobile view.
 Fixed bug where footer isn't displayed correctly in mobile view.
 Fixed design background consistency issues throughout the website.
 
-- [0.14.0] - 2026-07-29
+- [0.14.0] - 2026-07-19
 Created a new external database (Supabase).
 Migrated All Site Data and Files into the external database.
 Added a new database status indicator.
@@ -412,3 +412,8 @@ Added a new toggle to enable/disable Force Offline Fallback for testing.
 Added a new sort filter (Newest to Oldest, Oldest to Newest) for the changelog page.
 Updated the sync-changelog.js to sync both with the fallbackData AND the DB.
 Updated all website files to respond with the new database changes.
+
+- [0.14.1] - 2026-07-19
+Updated Changelog Data for 0.14.0, there was an error on my part.
+Updated the database system to display the database offline overlay when no .env information was provided, rather than crashing.
+Updated the website to reintegrate full vercel analytics.
