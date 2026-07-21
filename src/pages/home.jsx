@@ -19,7 +19,7 @@ function FeaturedSection({ id, title, subtitle, items, isResearch, bgClass, glow
     return (
         <section 
             id={id} 
-            className="snap-start shrink-0 min-h-screen md:h-screen w-full flex flex-col justify-center py-16 md:py-0 px-6 relative overflow-y-auto no-scrollbar md:overflow-hidden border-none rounded-none bg-blue-50/50 dark:bg-blue-950/20 text-gray-900 dark:text-white isolate transition-colors duration-300"
+            className="snap-start shrink-0 min-h-dvh md:h-dvh w-full flex flex-col justify-center py-16 md:py-0 px-6 relative overflow-y-auto no-scrollbar md:overflow-hidden border-none rounded-none bg-blue-50/50 dark:bg-blue-950/20 text-gray-900 dark:text-white isolate transition-colors duration-300"
         >
             {/* Split Left Background (Desktop Only) */}
             <div className="absolute left-0 top-0 bottom-0 w-full md:w-[48%] bg-white dark:bg-gray-950 z-0 transition-colors duration-300" />
@@ -125,7 +125,7 @@ function Contact({ bgClass }) {
     return (
         <section
             id="contact"
-            className="snap-start shrink-0 min-h-screen md:h-screen w-full flex flex-col justify-between items-center pt-16 pb-28 md:py-10 px-6 relative overflow-y-auto no-scrollbar md:overflow-hidden border-none rounded-none bg-blue-50/50 dark:bg-blue-950/20 text-gray-900 dark:text-white isolate transition-colors duration-300"
+            className="snap-start shrink-0 min-h-dvh md:h-dvh w-full flex flex-col justify-between items-center pt-16 pb-28 md:py-10 px-6 relative overflow-y-auto no-scrollbar md:overflow-hidden border-none rounded-none bg-blue-50/50 dark:bg-blue-950/20 text-gray-900 dark:text-white isolate transition-colors duration-300"
         >
             {/* Split Left Background (Desktop Only) */}
             <div className="absolute left-0 top-0 bottom-0 w-full md:w-[48%] bg-white dark:bg-gray-950 z-0 transition-colors duration-300" />
@@ -247,7 +247,7 @@ function Home() {
     ];
 
     return (
-        <div className="h-screen w-full overflow-y-auto snap-y snap-mandatory scroll-smooth no-scrollbar flex flex-col relative">
+        <div className="h-dvh w-full overflow-y-auto snap-y snap-mandatory scroll-smooth no-scrollbar flex flex-col relative">
             {/* Fluid Section Indicator (Desktop Only) */}
             <SectionIndicator
                 sectionsConfig={sectionsConfig}
@@ -258,7 +258,7 @@ function Home() {
             {/* Section 1: True Full-Screen Theme-Aware Hero with Split Organic Wave Layout */}
             <section
                 id="home"
-                className="relative snap-start shrink-0 min-h-screen md:h-screen w-full flex flex-col items-center justify-center border-none rounded-none overflow-y-auto no-scrollbar md:overflow-hidden bg-blue-50/50 dark:bg-blue-950/20 text-gray-900 dark:text-white isolate transition-colors duration-300 py-16 md:py-0"
+                className="relative snap-start shrink-0 min-h-dvh md:h-dvh w-full flex flex-col items-center justify-center border-none rounded-none overflow-y-auto no-scrollbar md:overflow-hidden bg-blue-50/50 dark:bg-blue-950/20 text-gray-900 dark:text-white isolate transition-colors duration-300 py-16 md:py-0"
             >
                 {/* Split Left Background (Desktop Only) */}
                 <div className="absolute left-0 top-0 bottom-0 w-full md:w-[48%] bg-white dark:bg-gray-950 z-0 transition-colors duration-300" />

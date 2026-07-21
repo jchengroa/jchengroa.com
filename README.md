@@ -417,3 +417,7 @@ Updated all website files to respond with the new database changes.
 Updated Changelog Data for 0.14.0, there was an error on my part.
 Updated the database system to display the database offline overlay when no .env information was provided, rather than crashing.
 Updated the website to reintegrate full vercel analytics.
+
+- [0.14.2] - 2026-07-21
+Fixed vercel direct routing 404 bugs.
+Fixed mobile alignment issues, specifically with the top toolbars of mobile browsers.
