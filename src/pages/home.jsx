@@ -45,9 +45,11 @@ function FeaturedSection({ id, title, subtitle, items, isResearch, bgClass, glow
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8 items-center mt-1 md:mt-3 w-full">
                         {/* Left Column (Desktop) / Second Block (Mobile): Info & Description */}
                         <div className="flex flex-col gap-3 text-center md:text-left items-center md:items-start max-w-xl mx-auto md:mx-0 order-2 md:order-1">
-                            <h3 className="text-xl sm:text-2xl md:text-3xl font-black text-gray-900 dark:text-white leading-tight">
-                                {featuredItem.title}
-                            </h3>
+                            <Link to={`/project/${featuredItem.id}`} className="group/title">
+                                <h3 className="text-xl sm:text-2xl md:text-3xl font-black text-gray-900 dark:text-white leading-tight group-hover/title:text-blue-600 dark:group-hover/title:text-blue-400 transition-colors">
+                                    {featuredItem.title}
+                                </h3>
+                            </Link>
                             <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 leading-relaxed font-medium line-clamp-4">
                                 {isResearch ? featuredItem.summary : featuredItem.description}
                             </p>
@@ -63,7 +65,7 @@ function FeaturedSection({ id, title, subtitle, items, isResearch, bgClass, glow
 
                         {/* Right Column (Desktop) / First Block (Mobile): Landscape visual mockup */}
                         <Link
-                            to={isResearch ? "/research" : `/project/${featuredItem.id}`}
+                            to={`/project/${featuredItem.id}`}
                             className="w-full max-w-lg mx-auto md:mx-0 aspect-[16/10] rounded-[2rem] overflow-hidden border border-gray-150 dark:border-white/10 shadow-xl bg-gray-100 dark:bg-gray-950 flex items-center justify-center relative group cursor-pointer block hover:scale-[1.01] hover:shadow-2xl transition-all duration-500 order-1 md:order-2"
                         >
                             {featuredItem.images && featuredItem.images[0] ? (

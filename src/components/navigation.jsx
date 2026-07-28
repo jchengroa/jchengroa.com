@@ -124,7 +124,7 @@ function NavBar() {
         if (path.startsWith("/projects") || path.startsWith("/project/jchengroa-com") || path.startsWith("/project/cloudbased") || path.startsWith("/project/hardware-placeholder") || path.startsWith("/project/embedded-placeholder")) return "projects";
         if (path.startsWith("/research") || path.startsWith("/project/jhs-1") || path.startsWith("/project/shs-1") || path.startsWith("/project/shs-2")) return "research";
         if (path.startsWith("/recognition")) return "recognition";
-        if (path.startsWith("/socials") || path.startsWith("/changelog") || path.startsWith("/legal")) return "more";
+        if (path.startsWith("/contact") || path.startsWith("/socials") || path.startsWith("/changelog") || path.startsWith("/legal")) return "more";
         return "";
     };
 
@@ -230,7 +230,10 @@ function NavBar() {
         }
     };
 
-    const currentSubmenuLinks = activeTopic ? subLinks[activeTopic] : [];
+    const rawSubmenuLinks = activeTopic ? (subLinks[activeTopic] || []) : [];
+    const currentSubmenuLinks = rawSubmenuLinks.map(link => 
+        link.to === '/socials' ? { ...link, to: '/contact', label: 'Contact' } : link
+    );
 
     return (
         <div 

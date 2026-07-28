@@ -1,6 +1,6 @@
 # jchengroa.com
 
-A premium, multidisciplinary portfolio website showcasing engineering projects, academic research, and professional experience. Built with a focus on modern aesthetics, smooth performance, and database-driven content.
+A multidisciplinary portfolio website showcasing engineering projects, academic research, and professional experience. Built with a focus on clean design, responsive performance, and database-driven content.
 
 ![Portfolio Preview](https://pzjdkplcjcdjktuelqfp.supabase.co/storage/v1/object/public/jchengroa-assets/web1.jpg)
 
@@ -9,29 +9,31 @@ A premium, multidisciplinary portfolio website showcasing engineering projects, 
 ## Key Features
 
 - **Dynamic Project Gallery**: Interactive showcase of software, hardware, and embedded systems projects loaded in real-time from Supabase.
-- **Academic Research Hub**: Dedicated section for published research with structured findings, metrics, and full-paper access.
-- **Socials Page**: A premium landing space for social profiles (Facebook, Reddit, Twitter/X, LinkedIn, GitHub) built with beautiful custom visual states.
-- **Immersive Visuals**: High-resolution image lightbox with zoom animations and backdrop blur effects, served instantly via CDN storage.
-- **Responsive & Performant**: Fully optimized for all device sizes using React 19 and Tailwind CSS.
-- **Floating Dock Navigation**: A premium bottom-floating dock (pill-style navigation) inspired by iOS/macOS. Selecting a topic reveals a secondary expanded floating bar displaying sub-options.
-- **Settings Panel**: Full-screen overlay for theme mode, accent color, live database status indicator, and local storage management.
-- **Custom Download Manager**: Floating queue displaying active PDF downloads with speed, size, and progress bar.
-- **Database Offline Overlay**: Elegant maintenance/offline overlay that intercepts rendering if connection is lost or toggled off by the admin.
+- **Academic Research Hub**: Dedicated section for published research with structured findings, performance metrics, and paper access.
+- **Social Profiles Hub**: Centralized landing page for professional and social profile links with custom visual states.
+- **Visual Galleries**: Image lightbox supporting zoom interactions and modal backdrops.
+- **Responsive Navigation**: Adaptive layout featuring a bottom-positioned floating navigation dock with sub-option menu expansion.
+- **Settings & Preference Management**: Full-screen modal for theme selection (light, dark, system), accent color customization, layout options, and local storage management.
+- **Developer Tools**: Environment-configurable developer menu (`VITE_SHOW_DEV_OPTIONS`) containing real-time database connection status, manual offline fallback toggling, and popup testing triggers.
+- **Analytics & Privacy Notice**: Privacy notice banner informing visitors of anonymous Vercel Analytics usage.
+- **Download Manager**: Background download queue manager for PDF document transfers with size and progress tracking.
+- **Database Offline Fallback**: UI fallback system that intercepts rendering if connection to Supabase is interrupted.
 
 ## Tech Stack
 
 - **Frontend**: [React 19](https://react.dev/), [Vite](https://vitejs.dev/)
-- **Database**: [Supabase](https://supabase.com/) — PostgreSQL relational database storing projects, research papers, changelogs, site text labels, and social profiles.
-- **Asset Storage**: [Supabase Storage](https://supabase.com/docs/guides/storage) — Public bucket hosting all visual galleries, background frame graphics, and academic PDFs.
+- **Database**: [Supabase](https://supabase.com/) — PostgreSQL database managing projects, research publications, site content, and changelogs.
+- **Asset Storage**: [Supabase Storage](https://supabase.com/docs/guides/storage) — Public bucket storage for image galleries, graphics, and PDF documents.
+- **Analytics & Performance**: [Vercel Analytics](https://vercel.com/analytics) and [Vercel Speed Insights](https://vercel.com/docs/speed-insights) — Visitor metrics and performance monitoring.
 - **Styling**: [Tailwind CSS 4.0](https://tailwindcss.com/)
-- **Animations**: [Framer Motion](https://www.framer.com/motion/) — UI animations, scroll-linked effects, dynamic hero background cross-fading slideshow, and bottom-floating dock with dynamic sub-menus
-- **Search**: [Fuse.js](https://www.fusejs.io/) — fuzzy search across projects, research, and changelogs
-- **Carousel**: [Embla Carousel](https://www.embla-carousel.com/) — featured work sliders (projects, research, and recognition)
-- **HTTP**: [Axios](https://axios-http.com/) — download manager with progress tracking
-- **Color**: [React Colorful](https://github.com/omgovich/react-colorful) — custom accent color picker with palette generation
-- **Deployment**: Contabo VPS via GitHub Actions
+- **Animations**: [Framer Motion](https://www.framer.com/motion/) — Declarative UI transitions, page animations, and menu interactions.
+- **Search**: [Fuse.js](https://www.fusejs.io/) — Fuzzy searching across projects, research papers, and changelog records.
+- **Carousels**: [Embla Carousel](https://www.embla-carousel.com/) — Featured item sliders.
+- **HTTP & File Transfer**: [Axios](https://axios-http.com/) — File download manager with progress monitoring.
+- **Color Customization**: [React Colorful](https://github.com/omgovich/react-colorful) — Custom accent color picker.
+- **Deployment**: Contabo VPS via GitHub Actions / Vercel
 - **Typography**: [Outfit](https://fonts.google.com/specimen/Outfit)
-- **Icons**: Lucide-inspired SVG components
+- **Icons**: Lucide-inspired SVG icon system
 
 ---
 
@@ -51,11 +53,17 @@ A premium, multidisciplinary portfolio website showcasing engineering projects, 
    ```
 
 2. **Configure Environment Variables**
-   Create a `.env` file in the root directory and add your Supabase credentials:
+   Create a `.env` file in the root directory and add your environment variables:
    ```env
    VITE_SUPABASE_URL=https://your-project-id.supabase.co
    VITE_SUPABASE_ANON_KEY=your-anon-key
+   VITE_SHOW_DEV_OPTIONS=true
    ```
+
+   **Environment Variables**:
+   - `VITE_SUPABASE_URL`: The API URL endpoint for your Supabase project instance.
+   - `VITE_SUPABASE_ANON_KEY`: The anonymous public API key for Supabase database requests.
+   - `VITE_SHOW_DEV_OPTIONS`: Set to `true` to enable Developer Tools in the Settings modal (includes Database Status, Force Offline Fallback, and debug popup triggers). Set to `false` to hide developer controls.
 
 3. **Install dependencies**
    ```bash
@@ -108,9 +116,11 @@ jchengroa.com/
 │   │   ├── changelogOutline.jsx
 │   │   ├── components.jsx
 │   │   ├── controls.jsx
-│   │   ├── quickNav.jsx
+│   │   ├── CookieConsentBanner.jsx
 │   │   ├── navigation.jsx
 │   │   ├── offlineOverlay.jsx
+│   │   ├── quickNav.jsx
+│   │   ├── sectionIndicator.jsx
 │   │   └── typography.jsx
 │   ├── context/
 │   │   └── DataContext.jsx
@@ -134,6 +144,7 @@ jchengroa.com/
 │       ├── subheaderToggle.js
 │       ├── supabaseClient.js
 │       └── viewSwitcher.jsx
+├── vercel.json
 └── vite.config.js
 ```
 
@@ -421,3 +432,14 @@ Updated the website to reintegrate full vercel analytics.
 - [0.14.2] - 2026-07-21
 Fixed vercel direct routing 404 bugs.
 Fixed mobile alignment issues, specifically with the top toolbars of mobile browsers.
+
+- [0.15.0] - 2026-07-28
+**This is the final pre-release update before the official 1.0.0 release.**
+Added a Privacy & Tracking popup to disclose Vercel Analytics use.
+Added a key to the .env and updated the settings modal to hide developer settings and dev tools in production.
+Added a direct email delivery service (Web3Forms) for the Get in Touch section of the website.
+Added a new Update Ongoing overlay, with a new system feature to toggle between update, offline, and normal operations.
+Rebranded Socials Page to Contacts Page, adding the improved Get in Touch system and headers.
+Changed hardcoded default theming values to database values.
+Readded the file downloader for research projects.
+Fixed home page bug where featured research doesn't direct to the actual research.

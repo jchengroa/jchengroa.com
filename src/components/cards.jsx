@@ -140,80 +140,7 @@ function RecognitionCard(props) {
     );
 }
 
-function ContactCard(props) {
-    const { siteContent } = useData();
-    const { common, home } = siteContent;
-    const [formData, setFormData] = useState({
-        name: "",
-        email: "",
-        message: ""
-    });
-
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setFormData(prev => ({ ...prev, [name]: value }));
-    };
-
-    const handleSend = () => {
-        const { name, email, message } = formData;
-        const recipient = home.hero.email;
-        const subject = encodeURIComponent(`Portfolio Message from ${name}`);
-        const body = encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`);
-
-        window.location.href = `mailto:${recipient}?subject=${subject}&body=${body}`;
-    };
-
-    return (
-        <div className="bg-white dark:bg-gray-900 rounded-[1.5rem] md:rounded-[2rem] p-4 md:p-6 border border-gray-100 dark:border-gray-800 shadow-sm flex flex-col gap-4 md:gap-5 h-full w-full max-w-4xl mx-auto relative overflow-hidden group">
-            {/* Subtle Gradient Glow */}
-            <div className="absolute -inset-1 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-[1.5rem] md:rounded-[2rem] blur-xl opacity-0 group-hover:opacity-[0.03] transition duration-500 pointer-events-none"></div>
-
-            <div className="relative z-10">
-                <h2 className="text-xl md:text-2xl font-black text-gray-900 dark:text-white mb-0.5 tracking-tight">Send a Message</h2>
-                <p className="text-gray-500 dark:text-gray-400 font-medium text-xs md:text-sm">{props.info}</p>
-            </div>
-
-            <div className="relative z-10 flex-grow space-y-4">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <input
-                        type="text"
-                        name="name"
-                        value={formData.name}
-                        onChange={handleChange}
-                        placeholder="Your Name"
-                        className="w-full p-3.5 bg-gray-50 dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-xl focus:ring-4 focus:ring-blue-100 dark:focus:ring-blue-900/20 focus:bg-white dark:focus:bg-gray-900 focus:border-blue-600 outline-none transition-all font-medium text-xs text-gray-700 dark:text-gray-200"
-                    />
-                    <input
-                        type="email"
-                        name="email"
-                        value={formData.email}
-                        onChange={handleChange}
-                        placeholder="Your Email"
-                        className="w-full p-3.5 bg-gray-50 dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-xl focus:ring-4 focus:ring-blue-100 dark:focus:ring-blue-900/20 focus:bg-white dark:focus:bg-gray-900 focus:border-blue-600 outline-none transition-all font-medium text-xs text-gray-700 dark:text-gray-200"
-                    />
-                </div>
-                <textarea
-                    name="message"
-                    value={formData.message}
-                    onChange={handleChange}
-                    className="w-full p-3.5 bg-gray-50 dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-xl focus:ring-4 focus:ring-blue-100 dark:focus:ring-blue-900/20 focus:bg-white dark:focus:bg-gray-900 focus:border-blue-600 outline-none transition-all resize-none text-xs text-gray-700 dark:text-gray-200 font-medium"
-                    rows="3"
-                    placeholder="Tell me about your project..."
-                ></textarea>
-            </div>
-
-            <div className="relative z-10 flex justify-end">
-                <button
-                    onClick={handleSend}
-                    className="group flex items-center bg-gray-900 dark:bg-white text-white dark:text-gray-900 px-6 py-2.5 rounded-xl font-black text-xs hover:bg-black dark:hover:bg-gray-100 hover:scale-105 hover:shadow-lg transition-all duration-300"
-                >
-                    {common.sendMessage}
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="ml-1.5 group-hover:translate-x-1 transition-transform"><path d="m22 2-7 20-4-9-9-4Z" /><path d="M22 2 11 13" /></svg>
-                </button>
-            </div>
-        </div>
-    );
-}
+export { ContactCard } from "./contactCard.jsx";
 
 function UniversalListCard(props) {
     const { id, title, info, description, tech, linkURL, linkName, facebookUrl } = props;
@@ -296,4 +223,4 @@ function UniversalListCard(props) {
     );
 }
 
-export { WorkCard, RecognitionCard, ContactCard, UniversalListCard };
+export { WorkCard, RecognitionCard, UniversalListCard };

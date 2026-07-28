@@ -1,7 +1,7 @@
 import { createRoot } from 'react-dom/client'
 import './index.css'
 
-import { BrowserRouter, Routes, Route, Link, useLocation } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, Link, useLocation, Navigate } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import NavBar from './components/components.jsx'
 import Home from './pages/home.jsx'
@@ -10,11 +10,12 @@ import WorkDetail from './pages/workDetail.jsx'
 import Legal from './pages/legal.jsx'
 import Research from './pages/research.jsx'
 import Recognition from './pages/recognition.jsx'
-import Socials from './pages/socials.jsx'
+import Contact from './pages/contact.jsx'
 
 import SettingsModal from './pages/settingsModal.jsx'
 import Changelog, { ChangelogPopup } from './pages/changelog.jsx'
 import { DownloadManager } from './utils/downloadManager.jsx'
+import CookieConsentBanner from './components/CookieConsentBanner.jsx'
 import { applyCustomAccent } from './utils/colorUtils.js'
 import { DataProvider, useData } from './context/DataContext.jsx'
 import { SpeedInsights } from "@vercel/speed-insights/react"
@@ -27,22 +28,36 @@ function MainLayout() {
     const isHome = location.pathname === "/";
 
     useEffect(() => {
+        const defaultAccent = siteContent.default_accent_color || 'blue';
+        const defaultCustomHex = siteContent.custom_accent_hex || null;
+        const defaultTheme = siteContent.default_theme_mode || 'light';
+
         const savedAccent = localStorage.getItem('accentColor');
-        const accentColor = savedAccent || 'monochrome';
-        const customHex = localStorage.getItem('customAccentColor');
+        const accentColor = savedAccent || defaultAccent;
+        const customHex = localStorage.getItem('customAccentColor') || defaultCustomHex;
+
         if (accentColor === 'custom' && customHex) {
             applyCustomAccent(customHex);
             document.documentElement.setAttribute('data-custom-accent', 'true');
         } else {
             document.documentElement.setAttribute('data-accent', accentColor);
         }
+
         const monochrome = localStorage.getItem('jchengroa_monochrome');
-        if (monochrome === 'true' || accentColor === 'monochrome' || !savedAccent) {
+        if (monochrome === 'true' || accentColor === 'monochrome' || (!savedAccent && defaultAccent === 'monochrome')) {
             document.documentElement.setAttribute('data-monochrome', 'true');
         } else {
             document.documentElement.setAttribute('data-monochrome', 'false');
         }
-    }, []);
+
+        const savedTheme = localStorage.getItem('themeMode');
+        const themeMode = savedTheme || defaultTheme;
+        let isDark = false;
+        if (themeMode === 'dark') isDark = true;
+        else if (themeMode === 'auto') isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        if (isDark) document.documentElement.classList.add("dark");
+        else document.documentElement.classList.remove("dark");
+    }, [siteContent]);
 
     useEffect(() => {
         const handler = () => setSettingsOpen(true);
@@ -95,13 +110,15 @@ function MainLayout() {
                 <ChangelogPopup />
                 <DownloadManager />
                 <SettingsModal isOpen={settingsOpen} onClose={() => setSettingsOpen(false)} />
+                <CookieConsentBanner />
 
                 <Routes>
                     <Route path="/" element={<Home />} />
                     <Route path="/projects" element={<Projects />} />
                     <Route path="/research" element={<Research />} />
                     <Route path="/recognition" element={<Recognition />} />
-                    <Route path="/socials" element={<Socials />} />
+                    <Route path="/contact" element={<Contact />} />
+                    <Route path="/socials" element={<Navigate to="/contact" replace />} />
 
                     <Route path="/project/:id" element={<WorkDetail />} />
                     <Route path="/legal" element={<Legal />} />

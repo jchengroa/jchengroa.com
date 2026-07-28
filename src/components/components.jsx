@@ -1,4 +1,5 @@
-export { WorkCard, RecognitionCard, ContactCard, UniversalListCard } from "./cards.jsx";
+export { WorkCard, RecognitionCard, UniversalListCard } from "./cards.jsx";
+export { ContactCard } from "./contactCard.jsx";
 export { Title, SubTitle, FormattedText } from "./typography.jsx";
 export { NavBar } from "./navigation.jsx";
 export { SearchBar, FilterList, ViewSwitcherButton, SubheaderToggleButton } from "./controls.jsx";

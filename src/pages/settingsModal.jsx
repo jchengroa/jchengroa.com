@@ -28,6 +28,7 @@ const STORAGE_KEYS = {
     docsExpanded: 'jchengroa_docs_expanded_sections',
     docsTabs: 'jchengroa_doc_tabs_desktop_open',
     changelogOutline: 'jchengroa_changelog_outline_open',
+    analyticsConsent: 'jchengroa_analytics_consent',
 };
 
 const ICONS = {
@@ -42,11 +43,15 @@ const ICONS = {
     ),
 };
 
-const SIDEBAR_ITEMS = [
+const SHOW_DEV_OPTIONS = import.meta.env.VITE_SHOW_DEV_OPTIONS === 'true';
+
+const ALL_SIDEBAR_ITEMS = [
     { id: 'appearance', label: 'Appearance', icon: ICONS.appearance },
-    { id: 'developer', label: 'Developer', icon: ICONS.developer },
+    { id: 'developer', label: 'Developer', icon: ICONS.developer, devOnly: true },
     { id: 'data', label: 'Data', icon: ICONS.data },
 ];
+
+const SIDEBAR_ITEMS = ALL_SIDEBAR_ITEMS.filter(item => !item.devOnly || SHOW_DEV_OPTIONS);
 
 function ToggleSwitch({ enabled, onChange, label }) {
     return (
@@ -214,71 +219,11 @@ function AppearanceSettings({ themeMode, setThemeMode, accentColor, setAccentCol
 }
 
 function DeveloperSettings({ onShowChangelog }) {
-    return (
-        <div className="space-y-10">
-            <div>
-                <h3 className="text-xs font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-4">
-                    Dev Tools
-                </h3>
-                <div className="p-5 bg-gray-50 dark:bg-gray-800/30 rounded-2xl border border-dashed border-gray-200 dark:border-gray-700">
-                    <div className="flex flex-col sm:flex-row sm:items-center gap-3">
-                        <div className="flex-1">
-                            <p className="text-gray-900 dark:text-white font-bold text-sm">Changelog Popup</p>
-                            <p className="text-gray-500 dark:text-gray-400 text-xs font-medium mt-0.5">Force-show the update prompt regardless of version state.</p>
-                        </div>
-                        <button
-                            onClick={onShowChangelog}
-                            className="shrink-0 px-4 py-2 bg-gray-900 dark:bg-white text-white dark:text-gray-900 text-xs font-black rounded-xl hover:bg-blue-600 dark:hover:bg-blue-600 dark:hover:text-white transition-all duration-200"
-                        >
-                            Show Popup
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    );
-}
-
-const DATA_CATEGORIES = [
-    {
-        id: 'appearance',
-        label: 'Appearance',
-        description: 'Theme mode, accent color, and monochrome settings.',
-        keys: [STORAGE_KEYS.themeMode, STORAGE_KEYS.darkMode, STORAGE_KEYS.accentColor, STORAGE_KEYS.monochrome],
-    },
-    {
-        id: 'layout',
-        label: 'Layout & View',
-        description: 'View mode, subheader visibility, and sidebar states.',
-        keys: [STORAGE_KEYS.view, STORAGE_KEYS.subheader, STORAGE_KEYS.docsOutline, STORAGE_KEYS.docsExpanded, STORAGE_KEYS.docsTabs, STORAGE_KEYS.changelogOutline],
-    },
-    {
-        id: 'changelog',
-        label: 'Changelog State',
-        description: 'Last seen version tracking for the update popup.',
-        keys: [STORAGE_KEYS.seenVersion],
-    },
-];
-
-function DataSettings() {
     const { dbStatus, forceFallback, toggleForceFallback } = useData();
-    const [cleared, setCleared] = useState([]);
 
-    const clearCategory = (keys) => {
-        keys.forEach(k => localStorage.removeItem(k));
-        setCleared(prev => [...prev, ...keys].filter((v, i, a) => a.indexOf(v) === i));
-        setTimeout(() => setCleared([]), 2000);
-    };
-
-    const clearAll = () => {
-        if (window.confirm('Clear all stored settings and preferences? This will reset everything to defaults.')) {
-            localStorage.clear();
-            window.location.reload();
-        }
-    };
-
-    const getStoredCount = (keys) => {
-        return keys.filter(k => localStorage.getItem(k) !== null).length;
+    const handleShowCookieBanner = () => {
+        localStorage.removeItem(STORAGE_KEYS.analyticsConsent);
+        window.dispatchEvent(new CustomEvent('jchengroa_reset_consent'));
     };
 
     const getStatusDetails = () => {
@@ -311,7 +256,7 @@ function DataSettings() {
     const status = getStatusDetails();
 
     return (
-        <div className="space-y-8">
+        <div className="space-y-10">
             {/* Database & Fallback Controls */}
             <div>
                 <h3 className="text-xs font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-4">
@@ -349,6 +294,95 @@ function DataSettings() {
                 </div>
             </div>
 
+            <div>
+                <h3 className="text-xs font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-4">
+                    Dev Tools
+                </h3>
+                <div className="space-y-3">
+                    <div className="p-5 bg-gray-50 dark:bg-gray-800/30 rounded-2xl border border-dashed border-gray-200 dark:border-gray-700">
+                        <div className="flex flex-col sm:flex-row sm:items-center gap-3">
+                            <div className="flex-1">
+                                <p className="text-gray-900 dark:text-white font-bold text-sm">Changelog Popup</p>
+                                <p className="text-gray-500 dark:text-gray-400 text-xs font-medium mt-0.5">Force-show the update prompt regardless of version state.</p>
+                            </div>
+                            <button
+                                onClick={onShowChangelog}
+                                className="shrink-0 px-4 py-2 bg-gray-900 dark:bg-white text-white dark:text-gray-900 text-xs font-black rounded-xl hover:bg-blue-600 dark:hover:bg-blue-600 dark:hover:text-white transition-all duration-200"
+                            >
+                                Show Popup
+                            </button>
+                        </div>
+                    </div>
+
+                    <div className="p-5 bg-gray-50 dark:bg-gray-800/30 rounded-2xl border border-dashed border-gray-200 dark:border-gray-700">
+                        <div className="flex flex-col sm:flex-row sm:items-center gap-3">
+                            <div className="flex-1">
+                                <p className="text-gray-900 dark:text-white font-bold text-sm">Analytics Notice</p>
+                                <p className="text-gray-500 dark:text-gray-400 text-xs font-medium mt-0.5">Re-trigger the Vercel Analytics notice banner.</p>
+                            </div>
+                            <button
+                                onClick={handleShowCookieBanner}
+                                className="shrink-0 px-4 py-2 bg-gray-900 dark:bg-white text-white dark:text-gray-900 text-xs font-black rounded-xl hover:bg-blue-600 dark:hover:bg-blue-600 dark:hover:text-white transition-all duration-200"
+                            >
+                                Show Banner
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
+}
+
+const DATA_CATEGORIES = [
+    {
+        id: 'appearance',
+        label: 'Appearance',
+        description: 'Theme mode, accent color, and monochrome settings.',
+        keys: [STORAGE_KEYS.themeMode, STORAGE_KEYS.darkMode, STORAGE_KEYS.accentColor, STORAGE_KEYS.monochrome],
+    },
+    {
+        id: 'layout',
+        label: 'Layout & View',
+        description: 'View mode, subheader visibility, and sidebar states.',
+        keys: [STORAGE_KEYS.view, STORAGE_KEYS.subheader, STORAGE_KEYS.docsOutline, STORAGE_KEYS.docsExpanded, STORAGE_KEYS.docsTabs, STORAGE_KEYS.changelogOutline],
+    },
+    {
+        id: 'privacy',
+        label: 'Privacy & Consent',
+        description: 'Vercel Analytics consent preference.',
+        keys: [STORAGE_KEYS.analyticsConsent],
+    },
+    {
+        id: 'changelog',
+        label: 'Changelog State',
+        description: 'Last seen version tracking for the update popup.',
+        keys: [STORAGE_KEYS.seenVersion],
+    },
+];
+
+function DataSettings() {
+    const [cleared, setCleared] = useState([]);
+
+    const clearCategory = (keys) => {
+        keys.forEach(k => localStorage.removeItem(k));
+        setCleared(prev => [...prev, ...keys].filter((v, i, a) => a.indexOf(v) === i));
+        setTimeout(() => setCleared([]), 2000);
+    };
+
+    const clearAll = () => {
+        if (window.confirm('Clear all stored settings and preferences? This will reset everything to defaults.')) {
+            localStorage.clear();
+            window.location.reload();
+        }
+    };
+
+    const getStoredCount = (keys) => {
+        return keys.filter(k => localStorage.getItem(k) !== null).length;
+    };
+
+    return (
+        <div className="space-y-8">
             <div>
                 <h3 className="text-xs font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-4">
                     Storage Categories
@@ -407,6 +441,10 @@ function DataSettings() {
 export default function SettingsModal({ isOpen, onClose }) {
     const { siteContent } = useData();
     const { navbar } = siteContent;
+    const defaultTheme = siteContent.default_theme_mode || 'light';
+    const defaultAccent = siteContent.default_accent_color || 'blue';
+    const defaultCustomHex = siteContent.custom_accent_hex || null;
+
     const [activeTab, setActiveTab] = useState('appearance');
     const [themeMode, setThemeMode] = useState(() => {
         if (typeof window !== "undefined") {
@@ -415,20 +453,20 @@ export default function SettingsModal({ isOpen, onClose }) {
             const legacyDark = localStorage.getItem(STORAGE_KEYS.darkMode);
             if (legacyDark !== null) return JSON.parse(legacyDark) ? 'dark' : 'light';
         }
-        return 'auto';
+        return defaultTheme;
     });
     const [accentColor, setAccentColor] = useState(() => {
         if (typeof window !== "undefined") {
             const saved = localStorage.getItem(STORAGE_KEYS.accentColor);
             if (saved) return saved;
         }
-        return 'monochrome';
+        return defaultAccent;
     });
     const [customHex, setCustomHex] = useState(() => {
         if (typeof window !== "undefined") {
-            return localStorage.getItem(STORAGE_KEYS.customColor) || null;
+            return localStorage.getItem(STORAGE_KEYS.customColor) || defaultCustomHex;
         }
-        return null;
+        return defaultCustomHex;
     });
     const [docsTabs, setDocsTabs] = useState(() => {
         if (typeof window !== "undefined") {
@@ -493,16 +531,16 @@ export default function SettingsModal({ isOpen, onClose }) {
 
     useEffect(() => {
         if (isOpen) {
-            const syncedTheme = localStorage.getItem(STORAGE_KEYS.themeMode) || 'auto';
+            const syncedTheme = localStorage.getItem(STORAGE_KEYS.themeMode) || defaultTheme;
             setThemeMode(syncedTheme);
-            const syncedAccent = localStorage.getItem(STORAGE_KEYS.accentColor) || 'monochrome';
+            const syncedAccent = localStorage.getItem(STORAGE_KEYS.accentColor) || defaultAccent;
             setAccentColor(syncedAccent);
-            const syncedCustomHex = localStorage.getItem(STORAGE_KEYS.customColor) || null;
+            const syncedCustomHex = localStorage.getItem(STORAGE_KEYS.customColor) || defaultCustomHex;
             setCustomHex(syncedCustomHex);
             const syncedDocsTabs = localStorage.getItem(STORAGE_KEYS.docsTabs) !== 'false';
             setDocsTabs(syncedDocsTabs);
         }
-    }, [isOpen]);
+    }, [isOpen, defaultTheme, defaultAccent, defaultCustomHex]);
 
     const renderContent = () => {
         switch (activeTab) {
@@ -530,15 +568,17 @@ export default function SettingsModal({ isOpen, onClose }) {
                     <AppearanceSettings themeMode={themeMode} setThemeMode={setThemeMode} accentColor={accentColor} setAccentColor={setAccentColor} customHex={customHex} setCustomHex={setCustomHex} docsTabs={docsTabs} setDocsTabs={setDocsTabs} />
                 </div>
 
-                <div>
-                    <div className="flex items-center gap-2.5 mb-6 border-b border-gray-100 dark:border-gray-800 pb-3">
-                        <span className="text-blue-600 dark:text-blue-400">
-                            {ICONS.developer}
-                        </span>
-                        <h3 className="text-lg font-black text-gray-900 dark:text-white tracking-tight">Developer Tools</h3>
+                {SHOW_DEV_OPTIONS && (
+                    <div>
+                        <div className="flex items-center gap-2.5 mb-6 border-b border-gray-100 dark:border-gray-800 pb-3">
+                            <span className="text-blue-600 dark:text-blue-400">
+                                {ICONS.developer}
+                            </span>
+                            <h3 className="text-lg font-black text-gray-900 dark:text-white tracking-tight">Developer Tools</h3>
+                        </div>
+                        <DeveloperSettings onShowChangelog={() => setShowChangelogDebug(true)} />
                     </div>
-                    <DeveloperSettings onShowChangelog={() => setShowChangelogDebug(true)} />
-                </div>
+                )}
 
                 <div>
                     <div className="flex items-center gap-2.5 mb-6 border-b border-gray-100 dark:border-gray-800 pb-3">
