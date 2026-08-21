@@ -2,19 +2,27 @@ import { Link } from "react-router-dom";
 import { Title, FormattedText } from "../components/components.jsx";
 import { useEffect } from "react";
 import { motion } from 'framer-motion';
-import { LuExternalLink } from "react-icons/lu";
+import { LuExternalLink, LuScale } from "react-icons/lu";
 import { useData } from "../context/DataContext.jsx";
+import {
+    legalPageVariants,
+    legalSectionVariants,
+    legalDocButtonHover,
+    legalDocButtonTap
+} from "../animations/legal.js";
 
 const DocButton = ({ href, label }) => (
-    <a
+    <motion.a
         href={href}
         target="_blank"
         rel="noopener noreferrer"
-        className="inline-flex items-center gap-2 mt-3 px-4 py-2 bg-gray-50 dark:bg-gray-800 hover:bg-blue-600 dark:hover:bg-blue-600 text-gray-900 dark:text-gray-200 hover:text-white rounded-xl text-xs font-bold transition-all duration-300 border border-gray-100 dark:border-gray-700 hover:border-blue-600 dark:hover:border-blue-600 group"
+        whileHover={legalDocButtonHover}
+        whileTap={legalDocButtonTap}
+        className="inline-flex items-center gap-2 mt-3 px-4 py-2 bg-gray-50 dark:bg-gray-800 hover:bg-blue-600 dark:hover:bg-blue-600 text-gray-900 dark:text-gray-200 hover:text-white rounded-xl text-xs font-bold transition-colors duration-200 border border-gray-100 dark:border-gray-700 hover:border-blue-600 dark:hover:border-blue-600 group"
     >
         <span>{label} Docs</span>
         <LuExternalLink size={12} strokeWidth={3} className="opacity-50 group-hover:opacity-100 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all" />
-    </a>
+    </motion.a>
 );
 
 function Legal() {
@@ -26,15 +34,22 @@ function Legal() {
     }, []);
 
     return (
-        <div className="relative min-h-screen pt-32 pb-20 px-6 bg-transparent overflow-x-hidden">
-            <div className="max-w-4xl mx-auto">
-
-
-                <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, ease: "easeOut" }}>
-                    <Title
-                        title={legal.title}
-                        className="!text-left"
-                    />
+        <section className="relative min-h-screen pt-20 md:pt-32 pb-32 md:pb-20 px-4 md:px-6 bg-transparent flex flex-col items-center overflow-x-hidden">
+            <div className="max-w-6xl w-full z-10">
+                <motion.div
+                    variants={legalPageVariants}
+                    initial="hidden"
+                    animate="visible"
+                >
+                    <div className="mb-8 lg:mb-12 text-left">
+                        <Title
+                            title={legal?.title || "Legal & Policies"}
+                            subtitle={legal?.subtitle || "Architecture credits, open source licensing, and terms of use for jchengroa.com"}
+                            icon={LuScale}
+                            align="left"
+                            className="!mb-0"
+                        />
+                    </div>
 
                     <div className="space-y-20">
                         <section>
@@ -156,7 +171,7 @@ function Legal() {
                     </div>
                 </motion.div>
             </div>
-        </div>
+        </section>
     );
 }
 

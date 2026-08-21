@@ -2,7 +2,17 @@ import { useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { Title, ContactCard } from "../components/components.jsx";
 import { FaFacebook, FaReddit, FaXTwitter, FaLinkedin, FaGithub, FaYoutube, FaInstagram, FaDiscord, FaEnvelope, FaGlobe } from 'react-icons/fa6';
+import { LuShare2 } from 'react-icons/lu';
 import { useData } from "../context/DataContext.jsx";
+import {
+    contactPageHeaderVariants,
+    contactFormCardVariants,
+    contactCategoryHeaderVariants,
+    contactCardGridVariants,
+    contactCardItemVariants,
+    contactCardHover,
+    contactCardTap
+} from "../animations/contact.js";
 
 const iconMap = {
     facebook: <FaFacebook className="w-8 h-8 transition-transform duration-300 group-hover:scale-110" />,
@@ -87,26 +97,29 @@ export function Contact() {
     return (
         <section
             id="contact"
-            className="relative min-h-screen pt-32 pb-20 px-6 flex flex-col items-center overflow-x-hidden bg-transparent"
+            className="relative min-h-screen pt-20 md:pt-32 pb-32 md:pb-20 px-4 md:px-6 flex flex-col items-center overflow-x-hidden bg-transparent"
         >
-            <div className="max-w-6xl w-full z-10 space-y-16">
+            <div className="max-w-6xl w-full z-10 space-y-12 md:space-y-16">
                 <motion.div 
-                    initial={{ opacity: 0, y: 30 }} 
-                    animate={{ opacity: 1, y: 0 }} 
-                    transition={{ duration: 0.8, ease: "easeOut" }} 
-                    className="relative text-center w-full"
+                    variants={contactPageHeaderVariants}
+                    initial="hidden"
+                    animate="visible"
+                    className="w-full text-left"
                 >
                     <Title
                         title={pageContent.title || "Get In Touch"}
-                        subtitle={pageContent.subtitle || "Have a question or want to work together? Reach out directly or connect through any of these platforms."}
+                        subtitle={pageContent.subtitle || "Have a question or want to work together? Send a direct message or connect via any platform below."}
+                        icon={LuShare2}
+                        align="left"
+                        className="!mb-0"
                     />
                 </motion.div>
 
                 {/* Direct Message Form Card */}
                 <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6, delay: 0.1 }}
+                    variants={contactFormCardVariants}
+                    initial="hidden"
+                    animate="visible"
                     className="w-full"
                 >
                     <ContactCard info="Fill out the form below to send a message directly to my inbox." />
@@ -116,15 +129,27 @@ export function Contact() {
                 {groupedSections.length > 0 ? (
                     groupedSections.map((section) => (
                         <div key={section.title} className="space-y-6">
-                            <div className="flex items-center gap-4">
+                            <motion.div
+                                variants={contactCategoryHeaderVariants}
+                                initial="hidden"
+                                whileInView="visible"
+                                viewport={{ once: true }}
+                                className="flex items-center gap-4"
+                            >
                                 <h3 className="text-xs font-black tracking-[0.2em] uppercase text-gray-400 dark:text-gray-500">
                                     {section.title}
                                 </h3>
                                 <div className="h-px bg-gray-200 dark:bg-gray-800 flex-1"></div>
-                            </div>
+                            </motion.div>
 
-                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                                {section.items.map((item, index) => {
+                            <motion.div
+                                variants={contactCardGridVariants}
+                                initial="hidden"
+                                whileInView="visible"
+                                viewport={{ once: true, amount: 0.1 }}
+                                className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+                            >
+                                {section.items.map((item) => {
                                     const iconKey = (item.id || "").toLowerCase();
                                     const renderedIcon = iconMap[iconKey] || defaultIcon;
                                     const hoverClass = hoverColorMap[iconKey] || "group-hover:text-blue-600 dark:group-hover:text-blue-400 group-hover:border-blue-600/30";
@@ -133,9 +158,9 @@ export function Contact() {
                                     return (
                                         <motion.div
                                             key={item.id}
-                                            initial={{ opacity: 0, y: 20 }}
-                                            animate={{ opacity: 1, y: 0 }}
-                                            transition={{ duration: 0.5, delay: index * 0.08 }}
+                                            variants={contactCardItemVariants}
+                                            whileHover={contactCardHover}
+                                            whileTap={contactCardTap}
                                             className="h-full"
                                         >
                                             <a
@@ -176,7 +201,7 @@ export function Contact() {
                                         </motion.div>
                                     );
                                 })}
-                            </div>
+                            </motion.div>
                         </div>
                     ))
                 ) : (
@@ -190,3 +215,4 @@ export function Contact() {
 }
 
 export default Contact;
+

@@ -470,9 +470,9 @@ export default function SettingsModal({ isOpen, onClose }) {
     });
     const [docsTabs, setDocsTabs] = useState(() => {
         if (typeof window !== "undefined") {
-            return localStorage.getItem(STORAGE_KEYS.docsTabs) !== 'false';
+            return localStorage.getItem(STORAGE_KEYS.docsTabs) === 'true';
         }
-        return true;
+        return false;
     });
     const [showChangelogDebug, setShowChangelogDebug] = useState(false);
 

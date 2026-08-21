@@ -518,49 +518,77 @@ html[data-monochrome="true"] {
 @media (max-height: 780px) {
     /* Scale down hero typography and padding */
     #home h1 {
-        font-size: clamp(2rem, 9vh, 3.5rem) !important;
-        margin-bottom: 0.25rem !important;
+        font-size: clamp(1.6rem, 5.5vh, 3.2rem) !important;
+        margin-bottom: 0.2rem !important;
     }
+    #home p.text-lg,
+    #home p.text-xl,
     #home p.text-2xl {
-        font-size: clamp(1.1rem, 4vh, 1.5rem) !important;
+        font-size: clamp(0.9rem, 2.4vh, 1.25rem) !important;
     }
-    #home p.text-xs {
-        font-size: clamp(0.7rem, 2vh, 0.8rem) !important;
-        margin-bottom: 0.25rem !important;
+    #home p.text-xs,
+    #home p.text-\[11px\] {
+        font-size: clamp(0.65rem, 1.8vh, 0.78rem) !important;
+        margin-bottom: 0.2rem !important;
     }
-    #home .shrink-0 {
-        width: clamp(6.5rem, 16vh, 9.5rem) !important;
+    #home .relative.z-10.max-w-5xl {
+        gap: 0.4rem !important;
+        padding-top: 0.25rem !important;
+        padding-bottom: 0.25rem !important;
     }
-    #home .relative.z-10.max-w-4xl {
-        gap: 0.5rem !important;
+    #home .grid-cols-3 {
+        gap: 0.4rem !important;
+    }
+    #home .grid-cols-3 a {
+        padding: 0.4rem 0.5rem !important;
+        border-radius: 0.85rem !important;
     }
     
     /* Scale down featured sections */
+    section[id^="featured-"] header {
+        margin-bottom: 0.5rem !important;
+    }
+    section[id^="featured-"] header h1 {
+        font-size: clamp(1.4rem, 4.5vh, 2.5rem) !important;
+    }
+    section[id^="featured-"] header div:has(svg) {
+        padding: 0.35rem !important;
+    }
+    section[id^="featured-"] header div:has(svg) svg {
+        width: 18px !important;
+        height: 18px !important;
+    }
     section[id^="featured-"] h3 {
-        font-size: clamp(1.1rem, 3.5vh, 1.5rem) !important;
+        font-size: clamp(1rem, 3vh, 1.35rem) !important;
     }
     section[id^="featured-"] p {
-        font-size: clamp(0.7rem, 2vh, 0.8rem) !important;
+        font-size: clamp(0.65rem, 1.8vh, 0.75rem) !important;
         line-clamp: 2 !important;
     }
     section[id^="featured-"] a[class*="aspect-"] {
-        max-height: clamp(140px, 26vh, 300px) !important;
+        max-height: clamp(120px, 22vh, 260px) !important;
     }
     section[id^="featured-"] .max-w-7xl {
-        gap: 0.5rem !important;
+        gap: 0.4rem !important;
     }
     section[id^="featured-"] .grid {
-        gap: 0.75rem !important;
-        margin-top: 0.25rem !important;
+        gap: 0.6rem !important;
+        margin-top: 0.2rem !important;
     }
     
     /* Scale down contact section components */
+    #contact header h1 {
+        font-size: clamp(1.4rem, 4.5vh, 2.5rem) !important;
+    }
+    #contact header p {
+        font-size: clamp(0.7rem, 2vh, 0.85rem) !important;
+    }
     #contact .my-auto {
-        gap: 0.5rem !important;
+        gap: 0.4rem !important;
     }
     #contact a {
-        padding: 0.5rem 0.75rem !important;
-        font-size: 0.7rem !important;
+        padding: 0.4rem 0.6rem !important;
+        font-size: 0.65rem !important;
     }
     #contact .my-auto > div:first-child {
         margin-bottom: 0px !important;
@@ -568,30 +596,32 @@ html[data-monochrome="true"] {
     /* ContactCard fields scale */
     #contact input, 
     #contact textarea {
-        padding: 0.5rem 0.75rem !important;
-        font-size: 0.75rem !important;
+        padding: 0.4rem 0.6rem !important;
+        font-size: 0.7rem !important;
     }
     #contact textarea {
-        height: 60px !important;
+        height: 50px !important;
     }
     #contact button {
-        padding-top: 0.5rem !important;
-        padding-bottom: 0.5rem !important;
-        font-size: 0.75rem !important;
+        padding-top: 0.4rem !important;
+        padding-bottom: 0.4rem !important;
+        font-size: 0.7rem !important;
     }
-    #contact .bg-white {
-        padding: 1rem !important;
-        gap: 0.75rem !important;
+    #contact .bg-white,
+    #contact .dark\:bg-gray-900 {
+        padding: 0.75rem 1rem !important;
+        gap: 0.5rem !important;
     }
 }
 
 @media (min-width: 640px) and (max-height: 780px) {
-    /* Push content down below the floating top navbar when viewport height is small */
+    /* Keep sections centered while scaling content appropriately */
     #home, 
     section[id^="featured-"], 
     #contact {
-        justify-content: flex-start !important;
-        padding-top: 110px !important;
+        justify-content: center !important;
+        padding-top: 2rem !important;
+        padding-bottom: 2rem !important;
     }
 }
 

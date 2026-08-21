@@ -1,5 +1,12 @@
 import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from 'framer-motion';
+import {
+  quickNavDesktopBtnVariants,
+  quickNavMobileBtnVariants,
+  quickNavBackdropVariants,
+  quickNavMobileSheetVariants,
+  quickNavTabIndicatorSpring
+} from "../animations/components.js";
 
 const OUTLINE_STORAGE_KEY = 'jchengroa_changelog_outline_open';
 
@@ -95,19 +102,26 @@ export default function ChangelogOutline({ versions }) {
 
   const renderOutlineContent = () => (
     <nav className="flex flex-col xl:overflow-y-auto xl:max-h-[calc(100vh-14rem)]">
-      {versions.map((v, i) => {
+      {versions.map((v) => {
         const isActive = activeVersion === v;
         return (
           <button
             key={v}
             onClick={() => scrollToVersion(v)}
-            className={`flex items-center gap-3 w-full px-3 py-2.5 rounded-xl text-left transition-all group ${isActive ? 'bg-blue-50/50 dark:bg-blue-950/20 text-blue-600 dark:text-blue-400' : 'text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800/50 hover:text-gray-700 dark:hover:text-gray-300'}`}
+            className={`flex items-center gap-2.5 w-full px-3 py-2 rounded-xl text-left text-xs font-bold transition-all relative group ${
+              isActive
+                ? 'text-blue-600 dark:text-blue-400 font-black bg-blue-50/50 dark:bg-blue-950/20'
+                : 'text-gray-400 hover:text-gray-900 dark:text-gray-500 dark:hover:text-white hover:bg-gray-50 dark:hover:bg-gray-800/50'
+            }`}
           >
-            <span className={`w-2 h-2 rounded-full flex-shrink-0 transition-colors ${isActive ? 'bg-blue-600' : 'bg-gray-300 dark:bg-gray-600 group-hover:bg-gray-400 dark:group-hover:bg-gray-500'}`} />
-            <span className="text-xs font-bold tracking-wider uppercase truncate">v{v}</span>
-            {i === 0 && (
-              <span className="ml-auto text-[9px] font-bold text-blue-500 bg-blue-50 dark:bg-blue-950/40 px-2 py-0.5 rounded-full flex-shrink-0">Latest</span>
+            {isActive && (
+              <motion.div
+                layoutId="activeVersionIndicator"
+                className="absolute left-0 w-1 inset-y-1.5 bg-blue-600 dark:bg-blue-400 rounded-full"
+                transition={quickNavTabIndicatorSpring}
+              />
             )}
+            <span className="truncate">v{v}</span>
           </button>
         );
       })}
@@ -121,10 +135,10 @@ export default function ChangelogOutline({ versions }) {
       <AnimatePresence>
         {isDesktopOpen ? (
           <motion.div
-            initial={{ opacity: 0, x: -50 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -50 }}
-            transition={{ type: "spring", stiffness: 300, damping: 30 }}
+            variants={quickNavDesktopBtnVariants}
+            initial="hidden"
+            animate="visible"
+            exit="exit"
             className="hidden xl:flex fixed left-6 top-28 bottom-6 z-40 w-64 bg-white/70 dark:bg-gray-900/70 backdrop-blur-2xl border border-gray-200/50 dark:border-gray-800/50 rounded-[2.5rem] p-5 shadow-2xl flex-col justify-between overflow-hidden"
           >
             <div>
@@ -151,10 +165,10 @@ export default function ChangelogOutline({ versions }) {
           </motion.div>
         ) : (
           <motion.button
-            initial={{ opacity: 0, x: -50 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -50 }}
-            transition={{ type: "spring", stiffness: 300, damping: 30 }}
+            variants={quickNavDesktopBtnVariants}
+            initial="hidden"
+            animate="visible"
+            exit="exit"
             onClick={() => toggleDesktopOpen(true)}
             className="hidden xl:flex fixed left-6 top-1/2 -translate-y-1/2 z-40 items-center justify-center w-14 h-14 bg-white dark:bg-gray-900 text-gray-900 dark:text-white rounded-full shadow-2xl border border-gray-200/50 dark:border-gray-800/50 backdrop-blur-xl hover:scale-110 active:scale-95 transition-all group"
             title="Show Version List"
@@ -168,9 +182,10 @@ export default function ChangelogOutline({ versions }) {
         <AnimatePresence>
           {!isOpen && (
             <motion.button
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.8 }}
+              variants={quickNavMobileBtnVariants}
+              initial="hidden"
+              animate="visible"
+              exit="exit"
               onClick={() => { setIsOpen(true); setSheetHeight(55); }}
               aria-label="Open Version List"
               className="fixed right-6 bottom-6 z-50 flex items-center justify-center w-14 h-14 bg-gray-900 dark:bg-white text-white dark:text-gray-900 rounded-full shadow-2xl hover:scale-110 active:scale-95 transition-all"
@@ -184,17 +199,18 @@ export default function ChangelogOutline({ versions }) {
           {isOpen && (
             <>
               <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
+                variants={quickNavBackdropVariants}
+                initial="hidden"
+                animate="visible"
+                exit="exit"
                 onClick={() => setIsOpen(false)}
                 className="fixed inset-0 bg-black/40 backdrop-blur-sm z-[90]"
               />
               <motion.div
-                initial={{ y: "100%" }}
-                animate={{ y: 0 }}
-                exit={{ y: "100%" }}
-                transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                variants={quickNavMobileSheetVariants}
+                initial="hidden"
+                animate="visible"
+                exit="exit"
                 style={{ height: `${sheetHeight}vh` }}
                 className="fixed inset-x-0 bottom-0 z-[100] bg-white/95 dark:bg-gray-900/95 backdrop-blur-2xl border-t border-gray-200/50 dark:border-gray-800/50 rounded-t-[2.5rem] shadow-[0_-10px_50px_rgba(0,0,0,0.2)] flex flex-col"
               >

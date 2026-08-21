@@ -1,10 +1,17 @@
 import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import {
+    quickNavDesktopBtnVariants,
+    quickNavMobileBtnVariants,
+    quickNavBackdropVariants,
+    quickNavMobileSheetVariants,
+    quickNavTabIndicatorSpring
+} from "../animations/components.js";
 
 function QuickNav({ tabs = [] }) {
     const [activeTab, setActiveTab] = useState(tabs[0]?.id || "");
     const [isDesktopOpen, setIsDesktopOpen] = useState(() => {
-        return localStorage.getItem('jchengroa_doc_tabs_desktop_open') !== 'false';
+        return localStorage.getItem('jchengroa_doc_tabs_desktop_open') === 'true';
     });
     const [isOpen, setIsOpen] = useState(false);
     const [sheetHeight, setSheetHeight] = useState(55);
@@ -12,6 +19,7 @@ function QuickNav({ tabs = [] }) {
     const dragStartY = useRef(0);
     const dragStartHeight = useRef(0);
     const isScrollingRef = useRef(false);
+    const activeTimeoutRef = useRef(null);
 
     const toggleDesktopOpen = (nextState) => {
         setIsDesktopOpen(nextState);
@@ -77,34 +85,35 @@ function QuickNav({ tabs = [] }) {
         };
     }, [sheetHeight]);
 
-    useEffect(() => {
-        const handleScroll = () => {
-            if (isScrollingRef.current) return;
-
-            const headingElements = tabs.map(tab => ({
-                id: tab.id,
-                element: document.getElementById(tab.id)
-            })).filter(item => item.element !== null);
-
-            if (headingElements.length === 0) return;
-
-            const visibleElements = headingElements.filter(({ element }) => {
-                const rect = element.getBoundingClientRect();
-                return rect.top <= window.innerHeight * 0.5 && rect.bottom > 100;
-            });
-
-            if (visibleElements.length > 0) {
-                const isCurrentVisible = visibleElements.some(item => item.id === activeTab);
-                if (!isCurrentVisible) {
-                    setActiveTab(visibleElements[0].id);
+    const updateActiveTab = () => {
+        if (isScrollingRef.current) return;
+        let currentActive = tabs[0]?.id || "";
+        for (const tab of tabs) {
+            const section = document.getElementById(tab.id);
+            if (section) {
+                const rect = section.getBoundingClientRect();
+                if (rect.top <= window.innerHeight * 0.4 && rect.bottom >= window.innerHeight * 0.1) {
+                    currentActive = tab.id;
                 }
             }
+        }
+        setActiveTab(currentActive);
+    };
+
+    useEffect(() => {
+        const onScroll = () => {
+            if (activeTimeoutRef.current) cancelAnimationFrame(activeTimeoutRef.current);
+            activeTimeoutRef.current = requestAnimationFrame(updateActiveTab);
         };
 
-        window.addEventListener('scroll', handleScroll, { passive: true });
-        handleScroll();
-        return () => window.removeEventListener('scroll', handleScroll);
-    }, [tabs, activeTab]);
+        window.addEventListener('scroll', onScroll, { passive: true });
+        updateActiveTab();
+
+        return () => {
+            window.removeEventListener('scroll', onScroll);
+            if (activeTimeoutRef.current) cancelAnimationFrame(activeTimeoutRef.current);
+        };
+    }, [tabs]);
 
     const scrollToSection = (id) => {
         isScrollingRef.current = true;
@@ -130,10 +139,10 @@ function QuickNav({ tabs = [] }) {
             <AnimatePresence>
                 {isDesktopOpen ? (
                     <motion.div
-                        initial={{ opacity: 0, x: -50 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        exit={{ opacity: 0, x: -50 }}
-                        transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                        variants={quickNavDesktopBtnVariants}
+                        initial="hidden"
+                        animate="visible"
+                        exit="exit"
                         className="hidden xl:flex fixed left-6 top-28 bottom-6 z-40 w-64 bg-white/70 dark:bg-gray-900/70 backdrop-blur-2xl border border-gray-200/50 dark:border-gray-800/50 rounded-[2.5rem] p-6 shadow-2xl flex-col justify-between overflow-hidden"
                     >
                         <div>
@@ -165,7 +174,7 @@ function QuickNav({ tabs = [] }) {
                                                 <motion.div
                                                     layoutId="desktopActiveTabIndicator"
                                                     className="absolute left-0 w-1.5 inset-y-2 bg-blue-600 dark:bg-blue-400 rounded-full"
-                                                    transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                                                    transition={quickNavTabIndicatorSpring}
                                                 />
                                             )}
                                             <span className="truncate">{tab.label}</span>
@@ -180,10 +189,10 @@ function QuickNav({ tabs = [] }) {
                     </motion.div>
                 ) : (
                     <motion.button
-                        initial={{ opacity: 0, x: -50 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        exit={{ opacity: 0, x: -50 }}
-                        transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                        variants={quickNavDesktopBtnVariants}
+                        initial="hidden"
+                        animate="visible"
+                        exit="exit"
                         onClick={() => toggleDesktopOpen(true)}
                         className="hidden xl:flex fixed left-6 top-1/2 -translate-y-1/2 z-40 items-center justify-center w-14 h-14 bg-white dark:bg-gray-900 text-gray-900 dark:text-white rounded-full shadow-2xl border border-gray-200/50 dark:border-gray-800/50 backdrop-blur-xl hover:scale-110 active:scale-95 transition-all group"
                         title="Show Navigation"
@@ -199,9 +208,10 @@ function QuickNav({ tabs = [] }) {
                 <AnimatePresence>
                     {!isOpen && (
                         <motion.button
-                            initial={{ opacity: 0, scale: 0.8 }}
-                            animate={{ opacity: 1, scale: 1 }}
-                            exit={{ opacity: 0, scale: 0.8 }}
+                            variants={quickNavMobileBtnVariants}
+                            initial="hidden"
+                            animate="visible"
+                            exit="exit"
                             onClick={() => { setIsOpen(true); setSheetHeight(55); }}
                             aria-label="Open Document Navigation"
                             className="fixed right-6 bottom-6 z-50 flex items-center justify-center w-14 h-14 bg-gray-900 dark:bg-white text-white dark:text-gray-900 rounded-full shadow-2xl hover:scale-110 active:scale-95 transition-all"
@@ -217,19 +227,20 @@ function QuickNav({ tabs = [] }) {
                         <>
                             {/* Backdrop */}
                             <motion.div
-                                initial={{ opacity: 0 }}
-                                animate={{ opacity: 1 }}
-                                exit={{ opacity: 0 }}
+                                variants={quickNavBackdropVariants}
+                                initial="hidden"
+                                animate="visible"
+                                exit="exit"
                                 onClick={() => setIsOpen(false)}
                                 className="fixed inset-0 bg-black/40 backdrop-blur-sm z-[90]"
                             />
 
                             {/* Bottom Sheet Card */}
                             <motion.div
-                                initial={{ y: "100%" }}
-                                animate={{ y: 0 }}
-                                exit={{ y: "100%" }}
-                                transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                                variants={quickNavMobileSheetVariants}
+                                initial="hidden"
+                                animate="visible"
+                                exit="exit"
                                 style={{ height: `${sheetHeight}vh` }}
                                 className="fixed inset-x-0 bottom-0 z-[100] bg-white/95 dark:bg-gray-900/95 backdrop-blur-2xl border-t border-gray-200/50 dark:border-gray-800/50 rounded-t-[2.5rem] shadow-[0_-10px_50px_rgba(0,0,0,0.2)] flex flex-col"
                             >
@@ -272,7 +283,7 @@ function QuickNav({ tabs = [] }) {
                                                     <motion.div
                                                         layoutId="mobileActiveTabIndicator"
                                                         className="absolute left-0 w-1.5 inset-y-2 bg-blue-600 dark:bg-blue-400 rounded-full"
-                                                        transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                                                        transition={quickNavTabIndicatorSpring}
                                                     />
                                                 )}
                                                 <span className="truncate">{tab.label}</span>

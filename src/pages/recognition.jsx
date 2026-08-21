@@ -1,9 +1,20 @@
 import { useState } from "react";
 import { RecognitionCard, Title, SearchBar, FilterList, ViewSwitcherButton, UniversalListCard, SubheaderToggleButton, QuickNav } from "../components/components.jsx";
 import { motion, AnimatePresence } from 'framer-motion';
-import { fadeUp, TIMING, EASING } from '../utils/animations.js';
+import {
+    recognitionPageVariants,
+    recognitionHeaderVariants,
+    recognitionControlsVariants,
+    recognitionSectionVariants,
+    recognitionSectionHeaderVariants,
+    recognitionCardGridVariants,
+    recognitionCardItemVariants,
+    recognitionNoResultsVariants
+} from '../animations/recognition.js';
+import { filterCollapseVariants } from '../animations/components.js';
 import { useViewSwitcher } from "../utils/viewSwitcher";
 import { useData } from "../context/DataContext.jsx";
+import { LuAward } from "react-icons/lu";
 import Fuse from 'fuse.js';
 
 function Recognition() {
@@ -34,17 +45,31 @@ function Recognition() {
     const competitionItems = filteredItems.filter(item => !item.keywords || !item.keywords.includes("Hackathon"));
 
     const RecognitionSection = ({ title, items, category }) => (
-        <div id={category} className="w-full max-w-6xl space-y-10 scroll-mt-36 pt-12">
-            <div className="border-l-4 border-blue-600 pl-6 mb-8 text-left z-10 relative">
+        <motion.div
+            id={category}
+            variants={recognitionSectionVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.1 }}
+            className="w-full max-w-6xl space-y-10 scroll-mt-36 pt-12"
+        >
+            <motion.div
+                variants={recognitionSectionHeaderVariants}
+                className="border-l-4 border-blue-600 pl-6 mb-8 text-left z-10 relative"
+            >
                 <h3 className="text-3xl font-black text-gray-900 dark:text-white tracking-tight mb-2">{title}</h3>
-            </div>
-            <div className={view === 'list' ? "grid grid-cols-1 gap-4" : "grid grid-cols-1 md:grid-cols-2 gap-12"}>
-                {items.map((item, index) => (
+            </motion.div>
+            <motion.div
+                variants={recognitionCardGridVariants}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, amount: 0.1 }}
+                className={view === 'list' ? "grid grid-cols-1 gap-4" : "grid grid-cols-1 md:grid-cols-2 gap-12"}
+            >
+                {items.map((item) => (
                     <motion.div 
                         key={item.id} 
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.5, delay: index * 0.1 }}
+                        variants={recognitionCardItemVariants}
                         className="h-full z-10 relative"
                     >
                         {view === 'list' ? (
@@ -69,8 +94,8 @@ function Recognition() {
                         )}
                     </motion.div>
                 ))}
-            </div>
-        </div>
+            </motion.div>
+        </motion.div>
     );
 
     return (
@@ -78,40 +103,57 @@ function Recognition() {
             id="recognition"
             className="relative min-h-screen pt-20 md:pt-32 pb-32 md:pb-20 px-4 md:px-6 flex flex-col items-center overflow-x-hidden bg-transparent"
         >
-
             <div className="max-w-6xl w-full z-10">
-                <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, ease: "easeOut" }} className="w-full mb-12 lg:mb-20">
-                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-start">
+                <motion.div
+                    variants={recognitionHeaderVariants}
+                    initial="hidden"
+                    animate="visible"
+                    className="w-full mb-6 lg:mb-10"
+                >
+                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-10 items-start">
                         {/* Left Column: Title and description */}
-                        <div className="lg:col-span-5 text-center lg:text-left">
+                        <div className="lg:col-span-5 text-left">
                             <Title 
                                 title={recognitionPageContent.title} 
                                 subtitle={recognitionPageContent.subtitle}
+                                icon={LuAward}
+                                align="left"
+                                className="!mb-0"
                             />
                         </div>
 
                         {/* Right Column: Search, filters, switcher & toggle */}
-                        <div className="lg:col-span-7 flex flex-col items-center lg:items-end gap-4 w-full">
+                        <motion.div
+                            variants={recognitionControlsVariants}
+                            className="lg:col-span-7 flex flex-col items-center lg:items-end gap-2.5 sm:gap-3 w-full"
+                        >
                             <SearchBar 
                                 searchQuery={searchQuery}
                                 setSearchQuery={setSearchQuery}
                             />
                             <AnimatePresence>
                                 {!isSearchingText && (
-                                    <motion.div key="filters" initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} transition={{ duration: 0.2 }} className="flex flex-col items-center lg:items-end gap-4 w-full">
+                                    <motion.div
+                                        key="filters"
+                                        variants={filterCollapseVariants}
+                                        initial="hidden"
+                                        animate="visible"
+                                        exit="exit"
+                                        className="flex flex-col items-center lg:items-end gap-2.5 sm:gap-3 w-full"
+                                    >
                                         <FilterList
                                             activeFilter={activeFilter}
                                             setActiveFilter={setActiveFilter}
                                             filters={filters}
                                         />
-                                        <div className="flex items-center justify-center lg:justify-end gap-3 w-full">
+                                        <div className="flex items-center justify-center lg:justify-end gap-2.5 w-full">
                                             <ViewSwitcherButton />
                                             <SubheaderToggleButton />
                                         </div>
                                     </motion.div>
                                 )}
                             </AnimatePresence>
-                        </div>
+                        </motion.div>
                     </div>
                 </motion.div>
 
@@ -134,7 +176,12 @@ function Recognition() {
                 </div>
                 
                 {filteredItems.length === 0 && (
-                    <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, ease: "easeOut" }} className="text-center py-20">
+                    <motion.div
+                        variants={recognitionNoResultsVariants}
+                        initial="hidden"
+                        animate="visible"
+                        className="text-center py-20"
+                    >
                         <h3 className="text-2xl font-black text-gray-400 dark:text-gray-500">{recognitionPageContent.noResults.title}</h3>
                         <p className="text-gray-500 dark:text-gray-600 mt-2">{recognitionPageContent.noResults.subtitle}</p>
                     </motion.div>
@@ -145,3 +192,4 @@ function Recognition() {
 }
 
 export default Recognition;
+

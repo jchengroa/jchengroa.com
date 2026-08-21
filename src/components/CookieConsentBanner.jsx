@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
+import { cookieConsentVariants } from '../animations/components.js';
 
 const STORAGE_KEY = 'jchengroa_analytics_consent';
 
@@ -32,10 +33,10 @@ export default function CookieConsentBanner() {
         <AnimatePresence>
             {isVisible && (
                 <motion.div
-                    initial={{ opacity: 0, y: 50, scale: 0.95 }}
-                    animate={{ opacity: 1, y: 0, scale: 1 }}
-                    exit={{ opacity: 0, y: 20, scale: 0.95 }}
-                    transition={{ type: 'spring', damping: 25, stiffness: 300 }}
+                    variants={cookieConsentVariants}
+                    initial="hidden"
+                    animate="visible"
+                    exit="exit"
                     className="fixed bottom-4 left-4 right-4 sm:left-auto sm:right-6 sm:max-w-md z-[100] isolate"
                 >
                     <div className="relative p-6 bg-white/90 dark:bg-gray-900/90 backdrop-blur-xl border border-gray-100 dark:border-gray-800 rounded-[2rem] shadow-2xl text-left flex flex-col gap-4">

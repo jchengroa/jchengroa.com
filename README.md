@@ -443,3 +443,15 @@ Rebranded Socials Page to Contacts Page, adding the improved Get in Touch system
 Changed hardcoded default theming values to database values.
 Readded the file downloader for research projects.
 Fixed home page bug where featured research doesn't direct to the actual research.
+
+- [0.15.1] - 2026-08-21
+Unified all headers of all pages of the entire website in both mobile and desktop environments.
+Added animations for the main navigation pill to the more navigation pill on mobile/small screen devices.
+Changed navigation pill behavior for mobile/small screen devices.
+Changed project directory to globalize animations.
+Changed default behavior of the Quick Nav Outline panel.
+Updated the hero section of the home page.
+Updated the animation system of the entire website to a more global modular system.
+Fixed desktop navigation pill bug where the explorers of each tab gets outshadowed by the main navigation pill UI.
+Fixed mobile navigation pill bug where if the user is in the "more" navigation options, and tries to navigate to a different page, the main navigation pill would stay open.
+Fixed mobile navigation pill bug where the more pill in mobile is visually smaller than the standard UI.

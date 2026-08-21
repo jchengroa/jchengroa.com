@@ -12,10 +12,10 @@ function SearchBar({ searchQuery, setSearchQuery }) {
     };
 
     return (
-        <form onSubmit={handleSubmit} className="w-full max-w-3xl mx-auto mb-8 relative group z-20">
+        <form onSubmit={handleSubmit} className="w-full max-w-3xl mx-auto mb-3 md:mb-4 relative group z-20">
             {/* Colorful Icon */}
-            <div className="absolute inset-y-0 left-6 flex items-center pointer-events-none z-20">
-                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="url(#search-gradient)" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="group-focus-within:scale-110 transition-transform duration-300">
+            <div className="absolute inset-y-0 left-5 sm:left-6 flex items-center pointer-events-none z-20">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="url(#search-gradient)" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="group-focus-within:scale-110 transition-transform duration-300">
                     <defs>
                         <linearGradient id="search-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
                             <stop offset="0%" stopColor="#3b82f6" className="group-focus-within:stopColor-[#2563eb]" />
@@ -27,8 +27,8 @@ function SearchBar({ searchQuery, setSearchQuery }) {
             </div>
 
             {/* Gradient Border Wrapper */}
-            <div className="absolute inset-0 rounded-3xl bg-gradient-to-r from-blue-300 via-indigo-300 to-purple-300 dark:from-blue-900/50 dark:via-indigo-900/50 dark:to-purple-900/50 opacity-60 group-focus-within:opacity-100 group-focus-within:from-blue-500 group-focus-within:via-indigo-500 group-focus-within:to-purple-500 transition-all duration-500 p-[3px] shadow-lg group-focus-within:shadow-blue-500/25">
-                <div className="w-full h-full bg-blue-50/95 dark:bg-gray-900/95 backdrop-blur-md rounded-[calc(1.5rem-3px)] group-focus-within:bg-white dark:group-focus-within:bg-gray-900 transition-colors duration-500"></div>
+            <div className="absolute inset-0 rounded-2xl sm:rounded-3xl bg-gradient-to-r from-blue-300 via-indigo-300 to-purple-300 dark:from-blue-900/50 dark:via-indigo-900/50 dark:to-purple-900/50 opacity-60 group-focus-within:opacity-100 group-focus-within:from-blue-500 group-focus-within:via-indigo-500 group-focus-within:to-purple-500 transition-all duration-500 p-[2.5px] shadow-md group-focus-within:shadow-blue-500/20">
+                <div className="w-full h-full bg-blue-50/95 dark:bg-gray-900/95 backdrop-blur-md rounded-[calc(1rem-2.5px)] sm:rounded-[calc(1.5rem-2.5px)] group-focus-within:bg-white dark:group-focus-within:bg-gray-900 transition-colors duration-500"></div>
             </div>
 
             <div className="relative flex items-center">
@@ -37,11 +37,11 @@ function SearchBar({ searchQuery, setSearchQuery }) {
                     placeholder={common.searchPlaceholder}
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    className="relative w-full pl-14 md:pl-16 pr-28 md:pr-32 py-3.5 md:py-5 bg-transparent outline-none font-black text-gray-800 dark:text-gray-150 text-sm md:text-lg placeholder:text-indigo-300/80 dark:placeholder:text-indigo-700/50 transition-all z-10"
+                    className="relative w-full pl-12 sm:pl-14 md:pl-16 pr-24 sm:pr-28 md:pr-32 py-2.5 sm:py-3.5 md:py-4 bg-transparent outline-none font-black text-gray-800 dark:text-gray-150 text-xs sm:text-sm md:text-base placeholder:text-indigo-300/80 dark:placeholder:text-indigo-700/50 transition-all z-10"
                 />
                 <button
                     type="submit"
-                    className="absolute right-2 md:right-4 px-4 py-2 md:px-6 md:py-2.5 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-xl md:rounded-2xl font-bold text-xs md:text-sm shadow-lg hover:shadow-blue-500/30 hover:scale-105 active:scale-95 transition-all z-20 whitespace-nowrap"
+                    className="absolute right-1.5 sm:right-2 md:right-3 px-3.5 sm:px-4 md:px-5 py-1.5 sm:py-2 md:py-2.5 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-xl md:rounded-2xl font-bold text-[11px] sm:text-xs md:text-sm shadow-md hover:shadow-blue-500/30 hover:scale-105 active:scale-95 transition-all z-20 whitespace-nowrap"
                 >
                     {common.searchButton}
                 </button>
@@ -54,7 +54,7 @@ function FilterList({ activeFilter, setActiveFilter, filters }) {
     if (!filters || filters.length === 0) return null;
 
     return (
-        <div className="w-full max-w-3xl mx-auto mb-6 md:mb-16 flex overflow-x-auto md:flex-wrap gap-2 md:gap-3 justify-start md:justify-center z-10 relative no-scrollbar pb-2 pt-1 px-1 flex-nowrap shrink-0">
+        <div className="w-full max-w-3xl mx-auto mb-2 md:mb-4 flex overflow-x-auto md:flex-wrap gap-1.5 sm:gap-2 md:gap-2.5 justify-start md:justify-end z-10 relative no-scrollbar pb-1 pt-0.5 px-0.5 flex-nowrap shrink-0">
             {filters.map(filter => (
                 <button
                     key={filter}

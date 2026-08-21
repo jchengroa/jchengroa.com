@@ -1,8 +1,17 @@
 import { useParams, Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { FormattedText, QuickNav } from "../components/components.jsx";
-import { motion } from 'framer-motion';
-import { fadeUp, TIMING, EASING } from '../utils/animations.js';
+import { motion, AnimatePresence } from 'framer-motion';
+import {
+    workDetailPageVariants,
+    workDetailHeaderVariants,
+    workDetailSectionVariants,
+    workDetailMetricCardVariants,
+    workDetailImageHover,
+    workDetailImageTap,
+    workDetailLightboxBackdrop,
+    workDetailLightboxContent
+} from '../animations/workDetail.js';
 import { useData } from "../context/DataContext.jsx";
 
 function WorkDetail() {
@@ -77,7 +86,11 @@ function WorkDetail() {
         return (
             <div className="relative min-h-screen pt-32 pb-20 px-6 bg-transparent overflow-x-hidden">
                 <div className="max-w-5xl mx-auto relative z-10">
-                    <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: TIMING.dramatic, ease: EASING.easeOut }}>
+                    <motion.div
+                        variants={workDetailPageVariants}
+                        initial="hidden"
+                        animate="visible"
+                    >
                         <header className="mb-12">
                             <Link
                                 to={backLink}
@@ -128,7 +141,11 @@ function WorkDetail() {
         <div className="relative min-h-screen pt-32 pb-20 px-6 bg-transparent overflow-x-hidden">
             <QuickNav tabs={workTabs} />
             <div className="max-w-5xl mx-auto relative z-10">
-                <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: TIMING.dramatic, ease: EASING.easeOut }}>
+                <motion.div
+                    variants={workDetailPageVariants}
+                    initial="hidden"
+                    animate="visible"
+                >
                     <header className="mb-16">
                         <Link
                             to={backLink}
@@ -148,14 +165,19 @@ function WorkDetail() {
                     <div className="grid grid-cols-1 lg:grid-cols-3 gap-16">
                         <div className="lg:col-span-2 space-y-16">
                             {item.stats && (
-                                <motion.section id="metrics" initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: TIMING.dramatic, ease: EASING.easeOut }} className="scroll-mt-36">
+                                <motion.section
+                                    id="metrics"
+                                    variants={workDetailSectionVariants}
+                                    className="scroll-mt-36"
+                                >
                                     <h3 className="text-xs font-black tracking-[0.2em] uppercase text-gray-400 dark:text-gray-500 mb-10">
                                         {item.category === "recognition" ? "Competition Results" : common.keyMetrics}
                                     </h3>
                                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-8">
                                         {item.stats.map((stat, i) => (
-                                            <div 
+                                            <motion.div 
                                                 key={i} 
+                                                variants={workDetailMetricCardVariants}
                                                 className="p-8 bg-gray-50 dark:bg-gray-900 rounded-[2rem] border border-gray-100 dark:border-gray-800 hover:shadow-lg dark:hover:shadow-black/30 transition-all"
                                             >
                                                 <div className="text-4xl md:text-5xl font-black text-blue-600 dark:text-blue-400 mb-2 tracking-tighter">
@@ -167,7 +189,7 @@ function WorkDetail() {
                                                 <div className="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-wider">
                                                     {stat.detail}
                                                 </div>
-                                            </div>
+                                            </motion.div>
                                         ))}
                                     </div>
                                 </motion.section>
@@ -320,36 +342,42 @@ function WorkDetail() {
             </div>
 
             {/* Image Lightbox Modal */}
-            {selectedImage && (
-                <motion.div 
-                    initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.3, ease: "easeOut" }}
-                    className="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-2xl"
-                    onClick={() => setSelectedImage(null)}
-                >
-                    <button 
-                        className="absolute top-8 right-8 text-white/50 hover:text-white transition-colors z-[110]"
-                        onClick={(e) => {
-                            e.stopPropagation();
-                            setSelectedImage(null);
-                        }}
-                    >
-                        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
-                    </button>
+            <AnimatePresence>
+                {selectedImage && (
                     <motion.div 
-                        initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.3, ease: "easeOut" }}
-                        className="relative max-w-[90vw] max-h-[90vh] shadow-2xl"
-                        onClick={(e) => e.stopPropagation()}
+                        variants={workDetailLightboxBackdrop}
+                        initial="hidden"
+                        animate="visible"
+                        exit="exit"
+                        className="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-2xl"
+                        onClick={() => setSelectedImage(null)}
                     >
-                        <img 
-                            src={selectedImage} 
-                            alt="Full screen view" 
-                            className="w-full h-full object-contain"
-                        />
+                        <button 
+                            className="absolute top-8 right-8 text-white/50 hover:text-white transition-colors z-[110]"
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                setSelectedImage(null);
+                            }}
+                        >
+                            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+                        </button>
+                        <motion.div 
+                            variants={workDetailLightboxContent}
+                            initial="hidden"
+                            animate="visible"
+                            exit="exit"
+                            className="relative max-w-[90vw] max-h-[90vh] shadow-2xl"
+                            onClick={(e) => e.stopPropagation()}
+                        >
+                            <img 
+                                src={selectedImage} 
+                                alt="Full screen view" 
+                                className="w-full h-full object-contain"
+                            />
+                        </motion.div>
                     </motion.div>
-                </motion.div>
-            )}
-
-
+                )}
+            </AnimatePresence>
         </div>
     );
 }

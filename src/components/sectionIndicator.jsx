@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion';
+import { sectionIndicatorDotSpring } from '../animations/components.js';
 
 export function SectionIndicator({ sectionsConfig, activeSection, scrollToSection }) {
     const activeSectionIndex = sectionsConfig.findIndex(item => item.id === activeSection);
@@ -22,7 +23,7 @@ export function SectionIndicator({ sectionsConfig, activeSection, scrollToSectio
                             <motion.div
                                 layoutId="activeDot"
                                 className="absolute rounded-full bg-blue-600 dark:bg-blue-500 shadow-[0_0_12px_rgba(37,99,235,0.6)] w-5 h-2 md:w-2 md:h-5 cursor-grab active:cursor-grabbing"
-                                transition={{ type: "spring", stiffness: 350, damping: 25 }}
+                                transition={sectionIndicatorDotSpring}
                                 drag="y"
                                 dragConstraints={{ top: -activeSectionIndex * 36, bottom: (sectionsConfig.length - 1 - activeSectionIndex) * 36 }}
                                 dragElastic={0.1}
