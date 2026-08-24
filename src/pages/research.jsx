@@ -58,9 +58,10 @@ function Research() {
         >
             <motion.div
                 variants={researchSectionHeaderVariants}
-                className="border-l-4 border-blue-600 pl-6 mb-8 text-left"
+                className="border-l-4 border-indigo-600 pl-6 mb-8 text-left"
             >
                 <h3 className="text-3xl font-black text-gray-900 dark:text-white tracking-tight mb-2">{title}</h3>
+
             </motion.div>
             <motion.div
                 variants={researchCardGridVariants}

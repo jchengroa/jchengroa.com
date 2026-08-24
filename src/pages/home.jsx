@@ -1,7 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Title, ContactCard, SectionIndicator } from '../components/components.jsx';
+import { Title, ContactCard, SectionIndicator, HeroPhysicsTitle } from '../components/components.jsx';
 import { motion } from 'framer-motion';
+
 import { FaFacebookF, FaGithub, FaLinkedinIn } from 'react-icons/fa';
 import { LuMail, LuFileText, LuFolder, LuBookOpen, LuAward, LuArrowUpRight, LuArrowDown } from 'react-icons/lu';
 import { useData } from '../context/DataContext.jsx';
@@ -51,6 +52,23 @@ function FeaturedSection({ id, title, subtitle, items, isResearch, icon, bgClass
         }
     }, [items]);
 
+    const colorTheme = id === 'featured-projects' ? 'projects' : id === 'featured-research' ? 'research' : 'recognition';
+    
+    const themeStyles = {
+        projects: {
+            titleHover: "group-hover/title:text-blue-600 dark:group-hover/title:text-blue-400",
+            tag: "bg-blue-500/10 dark:bg-blue-500/20 text-blue-600 dark:text-blue-400 border-blue-500/20"
+        },
+        research: {
+            titleHover: "group-hover/title:text-indigo-600 dark:group-hover/title:text-indigo-400",
+            tag: "bg-indigo-500/10 dark:bg-indigo-500/20 text-indigo-600 dark:text-indigo-400 border-indigo-500/20"
+        },
+        recognition: {
+            titleHover: "group-hover/title:text-amber-600 dark:group-hover/title:text-amber-400",
+            tag: "bg-amber-500/10 dark:bg-amber-500/20 text-amber-600 dark:text-amber-400 border-amber-500/20"
+        }
+    }[colorTheme];
+
     return (
         <section 
             id={id} 
@@ -66,9 +84,10 @@ function FeaturedSection({ id, title, subtitle, items, isResearch, icon, bgClass
                 </svg>
             </div>
 
-            {/* Ambient Background Glows */}
-            <div className={`absolute top-1/4 left-1/3 w-72 h-72 rounded-full ${glowColors.first} blur-3xl pointer-events-none opacity-80`}></div>
-            <div className={`absolute bottom-1/4 right-1/3 w-72 h-72 rounded-full ${glowColors.second} blur-3xl pointer-events-none opacity-80`}></div>
+            {/* Ambient Background Glows that respect dynamic theme accent */}
+            <div className="absolute top-1/4 left-1/3 w-72 h-72 rounded-full bg-blue-500/10 dark:bg-blue-600/15 blur-3xl pointer-events-none opacity-70"></div>
+            <div className="absolute bottom-1/4 right-1/3 w-72 h-72 rounded-full bg-indigo-500/10 dark:bg-indigo-600/15 blur-3xl pointer-events-none opacity-70"></div>
+
 
             <motion.div 
                 variants={featuredSectionContainerVariants}
@@ -81,6 +100,7 @@ function FeaturedSection({ id, title, subtitle, items, isResearch, icon, bgClass
                     <Title
                         title={title}
                         icon={icon}
+                        colorTheme={colorTheme}
                         className="mb-3 md:mb-6"
                     />
                 </motion.div>
@@ -93,7 +113,7 @@ function FeaturedSection({ id, title, subtitle, items, isResearch, icon, bgClass
                             className="flex flex-col gap-3 text-center md:text-left items-center md:items-start max-w-xl mx-auto md:mx-0 order-2 md:order-1"
                         >
                             <Link to={`/project/${featuredItem.id}`} className="group/title">
-                                <h3 className="text-xl sm:text-2xl md:text-3xl font-black text-gray-900 dark:text-white leading-tight group-hover/title:text-blue-600 dark:group-hover/title:text-blue-400 transition-colors">
+                                <h3 className={`text-xl sm:text-2xl md:text-3xl font-black text-gray-900 dark:text-white leading-tight ${themeStyles.titleHover} transition-colors`}>
                                     {featuredItem.title}
                                 </h3>
                             </Link>
@@ -106,7 +126,7 @@ function FeaturedSection({ id, title, subtitle, items, isResearch, icon, bgClass
                                     <motion.span 
                                         key={tag} 
                                         variants={featuredTagVariants}
-                                        className="px-3 py-1 text-[9px] font-black uppercase bg-blue-50/80 dark:bg-blue-950/40 text-blue-600 dark:text-blue-400 rounded-lg shadow-sm"
+                                        className={`px-3 py-1 text-[9px] font-black uppercase rounded-lg shadow-sm border ${themeStyles.tag}`}
                                     >
                                         {tag}
                                     </motion.span>
@@ -114,16 +134,20 @@ function FeaturedSection({ id, title, subtitle, items, isResearch, icon, bgClass
                             </div>
                         </motion.div>
 
+
                         {/* Right Column (Desktop) / First Block (Mobile): Landscape visual mockup */}
                         <motion.div
                             variants={featuredCardVariants}
                             whileHover={featuredCardHover}
                             whileTap={featuredCardTap}
-                            className="order-1 md:order-2 w-full max-w-md md:max-w-none mx-auto"
+                            className="order-1 md:order-2 w-full max-w-md md:max-w-none mx-auto relative group"
                         >
+                            {/* Subtle Ambient Accent Glow behind featured image */}
+                            <div className="absolute -inset-2 bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-500 rounded-[2.5rem] blur-2xl opacity-0 group-hover:opacity-20 dark:group-hover:opacity-30 transition duration-500 pointer-events-none -z-10" />
+
                             <Link
                                 to={`/project/${featuredItem.id}`}
-                                className="w-full aspect-[16/10] rounded-[2rem] overflow-hidden border border-gray-200/80 dark:border-white/10 shadow-xl bg-gray-100 dark:bg-gray-950 flex items-center justify-center relative group cursor-pointer block transition-all duration-300"
+                                className="w-full aspect-[16/10] rounded-[2rem] overflow-hidden border border-gray-200/80 dark:border-white/10 shadow-xl bg-gray-100 dark:bg-gray-950 flex items-center justify-center relative group cursor-pointer block transition-all duration-300 accent-glow-card"
                             >
                                 {featuredItem.images && featuredItem.images[0] ? (
                                     <img 
@@ -139,6 +163,7 @@ function FeaturedSection({ id, title, subtitle, items, isResearch, icon, bgClass
                                 )}
                             </Link>
                         </motion.div>
+
                     </div>
                 )}
             </motion.div>
@@ -349,15 +374,11 @@ function Home() {
                         animate="visible"
                         className="flex flex-col items-center w-full text-center"
                     >
-                        <motion.h1 
-                            variants={heroTitleVariants}
-                            className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-black mb-3 md:mb-4 tracking-tighter text-gray-900 dark:text-white drop-shadow-sm leading-none"
-                        >
-                            {hero.title}
-                        </motion.h1>
+                        <HeroPhysicsTitle title={hero.title} />
 
                         <motion.div 
                             variants={heroSubtitleVariants}
+
                             className="max-w-2xl mx-auto space-y-2 mb-4 sm:mb-5 md:mb-6"
                         >
                             <p className="text-sm sm:text-base md:text-lg text-blue-600 dark:text-blue-400 font-semibold leading-snug">

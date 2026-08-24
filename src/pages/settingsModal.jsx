@@ -29,6 +29,7 @@ const STORAGE_KEYS = {
     docsTabs: 'jchengroa_doc_tabs_desktop_open',
     changelogOutline: 'jchengroa_changelog_outline_open',
     analyticsConsent: 'jchengroa_analytics_consent',
+    heroParticles: 'jchengroa_hero_particles_enabled',
 };
 
 const ICONS = {
@@ -67,7 +68,7 @@ function ToggleSwitch({ enabled, onChange, label }) {
     );
 }
 
-function AppearanceSettings({ themeMode, setThemeMode, accentColor, setAccentColor, customHex, setCustomHex, docsTabs, setDocsTabs }) {
+function AppearanceSettings({ themeMode, setThemeMode, accentColor, setAccentColor, customHex, setCustomHex, docsTabs, setDocsTabs, heroParticles, setHeroParticles }) {
     const [pickerOpen, setPickerOpen] = useState(false);
     const [tempHex, setTempHex] = useState(customHex || '#2563eb');
 
@@ -155,9 +156,17 @@ function AppearanceSettings({ themeMode, setThemeMode, accentColor, setAccentCol
 
             <div>
                 <h3 className="text-xs font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-4">
-                    Layout Settings
+                    Layout & Animation Settings
                 </h3>
-                <div className="space-y-4">
+                <div className="space-y-3">
+                    <div className="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-800/30 rounded-2xl border border-gray-100 dark:border-gray-800">
+                        <div className="flex-1 pr-4 text-left">
+                            <p className="text-gray-900 dark:text-white font-bold text-sm">Hero Physics Particles</p>
+                            <p className="text-gray-500 dark:text-gray-400 text-xs font-medium mt-0.5 leading-relaxed">Enable interactive ambient background particles and physics in the hero section.</p>
+                        </div>
+                        <ToggleSwitch enabled={heroParticles} onChange={setHeroParticles} />
+                    </div>
+
                     <div className="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-800/30 rounded-2xl border border-gray-100 dark:border-gray-800">
                         <div className="flex-1 pr-4 text-left">
                             <p className="text-gray-900 dark:text-white font-bold text-sm">Quick Nav Outline</p>
@@ -338,8 +347,8 @@ const DATA_CATEGORIES = [
     {
         id: 'appearance',
         label: 'Appearance',
-        description: 'Theme mode, accent color, and monochrome settings.',
-        keys: [STORAGE_KEYS.themeMode, STORAGE_KEYS.darkMode, STORAGE_KEYS.accentColor, STORAGE_KEYS.monochrome],
+        description: 'Theme mode, accent color, monochrome, and particle effects.',
+        keys: [STORAGE_KEYS.themeMode, STORAGE_KEYS.darkMode, STORAGE_KEYS.accentColor, STORAGE_KEYS.monochrome, STORAGE_KEYS.heroParticles],
     },
     {
         id: 'layout',
@@ -474,6 +483,13 @@ export default function SettingsModal({ isOpen, onClose }) {
         }
         return false;
     });
+    const [heroParticles, setHeroParticles] = useState(() => {
+        if (typeof window !== "undefined") {
+            const saved = localStorage.getItem(STORAGE_KEYS.heroParticles);
+            if (saved !== null) return saved === 'true';
+        }
+        return true;
+    });
     const [showChangelogDebug, setShowChangelogDebug] = useState(false);
 
     useEffect(() => {
@@ -488,6 +504,21 @@ export default function SettingsModal({ isOpen, onClose }) {
         window.addEventListener('jchengroa_projects_outline_setting_changed', handleSettingChange);
         return () => {
             window.removeEventListener('jchengroa_projects_outline_setting_changed', handleSettingChange);
+        };
+    }, []);
+
+    useEffect(() => {
+        localStorage.setItem(STORAGE_KEYS.heroParticles, heroParticles.toString());
+        window.dispatchEvent(new CustomEvent('jchengroa_hero_particles_setting_changed', { detail: heroParticles }));
+    }, [heroParticles]);
+
+    useEffect(() => {
+        const handleParticlesSettingChange = (e) => {
+            setHeroParticles(e.detail);
+        };
+        window.addEventListener('jchengroa_hero_particles_setting_changed', handleParticlesSettingChange);
+        return () => {
+            window.removeEventListener('jchengroa_hero_particles_setting_changed', handleParticlesSettingChange);
         };
     }, []);
 
@@ -539,13 +570,15 @@ export default function SettingsModal({ isOpen, onClose }) {
             setCustomHex(syncedCustomHex);
             const syncedDocsTabs = localStorage.getItem(STORAGE_KEYS.docsTabs) !== 'false';
             setDocsTabs(syncedDocsTabs);
+            const syncedParticles = localStorage.getItem(STORAGE_KEYS.heroParticles);
+            setHeroParticles(syncedParticles !== null ? syncedParticles === 'true' : true);
         }
     }, [isOpen, defaultTheme, defaultAccent, defaultCustomHex]);
 
     const renderContent = () => {
         switch (activeTab) {
             case 'appearance':
-                return <AppearanceSettings themeMode={themeMode} setThemeMode={setThemeMode} accentColor={accentColor} setAccentColor={setAccentColor} customHex={customHex} setCustomHex={setCustomHex} docsTabs={docsTabs} setDocsTabs={setDocsTabs} />;
+                return <AppearanceSettings themeMode={themeMode} setThemeMode={setThemeMode} accentColor={accentColor} setAccentColor={setAccentColor} customHex={customHex} setCustomHex={setCustomHex} docsTabs={docsTabs} setDocsTabs={setDocsTabs} heroParticles={heroParticles} setHeroParticles={setHeroParticles} />;
             case 'developer':
                 return <DeveloperSettings onShowChangelog={() => setShowChangelogDebug(true)} />;
             case 'data':
@@ -565,7 +598,7 @@ export default function SettingsModal({ isOpen, onClose }) {
                         </span>
                         <h3 className="text-lg font-black text-gray-900 dark:text-white tracking-tight">Appearance</h3>
                     </div>
-                    <AppearanceSettings themeMode={themeMode} setThemeMode={setThemeMode} accentColor={accentColor} setAccentColor={setAccentColor} customHex={customHex} setCustomHex={setCustomHex} docsTabs={docsTabs} setDocsTabs={setDocsTabs} />
+                    <AppearanceSettings themeMode={themeMode} setThemeMode={setThemeMode} accentColor={accentColor} setAccentColor={setAccentColor} customHex={customHex} setCustomHex={setCustomHex} docsTabs={docsTabs} setDocsTabs={setDocsTabs} heroParticles={heroParticles} setHeroParticles={setHeroParticles} />
                 </div>
 
                 {SHOW_DEV_OPTIONS && (

@@ -6,5 +6,9 @@ export { SearchBar, FilterList, ViewSwitcherButton, SubheaderToggleButton } from
 export { useSubheaderToggle } from "../utils/subheaderToggle.js";
 export { QuickNav } from "./quickNav.jsx";
 export { SectionIndicator } from "./sectionIndicator.jsx";
+export { default as HeroPhysicsTitle } from "./heroPhysicsTitle.jsx";
 export { default } from "./navigation.jsx";
+
+
+
 

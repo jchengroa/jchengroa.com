@@ -55,9 +55,10 @@ function Recognition() {
         >
             <motion.div
                 variants={recognitionSectionHeaderVariants}
-                className="border-l-4 border-blue-600 pl-6 mb-8 text-left z-10 relative"
+                className="border-l-4 border-amber-500 pl-6 mb-8 text-left z-10 relative"
             >
                 <h3 className="text-3xl font-black text-gray-900 dark:text-white tracking-tight mb-2">{title}</h3>
+
             </motion.div>
             <motion.div
                 variants={recognitionCardGridVariants}

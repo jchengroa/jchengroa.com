@@ -29,13 +29,15 @@ function WorkCard(props) {
     const linkTo = props.linkTo || `/project/${props.id}`;
     return (
         <Link to={linkTo} className="block group h-full">
-            <div className="bg-white dark:bg-gray-900 rounded-[2rem] md:rounded-[2.5rem] p-6 md:p-10 border border-gray-100 dark:border-gray-800 shadow-sm hover:shadow-3xl transition-all duration-500 h-full flex flex-col justify-between overflow-hidden relative">
-                {/* Subtle Gradient Glow on Hover */}
-                <div className="absolute -inset-1 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-[2rem] md:rounded-[2.5rem] blur-xl opacity-0 group-hover:opacity-5 dark:group-hover:opacity-10 transition duration-500"></div>
+            <div className="bg-white dark:bg-gray-900 rounded-[2rem] md:rounded-[2.5rem] p-6 md:p-10 border border-gray-100 dark:border-gray-800 shadow-sm hover:shadow-3xl transition-all duration-500 h-full flex flex-col justify-between overflow-hidden relative accent-glow-card">
+                {/* Subtle Dynamic Accent Glow on Hover */}
+                <div className="absolute -inset-1 bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-500 rounded-[2rem] md:rounded-[2.5rem] blur-xl opacity-0 group-hover:opacity-10 dark:group-hover:opacity-20 transition duration-500 pointer-events-none"></div>
 
                 <div className="relative z-10 flex-grow">
                     {props.image && (
-                        <div className="mb-8 rounded-2xl overflow-hidden aspect-[16/10] bg-gray-50 border border-gray-100 group-hover:shadow-lg transition-all duration-500">
+                        <div className="mb-8 rounded-2xl overflow-hidden aspect-[16/10] bg-gray-50 dark:bg-gray-800/40 border border-gray-100 dark:border-gray-800 group-hover:shadow-lg transition-all duration-500 relative">
+                            <div className="absolute inset-0 bg-blue-500/0 group-hover:bg-blue-500/5 transition-colors duration-500 pointer-events-none" />
+
                             <img
                                 src={props.image}
                                 alt={props.title}
@@ -84,11 +86,12 @@ function RecognitionCard(props) {
     const iframeSrc = `https://www.facebook.com/plugins/post.php?href=${encodedUrl}&show_text=true&width=auto`;
 
     return (
-        <div className="bg-white dark:bg-gray-900 rounded-[2rem] md:rounded-[2.5rem] p-6 md:p-8 border border-gray-100 dark:border-gray-800 shadow-sm hover:shadow-3xl transition-all duration-500 h-full flex flex-col overflow-hidden relative group">
-            {/* Subtle Gradient Glow on Hover */}
-            <div className="absolute -inset-1 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-[2rem] md:rounded-[2.5rem] blur-xl opacity-0 group-hover:opacity-5 dark:group-hover:opacity-10 transition duration-500"></div>
+        <div className="bg-white dark:bg-gray-900 rounded-[2rem] md:rounded-[2.5rem] p-6 md:p-8 border border-gray-100 dark:border-gray-800 shadow-sm hover:shadow-3xl transition-all duration-500 h-full flex flex-col overflow-hidden relative group accent-glow-card">
+            {/* Subtle Dynamic Accent Glow on Hover */}
+            <div className="absolute -inset-1 bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-500 rounded-[2rem] md:rounded-[2.5rem] blur-xl opacity-0 group-hover:opacity-10 dark:group-hover:opacity-20 transition duration-500 pointer-events-none"></div>
 
             <div className="relative z-10 flex-grow flex flex-col">
+
                 <div className="mb-6">
                     <span className="text-xs font-black tracking-[0.2em] text-blue-600 uppercase mb-3 block">
                         {info}
@@ -149,11 +152,12 @@ function UniversalListCard(props) {
     const linkTo = props.linkTo || (id ? `/project/${id}` : undefined);
 
     return (
-        <div className="bg-white dark:bg-gray-900 rounded-[1.5rem] p-6 border border-gray-100 dark:border-gray-800 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col md:flex-row md:items-center justify-between gap-6 group relative overflow-hidden">
-            {/* Subtle Gradient Glow on Hover */}
-            <div className="absolute -inset-1 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-[1.5rem] blur-xl opacity-0 group-hover:opacity-5 dark:group-hover:opacity-10 transition duration-500 pointer-events-none"></div>
+        <div className="bg-white dark:bg-gray-900 rounded-[1.5rem] p-6 border border-gray-100 dark:border-gray-800 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col md:flex-row md:items-center justify-between gap-6 group relative overflow-hidden accent-glow-card">
+            {/* Subtle Dynamic Accent Glow on Hover */}
+            <div className="absolute -inset-1 bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-500 rounded-[1.5rem] blur-xl opacity-0 group-hover:opacity-10 dark:group-hover:opacity-20 transition duration-500 pointer-events-none"></div>
 
             <div className="flex-grow min-w-0 relative z-10">
+
                 <div className="flex flex-wrap items-center gap-3 mb-2">
                     <span className="text-[10px] font-black tracking-[0.2em] text-blue-600 uppercase">
                         {info}

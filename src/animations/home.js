@@ -32,6 +32,44 @@ export const heroTitleVariants = {
   },
 };
 
+export const heroTitleIdleFloatVariants = {
+  animate: {
+    y: [-3, 3, -3],
+    rotate: [-0.3, 0.3, -0.3],
+    transition: {
+      duration: 6,
+      repeat: Infinity,
+      ease: "easeInOut",
+    },
+  },
+};
+
+export const heroGlowPulseVariants = {
+  initial: {
+    scale: 0.9,
+    opacity: 0.45,
+  },
+  animate: {
+    scale: [0.9, 1.15, 0.9],
+    opacity: [0.45, 0.85, 0.45],
+    transition: {
+      duration: 6,
+      repeat: Infinity,
+      ease: "easeInOut",
+    },
+  },
+  hover: {
+    scale: 1.28,
+    opacity: 1,
+    transition: {
+      duration: 0.4,
+      ease: "easeOut",
+    },
+  },
+};
+
+
+
 export const heroSubtitleVariants = {
   hidden: { opacity: 0, y: 16 },
   visible: {

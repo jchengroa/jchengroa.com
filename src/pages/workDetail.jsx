@@ -84,25 +84,25 @@ function WorkDetail() {
 
     if (item.category === 'tool') {
         return (
-            <div className="relative min-h-screen pt-32 pb-20 px-6 bg-transparent overflow-x-hidden">
+            <div className="relative min-h-screen pt-24 sm:pt-28 md:pt-32 pb-16 px-4 sm:px-6 bg-transparent overflow-x-hidden">
                 <div className="max-w-5xl mx-auto relative z-10">
                     <motion.div
                         variants={workDetailPageVariants}
                         initial="hidden"
                         animate="visible"
                     >
-                        <header className="mb-12">
+                        <header className="mb-8 sm:mb-10">
                             <Link
                                 to={backLink}
-                                className="inline-flex items-center gap-1.5 text-sm font-bold text-gray-400 dark:text-gray-500 hover:text-blue-600 dark:hover:text-blue-400 transition-colors mb-6 group"
+                                className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-bold text-gray-400 dark:text-gray-500 hover:text-blue-600 dark:hover:text-blue-400 transition-colors mb-3 sm:mb-4 group"
                             >
                                 <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="group-hover:-translate-x-0.5 transition-transform"><path d="m15 18-6-6 6-6"/></svg>
                                 {backLabel}
                             </Link>
-                            <h1 className="text-6xl md:text-8xl font-black tracking-tighter mb-6 text-gray-900 dark:text-white leading-none">
+                            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black tracking-tight mb-3 sm:mb-4 text-gray-900 dark:text-white leading-tight">
                                 {item.title}
                             </h1>
-                            <p className="text-2xl md:text-3xl font-bold text-blue-600 dark:text-blue-400 tracking-tight">
+                            <p className="text-base sm:text-lg md:text-xl font-bold text-blue-600 dark:text-blue-400 tracking-normal">
                                 {item.info}
                             </p>
                         </header>
@@ -138,7 +138,7 @@ function WorkDetail() {
     };
 
     return (
-        <div className="relative min-h-screen pt-32 pb-20 px-6 bg-transparent overflow-x-hidden">
+        <div className="relative min-h-screen pt-24 sm:pt-28 md:pt-32 pb-16 px-4 sm:px-6 bg-transparent overflow-x-hidden">
             <QuickNav tabs={workTabs} />
             <div className="max-w-5xl mx-auto relative z-10">
                 <motion.div
@@ -146,47 +146,47 @@ function WorkDetail() {
                     initial="hidden"
                     animate="visible"
                 >
-                    <header className="mb-16">
+                    <header className="mb-8 sm:mb-10">
                         <Link
                             to={backLink}
-                            className="inline-flex items-center gap-1.5 text-sm font-bold text-gray-400 dark:text-gray-500 hover:text-blue-600 dark:hover:text-blue-400 transition-colors mb-6 group"
+                            className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-bold text-gray-400 dark:text-gray-500 hover:text-blue-600 dark:hover:text-blue-400 transition-colors mb-3 sm:mb-4 group"
                         >
                             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="group-hover:-translate-x-0.5 transition-transform"><path d="m15 18-6-6 6-6"/></svg>
                             {backLabel}
                         </Link>
-                        <h1 className="text-6xl md:text-8xl font-black tracking-tighter mb-6 text-gray-900 dark:text-white leading-none">
+                        <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black tracking-tight mb-3 sm:mb-4 text-gray-900 dark:text-white leading-tight">
                             {item.title}
                         </h1>
-                        <p className="text-2xl md:text-3xl font-bold text-blue-600 dark:text-blue-400 tracking-tight">
+                        <p className="text-base sm:text-lg md:text-xl font-bold text-blue-600 dark:text-blue-400 tracking-normal">
                             {item.subtitle || item.info}
                         </p>
                     </header>
 
-                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-16">
-                        <div className="lg:col-span-2 space-y-16">
+                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-12">
+                        <div className="lg:col-span-2 space-y-8 sm:space-y-10">
                             {item.stats && (
                                 <motion.section
                                     id="metrics"
                                     variants={workDetailSectionVariants}
                                     className="scroll-mt-36"
                                 >
-                                    <h3 className="text-xs font-black tracking-[0.2em] uppercase text-gray-400 dark:text-gray-500 mb-10">
+                                    <h3 className="text-xs font-black tracking-[0.2em] uppercase text-gray-400 dark:text-gray-500 mb-4 sm:mb-5">
                                         {item.category === "recognition" ? "Competition Results" : common.keyMetrics}
                                     </h3>
-                                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-8">
+                                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6">
                                         {item.stats.map((stat, i) => (
                                             <motion.div 
                                                 key={i} 
                                                 variants={workDetailMetricCardVariants}
-                                                className="p-8 bg-gray-50 dark:bg-gray-900 rounded-[2rem] border border-gray-100 dark:border-gray-800 hover:shadow-lg dark:hover:shadow-black/30 transition-all"
+                                                className="p-5 sm:p-6 bg-gray-50 dark:bg-gray-900 rounded-[1.75rem] border border-gray-100 dark:border-gray-800 hover:shadow-lg dark:hover:shadow-black/30 transition-all"
                                             >
-                                                <div className="text-4xl md:text-5xl font-black text-blue-600 dark:text-blue-400 mb-2 tracking-tighter">
+                                                <div className="text-2xl sm:text-3xl md:text-4xl font-black text-blue-600 dark:text-blue-400 mb-1.5 tracking-tight">
                                                     {stat.value}
                                                 </div>
-                                                <div className="text-sm font-black text-gray-900 dark:text-white uppercase tracking-widest mb-1">
+                                                <div className="text-xs sm:text-sm font-black text-gray-900 dark:text-white uppercase tracking-wider mb-1">
                                                     {stat.label}
                                                 </div>
-                                                <div className="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-wider">
+                                                <div className="text-[11px] font-bold text-gray-400 dark:text-gray-500 uppercase tracking-wider">
                                                     {stat.detail}
                                                 </div>
                                             </motion.div>
@@ -196,32 +196,34 @@ function WorkDetail() {
                             )}
 
                              <section id="overview" className="scroll-mt-36">
-                                <h3 className="text-xs font-black tracking-[0.2em] uppercase text-gray-400 dark:text-gray-500 mb-6">
+                                <h3 className="text-xs font-black tracking-[0.2em] uppercase text-gray-400 dark:text-gray-500 mb-4 sm:mb-5">
                                     {item.category === "research" ? common.abstractOverview : item.category === "recognition" ? "Competition Overview" : common.challengeSolution}
                                 </h3>
-                                <p className="text-2xl text-gray-600 dark:text-gray-400 leading-relaxed font-medium">
+                                <div className="text-sm sm:text-base md:text-lg text-gray-600 dark:text-gray-300 leading-relaxed font-normal">
                                     <FormattedText text={item.description} />
-                                </p>
+                                </div>
                             </section>
 
                             {item.images && item.images.length > 0 && (
                                 <section id="gallery" className="scroll-mt-36">
-                                    <h3 className="text-xs font-black tracking-[0.2em] uppercase text-gray-400 dark:text-gray-500 mb-8">{common.visualGallery}</h3>
-                                    <div className="grid grid-cols-1 gap-8">
+                                    <h3 className="text-xs font-black tracking-[0.2em] uppercase text-gray-400 dark:text-gray-500 mb-4 sm:mb-5">{common.visualGallery}</h3>
+                                    <div className="grid grid-cols-1 gap-6">
                                         {item.images.map((img, i) => (
                                             <div 
                                                 key={i} 
                                                 onClick={() => setSelectedImage(img)}
-                                                className="group relative aspect-video bg-gray-50 dark:bg-gray-900 rounded-[2.5rem] overflow-hidden border border-gray-100 dark:border-gray-800 transition-all hover:shadow-2xl dark:hover:shadow-black/50 cursor-zoom-in"
+                                                className="group relative aspect-video bg-gray-50 dark:bg-gray-900 rounded-[2rem] overflow-hidden border border-gray-100 dark:border-gray-800 transition-all hover:shadow-2xl dark:hover:shadow-black/50 cursor-zoom-in accent-glow-card"
                                             >
+                                                <div className="absolute -inset-2 bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-500 rounded-[2rem] blur-2xl opacity-0 group-hover:opacity-15 dark:group-hover:opacity-25 transition duration-500 pointer-events-none -z-10" />
                                                 <img 
                                                     src={img} 
                                                     alt={`${item.title} Screenshot ${i + 1}`}
                                                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                                                 />
+
                                                 <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors flex items-center justify-center opacity-0 group-hover:opacity-100">
-                                                    <div className="bg-white/90 dark:bg-gray-900/90 backdrop-blur-sm p-4 rounded-full shadow-2xl scale-50 group-hover:scale-100 transition-all duration-300">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="text-gray-900 dark:text-white"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+                                                    <div className="bg-white/90 dark:bg-gray-900/90 backdrop-blur-sm p-3 sm:p-4 rounded-full shadow-2xl scale-50 group-hover:scale-100 transition-all duration-300">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="text-gray-900 dark:text-white"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
                                                     </div>
                                                 </div>
                                             </div>
@@ -231,14 +233,14 @@ function WorkDetail() {
                             )}
                         </div>
 
-                        <aside className="space-y-12">
+                        <aside className="space-y-8 sm:space-y-10">
                              <div id="tech" className="scroll-mt-36">
-                                <h3 className="text-xs font-black tracking-[0.2em] uppercase text-gray-400 dark:text-gray-500 mb-6">{techLabel}</h3>
-                                <div className="flex flex-wrap gap-3">
+                                <h3 className="text-xs font-black tracking-[0.2em] uppercase text-gray-400 dark:text-gray-500 mb-4 sm:mb-5">{techLabel}</h3>
+                                <div className="flex flex-wrap gap-2 sm:gap-2.5">
                                     {item.tech.map(t => (
                                         <span 
                                             key={t} 
-                                            className="px-5 py-2.5 bg-gray-50 dark:bg-gray-800 rounded-2xl text-sm font-bold text-gray-700 dark:text-gray-300 border border-gray-100 dark:border-gray-700 transition-all"
+                                            className="px-3.5 py-1.5 sm:px-4 sm:py-2 bg-gray-50 dark:bg-gray-800 rounded-xl text-xs sm:text-sm font-bold text-gray-700 dark:text-gray-300 border border-gray-100 dark:border-gray-700 transition-all"
                                         >
                                             {t}
                                         </span>

@@ -264,9 +264,9 @@ function NavBar() {
                         initial="hidden"
                         animate="visible"
                         exit="exit"
-                        className="relative z-30 w-[92vw] sm:w-[28rem] md:w-[32rem] overflow-hidden rounded-[2rem] border border-gray-100/80 bg-white/95 p-4 shadow-[0_24px_50px_-12px_rgba(0,0,0,0.15)] backdrop-blur-2xl dark:border-gray-800/80 dark:bg-gray-950/95 dark:shadow-black/60 mb-1 sm:mb-0 sm:mt-1.5"
+                        className="relative z-30 w-[94vw] sm:w-[32rem] md:w-[36rem] rounded-[2rem] border border-gray-100/80 bg-white/95 p-3.5 sm:p-4 shadow-[0_24px_50px_-12px_rgba(0,0,0,0.15)] backdrop-blur-2xl dark:border-gray-800/80 dark:bg-gray-950/95 dark:shadow-black/60 mb-1 sm:mb-0 sm:mt-1.5"
                     >
-                        <div className="flex items-center justify-between px-2 mb-3 border-b border-gray-100 dark:border-gray-900 pb-2">
+                        <div className="flex items-center justify-between px-2 mb-2 sm:mb-2.5 border-b border-gray-100 dark:border-gray-900 pb-2">
                             <span className="text-[10px] font-black uppercase tracking-[0.2em] text-gray-400 dark:text-gray-500">
                                 {activeTopic} explorer
                             </span>
@@ -281,7 +281,7 @@ function NavBar() {
                             </button>
                         </div>
 
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5 max-h-[50vh] overflow-y-auto pr-1">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5 w-full no-scrollbar">
                             {currentSubmenuLinks.map((item) => {
                                 const SubIcon = iconMap[item.icon] || LuFileText;
                                 const isExternalDocs = item.to && item.to.startsWith("/docs");
@@ -298,6 +298,24 @@ function NavBar() {
                                     }
                                 };
 
+                                const topicColors = {
+                                    projects: {
+                                        bg: "bg-blue-50 dark:bg-blue-950/40 text-blue-600 dark:text-blue-400 group-hover:bg-blue-600 group-hover:text-white",
+                                        hoverBorder: "hover:border-blue-500/20 hover:bg-blue-50/40 dark:hover:bg-blue-950/20"
+                                    },
+                                    research: {
+                                        bg: "bg-indigo-50 dark:bg-indigo-950/40 text-indigo-600 dark:text-indigo-400 group-hover:bg-indigo-600 group-hover:text-white",
+                                        hoverBorder: "hover:border-indigo-500/20 hover:bg-indigo-50/40 dark:hover:bg-indigo-950/20"
+                                    },
+                                    recognition: {
+                                        bg: "bg-amber-50 dark:bg-amber-950/40 text-amber-600 dark:text-amber-400 group-hover:bg-amber-600 group-hover:text-white",
+                                        hoverBorder: "hover:border-amber-500/20 hover:bg-amber-50/40 dark:hover:bg-amber-950/20"
+                                    }
+                                }[activeTopic] || {
+                                    bg: "bg-blue-50 dark:bg-blue-950/40 text-blue-600 dark:text-blue-400 group-hover:bg-blue-500 group-hover:text-white",
+                                    hoverBorder: "hover:border-blue-500/10 hover:bg-blue-50/40 dark:hover:bg-blue-950/10"
+                                };
+
                                 if (isExternalDocs) {
                                     return (
                                         <motion.a
@@ -307,16 +325,16 @@ function NavBar() {
                                             whileTap={explorerCardTap}
                                             href={item.to}
                                             onClick={handleSubLinkClick}
-                                            className="flex items-start gap-3 p-3 rounded-2xl border border-transparent hover:border-blue-500/10 hover:bg-blue-50/40 dark:hover:bg-blue-950/10 transition-all group"
+                                            className={`flex items-start gap-2.5 p-2.5 rounded-2xl border border-transparent ${topicColors.hoverBorder} transition-all group`}
                                         >
-                                            <div className="w-9 h-9 rounded-xl flex items-center justify-center bg-blue-50 dark:bg-blue-950/40 text-blue-600 dark:text-blue-400 group-hover:bg-blue-500 group-hover:text-white transition-colors shrink-0">
-                                                <SubIcon size={16} strokeWidth={2.5} />
+                                            <div className={`w-8 h-8 rounded-xl flex items-center justify-center ${topicColors.bg} transition-colors shrink-0`}>
+                                                <SubIcon size={15} strokeWidth={2.5} />
                                             </div>
-                                            <div className="flex flex-col gap-0.5 min-w-0">
-                                                <span className="font-bold text-xs text-gray-900 dark:text-white truncate">
+                                            <div className="flex flex-col gap-0.5 min-w-0 flex-1">
+                                                <span className="font-bold text-xs text-gray-900 dark:text-white truncate leading-tight">
                                                     {item.label}
                                                 </span>
-                                                <span className="text-[10px] text-gray-400 dark:text-gray-500 font-medium leading-tight line-clamp-2">
+                                                <span className="text-[10px] text-gray-400 dark:text-gray-500 font-medium leading-snug line-clamp-2">
                                                     {item.desc}
                                                 </span>
                                             </div>
@@ -334,22 +352,23 @@ function NavBar() {
                                         <Link
                                             to={item.to}
                                             onClick={handleSubLinkClick}
-                                            className="flex items-start gap-3 p-3 rounded-2xl border border-transparent hover:border-blue-500/10 hover:bg-blue-50/40 dark:hover:bg-blue-950/10 transition-all group w-full"
+                                            className={`flex items-start gap-2.5 p-2.5 rounded-2xl border border-transparent ${topicColors.hoverBorder} transition-all group w-full`}
                                         >
-                                            <div className="w-9 h-9 rounded-xl flex items-center justify-center bg-blue-50 dark:bg-blue-950/40 text-blue-600 dark:text-blue-400 group-hover:bg-blue-500 group-hover:text-white transition-colors shrink-0">
-                                                <SubIcon size={16} strokeWidth={2.5} />
+                                            <div className={`w-8 h-8 rounded-xl flex items-center justify-center ${topicColors.bg} transition-colors shrink-0`}>
+                                                <SubIcon size={15} strokeWidth={2.5} />
                                             </div>
-                                            <div className="flex flex-col gap-0.5 min-w-0">
-                                                <span className="font-bold text-xs text-gray-900 dark:text-white truncate">
+                                            <div className="flex flex-col gap-0.5 min-w-0 flex-1">
+                                                <span className="font-bold text-xs text-gray-900 dark:text-white truncate leading-tight">
                                                     {item.label}
                                                 </span>
-                                                <span className="text-[10px] text-gray-400 dark:text-gray-500 font-medium leading-tight line-clamp-2">
+                                                <span className="text-[10px] text-gray-400 dark:text-gray-500 font-medium leading-snug line-clamp-2">
                                                     {item.desc}
                                                 </span>
                                             </div>
                                         </Link>
                                     </motion.div>
                                 );
+
                             })}
                         </div>
                     </motion.div>

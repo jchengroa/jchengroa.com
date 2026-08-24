@@ -455,3 +455,11 @@ Updated the animation system of the entire website to a more global modular syst
 Fixed desktop navigation pill bug where the explorers of each tab gets outshadowed by the main navigation pill UI.
 Fixed mobile navigation pill bug where if the user is in the "more" navigation options, and tries to navigate to a different page, the main navigation pill would stay open.
 Fixed mobile navigation pill bug where the more pill in mobile is visually smaller than the standard UI.
+
+- [0.15.2] - 2026-08-24
+Added Physics effect to the hero title of the website.
+Added Glowing effect to card elements and other elements that respects the accent color.
+Unified the color scheme of the projects/research/recognitions throughout the website.
+Fixed the sizing and spacing of each work detail elements. 
+Fixed navigation pill bug where the explorers would have scroll bars that would appear when the user navigates through different pages.
+Fixed an issue where mobile devices would have very narrow viewports on certain pages, causing text to be cut off.

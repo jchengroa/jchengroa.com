@@ -10,15 +10,51 @@ function Title(props) {
     const { isVisible } = useSubheaderToggle();
     const Icon = props.icon;
     const isLeft = props.align === 'left';
+
+    // Section specific fixed color mappings: 'projects' (blue), 'research' (indigo), 'recognition'/'awards' (amber)
+    const colorTheme = props.colorTheme || (
+        props.title?.toLowerCase().includes("project") ? "projects" :
+        props.title?.toLowerCase().includes("research") ? "research" :
+        (props.title?.toLowerCase().includes("recognition") || props.title?.toLowerCase().includes("award")) ? "recognition" :
+        "default"
+    );
+
+    const themeStyles = {
+        projects: {
+            iconBg: "bg-blue-500/10 dark:bg-blue-500/20 text-blue-600 dark:text-blue-400 border-blue-500/20 dark:border-blue-500/30",
+            badge: "bg-blue-500/10 dark:bg-blue-500/20 border-blue-500/20 dark:border-blue-500/30 text-blue-600 dark:text-blue-400",
+            highlightText: "text-blue-600 dark:text-blue-400"
+        },
+        research: {
+            iconBg: "bg-indigo-500/10 dark:bg-indigo-500/20 text-indigo-600 dark:text-indigo-400 border-indigo-500/20 dark:border-indigo-500/30",
+            badge: "bg-indigo-500/10 dark:bg-indigo-500/20 border-indigo-500/20 dark:border-indigo-500/30 text-indigo-600 dark:text-indigo-400",
+            highlightText: "text-indigo-600 dark:text-indigo-400"
+        },
+        recognition: {
+            iconBg: "bg-amber-500/10 dark:bg-amber-500/20 text-amber-600 dark:text-amber-400 border-amber-500/20 dark:border-amber-500/30",
+            badge: "bg-amber-500/10 dark:bg-amber-500/20 border-amber-500/20 dark:border-amber-500/30 text-amber-600 dark:text-amber-400",
+            highlightText: "text-amber-600 dark:text-amber-400"
+        },
+        default: {
+            iconBg: "bg-blue-50 dark:bg-blue-950/50 text-blue-600 dark:text-blue-400 border-blue-100/50 dark:border-blue-900/40",
+            badge: "bg-blue-50 dark:bg-blue-900/20 border-blue-100 dark:border-blue-900/30 text-blue-600 dark:text-blue-400",
+            highlightText: "text-blue-600 dark:text-blue-400"
+        }
+    }[colorTheme] || {
+        iconBg: "bg-blue-50 dark:bg-blue-950/50 text-blue-600 dark:text-blue-400 border-blue-100/50 dark:border-blue-900/40",
+        badge: "bg-blue-50 dark:bg-blue-900/20 border-blue-100 dark:border-blue-900/30 text-blue-600 dark:text-blue-400",
+        highlightText: "text-blue-600 dark:text-blue-400"
+    };
+
     return (
-        <header className={`${isLeft ? 'text-left' : 'text-center'} ${props.className ? props.className : 'mb-6 md:mb-10'}`}>
+        <header className={`${isLeft ? 'text-left' : 'text-center'} ${props.className ? props.className : 'mb-4 sm:mb-6 md:mb-8'}`}>
             {props.badge && (
                 <motion.div
                     variants={titleBadgeVariants}
                     initial="hidden"
                     whileInView="visible"
                     viewport={{ once: true }}
-                    className="inline-block px-4 py-1.5 bg-blue-50 dark:bg-blue-900/20 border border-blue-100 dark:border-blue-900/30 rounded-full text-blue-600 dark:text-blue-400 text-xs font-black uppercase tracking-[0.2em] mb-4"
+                    className={`inline-block px-3.5 py-1 border rounded-full text-[10px] sm:text-xs font-black uppercase tracking-[0.2em] mb-2 sm:mb-3 ${themeStyles.badge}`}
                 >
                     {props.badge}
                 </motion.div>
@@ -28,17 +64,18 @@ function Title(props) {
                 initial="hidden"
                 whileInView="visible"
                 viewport={{ once: true }}
-                className={`flex items-center gap-3 md:gap-3.5 mb-2 md:mb-3.5 ${isLeft ? 'justify-start text-left' : 'justify-center text-center'}`}
+                className={`flex items-center gap-2.5 sm:gap-3 mb-1.5 sm:mb-2.5 ${isLeft ? 'justify-start text-left' : 'justify-center text-center'}`}
             >
                 {Icon && (
-                    <div className="p-2 sm:p-2.5 rounded-2xl bg-blue-50 dark:bg-blue-950/50 text-blue-600 dark:text-blue-400 border border-blue-100/50 dark:border-blue-900/40 shadow-sm shrink-0 flex items-center justify-center">
-                        <Icon size={22} strokeWidth={2.5} className="sm:w-6 sm:h-6" />
+                    <div className={`p-1.5 sm:p-2 rounded-xl sm:rounded-2xl border shadow-sm shrink-0 flex items-center justify-center ${props.iconClassName ? props.iconClassName : themeStyles.iconBg}`}>
+                        <Icon size={20} strokeWidth={2.5} className="sm:w-5 sm:h-5" />
                     </div>
                 )}
-                <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-gray-900 dark:text-white tracking-tighter leading-tight">
+                <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black text-gray-900 dark:text-white tracking-tight leading-tight">
                     {props.title}
                 </h1>
             </motion.div>
+
             <AnimatePresence>
                 {isVisible && (props.subtitle || props.description) && (
                     <motion.p
@@ -46,7 +83,7 @@ function Title(props) {
                         initial="hidden"
                         animate="visible"
                         exit="exit"
-                        className={`text-gray-500 dark:text-gray-400 text-xs sm:text-sm md:text-base font-medium max-w-2xl leading-relaxed overflow-hidden ${isLeft ? 'text-left mx-0' : 'text-center mx-auto'}`}
+                        className={`text-gray-500 dark:text-gray-400 text-xs sm:text-sm md:text-base font-normal max-w-2xl leading-relaxed overflow-hidden ${isLeft ? 'text-left mx-0' : 'text-center mx-auto'}`}
                     >
                         {props.subtitle || props.description}
                     </motion.p>
