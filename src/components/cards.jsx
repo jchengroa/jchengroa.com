@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
-import { useData } from "../context/DataContext.jsx";
+import { useData } from "../context/dataContext.jsx";
 import { FormattedText } from "./typography.jsx";
 
 const shortenKeyword = (text) => {
@@ -26,7 +26,11 @@ const shortenKeyword = (text) => {
 function WorkCard(props) {
     const { siteContent } = useData();
     const { common } = siteContent;
-    const linkTo = props.linkTo || `/project/${props.id}`;
+    const linkTo = props.linkTo || (
+        props.category === 'research' ? `/research/${props.id}` :
+        props.category === 'recognition' ? `/recognition/${props.id}` :
+        `/projects/${props.id}`
+    );
     return (
         <Link to={linkTo} className="block group h-full">
             <div className="bg-white dark:bg-gray-900 rounded-[2rem] md:rounded-[2.5rem] p-6 md:p-10 border border-gray-100 dark:border-gray-800 shadow-sm hover:shadow-3xl transition-all duration-500 h-full flex flex-col justify-between overflow-hidden relative accent-glow-card">
@@ -96,7 +100,7 @@ function RecognitionCard(props) {
                     <span className="text-xs font-black tracking-[0.2em] text-blue-600 uppercase mb-3 block">
                         {info}
                     </span>
-                    <Link to={`/project/${id}`} className="block group/link">
+                    <Link to={`/recognition/${id}`} className="block group/link">
                         <h2 className="text-3xl md:text-4xl font-black text-gray-900 dark:text-white mb-4 tracking-tighter leading-tight group-hover/link:text-blue-600 dark:group-hover/link:text-blue-400 transition-colors duration-300">
                             {title}
                         </h2>
@@ -116,7 +120,7 @@ function RecognitionCard(props) {
                     )}
 
                     <div className="mb-2">
-                        <Link to={`/project/${id}`} className="inline-flex items-center text-blue-600 font-black text-lg hover:translate-x-2 transition-transform duration-300">
+                        <Link to={`/recognition/${id}`} className="inline-flex items-center text-blue-600 font-black text-lg hover:translate-x-2 transition-transform duration-300">
                             {common.learnMore}
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="ml-2"><path d="m9 18 6-6-6-6" /></svg>
                         </Link>
@@ -146,10 +150,16 @@ function RecognitionCard(props) {
 export { ContactCard } from "./contactCard.jsx";
 
 function UniversalListCard(props) {
-    const { id, title, info, description, tech, linkURL, linkName, facebookUrl } = props;
+    const { id, title, info, description, tech, linkURL, linkName, facebookUrl, category } = props;
     const { siteContent } = useData();
     const { common } = siteContent;
-    const linkTo = props.linkTo || (id ? `/project/${id}` : undefined);
+    const linkTo = props.linkTo || (
+        id ? (
+            category === 'research' ? `/research/${id}` :
+            category === 'recognition' ? `/recognition/${id}` :
+            `/projects/${id}`
+        ) : undefined
+    );
 
     return (
         <div className="bg-white dark:bg-gray-900 rounded-[1.5rem] p-6 border border-gray-100 dark:border-gray-800 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col md:flex-row md:items-center justify-between gap-6 group relative overflow-hidden accent-glow-card">

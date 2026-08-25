@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useData } from '../context/DataContext.jsx';
+import { useData } from '../context/dataContext.jsx';
 
 export function ContactCard(props) {
     const { siteContent } = useData();

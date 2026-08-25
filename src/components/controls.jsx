@@ -1,4 +1,4 @@
-import { useData } from "../context/DataContext.jsx";
+import { useData } from "../context/dataContext.jsx";
 import { useViewSwitcher } from "../utils/viewSwitcher";
 import { useSubheaderToggle } from "../utils/subheaderToggle.js";
 

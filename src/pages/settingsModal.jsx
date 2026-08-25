@@ -1,36 +1,11 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from 'framer-motion';
-import { HexColorPicker } from 'react-colorful';
-import { ChangelogPopup } from "./changelog";
+import { ChangelogPopup } from "./changelog.jsx";
 import { applyCustomAccent, clearCustomAccent } from "../utils/colorUtils.js";
-import { useData } from "../context/DataContext.jsx";
-
-const accentColors = [
-    { id: 'red', name: 'Red', hex: '#dc2626' },
-    { id: 'orange', name: 'Orange', hex: '#ea580c' },
-    { id: 'yellow', name: 'Yellow', hex: '#eab308' },
-    { id: 'green', name: 'Green', hex: '#16a34a' },
-    { id: 'blue', name: 'Blue', hex: '#2563eb' },
-    { id: 'violet', name: 'Violet', hex: '#7c3aed' },
-    { id: 'monochrome', name: 'Monochrome', hex: '#737373' },
-];
-
-const STORAGE_KEYS = {
-    themeMode: 'themeMode',
-    accentColor: 'accentColor',
-    customColor: 'customAccentColor',
-    darkMode: 'darkMode',
-    monochrome: 'jchengroa_monochrome',
-    seenVersion: 'seenVersion',
-    view: 'jchengroa_view_preference',
-    subheader: 'jchengroa_subheader_visible',
-    docsOutline: 'jchengroa_docs_outline_open',
-    docsExpanded: 'jchengroa_docs_expanded_sections',
-    docsTabs: 'jchengroa_doc_tabs_desktop_open',
-    changelogOutline: 'jchengroa_changelog_outline_open',
-    analyticsConsent: 'jchengroa_analytics_consent',
-    heroParticles: 'jchengroa_hero_particles_enabled',
-};
+import { useData } from "../context/dataContext.jsx";
+import { AppearanceSettings } from "../components/settings/appearanceSettings.jsx";
+import { DeveloperSettings } from "../components/settings/developerSettings.jsx";
+import { DataSettings, STORAGE_KEYS } from "../components/settings/dataSettings.jsx";
 
 const ICONS = {
     appearance: (
@@ -44,7 +19,7 @@ const ICONS = {
     ),
 };
 
-const SHOW_DEV_OPTIONS = import.meta.env.VITE_SHOW_DEV_OPTIONS === 'true';
+const SHOW_DEV_OPTIONS = import.meta.env.VITE_SHOW_DEV_OPTIONS === 'true' || import.meta.env.VITE_SHOW_DEV_OPTIONS === true;
 
 const ALL_SIDEBAR_ITEMS = [
     { id: 'appearance', label: 'Appearance', icon: ICONS.appearance },
@@ -54,402 +29,8 @@ const ALL_SIDEBAR_ITEMS = [
 
 const SIDEBAR_ITEMS = ALL_SIDEBAR_ITEMS.filter(item => !item.devOnly || SHOW_DEV_OPTIONS);
 
-function ToggleSwitch({ enabled, onChange, label }) {
-    return (
-        <button
-            type="button"
-            role="switch"
-            aria-checked={enabled}
-            onClick={() => onChange(!enabled)}
-            className={`relative inline-flex items-center h-7 w-12 shrink-0 rounded-full transition-colors duration-200 focus:outline-none ${enabled ? 'bg-gray-900 dark:bg-white' : 'bg-gray-200 dark:bg-gray-700'}`}
-        >
-            <span className={`inline-block w-5 h-5 transform rounded-full bg-white dark:bg-gray-900 shadow-sm transition-transform duration-200 ${enabled ? 'translate-x-6' : 'translate-x-0.5'}`} />
-        </button>
-    );
-}
-
-function AppearanceSettings({ themeMode, setThemeMode, accentColor, setAccentColor, customHex, setCustomHex, docsTabs, setDocsTabs, heroParticles, setHeroParticles }) {
-    const [pickerOpen, setPickerOpen] = useState(false);
-    const [tempHex, setTempHex] = useState(customHex || '#2563eb');
-
-    const isCustom = accentColor === 'custom';
-    const currentHex = isCustom && customHex ? customHex : accentColors.find(c => c.id === accentColor)?.hex || '#2563eb';
-
-    const handlePresetClick = (colorId) => {
-        setAccentColor(colorId);
-        setPickerOpen(false);
-    };
-
-    const handlePickerOpen = () => {
-        setTempHex(customHex || '#2563eb');
-        setPickerOpen(true);
-    };
-
-    const handlePickerChange = useCallback((hex) => {
-        setTempHex(hex);
-    }, []);
-
-    const handleApply = () => {
-        setCustomHex(tempHex);
-        setAccentColor('custom');
-        setPickerOpen(false);
-    };
-
-    return (
-        <div className="space-y-10">
-            <div>
-                <h3 className="text-xs font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-4">
-                    Theme Mode
-                </h3>
-                <div className="bg-gray-50 dark:bg-gray-800/50 rounded-2xl p-1.5 flex flex-col sm:flex-row gap-1">
-                    {['light', 'dark', 'auto'].map(mode => (
-                        <button
-                            key={mode}
-                            onClick={() => setThemeMode(mode)}
-                            className={`flex-1 min-w-0 px-4 py-3 rounded-xl text-sm font-bold transition-all duration-200 ${themeMode === mode ? 'bg-white dark:bg-gray-700 text-gray-900 dark:text-white shadow-sm' : 'text-gray-500 hover:text-gray-700 dark:hover:text-gray-300'}`}
-                        >
-                            {mode.charAt(0).toUpperCase() + mode.slice(1)}
-                        </button>
-                    ))}
-                </div>
-                <p className="text-gray-400 dark:text-gray-500 text-xs font-medium mt-3 leading-relaxed">
-                    Light uses a bright interface, Dark is easier on the eyes in low light, and Auto follows your system preference.
-                </p>
-            </div>
-
-            <div>
-                <h3 className="text-xs font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-4">
-                    Accent Color
-                </h3>
-                <div className="flex gap-3 items-center flex-wrap">
-                    {accentColors.map((color) => (
-                        <button
-                            key={color.id}
-                            type="button"
-                            onClick={() => handlePresetClick(color.id)}
-                            title={color.name}
-                            className={`w-10 h-10 rounded-full transition-all ${accentColor === color.id ? 'scale-125 ring-2 ring-gray-900 dark:ring-white ring-offset-2 ring-offset-white dark:ring-offset-gray-900 shadow-lg' : 'hover:scale-110 opacity-70 hover:opacity-100'}`}
-                            style={color.id === 'monochrome' ? { background: 'linear-gradient(135deg, #171717 50%, #f5f5f5 50%)', border: '1px solid #e5e7eb' } : { backgroundColor: color.hex }}
-                        />
-                    ))}
-                    <button
-                        type="button"
-                        onClick={handlePickerOpen}
-                        title="Custom color"
-                        className={`w-10 h-10 rounded-full border-2 border-dashed transition-all flex items-center justify-center ${isCustom ? 'scale-125 ring-2 ring-gray-900 dark:ring-white ring-offset-2 ring-offset-white dark:ring-offset-gray-900 shadow-lg border-gray-900 dark:border-white' : 'border-gray-300 dark:border-gray-600 hover:scale-110 hover:border-gray-400 dark:hover:border-gray-500'}`}
-                        style={isCustom ? { backgroundColor: currentHex } : { backgroundColor: 'transparent' }}
-                    >
-                        {!isCustom && (
-                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-gray-400 dark:text-gray-500"><circle cx="12" cy="12" r="10" /><path d="M12 8v8" /><path d="M8 12h8" /></svg>
-                        )}
-                    </button>
-                </div>
-                {isCustom && customHex && (
-                    <div className="mt-2 flex items-center gap-2">
-                        <span className="text-[10px] font-bold text-gray-400 dark:text-gray-500 uppercase tracking-wider bg-gray-50 dark:bg-gray-800/50 px-2 py-1 rounded-lg">{customHex}</span>
-                    </div>
-                )}
-                <p className="text-gray-400 dark:text-gray-500 text-xs font-medium mt-3 leading-relaxed">
-                    Choose a preset or pick your own custom color.
-                </p>
-            </div>
-
-            <div>
-                <h3 className="text-xs font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-4">
-                    Layout & Animation Settings
-                </h3>
-                <div className="space-y-3">
-                    <div className="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-800/30 rounded-2xl border border-gray-100 dark:border-gray-800">
-                        <div className="flex-1 pr-4 text-left">
-                            <p className="text-gray-900 dark:text-white font-bold text-sm">Hero Physics Particles</p>
-                            <p className="text-gray-500 dark:text-gray-400 text-xs font-medium mt-0.5 leading-relaxed">Enable interactive ambient background particles and physics in the hero section.</p>
-                        </div>
-                        <ToggleSwitch enabled={heroParticles} onChange={setHeroParticles} />
-                    </div>
-
-                    <div className="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-800/30 rounded-2xl border border-gray-100 dark:border-gray-800">
-                        <div className="flex-1 pr-4 text-left">
-                            <p className="text-gray-900 dark:text-white font-bold text-sm">Quick Nav Outline</p>
-                            <p className="text-gray-500 dark:text-gray-400 text-xs font-medium mt-0.5 leading-relaxed">Show or hide the quick navigation outline sidebar on pages.</p>
-                        </div>
-                        <ToggleSwitch enabled={docsTabs} onChange={setDocsTabs} />
-                    </div>
-                </div>
-            </div>
-
-
-            {pickerOpen && (
-                <div className="bg-gray-50 dark:bg-gray-800/30 rounded-2xl border border-gray-100 dark:border-gray-800 p-5">
-                    <div className="flex items-center justify-between mb-4">
-                        <h4 className="text-xs font-black text-gray-900 dark:text-white uppercase tracking-widest">
-                            Custom Color
-                        </h4>
-                        <button
-                            onClick={handleApply}
-                            className="px-4 py-2 bg-gray-900 dark:bg-white text-white dark:text-gray-900 text-[10px] font-black rounded-xl hover:opacity-80 transition-all"
-                        >
-                            Apply Color
-                        </button>
-                    </div>
-                    <div className="flex justify-center mb-4">
-                        <HexColorPicker color={tempHex} onChange={handlePickerChange} style={{ width: '100%', maxWidth: 200 }} />
-                    </div>
-                    <div className="flex items-center gap-3 justify-center">
-                        <div className="w-8 h-8 rounded-lg border border-gray-200 dark:border-gray-700 shadow-sm" style={{ backgroundColor: tempHex }} />
-                        <input
-                            type="text"
-                            value={tempHex}
-                            onChange={(e) => {
-                                let v = e.target.value;
-                                if (!v.startsWith('#')) v = '#' + v;
-                                if (/^#[0-9a-fA-F]{0,6}$/.test(v)) {
-                                    setTempHex(v);
-                                }
-                            }}
-                            className="w-full max-w-[8rem] text-center text-sm font-bold font-mono bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl py-1.5 px-3 text-gray-900 dark:text-white outline-none focus:ring-2 focus:ring-gray-900 dark:focus:ring-white"
-                            placeholder="#2563eb"
-                        />
-                    </div>
-                    <div className="flex flex-wrap gap-2 mt-4 justify-center">
-                        {['#dc2626', '#ea580c', '#eab308', '#16a34a', '#2563eb', '#7c3aed', '#ec4899', '#06b6d4', '#14b8a6', '#84cc16'].map(hex => (
-                            <button
-                                key={hex}
-                                type="button"
-                                onClick={() => setTempHex(hex)}
-                                className={`w-6 h-6 rounded-full transition-all hover:scale-125 ${tempHex === hex ? 'ring-2 ring-gray-900 dark:ring-white ring-offset-1' : ''}`}
-                                style={{ backgroundColor: hex }}
-                            />
-                        ))}
-                    </div>
-                </div>
-            )}
-        </div>
-    );
-}
-
-function DeveloperSettings({ onShowChangelog }) {
-    const { dbStatus, forceFallback, toggleForceFallback } = useData();
-
-    const handleShowCookieBanner = () => {
-        localStorage.removeItem(STORAGE_KEYS.analyticsConsent);
-        window.dispatchEvent(new CustomEvent('jchengroa_reset_consent'));
-    };
-
-    const getStatusDetails = () => {
-        switch (dbStatus) {
-            case 'connected':
-                return {
-                    label: 'Connected',
-                    color: 'text-green-600 dark:text-green-400 bg-green-500/10 border-green-500/25',
-                    dot: 'bg-green-500',
-                    desc: 'Successfully connected to Supabase database. Content is live.'
-                };
-            case 'forced_offline':
-                return {
-                    label: 'Forced Offline',
-                    color: 'text-blue-600 dark:text-blue-400 bg-blue-500/10 border-blue-500/25',
-                    dot: 'bg-blue-500',
-                    desc: 'Database connection bypassed. Currently loading offline backup files.'
-                };
-            case 'fallback':
-            default:
-                return {
-                    label: 'Fallback Mode',
-                    color: 'text-amber-600 dark:text-amber-400 bg-amber-500/10 border-amber-500/25',
-                    dot: 'bg-amber-500',
-                    desc: 'Database query failed or timed out. Loaded local offline backup.'
-                };
-        }
-    };
-
-    const status = getStatusDetails();
-
-    return (
-        <div className="space-y-10">
-            {/* Database & Fallback Controls */}
-            <div>
-                <h3 className="text-xs font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-4">
-                    Database Status
-                </h3>
-                <div className="space-y-4">
-                    {/* Status Indicator */}
-                    <div className="flex items-center gap-4 p-5 bg-gray-50 dark:bg-gray-800/30 rounded-3xl border border-gray-100 dark:border-gray-800">
-                        <div className={`flex items-center justify-center p-2 rounded-xl border ${status.color} shrink-0`}>
-                            <span className={`relative flex h-3.5 w-3.5`}>
-                                <span className={`animate-ping absolute inline-flex h-full w-full rounded-full ${status.dot} opacity-75`}></span>
-                                <span className={`relative inline-flex rounded-full h-3.5 w-3.5 ${status.dot}`}></span>
-                            </span>
-                        </div>
-                        <div className="text-left">
-                            <p className="text-gray-900 dark:text-white font-bold text-sm">
-                                Database Status: <span className="underline decoration-2">{status.label}</span>
-                            </p>
-                            <p className="text-gray-500 dark:text-gray-400 text-xs font-medium mt-0.5 leading-relaxed">
-                                {status.desc}
-                            </p>
-                        </div>
-                    </div>
-
-                    {/* Force Fallback Toggle */}
-                    <div className="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-800/30 rounded-2xl border border-gray-100 dark:border-gray-800">
-                        <div className="flex-1 pr-4 text-left">
-                            <p className="text-gray-900 dark:text-white font-bold text-sm">Force Offline Fallback</p>
-                            <p className="text-gray-500 dark:text-gray-400 text-xs font-medium mt-0.5 leading-relaxed">
-                                Disables database requests and loads local fallback files (ideal for offline development or testing).
-                            </p>
-                        </div>
-                        <ToggleSwitch enabled={forceFallback} onChange={toggleForceFallback} />
-                    </div>
-                </div>
-            </div>
-
-            <div>
-                <h3 className="text-xs font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-4">
-                    Dev Tools
-                </h3>
-                <div className="space-y-3">
-                    <div className="p-5 bg-gray-50 dark:bg-gray-800/30 rounded-2xl border border-dashed border-gray-200 dark:border-gray-700">
-                        <div className="flex flex-col sm:flex-row sm:items-center gap-3">
-                            <div className="flex-1">
-                                <p className="text-gray-900 dark:text-white font-bold text-sm">Changelog Popup</p>
-                                <p className="text-gray-500 dark:text-gray-400 text-xs font-medium mt-0.5">Force-show the update prompt regardless of version state.</p>
-                            </div>
-                            <button
-                                onClick={onShowChangelog}
-                                className="shrink-0 px-4 py-2 bg-gray-900 dark:bg-white text-white dark:text-gray-900 text-xs font-black rounded-xl hover:bg-blue-600 dark:hover:bg-blue-600 dark:hover:text-white transition-all duration-200"
-                            >
-                                Show Popup
-                            </button>
-                        </div>
-                    </div>
-
-                    <div className="p-5 bg-gray-50 dark:bg-gray-800/30 rounded-2xl border border-dashed border-gray-200 dark:border-gray-700">
-                        <div className="flex flex-col sm:flex-row sm:items-center gap-3">
-                            <div className="flex-1">
-                                <p className="text-gray-900 dark:text-white font-bold text-sm">Analytics Notice</p>
-                                <p className="text-gray-500 dark:text-gray-400 text-xs font-medium mt-0.5">Re-trigger the Vercel Analytics notice banner.</p>
-                            </div>
-                            <button
-                                onClick={handleShowCookieBanner}
-                                className="shrink-0 px-4 py-2 bg-gray-900 dark:bg-white text-white dark:text-gray-900 text-xs font-black rounded-xl hover:bg-blue-600 dark:hover:bg-blue-600 dark:hover:text-white transition-all duration-200"
-                            >
-                                Show Banner
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    );
-}
-
-const DATA_CATEGORIES = [
-    {
-        id: 'appearance',
-        label: 'Appearance',
-        description: 'Theme mode, accent color, monochrome, and particle effects.',
-        keys: [STORAGE_KEYS.themeMode, STORAGE_KEYS.darkMode, STORAGE_KEYS.accentColor, STORAGE_KEYS.monochrome, STORAGE_KEYS.heroParticles],
-    },
-    {
-        id: 'layout',
-        label: 'Layout & View',
-        description: 'View mode, subheader visibility, and sidebar states.',
-        keys: [STORAGE_KEYS.view, STORAGE_KEYS.subheader, STORAGE_KEYS.docsOutline, STORAGE_KEYS.docsExpanded, STORAGE_KEYS.docsTabs, STORAGE_KEYS.changelogOutline],
-    },
-    {
-        id: 'privacy',
-        label: 'Privacy & Consent',
-        description: 'Vercel Analytics consent preference.',
-        keys: [STORAGE_KEYS.analyticsConsent],
-    },
-    {
-        id: 'changelog',
-        label: 'Changelog State',
-        description: 'Last seen version tracking for the update popup.',
-        keys: [STORAGE_KEYS.seenVersion],
-    },
-];
-
-function DataSettings() {
-    const [cleared, setCleared] = useState([]);
-
-    const clearCategory = (keys) => {
-        keys.forEach(k => localStorage.removeItem(k));
-        setCleared(prev => [...prev, ...keys].filter((v, i, a) => a.indexOf(v) === i));
-        setTimeout(() => setCleared([]), 2000);
-    };
-
-    const clearAll = () => {
-        if (window.confirm('Clear all stored settings and preferences? This will reset everything to defaults.')) {
-            localStorage.clear();
-            window.location.reload();
-        }
-    };
-
-    const getStoredCount = (keys) => {
-        return keys.filter(k => localStorage.getItem(k) !== null).length;
-    };
-
-    return (
-        <div className="space-y-8">
-            <div>
-                <h3 className="text-xs font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-4">
-                    Storage Categories
-                </h3>
-                <p className="text-gray-400 dark:text-gray-500 text-xs font-medium leading-relaxed mb-5">
-                    Clear individual storage categories without affecting other settings. Each card shows how many stored values exist in that category.
-                </p>
-                <div className="space-y-3">
-                    {DATA_CATEGORIES.map(cat => {
-                        const count = getStoredCount(cat.keys);
-                        const justCleared = cat.keys.some(k => cleared.includes(k));
-                        return (
-                            <div key={cat.id} className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 p-4 bg-gray-50 dark:bg-gray-800/30 rounded-2xl border border-gray-100 dark:border-gray-800 group hover:bg-gray-100/50 dark:hover:bg-gray-800/50 transition-all">
-                                <div className="flex-1 sm:mr-4 min-w-0">
-                                    <div className="flex items-center gap-2 mb-0.5">
-                                        <p className="text-gray-900 dark:text-white font-bold text-sm">{cat.label}</p>
-                                        <span className="text-[10px] font-bold text-gray-400 dark:text-gray-500 bg-gray-100 dark:bg-gray-700 px-1.5 py-0.5 rounded-full">{count} stored</span>
-                                    </div>
-                                    <p className="text-gray-500 dark:text-gray-400 text-xs font-medium">{cat.description}</p>
-                                </div>
-                                <button
-                                    onClick={() => clearCategory(cat.keys)}
-                                    disabled={count === 0 || justCleared}
-                                    className={`shrink-0 w-full sm:w-auto px-3.5 py-2 rounded-xl text-xs font-bold transition-all duration-200 ${justCleared ? 'bg-green-50 dark:bg-green-950/30 text-green-600 dark:text-green-400 border border-green-200 dark:border-green-800/50' : count > 0 ? 'bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-red-50 dark:hover:bg-red-950/20 hover:text-red-600 dark:hover:text-red-400 border border-gray-200 dark:border-gray-600/50' : 'bg-gray-100 dark:bg-gray-800 text-gray-300 dark:text-gray-600 cursor-not-allowed'}`}
-                                >
-                                    {justCleared ? 'Cleared' : 'Clear'}
-                                </button>
-                            </div>
-                        );
-                    })}
-                </div>
-            </div>
-
-            <div className="pt-4 border-t border-gray-100 dark:border-gray-800">
-                <button
-                    type="button"
-                    onClick={clearAll}
-                    className="flex w-full items-center justify-between p-4 bg-red-50 dark:bg-red-950/20 rounded-2xl border border-red-100 dark:border-red-900/30 hover:bg-red-100 dark:hover:bg-red-950/40 transition-all group"
-                >
-                    <div className="flex items-center gap-3 text-left">
-                        <span className="text-red-500 dark:text-red-400">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M3 6h18" /><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" /><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" /><line x1="10" y1="11" x2="10" y2="17" /><line x1="14" y1="11" x2="14" y2="17" /></svg>
-                        </span>
-                        <div>
-                            <p className="text-sm font-bold text-red-600 dark:text-red-400">Clear All Data</p>
-                            <p className="text-xs font-medium text-red-400/70 dark:text-red-400/50 mt-0.5">Removes every stored setting and preference. The page will reload.</p>
-                        </div>
-                    </div>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-red-400 dark:text-red-500 group-hover:translate-x-0.5 transition-transform"><path d="m9 18 6-6-6-6" /></svg>
-                </button>
-            </div>
-        </div>
-    );
-}
-
 export default function SettingsModal({ isOpen, onClose }) {
     const { siteContent } = useData();
-    const { navbar } = siteContent;
     const defaultTheme = siteContent.default_theme_mode || 'light';
     const defaultAccent = siteContent.default_accent_color || 'blue';
     const defaultCustomHex = siteContent.custom_accent_hex || null;
@@ -578,7 +159,20 @@ export default function SettingsModal({ isOpen, onClose }) {
     const renderContent = () => {
         switch (activeTab) {
             case 'appearance':
-                return <AppearanceSettings themeMode={themeMode} setThemeMode={setThemeMode} accentColor={accentColor} setAccentColor={setAccentColor} customHex={customHex} setCustomHex={setCustomHex} docsTabs={docsTabs} setDocsTabs={setDocsTabs} heroParticles={heroParticles} setHeroParticles={setHeroParticles} />;
+                return (
+                    <AppearanceSettings
+                        themeMode={themeMode}
+                        setThemeMode={setThemeMode}
+                        accentColor={accentColor}
+                        setAccentColor={setAccentColor}
+                        customHex={customHex}
+                        setCustomHex={setCustomHex}
+                        docsTabs={docsTabs}
+                        setDocsTabs={setDocsTabs}
+                        heroParticles={heroParticles}
+                        setHeroParticles={setHeroParticles}
+                    />
+                );
             case 'developer':
                 return <DeveloperSettings onShowChangelog={() => setShowChangelogDebug(true)} />;
             case 'data':
@@ -598,7 +192,18 @@ export default function SettingsModal({ isOpen, onClose }) {
                         </span>
                         <h3 className="text-lg font-black text-gray-900 dark:text-white tracking-tight">Appearance</h3>
                     </div>
-                    <AppearanceSettings themeMode={themeMode} setThemeMode={setThemeMode} accentColor={accentColor} setAccentColor={setAccentColor} customHex={customHex} setCustomHex={setCustomHex} docsTabs={docsTabs} setDocsTabs={setDocsTabs} heroParticles={heroParticles} setHeroParticles={setHeroParticles} />
+                    <AppearanceSettings
+                        themeMode={themeMode}
+                        setThemeMode={setThemeMode}
+                        accentColor={accentColor}
+                        setAccentColor={setAccentColor}
+                        customHex={customHex}
+                        setCustomHex={setCustomHex}
+                        docsTabs={docsTabs}
+                        setDocsTabs={setDocsTabs}
+                        heroParticles={heroParticles}
+                        setHeroParticles={setHeroParticles}
+                    />
                 </div>
 
                 {SHOW_DEV_OPTIONS && (
@@ -625,8 +230,6 @@ export default function SettingsModal({ isOpen, onClose }) {
             </div>
         );
     };
-
-    const activeItem = SIDEBAR_ITEMS.find(i => i.id === activeTab);
 
     return (
         <AnimatePresence>
@@ -658,7 +261,9 @@ export default function SettingsModal({ isOpen, onClose }) {
                                     </h2>
                                 </div>
                                 <button
+                                    type="button"
                                     onClick={onClose}
+                                    aria-label="Close Settings"
                                     className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-xl transition-colors group -mr-1"
                                 >
                                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="text-gray-400 dark:text-gray-600 group-hover:text-gray-900 dark:group-hover:text-white transition-colors"><path d="M18 6 6 18" /><path d="m6 6 12 12" /></svg>
@@ -668,9 +273,10 @@ export default function SettingsModal({ isOpen, onClose }) {
 
                         <div className="flex-1 flex flex-col sm:flex-row min-h-0 overflow-hidden">
                             <div className="hidden sm:flex flex-col w-52 lg:w-56 flex-shrink-0 border-r border-gray-100 dark:border-gray-800 bg-gray-50/30 dark:bg-gray-950/30 py-4 px-3 gap-1">
-                                {SIDEBAR_ITEMS.map(item => (
+                                {SIDEBAR_ITEMS.map((item) => (
                                     <button
                                         key={item.id}
+                                        type="button"
                                         onClick={() => setActiveTab(item.id)}
                                         className={`flex items-center gap-3 w-full px-3 py-2.5 rounded-xl text-left transition-all group ${activeTab === item.id ? 'bg-white dark:bg-gray-800 text-gray-900 dark:text-white shadow-sm' : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 hover:bg-gray-100/50 dark:hover:bg-gray-800/50'}`}
                                     >
@@ -705,3 +311,5 @@ export default function SettingsModal({ isOpen, onClose }) {
         </AnimatePresence>
     );
 }
+
+export { SettingsModal };

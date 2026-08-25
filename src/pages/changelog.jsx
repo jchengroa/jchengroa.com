@@ -10,7 +10,7 @@ import {
 } from "../animations/changelog.js";
 import { Title, FormattedText, SearchBar, FilterList } from "../components/components";
 import ChangelogOutline from "../components/changelogOutline";
-import { useData } from "../context/DataContext.jsx";
+import { useData } from "../context/dataContext.jsx";
 import { LuHistory } from "react-icons/lu";
 import Fuse from 'fuse.js';
 

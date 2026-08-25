@@ -15,9 +15,10 @@ import Contact from './pages/contact.jsx'
 import SettingsModal from './pages/settingsModal.jsx'
 import Changelog, { ChangelogPopup } from './pages/changelog.jsx'
 import { DownloadManager } from './utils/downloadManager.jsx'
-import CookieConsentBanner from './components/CookieConsentBanner.jsx'
+import { SplitBackground } from './components/splitBackground.jsx'
+import CookieConsentBanner from './components/cookieConsentBanner.jsx'
 import { applyCustomAccent } from './utils/colorUtils.js'
-import { DataProvider, useData } from './context/DataContext.jsx'
+import { DataProvider, useData } from './context/dataContext.jsx'
 import { SpeedInsights } from "@vercel/speed-insights/react"
 import { Analytics } from "@vercel/analytics/react"
 
@@ -86,19 +87,7 @@ function MainLayout() {
 
     return (
         <div className={isHome ? "w-full h-screen overflow-hidden relative" : "p-2.5 pb-28 sm:pb-12 sm:pt-28 min-h-screen relative bg-blue-50/50 dark:bg-blue-950/20 text-gray-900 dark:text-white isolate transition-colors duration-300"}>
-            {!isHome && (
-                <>
-                    {/* Split Left Background (Desktop Only) */}
-                    <div className="absolute left-0 top-0 bottom-0 w-full md:w-[48%] bg-white dark:bg-gray-950 z-0 transition-colors duration-300" />
-                    
-                    {/* Wave Divider SVG (Desktop Only) */}
-                    <div className="absolute left-[48%] top-0 bottom-0 w-[100px] h-full z-0 hidden md:block text-white dark:text-gray-950 fill-current transition-colors duration-300">
-                        <svg viewBox="0 0 100 1000" preserveAspectRatio="none" className="w-full h-full">
-                            <path d="M0,0 Q60,250 30,500 Q0,750 50,1000 L0,1000 Z" />
-                        </svg>
-                    </div>
-                </>
-            )}
+            {!isHome && <SplitBackground />}
 
             <div className={isHome ? "relative w-full h-full" : "relative z-10 w-full"}>
                 <div id="navbar">
@@ -115,12 +104,14 @@ function MainLayout() {
                 <Routes>
                     <Route path="/" element={<Home />} />
                     <Route path="/projects" element={<Projects />} />
+                    <Route path="/projects/:id" element={<WorkDetail />} />
                     <Route path="/research" element={<Research />} />
+                    <Route path="/research/:id" element={<WorkDetail />} />
                     <Route path="/recognition" element={<Recognition />} />
+                    <Route path="/recognition/:id" element={<WorkDetail />} />
                     <Route path="/contact" element={<Contact />} />
                     <Route path="/socials" element={<Navigate to="/contact" replace />} />
 
-                    <Route path="/project/:id" element={<WorkDetail />} />
                     <Route path="/legal" element={<Legal />} />
                     <Route path="/changelog" element={<Changelog />} />
                 </Routes>

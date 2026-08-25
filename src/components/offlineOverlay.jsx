@@ -1,4 +1,5 @@
 import React from 'react';
+import { useData } from "../context/dataContext.jsx";
 
 export default function DatabaseOfflineOverlay({ onRetry, forceFallback, toggleForceFallback, mode = "offline" }) {
     const isUpdating = mode === "updating";
@@ -100,3 +101,5 @@ export default function DatabaseOfflineOverlay({ onRetry, forceFallback, toggleF
         </div>
     );
 }
+
+export { DatabaseOfflineOverlay };

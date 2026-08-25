@@ -186,7 +186,7 @@ export function DownloadManager() {
     if (downloads.length === 0) return null;
 
     return (
-        <div className="fixed bottom-6 right-6 z-[150] font-sans">
+        <div className="fixed bottom-36 sm:bottom-8 right-5 sm:right-6 z-[150] font-sans">
             <AnimatePresence mode="wait">
                 {isMinimized ? (
                     /* Minimized State */

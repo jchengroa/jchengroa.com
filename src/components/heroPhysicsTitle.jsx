@@ -262,7 +262,7 @@ export default function HeroPhysicsTitle({ title }) {
             onMouseMove={handleMouseMove}
             onMouseLeave={handleMouseLeave}
             onClick={handleClick}
-            className="relative flex items-center justify-center cursor-default select-none py-6 sm:py-8 px-4 sm:px-12 w-full"
+            className="relative flex items-center justify-center cursor-default select-none py-6 sm:py-8 px-2 sm:px-4 w-full max-w-full"
         >
             {/* Crisp 1:1 Canvas Overlay Container */}
             <canvas 
@@ -288,13 +288,13 @@ export default function HeroPhysicsTitle({ title }) {
             {/* Subtle Continuously Glowing Name Title */}
             <motion.div
                 variants={heroTitleVariants}
-                className="relative z-10"
+                className="relative z-10 max-w-full flex justify-center"
             >
                 <motion.h1 
                     variants={heroTitleIdleFloatVariants}
                     animate="animate"
-                    className="text-5xl sm:text-7xl md:text-8xl lg:text-9xl font-black tracking-tighter leading-none transition-all duration-300 text-gray-900 dark:text-white drop-shadow-[0_0_30px_rgba(59,130,246,0.35)] dark:drop-shadow-[0_0_40px_rgba(96,165,250,0.5)]"
-                    style={{ fontSize: 'clamp(2.75rem, 8vw, 6.5rem)' }}
+                    className="whitespace-nowrap text-5xl sm:text-7xl md:text-8xl lg:text-9xl font-black tracking-tighter leading-none transition-all duration-300 text-gray-900 dark:text-white drop-shadow-[0_0_30px_rgba(59,130,246,0.35)] dark:drop-shadow-[0_0_40px_rgba(96,165,250,0.5)]"
+                    style={{ fontSize: 'clamp(2rem, 7.5vw, 6.5rem)' }}
                 >
                     <span className="bg-gradient-to-br from-gray-950 via-gray-800 to-gray-600 dark:from-white dark:via-blue-50 dark:to-blue-200 bg-clip-text text-transparent">
                         {title}
@@ -304,3 +304,5 @@ export default function HeroPhysicsTitle({ title }) {
         </div>
     );
 }
+
+export { HeroPhysicsTitle };

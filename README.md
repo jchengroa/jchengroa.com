@@ -111,33 +111,67 @@ jchengroa.com/
 ├── scripts/
 │   └── sync-changelog.js
 ├── src/
+│   ├── animations/
+│   │   ├── changelog.js
+│   │   ├── components.js
+│   │   ├── contact.js
+│   │   ├── core.js
+│   │   ├── home.js
+│   │   ├── index.js
+│   │   ├── legal.js
+│   │   ├── navigation.js
+│   │   ├── projects.js
+│   │   ├── recognition.js
+│   │   ├── research.js
+│   │   └── workDetail.js
 │   ├── components/
 │   │   ├── cards.jsx
 │   │   ├── changelogOutline.jsx
 │   │   ├── components.jsx
+│   │   ├── contactCard.jsx
 │   │   ├── controls.jsx
-│   │   ├── CookieConsentBanner.jsx
+│   │   ├── cookieConsentBanner.jsx
+│   │   ├── heroPhysicsTitle.jsx
+│   │   ├── imageLightbox.jsx
 │   │   ├── navigation.jsx
+│   │   ├── noResults.jsx
 │   │   ├── offlineOverlay.jsx
 │   │   ├── quickNav.jsx
 │   │   ├── sectionIndicator.jsx
-│   │   └── typography.jsx
+│   │   ├── splitBackground.jsx
+│   │   ├── typography.jsx
+│   │   ├── workNotFound.jsx
+│   │   ├── workPageHeader.jsx
+│   │   ├── home/
+│   │   │   ├── featuredSection.jsx
+│   │   │   ├── heroBentoGrid.jsx
+│   │   │   ├── heroSection.jsx
+│   │   │   └── homeContactSection.jsx
+│   │   ├── settings/
+│   │   │   ├── appearanceSettings.jsx
+│   │   │   ├── dataSettings.jsx
+│   │   │   ├── developerSettings.jsx
+│   │   │   └── toggleSwitch.jsx
+│   │   └── workDetail/
+│   │       ├── workDetailGallery.jsx
+│   │       ├── workDetailHeader.jsx
+│   │       ├── workDetailMetrics.jsx
+│   │       └── workDetailResources.jsx
 │   ├── context/
-│   │   └── DataContext.jsx
+│   │   └── dataContext.jsx
 │   ├── index.css
 │   ├── main.jsx
 │   ├── pages/
 │   │   ├── changelog.jsx
+│   │   ├── contact.jsx
 │   │   ├── home.jsx
 │   │   ├── legal.jsx
 │   │   ├── projects.jsx
 │   │   ├── recognition.jsx
 │   │   ├── research.jsx
 │   │   ├── settingsModal.jsx
-│   │   ├── socials.jsx
 │   │   └── workDetail.jsx
 │   └── utils/
-│       ├── animations.js
 │       ├── colorUtils.js
 │       ├── downloadManager.jsx
 │       ├── hamburgerMenu.jsx
@@ -463,3 +497,13 @@ Unified the color scheme of the projects/research/recognitions throughout the we
 Fixed the sizing and spacing of each work detail elements. 
 Fixed navigation pill bug where the explorers would have scroll bars that would appear when the user navigates through different pages.
 Fixed an issue where mobile devices would have very narrow viewports on certain pages, causing text to be cut off.
+
+- [0.15.3] - 2026-08-25
+Modularized all components and utilities into smaller, more manageable files.
+Created a new centralized components.jsx file to export all components.
+Removed unecessary pages and utilities that are no longer used.
+Fixed home page hero title bug where the main title sometimes is split into two lines.
+Fixed quick nav in smaller screens, where a new system is implemented to flyout instead of intruding on the actual view.
+Fixed quick nav in mobile devices, where the nav bar style dock hides the actual quick nav button.
+Fixed routing bug where all work details use the /project/:id route.
+Fixed naming inconsistensies in every files, now using lowerCamelCase.

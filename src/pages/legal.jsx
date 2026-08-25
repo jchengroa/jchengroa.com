@@ -3,7 +3,7 @@ import { Title, FormattedText } from "../components/components.jsx";
 import { useEffect } from "react";
 import { motion } from 'framer-motion';
 import { LuExternalLink, LuScale } from "react-icons/lu";
-import { useData } from "../context/DataContext.jsx";
+import { useData } from "../context/dataContext.jsx";
 import {
     legalPageVariants,
     legalSectionVariants,

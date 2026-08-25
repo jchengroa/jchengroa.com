@@ -1,8 +1,9 @@
 import { useState } from "react";
-import { WorkCard, Title, SearchBar, FilterList, ViewSwitcherButton, UniversalListCard, useSubheaderToggle, SubheaderToggleButton, QuickNav } from "../components/components.jsx";
+import { WorkCard, UniversalListCard, useSubheaderToggle, QuickNav } from "../components/components.jsx";
+import { WorkPageHeader } from "../components/workPageHeader.jsx";
+import { NoResults } from "../components/noResults.jsx";
 import { motion, AnimatePresence } from 'framer-motion';
 import {
-    projectsPageVariants,
     projectsHeaderVariants,
     projectsControlsVariants,
     projectSectionVariants,
@@ -11,25 +12,21 @@ import {
     projectCardItemVariants,
     projectNoResultsVariants
 } from '../animations/projects.js';
-import {
-    filterCollapseVariants,
-    accordionExpandVariants
-} from '../animations/components.js';
-import { useViewSwitcher } from "../utils/viewSwitcher";
-import { useData } from "../context/DataContext.jsx";
+import { accordionExpandVariants } from '../animations/components.js';
+import { useViewSwitcher } from "../utils/viewSwitcher.jsx";
+import { useData } from "../context/dataContext.jsx";
 import { LuFolder } from "react-icons/lu";
 import Fuse from 'fuse.js';
 
-function Projects() {
+export default function Projects() {
     const { projects, siteContent } = useData();
-    const projectsPageContent = siteContent.projects;
+    const projectsPageContent = siteContent.projects || {};
     const [searchQuery, setSearchQuery] = useState("");
     const [activeFilter, setActiveFilter] = useState("All");
     const { view } = useViewSwitcher();
     const { isVisible } = useSubheaderToggle();
 
     const isSearchingText = searchQuery.trim() !== "";
-    const isSearching = isSearchingText || activeFilter !== "All";
 
     const filterItems = (items, categoryMatch) => {
         let filtered = items.filter(item => item.category === categoryMatch);
@@ -109,7 +106,7 @@ function Projects() {
                                 info={project.info}
                                 tech={project.tech}
                                 linkName="GitHub"
-                                linkURL={project.links[0]?.url}
+                                linkURL={project.links?.[0]?.url}
                                 description={project.description}
                                 category={project.category}
                             />
@@ -121,9 +118,10 @@ function Projects() {
                                 stack={project.tech}
                                 linkName="GitHub"
                                 linkPicture="https://cdn-icons-png.flaticon.com/512/25/25231.png"
-                                linkURL={project.links[0]?.url}
+                                linkURL={project.links?.[0]?.url}
                                 description={project.description}
                                 image={project.images && project.images[0]}
+                                category={project.category}
                             />
                         )}
                     </motion.div>
@@ -138,65 +136,25 @@ function Projects() {
             className="relative min-h-screen pt-20 md:pt-32 pb-32 md:pb-20 px-4 md:px-6 flex flex-col items-center overflow-x-hidden bg-transparent"
         >
             <div className="max-w-6xl w-full z-10">
-                <motion.div
-                    variants={projectsHeaderVariants}
-                    initial="hidden"
-                    animate="visible"
-                    className="w-full mb-6 lg:mb-10"
-                >
-                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-10 items-start">
-                        {/* Left Column: Title and description */}
-                        <div className="lg:col-span-5 text-left">
-                            <Title
-                                title={projectsPageContent.title}
-                                subtitle={projectsPageContent.subtitle}
-                                icon={LuFolder}
-                                align="left"
-                                className="!mb-0"
-                            />
-                        </div>
-
-                        {/* Right Column: Search, filters, switcher & toggle */}
-                        <motion.div
-                            variants={projectsControlsVariants}
-                            className="lg:col-span-7 flex flex-col items-center lg:items-end gap-2.5 sm:gap-3 w-full"
-                        >
-                            <SearchBar
-                                searchQuery={searchQuery}
-                                setSearchQuery={setSearchQuery}
-                            />
-                            <AnimatePresence>
-                                {!isSearchingText && (
-                                    <motion.div
-                                        key="filters"
-                                        variants={filterCollapseVariants}
-                                        initial="hidden"
-                                        animate="visible"
-                                        exit="exit"
-                                        className="flex flex-col items-center lg:items-end gap-2.5 sm:gap-3 w-full"
-                                    >
-                                        <FilterList
-                                            activeFilter={activeFilter}
-                                            setActiveFilter={setActiveFilter}
-                                            filters={["All", "Software", "Hardware", "Embedded"]}
-                                        />
-                                        <div className="flex items-center justify-center lg:justify-end gap-2.5 w-full">
-                                            <ViewSwitcherButton />
-                                            <SubheaderToggleButton />
-                                        </div>
-                                    </motion.div>
-                                )}
-                            </AnimatePresence>
-                        </motion.div>
-                    </div>
-                </motion.div>
+                <WorkPageHeader
+                    title={projectsPageContent.title}
+                    subtitle={projectsPageContent.subtitle}
+                    icon={LuFolder}
+                    searchQuery={searchQuery}
+                    setSearchQuery={setSearchQuery}
+                    activeFilter={activeFilter}
+                    setActiveFilter={setActiveFilter}
+                    filters={["All", "Software", "Hardware", "Embedded"]}
+                    headerVariants={projectsHeaderVariants}
+                    controlsVariants={projectsControlsVariants}
+                />
 
                 {isSearchingText ? null : (
                     <QuickNav
                         tabs={[
-                            ...(softwareProjects.length > 0 ? [{ id: 'software', label: projectsPageContent.sections.software.title }] : []),
-                            ...(hardwareProjects.length > 0 ? [{ id: 'hardware', label: projectsPageContent.sections.hardware.title }] : []),
-                            ...(embeddedProjects.length > 0 ? [{ id: 'embedded', label: projectsPageContent.sections.embedded.title }] : []),
+                            ...(softwareProjects.length > 0 ? [{ id: 'software', label: projectsPageContent.sections?.software?.title || 'Software' }] : []),
+                            ...(hardwareProjects.length > 0 ? [{ id: 'hardware', label: projectsPageContent.sections?.hardware?.title || 'Hardware' }] : []),
+                            ...(embeddedProjects.length > 0 ? [{ id: 'embedded', label: projectsPageContent.sections?.embedded?.title || 'Embedded' }] : []),
                         ]}
                     />
                 )}
@@ -204,8 +162,8 @@ function Projects() {
                 <div className="space-y-24">
                     {softwareProjects.length > 0 && (
                         <ProjectSection
-                            title={projectsPageContent.sections.software.title}
-                            description={projectsPageContent.sections.software.description}
+                            title={projectsPageContent.sections?.software?.title || 'Software Projects'}
+                            description={projectsPageContent.sections?.software?.description}
                             projects={softwareProjects}
                             category="software"
                         />
@@ -213,8 +171,8 @@ function Projects() {
 
                     {hardwareProjects.length > 0 && (
                         <ProjectSection
-                            title={projectsPageContent.sections.hardware.title}
-                            description={projectsPageContent.sections.hardware.description}
+                            title={projectsPageContent.sections?.hardware?.title || 'Hardware Projects'}
+                            description={projectsPageContent.sections?.hardware?.description}
                             projects={hardwareProjects}
                             category="hardware"
                         />
@@ -222,8 +180,8 @@ function Projects() {
 
                     {embeddedProjects.length > 0 && (
                         <ProjectSection
-                            title={projectsPageContent.sections.embedded.title}
-                            description={projectsPageContent.sections.embedded.description}
+                            title={projectsPageContent.sections?.embedded?.title || 'Embedded Systems'}
+                            description={projectsPageContent.sections?.embedded?.description}
                             projects={embeddedProjects}
                             category="embedded"
                         />
@@ -231,21 +189,15 @@ function Projects() {
                 </div>
 
                 {softwareProjects.length === 0 && hardwareProjects.length === 0 && embeddedProjects.length === 0 && (
-                    <motion.div
+                    <NoResults
+                        title={projectsPageContent.noResults?.title || "No Projects Found"}
+                        subtitle={projectsPageContent.noResults?.subtitle}
                         variants={projectNoResultsVariants}
-                        initial="hidden"
-                        animate="visible"
-                        className="text-center py-20"
-                    >
-                        <h3 className="text-2xl font-black text-gray-400 dark:text-gray-500">{projectsPageContent.noResults.title}</h3>
-                        <p className="text-gray-500 dark:text-gray-600 mt-2">{projectsPageContent.noResults.subtitle}</p>
-                    </motion.div>
+                    />
                 )}
             </div>
-
         </section>
     );
 }
 
-export default Projects;
-
+export { Projects };

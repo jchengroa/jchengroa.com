@@ -1,7 +1,7 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { useData } from "../context/DataContext.jsx";
+import { useData } from "../context/dataContext.jsx";
 import { 
     LuHouse, 
     LuFolder, 
@@ -88,8 +88,8 @@ function NavBar() {
     const getActiveMainTopic = () => {
         const path = location.pathname;
         if (path === "/" || path === "/index.html") return "home";
-        if (path.startsWith("/projects") || path.startsWith("/project/jchengroa-com") || path.startsWith("/project/cloudbased") || path.startsWith("/project/hardware-placeholder") || path.startsWith("/project/embedded-placeholder")) return "projects";
-        if (path.startsWith("/research") || path.startsWith("/project/jhs-1") || path.startsWith("/project/shs-1") || path.startsWith("/project/shs-2")) return "research";
+        if (path.startsWith("/projects")) return "projects";
+        if (path.startsWith("/research")) return "research";
         if (path.startsWith("/recognition")) return "recognition";
         if (path.startsWith("/contact") || path.startsWith("/socials") || path.startsWith("/changelog") || path.startsWith("/legal") || path.startsWith("/docs")) return "more";
         return "";
@@ -390,7 +390,7 @@ function NavBar() {
                     className="hidden sm:flex"
                 >
                     <Link
-                        to="/project/jchengroa-com"
+                        to="/projects/jchengroa-com"
                         onClick={() => {
                             setSubmenuOpen(false);
                             setActiveTopic(null);

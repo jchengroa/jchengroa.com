@@ -94,3 +94,5 @@ export default function CookieConsentBanner() {
         </AnimatePresence>
     );
 }
+
+export { CookieConsentBanner };

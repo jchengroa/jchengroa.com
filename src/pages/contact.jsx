@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import { Title, ContactCard } from "../components/components.jsx";
 import { FaFacebook, FaReddit, FaXTwitter, FaLinkedin, FaGithub, FaYoutube, FaInstagram, FaDiscord, FaEnvelope, FaGlobe } from 'react-icons/fa6';
 import { LuShare2 } from 'react-icons/lu';
-import { useData } from "../context/DataContext.jsx";
+import { useData } from "../context/dataContext.jsx";
 import {
     contactPageHeaderVariants,
     contactFormCardVariants,

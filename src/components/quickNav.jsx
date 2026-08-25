@@ -10,7 +10,13 @@ import {
 
 function QuickNav({ tabs = [] }) {
     const [activeTab, setActiveTab] = useState(tabs[0]?.id || "");
+    const [isWideScreen, setIsWideScreen] = useState(() => {
+        return typeof window !== 'undefined' ? window.innerWidth >= 1536 : false;
+    });
     const [isDesktopOpen, setIsDesktopOpen] = useState(() => {
+        if (typeof window !== 'undefined' && window.innerWidth < 1536) {
+            return false;
+        }
         return localStorage.getItem('jchengroa_doc_tabs_desktop_open') === 'true';
     });
     const [isOpen, setIsOpen] = useState(false);
@@ -20,22 +26,66 @@ function QuickNav({ tabs = [] }) {
     const dragStartHeight = useRef(0);
     const isScrollingRef = useRef(false);
     const activeTimeoutRef = useRef(null);
+    const sidebarRef = useRef(null);
+
+    // Track window resize to dynamically switch between pinned gutter & floating overlay modes
+    useEffect(() => {
+        const handleResize = () => {
+            const wide = window.innerWidth >= 1536;
+            setIsWideScreen(wide);
+            if (!wide && isDesktopOpen) {
+                // If resized down, don't keep it permanently pinned over the page
+                setIsDesktopOpen(false);
+            }
+        };
+
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, [isDesktopOpen]);
+
+    // Close desktop overlay when clicking outside on smaller screens or pressing Escape
+    useEffect(() => {
+        if (isWideScreen || !isDesktopOpen) return;
+
+        const handleClickOutside = (e) => {
+            if (sidebarRef.current && !sidebarRef.current.contains(e.target)) {
+                setIsDesktopOpen(false);
+            }
+        };
+
+        const handleKeyDown = (e) => {
+            if (e.key === 'Escape') {
+                setIsDesktopOpen(false);
+            }
+        };
+
+        document.addEventListener('mousedown', handleClickOutside);
+        document.addEventListener('keydown', handleKeyDown);
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+            document.removeEventListener('keydown', handleKeyDown);
+        };
+    }, [isDesktopOpen, isWideScreen]);
 
     const toggleDesktopOpen = (nextState) => {
         setIsDesktopOpen(nextState);
-        localStorage.setItem('jchengroa_doc_tabs_desktop_open', nextState.toString());
-        window.dispatchEvent(new CustomEvent('jchengroa_projects_outline_setting_changed', { detail: nextState }));
+        if (isWideScreen) {
+            localStorage.setItem('jchengroa_doc_tabs_desktop_open', nextState.toString());
+            window.dispatchEvent(new CustomEvent('jchengroa_projects_outline_setting_changed', { detail: nextState }));
+        }
     };
 
     useEffect(() => {
         const handleSettingChange = (e) => {
-            setIsDesktopOpen(e.detail);
+            if (isWideScreen) {
+                setIsDesktopOpen(e.detail);
+            }
         };
         window.addEventListener('jchengroa_projects_outline_setting_changed', handleSettingChange);
         return () => {
             window.removeEventListener('jchengroa_projects_outline_setting_changed', handleSettingChange);
         };
-    }, []);
+    }, [isWideScreen]);
 
     useEffect(() => {
         window.dispatchEvent(new CustomEvent('documentOutlineToggle', { detail: isOpen }));
@@ -125,6 +175,10 @@ function QuickNav({ tabs = [] }) {
             window.scrollTo({ top: y, behavior: 'smooth' });
         }
         setIsOpen(false);
+        // Automatically close the overlay on smaller screens so the section isn't hidden
+        if (!isWideScreen) {
+            setIsDesktopOpen(false);
+        }
 
         setTimeout(() => {
             isScrollingRef.current = false;
@@ -135,15 +189,32 @@ function QuickNav({ tabs = [] }) {
 
     return (
         <>
-            {/* Desktop View: Floating Left Sidebar */}
+            {/* Soft Backdrop for Smaller Desktop Screens when overlay is open */}
+            <AnimatePresence>
+                {!isWideScreen && isDesktopOpen && (
+                    <motion.div
+                        variants={quickNavBackdropVariants}
+                        initial="hidden"
+                        animate="visible"
+                        exit="exit"
+                        onClick={() => setIsDesktopOpen(false)}
+                        className="hidden xl:block fixed inset-0 bg-black/30 backdrop-blur-[2px] z-40 transition-colors"
+                    />
+                )}
+            </AnimatePresence>
+
+            {/* Desktop View: Floating Left Sidebar / Popover */}
             <AnimatePresence>
                 {isDesktopOpen ? (
                     <motion.div
+                        ref={sidebarRef}
                         variants={quickNavDesktopBtnVariants}
                         initial="hidden"
                         animate="visible"
                         exit="exit"
-                        className="hidden xl:flex fixed left-6 top-28 bottom-6 z-40 w-64 bg-white/70 dark:bg-gray-900/70 backdrop-blur-2xl border border-gray-200/50 dark:border-gray-800/50 rounded-[2.5rem] p-6 shadow-2xl flex-col justify-between overflow-hidden"
+                        className={`hidden xl:flex fixed left-6 top-28 bottom-6 z-50 w-64 bg-white/85 dark:bg-gray-900/85 backdrop-blur-2xl border border-gray-200/60 dark:border-gray-800/60 rounded-[2.5rem] p-6 shadow-2xl flex-col justify-between overflow-hidden ${
+                            !isWideScreen ? 'ring-1 ring-black/5 dark:ring-white/10 shadow-[0_20px_50px_rgba(0,0,0,0.3)]' : ''
+                        }`}
                     >
                         <div>
                             <div className="flex items-center justify-between mb-8 px-1">
@@ -156,7 +227,7 @@ function QuickNav({ tabs = [] }) {
                                 <button
                                     onClick={() => toggleDesktopOpen(false)}
                                     className="p-2 text-gray-400 hover:text-gray-900 dark:hover:text-white rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800 transition-all"
-                                    title="Hide Navigation"
+                                    title="Hide Navigation (Esc)"
                                 >
                                     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><rect width="18" height="18" x="3" y="3" rx="2" /><path d="M9 3v18" /><path d="m16 15-3-3 3-3" /></svg>
                                 </button>
@@ -183,8 +254,9 @@ function QuickNav({ tabs = [] }) {
                                 })}
                             </nav>
                         </div>
-                        <div className="pt-4 border-t border-gray-100 dark:border-gray-800/60 text-center">
-                            <span className="text-[10px] font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest">Quick Nav</span>
+                        <div className="pt-4 border-t border-gray-100 dark:border-gray-800/60 flex items-center justify-between text-[10px] font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest px-1">
+                            <span>Quick Nav</span>
+                            {!isWideScreen && <span className="text-[9px] opacity-70">Esc to close</span>}
                         </div>
                     </motion.div>
                 ) : (
@@ -194,7 +266,7 @@ function QuickNav({ tabs = [] }) {
                         animate="visible"
                         exit="exit"
                         onClick={() => toggleDesktopOpen(true)}
-                        className="hidden xl:flex fixed left-6 top-1/2 -translate-y-1/2 z-40 items-center justify-center w-14 h-14 bg-white dark:bg-gray-900 text-gray-900 dark:text-white rounded-full shadow-2xl border border-gray-200/50 dark:border-gray-800/50 backdrop-blur-xl hover:scale-110 active:scale-95 transition-all group"
+                        className="hidden xl:flex fixed left-6 top-1/2 -translate-y-1/2 z-40 items-center justify-center w-14 h-14 bg-white/90 dark:bg-gray-900/90 text-gray-900 dark:text-white rounded-full shadow-2xl border border-gray-200/60 dark:border-gray-800/60 backdrop-blur-xl hover:scale-110 active:scale-95 transition-all group"
                         title="Show Navigation"
                     >
                         <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="group-hover:translate-x-0.5 transition-transform"><rect width="18" height="18" x="3" y="3" rx="2" /><path d="M9 3v18" /><path d="m14 9 3 3-3 3" /></svg>
@@ -204,7 +276,7 @@ function QuickNav({ tabs = [] }) {
 
             {/* Mobile View: Floating Action Button & Draggable Bottom Sheet */}
             <div className="xl:hidden">
-                {/* Floating Button Bottom Right */}
+                {/* Floating Button Bottom Right (Positioned comfortably above mobile bottom navigation bar) */}
                 <AnimatePresence>
                     {!isOpen && (
                         <motion.button
@@ -214,7 +286,7 @@ function QuickNav({ tabs = [] }) {
                             exit="exit"
                             onClick={() => { setIsOpen(true); setSheetHeight(55); }}
                             aria-label="Open Document Navigation"
-                            className="fixed right-6 bottom-6 z-50 flex items-center justify-center w-14 h-14 bg-gray-900 dark:bg-white text-white dark:text-gray-900 rounded-full shadow-2xl hover:scale-110 active:scale-95 transition-all"
+                            className="fixed right-5 sm:right-6 bottom-36 sm:bottom-36 z-50 flex items-center justify-center w-14 h-14 bg-gray-900 dark:bg-white text-white dark:text-gray-900 rounded-full shadow-2xl hover:scale-110 active:scale-95 transition-all"
                         >
                             <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z" /><path d="M6 5h10" /><path d="M6 9h10" /><path d="M6 13h6" /></svg>
                         </motion.button>
