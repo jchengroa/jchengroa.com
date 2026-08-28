@@ -14,6 +14,10 @@ A multidisciplinary portfolio website showcasing engineering projects, academic 
 - **Visual Galleries**: Image lightbox supporting zoom interactions and modal backdrops.
 - **Responsive Navigation**: Adaptive layout featuring a bottom-positioned floating navigation dock with sub-option menu expansion.
 - **Settings & Preference Management**: Full-screen modal for theme selection (light, dark, system), accent color customization, layout options, and local storage management.
+- **jchengroa Admin Dashboard (`/admin`)**: Independent administrative portal protected by Supabase Authentication with full CRUD management across all 7 database tables (`projects`, `research`, `recognition`, `contacts`, `socials`, `changelogs`, `site_content`).
+- **Real-Time Live Card Previews**: Side-by-side visual simulator inside the admin dashboard supporting card view, detail hero view, and light/dark theme simulation.
+- **Dynamic Site Content & Prompt Control**: Live editing of site active status, maintenance modes, default themes, custom accent colors, hero prompts, navbar links, and microcopy directly from the cloud.
+- **Admin User Management**: Built-in profile management popup to customize display name, avatar picture, admin email, password, and contact phone number.
 - **Developer Tools**: Environment-configurable developer menu (`VITE_SHOW_DEV_OPTIONS`) containing real-time database connection status, manual offline fallback toggling, and popup testing triggers.
 - **Analytics & Privacy Notice**: Privacy notice banner informing visitors of anonymous Vercel Analytics usage.
 - **Download Manager**: Background download queue manager for PDF document transfers with size and progress tracking.
@@ -22,7 +26,7 @@ A multidisciplinary portfolio website showcasing engineering projects, academic 
 ## Tech Stack
 
 - **Frontend**: [React 19](https://react.dev/), [Vite](https://vitejs.dev/)
-- **Database**: [Supabase](https://supabase.com/) — PostgreSQL database managing projects, research publications, site content, and changelogs.
+- **Database & Authentication**: [Supabase](https://supabase.com/) — PostgreSQL database managing projects, research publications, site content, and changelogs; protected with Supabase Auth and Row Level Security (RLS).
 - **Asset Storage**: [Supabase Storage](https://supabase.com/docs/guides/storage) — Public bucket storage for image galleries, graphics, and PDF documents.
 - **Analytics & Performance**: [Vercel Analytics](https://vercel.com/analytics) and [Vercel Speed Insights](https://vercel.com/docs/speed-insights) — Visitor metrics and performance monitoring.
 - **Styling**: [Tailwind CSS 4.0](https://tailwindcss.com/)
@@ -77,7 +81,23 @@ A multidisciplinary portfolio website showcasing engineering projects, academic 
    npm run dev
    ```
 
-   The app will be available at `http://localhost:5173`.
+   - Portfolio App: `http://localhost:5173`
+   - Admin Dashboard: `http://localhost:5173/admin`
+
+---
+
+## Admin Dashboard (`/admin`)
+
+The project includes an isolated, high-performance administrative application outside the main bundle (`admin.html` + `admin/`).
+
+- **Authentication**: Requires a Supabase Admin user account to access.
+- **Database Tables**:
+  - `projects`: Hardware, software, and embedded engineering builds (with live card preview).
+  - `research`: Academic papers, abstracts, and publications (with live card preview).
+  - `recognition`: Honors, awards, and milestones (with live card preview).
+  - `contacts` & `socials`: Communication channels and profile links.
+  - `changelogs`: Version release notes.
+  - `site_content`: Dynamic prompts, navigation structure, theme defaults, and raw JSON editor.
 
 ---
 
@@ -101,6 +121,30 @@ jchengroa.com/
 │   └── workflows/
 │       └── deploy.yml
 ├── .gitignore
+├── admin/
+│   ├── AdminApp.jsx
+│   ├── adminSupabase.js
+│   ├── main.jsx
+│   ├── components/
+│   │   ├── AdminLogin.jsx
+│   │   ├── ConfirmModal.jsx
+│   │   ├── LinkItemModal.jsx
+│   │   ├── LiveCardPreview.jsx
+│   │   └── UserProfileModal.jsx
+│   └── tabs/
+│       ├── ChangelogsAdminTab.jsx
+│       ├── CommonTab.jsx
+│       ├── ContactsAdminTab.jsx
+│       ├── GeneralTab.jsx
+│       ├── HomeTab.jsx
+│       ├── NavFooterTab.jsx
+│       ├── PagesTab.jsx
+│       ├── ProjectsAdminTab.jsx
+│       ├── RawJsonTab.jsx
+│       ├── RecognitionAdminTab.jsx
+│       ├── ResearchAdminTab.jsx
+│       └── UserManagementTab.jsx
+├── admin.html
 ├── Dockerfile
 ├── index.html
 ├── package-lock.json
@@ -507,3 +551,7 @@ Fixed quick nav in smaller screens, where a new system is implemented to flyout 
 Fixed quick nav in mobile devices, where the nav bar style dock hides the actual quick nav button.
 Fixed routing bug where all work details use the /project/:id route.
 Fixed naming inconsistensies in every files, now using lowerCamelCase.
+
+- [0.15.4] - 2026-08-28
+Created a new admin page for administrative purposes.
+Fixed some bugs.
