@@ -79,6 +79,7 @@ export default function Recognition() {
                                 description={recItem.description}
                                 facebookUrl={recItem.facebookUrl}
                                 category={recItem.category}
+                                searchQuery={searchQuery}
                             />
                         ) : (
                             <RecognitionCard
@@ -88,6 +89,7 @@ export default function Recognition() {
                                 description={recItem.description}
                                 facebookUrl={recItem.facebookUrl}
                                 tech={recItem.tech}
+                                searchQuery={searchQuery}
                             />
                         )}
                     </motion.div>

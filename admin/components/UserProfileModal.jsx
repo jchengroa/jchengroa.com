@@ -126,7 +126,6 @@ export default function UserProfileModal({ isOpen, onClose, session, onShowToast
                                     (displayName || 'A').charAt(0).toUpperCase()
                                 )}
                             </div>
-                            <span className="absolute -bottom-1 -right-1 w-4 h-4 rounded-full bg-emerald-500 ring-2 ring-white dark:ring-gray-900" />
                         </div>
                         <div>
                             <h3 className="text-lg font-black text-gray-900 dark:text-white tracking-tight">

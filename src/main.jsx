@@ -13,7 +13,7 @@ import Recognition from './pages/recognition.jsx'
 import Contact from './pages/contact.jsx'
 
 import SettingsModal from './pages/settingsModal.jsx'
-import Changelog, { ChangelogPopup } from './pages/changelog.jsx'
+import Changelog from './pages/changelog.jsx'
 import { DownloadManager } from './utils/downloadManager.jsx'
 import { SplitBackground } from './components/splitBackground.jsx'
 import CookieConsentBanner from './components/cookieConsentBanner.jsx'
@@ -96,7 +96,6 @@ function MainLayout() {
                     />
                 </div>
 
-                <ChangelogPopup />
                 <DownloadManager />
                 <SettingsModal isOpen={settingsOpen} onClose={() => setSettingsOpen(false)} />
                 <CookieConsentBanner />

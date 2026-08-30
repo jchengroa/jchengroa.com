@@ -117,6 +117,7 @@ function NavBar() {
         }
         return null;
     });
+    const [isPinned, setIsPinned] = useState(false);
     const submenuRef = useRef(null);
     const dockRef = useRef(null);
 
@@ -146,6 +147,7 @@ function NavBar() {
         if (isDesktop) {
             setSubmenuOpen(false);
             setActiveTopic(null);
+            setIsPinned(false);
         } else {
             const topic = getActiveMainTopic();
             if (topic === "more") {
@@ -158,6 +160,52 @@ function NavBar() {
         }
     }, [location.pathname, isDesktop]);
 
+    // Handle any interaction outside when pinned on desktop (click, touch, scroll, escape key, focus)
+    useEffect(() => {
+        if (!isDesktop || !isPinned) return;
+
+        const handleInteractionOutside = (event) => {
+            if (submenuRef.current && !submenuRef.current.contains(event.target)) {
+                // If clicking an interactive button/link inside the dock, allow its click handler to fire
+                const clickedButton = event.target.closest('button') || event.target.closest('a');
+                if (dockRef.current && dockRef.current.contains(event.target) && clickedButton) {
+                    return;
+                }
+                setSubmenuOpen(false);
+                setActiveTopic(null);
+                setIsPinned(false);
+            }
+        };
+
+        const handleScroll = (event) => {
+            if (submenuRef.current && !submenuRef.current.contains(event.target)) {
+                setSubmenuOpen(false);
+                setActiveTopic(null);
+                setIsPinned(false);
+            }
+        };
+
+        const handleKeyDown = (event) => {
+            if (event.key === 'Escape') {
+                setSubmenuOpen(false);
+                setActiveTopic(null);
+                setIsPinned(false);
+            }
+        };
+
+        document.addEventListener('mousedown', handleInteractionOutside);
+        document.addEventListener('touchstart', handleInteractionOutside, { passive: true });
+        window.addEventListener('scroll', handleScroll, { passive: true, capture: true });
+        document.addEventListener('keydown', handleKeyDown);
+
+        return () => {
+            document.removeEventListener('mousedown', handleInteractionOutside);
+            document.removeEventListener('touchstart', handleInteractionOutside);
+            window.removeEventListener('scroll', handleScroll, { capture: true });
+            document.removeEventListener('keydown', handleKeyDown);
+        };
+    }, [isDesktop, isPinned]);
+
     const currentActiveTopic = getActiveMainTopic();
 
     // Toggle menu or double-click to navigate
@@ -166,23 +214,27 @@ function NavBar() {
             if (item.id === "home") {
                 setSubmenuOpen(false);
                 setActiveTopic(null);
+                setIsPinned(false);
                 navigate("/");
                 const snapContainer = document.querySelector("#home")?.parentElement;
                 if (snapContainer) {
                     snapContainer.scrollTo({ top: 0, behavior: "smooth" });
                 }
             } else if (item.id === "more") {
-                // Toggle sub-explorer options on single click for hamburger menu
-                if (activeTopic === "more") {
+                // Clicking more pins or unpins the more explorer
+                if (activeTopic === "more" && isPinned) {
                     setSubmenuOpen(false);
                     setActiveTopic(null);
+                    setIsPinned(false);
                 } else {
                     setActiveTopic("more");
                     setSubmenuOpen(true);
+                    setIsPinned(true);
                 }
             } else {
                 setSubmenuOpen(false);
                 setActiveTopic(null);
+                setIsPinned(false);
                 navigate(item.to || "/");
             }
             return;
@@ -225,8 +277,11 @@ function NavBar() {
 
     const handleMouseEnter = (item) => {
         if (isDesktop) {
-            // Don't open explorer on hover for home or hamburger button
-            if (item.id === "home" || item.id === "more") {
+            // Rule 1: If more explorer is pinned, other buttons will not show hover preview
+            if (isPinned) return;
+
+            // Don't open explorer on hover for home
+            if (item.id === "home") {
                 setSubmenuOpen(false);
                 setActiveTopic(null);
             } else {
@@ -238,8 +293,10 @@ function NavBar() {
 
     const handleMouseLeave = () => {
         if (isDesktop) {
-            setSubmenuOpen(false);
-            setActiveTopic(null);
+            if (!isPinned) {
+                setSubmenuOpen(false);
+                setActiveTopic(null);
+            }
         }
     };
 
@@ -274,6 +331,7 @@ function NavBar() {
                                 onClick={() => {
                                     setSubmenuOpen(false);
                                     setActiveTopic(null);
+                                    setIsPinned(false);
                                 }}
                                 className="p-1 rounded-full text-gray-400 hover:text-gray-600 hover:bg-gray-100 dark:hover:bg-gray-900 dark:hover:text-gray-200 transition-colors"
                             >
@@ -292,9 +350,14 @@ function NavBar() {
                                         window.dispatchEvent(new CustomEvent('openSettings'));
                                         setSubmenuOpen(false);
                                         setActiveTopic(null);
+                                        setIsPinned(false);
                                     } else if (item.action === "explore_tools") {
                                         e.preventDefault();
                                         setActiveTopic("tools");
+                                    } else {
+                                        setSubmenuOpen(false);
+                                        setActiveTopic(null);
+                                        setIsPinned(false);
                                     }
                                 };
 
@@ -394,10 +457,13 @@ function NavBar() {
                         onClick={() => {
                             setSubmenuOpen(false);
                             setActiveTopic(null);
+                            setIsPinned(false);
                         }}
                         onMouseEnter={() => {
-                            setSubmenuOpen(false);
-                            setActiveTopic(null);
+                            if (!isPinned) {
+                                setSubmenuOpen(false);
+                                setActiveTopic(null);
+                            }
                         }}
                         className="flex items-center justify-center rounded-full border border-gray-200/50 bg-white/85 px-6 shadow-2xl backdrop-blur-xl dark:border-white/10 dark:bg-gray-900/80 font-black text-sm tracking-tight lowercase text-gray-900 dark:text-white hover:bg-gray-50 dark:hover:bg-white/5 transition-all duration-300 select-none h-full"
                     >
@@ -415,7 +481,7 @@ function NavBar() {
                             <motion.div
                                 key="mobile-subnav"
                                 {...mobileSubnavContainerVariants}
-                                className="flex items-center justify-around w-full sm:w-auto gap-1 sm:gap-2 overflow-x-auto no-scrollbar max-w-[85vw]"
+                                className="flex items-center justify-around w-full sm:w-auto gap-1 sm:gap-2 overflow-x-auto no-scrollbar"
                             >
                                 {/* Back Button with Red Highlight and Left Arrow (No label) */}
                                 <motion.button

@@ -109,6 +109,7 @@ export default function Projects() {
                                 linkURL={project.links?.[0]?.url}
                                 description={project.description}
                                 category={project.category}
+                                searchQuery={searchQuery}
                             />
                         ) : (
                             <WorkCard
@@ -122,6 +123,7 @@ export default function Projects() {
                                 description={project.description}
                                 image={project.images && project.images[0]}
                                 category={project.category}
+                                searchQuery={searchQuery}
                             />
                         )}
                     </motion.div>

@@ -81,6 +81,7 @@ export default function Research() {
                                 tech={resItem.tech}
                                 description={resItem.summary}
                                 category={resItem.category}
+                                searchQuery={searchQuery}
                             />
                         ) : (
                             <WorkCard
@@ -91,6 +92,7 @@ export default function Research() {
                                 description={resItem.summary}
                                 image={resItem.images && resItem.images[0]}
                                 category={resItem.category || "research"}
+                                searchQuery={searchQuery}
                             />
                         )}
                     </motion.div>

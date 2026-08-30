@@ -1,8 +1,21 @@
 import React, { useState, useEffect, useCallback, Suspense, lazy } from 'react';
 import { supabase } from './adminSupabase.js';
 import AdminLogin from './components/AdminLogin.jsx';
+import {
+    LuActivity,
+    LuHouse,
+    LuFileText,
+    LuFolderGit2,
+    LuBookOpen,
+    LuAward,
+    LuContact,
+    LuCompass,
+    LuMessageSquare,
+    LuHistory,
+    LuCode
+} from 'react-icons/lu';
 
-// Lazy-load all heavy dashboard tabs & modals ONLY when authenticated
+// Lazy-load dashboard tabs & modals ONLY when authenticated
 const UserProfileModal = lazy(() => import('./components/UserProfileModal.jsx'));
 const ConfirmModal = lazy(() => import('./components/ConfirmModal.jsx'));
 
@@ -18,22 +31,19 @@ const RecognitionAdminTab = lazy(() => import('./tabs/RecognitionAdminTab.jsx'))
 const ContactsAdminTab = lazy(() => import('./tabs/ContactsAdminTab.jsx'));
 const ChangelogsAdminTab = lazy(() => import('./tabs/ChangelogsAdminTab.jsx'));
 
-const TOP_LEVEL_TABS = [
-    { id: 'site_content', label: 'Site Content & Prompts', icon: '🌐' },
-    { id: 'projects', label: 'Projects (Live Preview)', icon: '🚀' },
-    { id: 'research', label: 'Research (Live Preview)', icon: '🔬' },
-    { id: 'recognition', label: 'Recognition (Live Preview)', icon: '🏆' },
-    { id: 'contacts', label: 'Contacts & Socials', icon: '📇' },
-    { id: 'changelogs', label: 'Changelogs', icon: '📜' },
-];
-
-const PROMPT_SUB_TABS = [
-    { id: 'general', label: 'Status & Theme', icon: '⚡' },
-    { id: 'home', label: 'Home Page', icon: '🏠' },
-    { id: 'pages', label: 'Page Headings', icon: '📄' },
-    { id: 'navfooter', label: 'Nav & Footer', icon: '🧭' },
-    { id: 'common', label: 'Dialogues & Microcopy', icon: '💬' },
-    { id: 'raw', label: 'Raw JSON & SQL Setup', icon: '🧩' },
+// 11 Unified Top-Level Navigation Tabs (Icon Primary, Label Secondary)
+const ADMIN_TABS = [
+    { id: 'status', label: 'Status & Theme', icon: LuActivity, badge: 'Live' },
+    { id: 'home', label: 'Home Page', icon: LuHouse },
+    { id: 'pages', label: 'Page Headings', icon: LuFileText },
+    { id: 'projects', label: 'Projects', icon: LuFolderGit2, badge: 'Live' },
+    { id: 'research', label: 'Research', icon: LuBookOpen, badge: 'Live' },
+    { id: 'recognition', label: 'Recognition', icon: LuAward, badge: 'Live' },
+    { id: 'contacts', label: 'Contacts', icon: LuContact },
+    { id: 'navfooter', label: 'Nav & Footer', icon: LuCompass },
+    { id: 'common', label: 'Microcopy', icon: LuMessageSquare },
+    { id: 'changelogs', label: 'Changelogs', icon: LuHistory },
+    { id: 'raw', label: 'Raw DB & SQL', icon: LuCode },
 ];
 
 export default function AdminApp() {
@@ -46,6 +56,7 @@ export default function AdminApp() {
     const [loading, setLoading] = useState(false);
     const [saving, setSaving] = useState(false);
     const [notification, setNotification] = useState(null);
+    const [isSyncingStatus, setIsSyncingStatus] = useState(false);
 
     // Database tables data
     const [allSiteContent, setAllSiteContent] = useState({});
@@ -56,9 +67,8 @@ export default function AdminApp() {
     const [socialsList, setSocialsList] = useState([]);
     const [changelogsList, setChangelogsList] = useState([]);
 
-    // Tab Navigation
-    const [mainTab, setMainTab] = useState('site_content');
-    const [promptSubTab, setPromptSubTab] = useState('general');
+    // Tab Navigation - Default to 'status' so status is the FIRST thing the admin sees after login!
+    const [mainTab, setMainTab] = useState('status');
 
     // Confirm Modal
     const [confirmModal, setConfirmModal] = useState({
@@ -176,6 +186,36 @@ export default function AdminApp() {
         }
     }, [session, loadAllTables]);
 
+    // 3. Periodic Status Check & Auto-Polling (Live checks every 20s and on window focus)
+    const checkLatestStatus = useCallback(async () => {
+        if (!session || !supabase) return;
+        try {
+            setIsSyncingStatus(true);
+            const { data, error } = await supabase
+                .from('site_content')
+                .select('value')
+                .eq('key', 'site_active')
+                .single();
+            if (!error && data) {
+                setAllSiteContent(prev => ({ ...prev, site_active: data.value }));
+            }
+        } catch (err) {
+            // Background check
+        } finally {
+            setIsSyncingStatus(false);
+        }
+    }, [session]);
+
+    useEffect(() => {
+        if (!session) return;
+        const interval = setInterval(checkLatestStatus, 20000);
+        window.addEventListener('focus', checkLatestStatus);
+        return () => {
+            clearInterval(interval);
+            window.removeEventListener('focus', checkLatestStatus);
+        };
+    }, [session, checkLatestStatus]);
+
     // Sign out handler
     const handleSignOut = async () => {
         if (supabase) {
@@ -186,19 +226,36 @@ export default function AdminApp() {
         }
     };
 
-    // Helpers for General Tab
+    // Helpers for Status Tab
     const rawSiteActive = allSiteContent.site_active;
     const siteActiveStr = String(rawSiteActive !== undefined ? rawSiteActive : true).replace(/^"+|"+$/g, '').toLowerCase().trim();
     const siteActiveStatus = (siteActiveStr === 'dev') ? 'dev' : (siteActiveStr === 'false' || rawSiteActive === false) ? 'offline' : 'active';
 
-    const setSiteActiveStatus = (status) => {
+    // Immediate auto-saving status change (No manual save required!)
+    const setSiteActiveStatus = async (status) => {
         let val = true;
         if (status === 'dev') val = 'dev';
         else if (status === 'offline') val = false;
+
+        // 1. Immediate optimistic UI update
         setAllSiteContent(prev => ({ ...prev, site_active: val }));
+
+        // 2. Direct cloud save
+        if (supabase) {
+            try {
+                const { error } = await supabase
+                    .from('site_content')
+                    .upsert([{ key: 'site_active', value: val }], { onConflict: 'key' });
+                if (error) throw error;
+                const label = status === 'active' ? 'Active / Online' : status === 'dev' ? 'Dev / Updating Mode' : 'Offline / Maintenance';
+                showToast('success', `Website status updated to ${label} (Saved to Cloud)`);
+            } catch (err) {
+                showToast('error', `Status update error: ${err.message}`);
+            }
+        }
     };
 
-    // Save site_content
+    // Save site_content prompts
     const handleSaveSiteContent = async () => {
         if (!supabase) return;
         setSaving(true);
@@ -206,7 +263,7 @@ export default function AdminApp() {
             const rows = Object.entries(allSiteContent).map(([key, value]) => ({ key, value }));
             const { error } = await supabase.from('site_content').upsert(rows, { onConflict: 'key' });
             if (error) throw error;
-            showToast('success', 'site_content saved successfully to Supabase!');
+            showToast('success', 'Prompts and settings saved successfully to Supabase!');
         } catch (err) {
             showToast('error', `Save error: ${err.message}`);
         } finally {
@@ -406,8 +463,11 @@ export default function AdminApp() {
     const adminAvatar = userMetadata.avatar_url || '';
     const avatarInitial = adminDisplayName.charAt(0).toUpperCase() || 'J';
 
+    // Tabs that edit site_content prompts and show the bottom floating save bar
+    const isSiteContentPromptTab = ['status', 'home', 'pages', 'navfooter', 'common', 'raw'].includes(mainTab);
+
     return (
-        <div className="min-h-screen bg-slate-50 dark:bg-gray-950 text-gray-900 dark:text-gray-100 flex flex-col pb-24">
+        <div className="min-h-screen bg-slate-50 dark:bg-gray-950 text-gray-900 dark:text-gray-100 flex flex-col pb-28">
             <Suspense fallback={null}>
                 {/* User Profile & Account Management Popup */}
                 {profileModalOpen && (
@@ -439,15 +499,15 @@ export default function AdminApp() {
             </Suspense>
 
             {/* Top Navigation Header */}
-            <header className="sticky top-0 z-40 bg-white/85 dark:bg-gray-900/85 backdrop-blur-md border-b border-gray-200 dark:border-gray-800 transition-colors">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-3">
+            <header className="sticky top-0 z-40 bg-white/90 dark:bg-gray-900/90 backdrop-blur-xl border-b border-gray-200 dark:border-gray-800 transition-colors shadow-xs">
+                <div className="max-w-7xl mx-auto px-3 sm:px-6 h-16 flex items-center justify-between gap-3">
                     {/* Left: User Avatar Management Button & Display Name */}
                     <div className="flex items-center gap-3">
                         <button
                             type="button"
                             onClick={() => setProfileModalOpen(true)}
                             title="Click to edit Display Name, Avatar, and Profile settings"
-                            className="group relative flex items-center gap-3 p-1 sm:pr-3.5 rounded-2xl hover:bg-gray-100 dark:hover:bg-gray-800/60 transition-all text-left"
+                            className="group relative flex items-center gap-3 p-1 sm:pr-3.5 rounded-2xl hover:bg-gray-100 dark:hover:bg-gray-800/60 transition-all text-left cursor-pointer"
                         >
                             <div className="relative w-10 h-10 rounded-xl overflow-hidden bg-gradient-to-tr from-blue-600 to-indigo-600 border border-white dark:border-gray-700 shadow-sm flex items-center justify-center text-white font-black text-sm group-hover:scale-105 transition-transform flex-shrink-0">
                                 {adminAvatar ? (
@@ -460,7 +520,6 @@ export default function AdminApp() {
                                 ) : (
                                     avatarInitial
                                 )}
-                                <span className="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-emerald-500 ring-2 ring-white dark:ring-gray-900" />
                             </div>
 
                             <div className="hidden sm:block">
@@ -483,7 +542,7 @@ export default function AdminApp() {
                             type="button"
                             onClick={toggleAdminDark}
                             title="Toggle Admin Theme"
-                            className="p-2 rounded-xl border border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-gray-800/60 hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-600 dark:text-gray-300 transition-colors"
+                            className="p-2 rounded-xl border border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-gray-800/60 hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-600 dark:text-gray-300 transition-colors cursor-pointer"
                         >
                             {adminDark ? (
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
@@ -496,54 +555,55 @@ export default function AdminApp() {
                             type="button"
                             onClick={handleSignOut}
                             title="Sign Out"
-                            className="p-2 rounded-xl text-rose-600 dark:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-950/40 border border-rose-200 dark:border-rose-800/60 transition-colors"
+                            className="p-2 rounded-xl text-rose-600 dark:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-950/40 border border-rose-200 dark:border-rose-800/60 transition-colors cursor-pointer"
                         >
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
                         </button>
                     </div>
                 </div>
 
-                {/* Primary Tabs */}
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 flex gap-1 overflow-x-auto no-scrollbar border-t border-gray-100 dark:border-gray-800/80">
-                    {TOP_LEVEL_TABS.map((tab) => (
-                        <button
-                            key={tab.id}
-                            type="button"
-                            onClick={() => setMainTab(tab.id)}
-                            className={`flex items-center gap-2 px-4 py-3 text-xs font-black whitespace-nowrap border-b-2 transition-all ${
-                                mainTab === tab.id
-                                    ? 'border-blue-600 text-blue-600 dark:text-blue-400 bg-blue-50/40 dark:bg-blue-950/20'
-                                    : 'border-transparent text-gray-500 hover:text-gray-800 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800/40'
-                            }`}
-                        >
-                            <span>{tab.icon}</span>
-                            <span>{tab.label}</span>
-                        </button>
-                    ))}
-                </div>
-
-                {/* Secondary Subtabs for site_content */}
-                {mainTab === 'site_content' && (
-                    <div className="bg-gray-50/70 dark:bg-gray-950/70 border-t border-gray-200/50 dark:border-gray-800/50">
-                        <div className="max-w-7xl mx-auto px-4 sm:px-6 flex gap-1 overflow-x-auto no-scrollbar py-1.5">
-                            {PROMPT_SUB_TABS.map(sub => (
+                {/* Unified Redesigned Navigation: Icon Primary, Label Secondary */}
+                <div className="border-t border-gray-100 dark:border-gray-800/80 bg-gray-50/50 dark:bg-gray-900/50">
+                    <div className="max-w-7xl mx-auto px-2 sm:px-6 flex items-center gap-1.5 sm:gap-2 overflow-x-auto no-scrollbar py-2">
+                        {ADMIN_TABS.map((tab) => {
+                            const IconComponent = tab.icon;
+                            const isActive = mainTab === tab.id;
+                            return (
                                 <button
-                                    key={sub.id}
+                                    key={tab.id}
                                     type="button"
-                                    onClick={() => setPromptSubTab(sub.id)}
-                                    className={`px-3 py-1.5 rounded-xl text-xs font-bold whitespace-nowrap transition-all ${
-                                        promptSubTab === sub.id
-                                            ? 'bg-blue-600 text-white shadow-sm'
-                                            : 'text-gray-600 dark:text-gray-400 hover:bg-gray-200/50 dark:hover:bg-gray-800/50'
+                                    onClick={() => setMainTab(tab.id)}
+                                    className={`group relative flex flex-col items-center justify-center gap-1 px-3 sm:px-4 py-2 rounded-2xl transition-all duration-200 cursor-pointer shrink-0 min-w-[76px] sm:min-w-[88px] ${
+                                        isActive
+                                            ? 'bg-blue-600 text-white shadow-md shadow-blue-500/25 ring-2 ring-blue-500/30'
+                                            : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-white dark:hover:bg-gray-800/80 border border-transparent hover:border-gray-200 dark:hover:border-gray-700/60'
                                     }`}
                                 >
-                                    <span className="mr-1.5">{sub.icon}</span>
-                                    <span>{sub.label}</span>
+                                    {/* Primary Icon Container */}
+                                    <div className={`p-1.5 rounded-xl transition-transform duration-200 group-hover:scale-110 ${
+                                        isActive 
+                                            ? 'bg-white/20 text-white' 
+                                            : 'bg-gray-100 dark:bg-gray-800 text-gray-500 dark:text-gray-400 group-hover:text-blue-600 dark:group-hover:text-blue-400'
+                                    }`}>
+                                        <IconComponent size={18} strokeWidth={2.3} />
+                                    </div>
+
+                                    {/* Secondary Label */}
+                                    <span className={`text-[10px] sm:text-[11px] font-black tracking-tight leading-none whitespace-nowrap ${
+                                        isActive ? 'text-white' : 'text-gray-600 dark:text-gray-400'
+                                    }`}>
+                                        {tab.label}
+                                    </span>
+
+                                    {/* Optional mini badge */}
+                                    {tab.badge && !isActive && (
+                                        <span className="absolute top-1 right-1 w-1.5 h-1.5 rounded-full bg-blue-500" />
+                                    )}
                                 </button>
-                            ))}
-                        </div>
+                            );
+                        })}
                     </div>
-                )}
+                </div>
             </header>
 
             {/* Notification Toast */}
@@ -578,77 +638,51 @@ export default function AdminApp() {
                             <div className="w-8 h-8 border-4 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
                         </div>
                     }>
-                        {/* TAB 1: SITE_CONTENT */}
-                        {mainTab === 'site_content' && (
-                            <div>
-                                {promptSubTab === 'general' && (
-                                    <GeneralTab
-                                        siteActiveStatus={siteActiveStatus}
-                                        setSiteActiveStatus={setSiteActiveStatus}
-                                        defaultThemeMode={allSiteContent.default_theme_mode || 'light'}
-                                        setDefaultThemeMode={(val) => setAllSiteContent(prev => ({ ...prev, default_theme_mode: val }))}
-                                        defaultAccentColor={allSiteContent.default_accent_color || 'blue'}
-                                        setDefaultAccentColor={(val) => setAllSiteContent(prev => ({ ...prev, default_accent_color: val }))}
-                                        customAccentHex={allSiteContent.custom_accent_hex || '#2563eb'}
-                                        setCustomAccentHex={(val) => setAllSiteContent(prev => ({ ...prev, custom_accent_hex: val }))}
-                                    />
-                                )}
-
-                                {promptSubTab === 'home' && (
-                                    <HomeTab
-                                        homeData={allSiteContent.home || {}}
-                                        onChangeHomeData={(updated) => setAllSiteContent({ ...allSiteContent, home: updated })}
-                                    />
-                                )}
-
-                                {promptSubTab === 'pages' && (
-                                    <PagesTab
-                                        projectsData={allSiteContent.projects || {}}
-                                        onChangeProjectsData={(updated) => setAllSiteContent({ ...allSiteContent, projects: updated })}
-                                        researchData={allSiteContent.research || {}}
-                                        onChangeResearchData={(updated) => setAllSiteContent({ ...allSiteContent, research: updated })}
-                                        recognitionData={allSiteContent.recognition || {}}
-                                        onChangeRecognitionData={(updated) => setAllSiteContent({ ...allSiteContent, recognition: updated })}
-                                        contactData={allSiteContent.contact || {}}
-                                        onChangeContactData={(updated) => setAllSiteContent({ ...allSiteContent, contact: updated })}
-                                        socialsData={allSiteContent.socials || {}}
-                                        onChangeSocialsData={(updated) => setAllSiteContent({ ...allSiteContent, socials: updated })}
-                                        legalData={allSiteContent.legal || {}}
-                                        onChangeLegalData={(updated) => setAllSiteContent({ ...allSiteContent, legal: updated })}
-                                        changelogData={allSiteContent.changelog || {}}
-                                        onChangeChangelogData={(updated) => setAllSiteContent({ ...allSiteContent, changelog: updated })}
-                                    />
-                                )}
-
-                                {promptSubTab === 'navfooter' && (
-                                    <NavFooterTab
-                                        navbarData={allSiteContent.navbar || {}}
-                                        onChangeNavbarData={(updated) => setAllSiteContent({ ...allSiteContent, navbar: updated })}
-                                        navigationData={allSiteContent.navigation_data || {}}
-                                        onChangeNavigationData={(updated) => setAllSiteContent({ ...allSiteContent, navigation_data: updated })}
-                                        footerData={allSiteContent.footer || {}}
-                                        onChangeFooterData={(updated) => setAllSiteContent({ ...allSiteContent, footer: updated })}
-                                    />
-                                )}
-
-                                {promptSubTab === 'common' && (
-                                    <CommonTab
-                                        commonData={allSiteContent.common || {}}
-                                        onChangeCommonData={(updated) => setAllSiteContent({ ...allSiteContent, common: updated })}
-                                    />
-                                )}
-
-                                {promptSubTab === 'raw' && (
-                                    <RawJsonTab
-                                        allSiteContent={allSiteContent}
-                                        onChangeAllSiteContent={setAllSiteContent}
-                                        onShowToast={showToast}
-                                    />
-                                )}
-                            </div>
+                        {/* TAB 1: WEBSITE STATUS & THEME (FIRST TAB VISIBLE UPON LOGIN) */}
+                        {mainTab === 'status' && (
+                            <GeneralTab
+                                siteActiveStatus={siteActiveStatus}
+                                setSiteActiveStatus={setSiteActiveStatus}
+                                defaultThemeMode={allSiteContent.default_theme_mode || 'light'}
+                                setDefaultThemeMode={(val) => setAllSiteContent(prev => ({ ...prev, default_theme_mode: val }))}
+                                defaultAccentColor={allSiteContent.default_accent_color || 'blue'}
+                                setDefaultAccentColor={(val) => setAllSiteContent(prev => ({ ...prev, default_accent_color: val }))}
+                                customAccentHex={allSiteContent.custom_accent_hex || '#2563eb'}
+                                setCustomAccentHex={(val) => setAllSiteContent(prev => ({ ...prev, custom_accent_hex: val }))}
+                                isSyncing={isSyncingStatus}
+                                onManualRefresh={checkLatestStatus}
+                            />
                         )}
 
-                        {/* TAB 2: PROJECTS (WITH LIVE PREVIEW) */}
+                        {/* TAB 2: HOME PAGE PROMPTS */}
+                        {mainTab === 'home' && (
+                            <HomeTab
+                                homeData={allSiteContent.home || {}}
+                                onChangeHomeData={(updated) => setAllSiteContent({ ...allSiteContent, home: updated })}
+                            />
+                        )}
+
+                        {/* TAB 3: PAGE HEADINGS */}
+                        {mainTab === 'pages' && (
+                            <PagesTab
+                                projectsData={allSiteContent.projects || {}}
+                                onChangeProjectsData={(updated) => setAllSiteContent({ ...allSiteContent, projects: updated })}
+                                researchData={allSiteContent.research || {}}
+                                onChangeResearchData={(updated) => setAllSiteContent({ ...allSiteContent, research: updated })}
+                                recognitionData={allSiteContent.recognition || {}}
+                                onChangeRecognitionData={(updated) => setAllSiteContent({ ...allSiteContent, recognition: updated })}
+                                contactData={allSiteContent.contact || {}}
+                                onChangeContactData={(updated) => setAllSiteContent({ ...allSiteContent, contact: updated })}
+                                socialsData={allSiteContent.socials || {}}
+                                onChangeSocialsData={(updated) => setAllSiteContent({ ...allSiteContent, socials: updated })}
+                                legalData={allSiteContent.legal || {}}
+                                onChangeLegalData={(updated) => setAllSiteContent({ ...allSiteContent, legal: updated })}
+                                changelogData={allSiteContent.changelog || {}}
+                                onChangeChangelogData={(updated) => setAllSiteContent({ ...allSiteContent, changelog: updated })}
+                            />
+                        )}
+
+                        {/* TAB 4: PROJECTS (WITH LIVE CARD PREVIEW) */}
                         {mainTab === 'projects' && (
                             <ProjectsAdminTab
                                 projects={projectsList}
@@ -657,7 +691,7 @@ export default function AdminApp() {
                             />
                         )}
 
-                        {/* TAB 3: RESEARCH (WITH LIVE PREVIEW) */}
+                        {/* TAB 5: RESEARCH (WITH LIVE CARD PREVIEW) */}
                         {mainTab === 'research' && (
                             <ResearchAdminTab
                                 research={researchList}
@@ -666,7 +700,7 @@ export default function AdminApp() {
                             />
                         )}
 
-                        {/* TAB 4: RECOGNITION (WITH LIVE PREVIEW) */}
+                        {/* TAB 6: RECOGNITION (WITH LIVE CARD PREVIEW) */}
                         {mainTab === 'recognition' && (
                             <RecognitionAdminTab
                                 recognition={recognitionList}
@@ -675,7 +709,7 @@ export default function AdminApp() {
                             />
                         )}
 
-                        {/* TAB 5: CONTACTS & SOCIALS */}
+                        {/* TAB 7: CONTACTS & SOCIALS */}
                         {mainTab === 'contacts' && (
                             <ContactsAdminTab
                                 contacts={contactsList}
@@ -687,7 +721,27 @@ export default function AdminApp() {
                             />
                         )}
 
-                        {/* TAB 6: CHANGELOGS */}
+                        {/* TAB 8: NAVIGATION & FOOTER */}
+                        {mainTab === 'navfooter' && (
+                            <NavFooterTab
+                                navbarData={allSiteContent.navbar || {}}
+                                onChangeNavbarData={(updated) => setAllSiteContent({ ...allSiteContent, navbar: updated })}
+                                navigationData={allSiteContent.navigation_data || {}}
+                                onChangeNavigationData={(updated) => setAllSiteContent({ ...allSiteContent, navigation_data: updated })}
+                                footerData={allSiteContent.footer || {}}
+                                onChangeFooterData={(updated) => setAllSiteContent({ ...allSiteContent, footer: updated })}
+                            />
+                        )}
+
+                        {/* TAB 9: MICROCOPY & DIALOGUES */}
+                        {mainTab === 'common' && (
+                            <CommonTab
+                                commonData={allSiteContent.common || {}}
+                                onChangeCommonData={(updated) => setAllSiteContent({ ...allSiteContent, common: updated })}
+                            />
+                        )}
+
+                        {/* TAB 10: CHANGELOGS */}
                         {mainTab === 'changelogs' && (
                             <ChangelogsAdminTab
                                 changelogs={changelogsList}
@@ -695,24 +749,34 @@ export default function AdminApp() {
                                 onDeleteChangelog={handleDeleteChangelog}
                             />
                         )}
+
+                        {/* TAB 11: RAW JSON & DB SETUP */}
+                        {mainTab === 'raw' && (
+                            <RawJsonTab
+                                allSiteContent={allSiteContent}
+                                onChangeAllSiteContent={setAllSiteContent}
+                                onShowToast={showToast}
+                            />
+                        )}
                     </Suspense>
                 )}
             </main>
 
-            {/* Bottom Floating Bar for site_content tab */}
-            {mainTab === 'site_content' && (
+            {/* Bottom Floating Bar for Site Content & Prompt Tabs */}
+            {isSiteContentPromptTab && (
                 <div className="fixed bottom-0 inset-x-0 z-40 bg-white/90 dark:bg-gray-900/90 backdrop-blur-lg border-t border-gray-200 dark:border-gray-800 shadow-2xl py-3.5 px-4 sm:px-6">
                     <div className="max-w-7xl mx-auto flex items-center justify-between gap-3">
                         <div className="flex items-center gap-2 text-xs text-gray-500 dark:text-gray-400">
                             <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                            <span>Editing Site Content & Prompts</span>
+                            <span className="hidden sm:inline">Editing Prompts & Content Configuration</span>
+                            <span className="sm:hidden">Editing Prompts</span>
                         </div>
 
                         <div className="flex items-center gap-2 sm:gap-3">
                             <button
                                 type="button"
                                 onClick={loadAllTables}
-                                className="px-4 py-2.5 rounded-xl text-xs font-bold text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 border border-gray-200 dark:border-gray-700 transition-colors"
+                                className="px-4 py-2.5 rounded-xl text-xs font-bold text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 border border-gray-200 dark:border-gray-700 transition-colors cursor-pointer"
                             >
                                 Reload DB
                             </button>
@@ -720,7 +784,7 @@ export default function AdminApp() {
                                 type="button"
                                 onClick={handleSaveSiteContent}
                                 disabled={saving}
-                                className="px-6 py-2.5 rounded-xl text-xs font-black bg-blue-600 hover:bg-blue-700 text-white shadow-lg shadow-blue-600/25 transition-all disabled:opacity-50 flex items-center gap-2"
+                                className="px-6 py-2.5 rounded-xl text-xs font-black bg-blue-600 hover:bg-blue-700 text-white shadow-lg shadow-blue-600/25 transition-all disabled:opacity-50 flex items-center gap-2 cursor-pointer"
                             >
                                 {saving && <div className="w-3.5 h-3.5 border-2 border-white border-t-transparent rounded-full animate-spin" />}
                                 <span>{saving ? 'Saving...' : 'Save All Prompts to Supabase'}</span>

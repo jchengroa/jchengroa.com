@@ -555,3 +555,13 @@ Fixed naming inconsistensies in every files, now using lowerCamelCase.
 - [0.15.4] - 2026-08-28
 Created a new admin page for administrative purposes.
 Fixed some bugs.
+
+- [0.15.5] - 2026-08-31
+Added a search highlight feature integrated across the entire website.
+Removed Changelog Popup, as preparation to the 1.0 release.
+Redesigned the Settings popup to a single page, with better spacing and organization.
+Redesigned the admin page to be cleaner and more functional.
+Changed the toggle switch UI to a more compact and modern button design in the settings page.
+Fixed mobile nav bar bugs.
+Fixed navigation pill bug where if the user is in the "more" navigation options, and tries to navigate to a different page, the main navigation pill would stay open.
+Fixed visual bugs in the admin page.

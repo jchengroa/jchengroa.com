@@ -21,6 +21,7 @@ export { WorkPageHeader } from "./workPageHeader.jsx";
 // Controls & Utilities
 export { SearchBar, FilterList, ViewSwitcherButton, SubheaderToggleButton } from "./controls.jsx";
 export { useSubheaderToggle } from "../utils/subheaderToggle.js";
+export { HighlightText, useSearchHighlight } from "../utils/searchHighlight.jsx";
 
 // Home Components
 export { HeroSection } from "./home/heroSection.jsx";
@@ -35,7 +36,5 @@ export { WorkDetailGallery } from "./workDetail/workDetailGallery.jsx";
 export { WorkDetailResources } from "./workDetail/workDetailResources.jsx";
 
 // Settings Components
-export { ToggleSwitch } from "./settings/toggleSwitch.jsx";
-export { AppearanceSettings } from "./settings/appearanceSettings.jsx";
-export { DeveloperSettings } from "./settings/developerSettings.jsx";
-export { DataSettings } from "./settings/dataSettings.jsx";
+export { ToggleTile } from "./settings/toggleTile.jsx";
+export { default as SettingsModal } from "../pages/settingsModal.jsx";

@@ -63,31 +63,3 @@ export const changelogTimelineItemVariants = {
     transition: { duration: TIMING.fast },
   },
 };
-
-export const changelogPopupBackdropVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: { duration: TIMING.normal },
-  },
-  exit: {
-    opacity: 0,
-    transition: { duration: TIMING.fast },
-  },
-};
-
-export const changelogPopupContentVariants = {
-  hidden: { opacity: 0, scale: 0.9, y: 20 },
-  visible: {
-    opacity: 1,
-    scale: 1,
-    y: 0,
-    transition: EASING.spring.normal,
-  },
-  exit: {
-    opacity: 0,
-    scale: 0.95,
-    y: 10,
-    transition: { duration: TIMING.fast, ease: EASING.easeIn },
-  },
-};

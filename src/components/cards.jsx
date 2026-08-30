@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom";
-import { useState } from "react";
 import { useData } from "../context/dataContext.jsx";
-import { FormattedText } from "./typography.jsx";
+import { HighlightText, useSearchHighlight } from "../utils/searchHighlight.jsx";
 
 const shortenKeyword = (text) => {
     if (!text) return "";
@@ -22,10 +21,10 @@ const shortenKeyword = (text) => {
     return mappings[text] || text;
 };
 
-
 function WorkCard(props) {
     const { siteContent } = useData();
     const { common } = siteContent;
+    const highlightEnabled = useSearchHighlight();
     const linkTo = props.linkTo || (
         props.category === 'research' ? `/research/${props.id}` :
         props.category === 'recognition' ? `/recognition/${props.id}` :
@@ -55,20 +54,30 @@ function WorkCard(props) {
                     </span>
                     <h2 className="text-2xl md:text-5xl font-black text-gray-900 dark:text-white mb-4 md:mb-6 tracking-tighter leading-tight">
                         <span className="bg-clip-text group-hover:text-transparent group-hover:bg-gradient-to-r group-hover:from-gray-900 dark:group-hover:from-white group-hover:via-blue-800 dark:group-hover:via-blue-400 group-hover:to-indigo-900 dark:group-hover:to-blue-600 transition-all duration-500">
-                            {props.title}
+                            <HighlightText text={props.title} query={props.searchQuery} />
                         </span>
                     </h2>
                     <p className="text-gray-500 text-sm md:text-lg font-medium leading-relaxed mb-6 md:mb-8 opacity-80 group-hover:opacity-100 transition-opacity">
-                        <FormattedText text={props.summary || props.description} />
+                        <HighlightText text={props.summary || props.description} query={props.searchQuery} />
                     </p>
 
                     {props.stack && (
                         <div className="flex flex-wrap gap-2 mb-8">
-                            {props.stack.map((tech, index) => (
-                                <span key={index} className="px-4 py-1.5 bg-gray-50 dark:bg-gray-800/50 border border-gray-100 dark:border-gray-700 rounded-xl text-xs font-black text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                                    {shortenKeyword(tech)}
-                                </span>
-                            ))}
+                            {props.stack.map((tech, index) => {
+                                const isMatch = props.searchQuery && props.searchQuery.trim() && highlightEnabled && tech.toLowerCase().includes(props.searchQuery.trim().toLowerCase());
+                                return (
+                                    <span 
+                                        key={index} 
+                                        className={`px-4 py-1.5 rounded-xl text-xs font-black uppercase tracking-wider transition-all duration-200 ${
+                                            isMatch
+                                                ? 'bg-amber-100 dark:bg-amber-950/60 border border-amber-400/80 dark:border-amber-500/60 text-amber-900 dark:text-amber-200 ring-1 ring-amber-400/40 shadow-xs'
+                                                : 'bg-gray-50 dark:bg-gray-800/50 border border-gray-100 dark:border-gray-700 text-gray-500 dark:text-gray-400'
+                                        }`}
+                                    >
+                                        {shortenKeyword(tech)}
+                                    </span>
+                                );
+                            })}
                         </div>
                     )}
                 </div>
@@ -83,9 +92,10 @@ function WorkCard(props) {
 }
 
 function RecognitionCard(props) {
-    const { facebookUrl, title, info, description, tech, id } = props;
+    const { facebookUrl, title, info, description, tech, id, searchQuery } = props;
     const { siteContent } = useData();
     const { common } = siteContent;
+    const highlightEnabled = useSearchHighlight();
     const encodedUrl = encodeURIComponent(facebookUrl);
     const iframeSrc = `https://www.facebook.com/plugins/post.php?href=${encodedUrl}&show_text=true&width=auto`;
 
@@ -102,20 +112,30 @@ function RecognitionCard(props) {
                     </span>
                     <Link to={`/recognition/${id}`} className="block group/link">
                         <h2 className="text-3xl md:text-4xl font-black text-gray-900 dark:text-white mb-4 tracking-tighter leading-tight group-hover/link:text-blue-600 dark:group-hover/link:text-blue-400 transition-colors duration-300">
-                            {title}
+                            <HighlightText text={title} query={searchQuery} />
                         </h2>
                     </Link>
                     <p className="text-gray-500 text-base font-medium leading-relaxed mb-6 opacity-80">
-                        <FormattedText text={description} />
+                        <HighlightText text={description} query={searchQuery} />
                     </p>
 
                     {tech && (
                         <div className="flex flex-wrap gap-2 mb-6">
-                            {tech.map((t, index) => (
-                                <span key={index} className="px-3 py-1 bg-gray-50 dark:bg-gray-800/50 border border-gray-100 dark:border-gray-700 rounded-lg text-[10px] font-black text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                                    {shortenKeyword(t)}
-                                </span>
-                            ))}
+                            {tech.map((t, index) => {
+                                const isMatch = searchQuery && searchQuery.trim() && highlightEnabled && t.toLowerCase().includes(searchQuery.trim().toLowerCase());
+                                return (
+                                    <span 
+                                        key={index} 
+                                        className={`px-3 py-1 rounded-lg text-[10px] font-black uppercase tracking-wider transition-all duration-200 ${
+                                            isMatch
+                                                ? 'bg-amber-100 dark:bg-amber-950/60 border border-amber-400/80 dark:border-amber-500/60 text-amber-900 dark:text-amber-200 ring-1 ring-amber-400/40 shadow-xs'
+                                                : 'bg-gray-50 dark:bg-gray-800/50 border border-gray-100 dark:border-gray-700 text-gray-500 dark:text-gray-400'
+                                        }`}
+                                    >
+                                        {shortenKeyword(t)}
+                                    </span>
+                                );
+                            })}
                         </div>
                     )}
 
@@ -150,9 +170,10 @@ function RecognitionCard(props) {
 export { ContactCard } from "./contactCard.jsx";
 
 function UniversalListCard(props) {
-    const { id, title, info, description, tech, linkURL, linkName, facebookUrl, category } = props;
+    const { id, title, info, description, tech, linkURL, linkName, facebookUrl, category, searchQuery } = props;
     const { siteContent } = useData();
     const { common } = siteContent;
+    const highlightEnabled = useSearchHighlight();
     const linkTo = props.linkTo || (
         id ? (
             category === 'research' ? `/research/${id}` :
@@ -177,26 +198,36 @@ function UniversalListCard(props) {
                 {linkTo ? (
                     <Link to={linkTo} className="block group/link mb-2 truncate">
                         <h3 className="text-xl md:text-2xl font-black text-gray-900 dark:text-white tracking-tight group-hover/link:text-blue-600 dark:group-hover/link:text-blue-400 transition-colors truncate">
-                            {title}
+                            <HighlightText text={title} query={searchQuery} />
                         </h3>
                     </Link>
                 ) : (
                     <h3 className="text-xl md:text-2xl font-black text-gray-900 dark:text-white tracking-tight mb-2 truncate">
-                        {title}
+                        <HighlightText text={title} query={searchQuery} />
                     </h3>
                 )}
 
                 <p className="text-gray-500 text-sm font-medium leading-relaxed mb-4 line-clamp-2 opacity-80 max-w-3xl">
-                    <FormattedText text={description} />
+                    <HighlightText text={description} query={searchQuery} />
                 </p>
 
                 {tech && tech.length > 0 && (
                     <div className="flex flex-wrap gap-1.5">
-                        {tech.map((t, index) => (
-                            <span key={index} className="px-2.5 py-0.5 bg-gray-50 dark:bg-gray-800/50 border border-gray-100 dark:border-gray-700 rounded-md text-[9px] font-black text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                                {shortenKeyword(t)}
-                            </span>
-                        ))}
+                        {tech.map((t, index) => {
+                            const isMatch = searchQuery && searchQuery.trim() && highlightEnabled && t.toLowerCase().includes(searchQuery.trim().toLowerCase());
+                            return (
+                                <span 
+                                    key={index} 
+                                    className={`px-2.5 py-0.5 rounded-md text-[9px] font-black uppercase tracking-wider transition-all duration-200 ${
+                                        isMatch
+                                            ? 'bg-amber-100 dark:bg-amber-950/60 border border-amber-400/80 dark:border-amber-500/60 text-amber-900 dark:text-amber-200 ring-1 ring-amber-400/40 shadow-xs'
+                                            : 'bg-gray-50 dark:bg-gray-800/50 border border-gray-100 dark:border-gray-700 text-gray-500 dark:text-gray-400'
+                                    }`}
+                                >
+                                    {shortenKeyword(t)}
+                                </span>
+                            );
+                        })}
                     </div>
                 )}
             </div>
@@ -238,3 +269,4 @@ function UniversalListCard(props) {
 }
 
 export { WorkCard, RecognitionCard, UniversalListCard };
+
