@@ -14,6 +14,7 @@ import Contact from './pages/contact.jsx'
 
 import SettingsModal from './pages/settingsModal.jsx'
 import Changelog from './pages/changelog.jsx'
+import NotFound from './pages/notFound.jsx'
 import { DownloadManager } from './utils/downloadManager.jsx'
 import { SplitBackground } from './components/splitBackground.jsx'
 import CookieConsentBanner from './components/cookieConsentBanner.jsx'
@@ -27,6 +28,21 @@ function MainLayout() {
     const [settingsOpen, setSettingsOpen] = useState(false);
     const location = useLocation();
     const isHome = location.pathname === "/";
+    const knownPaths = [
+        '/',
+        '/projects',
+        '/research',
+        '/recognition',
+        '/contact',
+        '/socials',
+        '/legal',
+        '/changelog'
+    ];
+    const isKnownRoute = knownPaths.some(p => {
+        if (p === '/') return location.pathname === '/';
+        return location.pathname === p || location.pathname.startsWith(p + '/');
+    });
+    const isNotFound = !isKnownRoute;
 
     useEffect(() => {
         const defaultAccent = siteContent.default_accent_color || 'blue';
@@ -86,15 +102,23 @@ function MainLayout() {
         : "Unknown";
 
     return (
-        <div className={isHome ? "w-full h-screen overflow-hidden relative" : "p-2.5 pb-28 sm:pb-12 sm:pt-28 min-h-screen relative bg-blue-50/50 dark:bg-blue-950/20 text-gray-900 dark:text-white isolate transition-colors duration-300"}>
+        <div className={
+            isHome 
+                ? "w-full h-screen overflow-hidden relative" 
+                : isNotFound
+                    ? "p-4 min-h-screen relative bg-blue-50/50 dark:bg-blue-950/20 text-gray-900 dark:text-white isolate transition-colors duration-300 flex flex-col items-center justify-center"
+                    : "p-2.5 pb-28 sm:pb-12 sm:pt-28 min-h-screen relative bg-blue-50/50 dark:bg-blue-950/20 text-gray-900 dark:text-white isolate transition-colors duration-300"
+        }>
             {!isHome && <SplitBackground />}
 
-            <div className={isHome ? "relative w-full h-full" : "relative z-10 w-full"}>
-                <div id="navbar">
-                    <NavBar
-                        name="jchengroa"
-                    />
-                </div>
+            <div className={isHome ? "relative w-full h-full" : isNotFound ? "relative z-10 w-full flex flex-col items-center justify-center" : "relative z-10 w-full"}>
+                {!isNotFound && (
+                    <div id="navbar">
+                        <NavBar
+                            name="jchengroa"
+                        />
+                    </div>
+                )}
 
                 <DownloadManager />
                 <SettingsModal isOpen={settingsOpen} onClose={() => setSettingsOpen(false)} />
@@ -113,9 +137,10 @@ function MainLayout() {
 
                     <Route path="/legal" element={<Legal />} />
                     <Route path="/changelog" element={<Changelog />} />
+                    <Route path="*" element={<NotFound />} />
                 </Routes>
 
-                {!isHome && (
+                {!isHome && !isNotFound && (
                     <div id="footer" className="p-5 text-center mt-12">
                         <p className="text-sm text-gray-900 dark:text-gray-100">
                             <Link to="/legal" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">

@@ -15,6 +15,7 @@ export { Title, SubTitle, FormattedText } from "./typography.jsx";
 export { default as HeroPhysicsTitle } from "./heroPhysicsTitle.jsx";
 export { ImageLightbox } from "./imageLightbox.jsx";
 export { WorkNotFound } from "./workNotFound.jsx";
+export { NotFound } from "../pages/notFound.jsx";
 export { NoResults } from "./noResults.jsx";
 export { WorkPageHeader } from "./workPageHeader.jsx";
 

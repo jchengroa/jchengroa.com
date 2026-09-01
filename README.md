@@ -565,3 +565,14 @@ Changed the toggle switch UI to a more compact and modern button design in the s
 Fixed mobile nav bar bugs.
 Fixed navigation pill bug where if the user is in the "more" navigation options, and tries to navigate to a different page, the main navigation pill would stay open.
 Fixed visual bugs in the admin page.
+
+- [1.0.0] - 2026-09-01
+**Official Version 1.0.0 Release**
+Added a 404 Not Found page.
+Added OpenGraph and Social Media card metadata for the website.
+Added better search engine discovery.
+Added bot protection by robots.txt and sitemap.xml.
+Added missing standard tags on certain components of the website.
+Cleaned up the scripts bundled in the website repo.
+Fixed potential bug where any mistyped URL shows a blank view...
+Fixed version control of package.json to sync with the changelog.

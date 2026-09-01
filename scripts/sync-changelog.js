@@ -7,7 +7,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const README_PATH = path.join(__dirname, '../README.md');
-const FALLBACK_DATA_PATH = path.join(__dirname, '../src/utils/fallbackData.js');
+const PACKAGE_PATH = path.join(__dirname, '../package.json');
 const ENV_PATH = path.join(__dirname, '../.env');
 
 // Helper to manually parse .env variables
@@ -72,7 +72,18 @@ async function sync() {
             return;
         }
 
-        // 1. Sync to Supabase Online Database
+        // 1. Sync latest version to package.json
+        const latestEntry = entries[entries.length - 1];
+        if (latestEntry && latestEntry.version && fs.existsSync(PACKAGE_PATH)) {
+            const pkgData = JSON.parse(fs.readFileSync(PACKAGE_PATH, 'utf8'));
+            if (pkgData.version !== latestEntry.version) {
+                pkgData.version = latestEntry.version;
+                fs.writeFileSync(PACKAGE_PATH, JSON.stringify(pkgData, null, 2) + '\n');
+                console.log(`📦 package.json version synced to ${latestEntry.version}`);
+            }
+        }
+
+        // 2. Sync to Supabase Online Database
         const env = getEnvConfig();
         const supabaseUrl = env.VITE_SUPABASE_URL;
         const supabaseAnonKey = env.VITE_SUPABASE_ANON_KEY;
