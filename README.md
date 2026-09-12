@@ -43,55 +43,77 @@ A multidisciplinary portfolio website showcasing engineering projects, academic 
 
 ## Getting Started
 
+Follow these step-by-step instructions to set up the website and its database on your local machine or server.
+
 ### Prerequisites
 
-- [Node.js](https://nodejs.org/) (Latest LTS recommended)
-- [npm](https://www.npmjs.com/)
+- [Node.js](https://nodejs.org/) (v18 or higher recommended)
+- [npm](https://www.npmjs.com/) (bundled with Node.js)
+- A running [PocketBase](https://pocketbase.io/) instance (e.g. running locally on `http://127.0.0.1:8090` or on your server like `https://pb.jchengroa.com`) with an initial admin / superuser account created.
 
-### Installation
+---
 
-1. **Clone the repository**
-   ```bash
-   git clone https://github.com/jchengroa/jchengroa.com.git
-   cd jchengroa.com
-   ```
+### Step-by-Step Setup Guide
 
-2. **Configure Environment Variables**
-   Create a `.env` file in the root directory and add your environment variables:
-   ```env
-   VITE_SUPABASE_URL=https://your-project-id.supabase.co
-   VITE_SUPABASE_ANON_KEY=your-anon-key
-   VITE_SHOW_DEV_OPTIONS=true
-   ```
+#### 1. Clone the repository
+Open PowerShell or your terminal and clone the repository:
+```bash
+git clone https://github.com/jchengroa/jchengroa.com.git
+cd jchengroa.com
+```
 
-   **Environment Variables**:
-   - `VITE_SUPABASE_URL`: The API URL endpoint for your Supabase project instance.
-   - `VITE_SUPABASE_ANON_KEY`: The anonymous public API key for Supabase database requests.
-   - `VITE_SHOW_DEV_OPTIONS`: Set to `true` to enable Developer Tools in the Settings modal (includes Database Status, Force Offline Fallback, and debug popup triggers). Set to `false` to hide developer controls.
+#### 2. Install dependencies
+Run npm install to install all packages:
+```bash
+Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+npm install
+```
 
-3. **Install dependencies**
-   ```bash
-   Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
-   npm install
-   ```
+#### 3. Configure your `.env` file
+Create a file named `.env` in the root folder of the project with the following contents:
+```env
+# Backend provider configuration
+VITE_BACKEND_PROVIDER=pocketbase
+VITE_POCKETBASE_URL=https://pb.jchengroa.com
 
-4. **Start the dev server**
-   ```bash
-   Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
-   npm run dev
-   ```
+# PocketBase Admin / Superuser credentials (needed for database setup & sync)
+PB_EMAIL=your-pocketbase-admin-email@example.com
+PB_PASSWORD=your-pocketbase-admin-password
 
-   - Portfolio App: `http://localhost:5173`
-   - Admin Dashboard: `http://localhost:5173/admin`
+# Optional: Set to true to show developer options in Settings modal
+VITE_SHOW_DEV_OPTIONS=true
+```
+
+> 💡 **Tip**: If you are hosting PocketBase locally on your computer, set `VITE_POCKETBASE_URL=http://127.0.0.1:8090`.
+
+#### 4. Automatically Initialize the Database (`npm run init-db`)
+You don't need to manually create any tables, fields, or schemas! The initialization script will automatically:
+1. Connect to your PocketBase instance using your admin credentials.
+2. Create all 7 required collections (`projects`, `research`, `recognition`, `contacts`, `socials`, `changelogs`, `site_content`) with proper field types and public read access.
+3. Seed default data from `backup_data/supabase_export.json` so your portfolio is immediately populated with content!
+
+Run:
+```bash
+npm run init-db
+```
+
+#### 5. Start the Development Server
+Once initialized, start the website locally:
+```bash
+npm run dev
+```
+
+- **Portfolio Website**: `http://localhost:5173`
+- **Admin Control Dashboard**: `http://localhost:5173/admin` (Log in with your PocketBase admin credentials)
 
 ---
 
 ## Admin Dashboard (`/admin`)
 
-The project includes an isolated, high-performance administrative application outside the main bundle (`admin.html` + `admin/`).
+The project includes an isolated administrative application outside the main bundle (`admin.html` + `admin/`).
 
-- **Authentication**: Requires a Supabase Admin user account to access.
-- **Database Tables**:
+- **Authentication**: Log in directly using your PocketBase admin / superuser email and password.
+- **Database Collections Managed**:
   - `projects`: Hardware, software, and embedded engineering builds (with live card preview).
   - `research`: Academic papers, abstracts, and publications (with live card preview).
   - `recognition`: Honors, awards, and milestones (with live card preview).
@@ -103,13 +125,14 @@ The project includes an isolated, high-performance administrative application ou
 
 ## Syncing the Changelog
 
-The website pulls changelog data from this README. After adding entries below, run:
+Whenever you add new version notes under the `## Changelog:` section at the bottom of this README, push them to your PocketBase database by running:
 
 ```bash
 npm run sync-changelog
 ```
 
-This automatically parses the README, connects to Supabase, and updates the `changelogs` table.
+This reads your `.env` credentials, parses the new version entries in `README.md`, syncs the version to `package.json`, and updates your PocketBase `changelogs` collection.
+
 
 ---
 
@@ -153,6 +176,7 @@ jchengroa.com/
 │   └── logo.png
 ├── README.md
 ├── scripts/
+│   ├── init-pocketbase.js
 │   └── sync-changelog.js
 ├── src/
 │   ├── animations/

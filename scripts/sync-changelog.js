@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import { createClient } from '@supabase/supabase-js';
+import PocketBase from 'pocketbase';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -83,27 +83,68 @@ async function sync() {
             }
         }
 
-        // 2. Sync to Supabase Online Database
+        // 2. Sync to PocketBase Database
         const env = getEnvConfig();
-        const supabaseUrl = env.VITE_SUPABASE_URL;
-        const supabaseAnonKey = env.VITE_SUPABASE_ANON_KEY;
+        const pbUrl = process.env.PB_URL || env.VITE_POCKETBASE_URL || env.PB_URL || 'https://pb.jchengroa.com';
+        const pbEmail = process.env.PB_EMAIL || env.PB_EMAIL;
+        const pbPassword = process.env.PB_PASSWORD || env.PB_PASSWORD;
 
-        if (supabaseUrl && supabaseAnonKey) {
-            console.log('Connecting to Supabase...');
-            const supabase = createClient(supabaseUrl, supabaseAnonKey);
-
-            // Push each entry to the DB using upsert
-            const { error } = await supabase
-                .from('changelogs')
-                .upsert(entries, { onConflict: 'version' });
-
-            if (error) {
-                throw error;
-            }
-            console.log(`✅ Supabase Database updated! Synced ${entries.length} entries successfully.`);
-        } else {
-            console.warn('⚠️ Supabase credentials missing in .env. Skipping online sync.');
+        if (!pbEmail || !pbPassword) {
+            console.warn('⚠️ PB_EMAIL and PB_PASSWORD not set in environment or .env file. Skipping PocketBase sync.');
+            console.log('To sync changelogs to PocketBase, set PB_EMAIL and PB_PASSWORD in .env or run:');
+            console.log('  $env:PB_EMAIL="admin@email.com"; $env:PB_PASSWORD="password"; npm run sync-changelog');
+            return;
         }
+
+        console.log(`Connecting to PocketBase at ${pbUrl}...`);
+        const pb = new PocketBase(pbUrl);
+
+        // Authenticate as superuser / admin
+        let authenticated = false;
+        try {
+            await pb.collection('_superusers').authWithPassword(pbEmail, pbPassword);
+            authenticated = true;
+        } catch (superErr) {
+            if (pb.admins && typeof pb.admins.authWithPassword === 'function') {
+                await pb.admins.authWithPassword(pbEmail, pbPassword);
+                authenticated = true;
+            } else {
+                throw superErr;
+            }
+        }
+
+        if (!authenticated || !pb.authStore.isValid) {
+            throw new Error('Authentication to PocketBase failed.');
+        }
+
+        console.log('Fetching existing changelogs from PocketBase...');
+        const existingRecords = await pb.collection('changelogs').getFullList({ sort: '' });
+        const existingMap = new Map();
+        for (const item of existingRecords) {
+            existingMap.set(item.version, item.id);
+        }
+
+        let updatedCount = 0;
+        let createdCount = 0;
+
+        for (const entry of entries) {
+            const payload = {
+                version: entry.version,
+                date: entry.date,
+                content: entry.content
+            };
+
+            const existingId = existingMap.get(entry.version);
+            if (existingId) {
+                await pb.collection('changelogs').update(existingId, payload);
+                updatedCount++;
+            } else {
+                await pb.collection('changelogs').create(payload);
+                createdCount++;
+            }
+        }
+
+        console.log(`✅ PocketBase updated successfully! ${createdCount} created, ${updatedCount} updated (${entries.length} total entries).`);
 
     } catch (error) {
         console.error('❌ Error syncing changelog:', error.message || error);
@@ -111,3 +152,4 @@ async function sync() {
 }
 
 sync();
+
