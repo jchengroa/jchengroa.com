@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 
-const PB_URL = process.env.PB_URL || 'http://194.163.186.135:8090';
+const PB_URL = process.env.PB_URL || 'https://pb.jchengroa.com';
 const PB_EMAIL = process.env.PB_EMAIL;
 const PB_PASSWORD = process.env.PB_PASSWORD;
 

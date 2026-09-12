@@ -1,6 +1,6 @@
 import PocketBase from 'pocketbase';
 
-const pbUrl = import.meta.env.VITE_POCKETBASE_URL || 'http://194.163.186.135:8090';
+const pbUrl = import.meta.env.VITE_POCKETBASE_URL || 'https://pb.jchengroa.com';
 
 export const pb = new PocketBase(pbUrl);
 
