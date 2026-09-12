@@ -1,0 +1,1421 @@
+{
+  "projects": [
+    {
+      "id": "cloudbased",
+      "created_at": "2026-07-19T09:50:52.171721+00:00",
+      "category": "software",
+      "title": "CloudBased",
+      "subtitle": "Inventory Management System",
+      "description": "A robust, multi-warehouse cloud-based inventory management system. This project centralizes multisite inventory tracking and vendor details into a single platform, solving critical data fragmentation issues for businesses. Developed following the SDLC framework.",
+      "info": "Multi-Warehouse Cloud-Based Inventory Management System",
+      "tech": [
+        "React",
+        "PocketBase",
+        "Tailwind CSS",
+        "Vite"
+      ],
+      "keywords": [
+        "Full-Stack",
+        "Cloud",
+        "SaaS",
+        "Enterprise"
+      ],
+      "links": [
+        {
+          "url": "https://github.com/jchengroa/CloudBased",
+          "name": "GitHub Repository"
+        }
+      ],
+      "images": [
+        "https://pzjdkplcjcdjktuelqfp.supabase.co/storage/v1/object/public/jchengroa-assets/cloud1.jpg",
+        "https://pzjdkplcjcdjktuelqfp.supabase.co/storage/v1/object/public/jchengroa-assets/cloud2.jpg",
+        "https://pzjdkplcjcdjktuelqfp.supabase.co/storage/v1/object/public/jchengroa-assets/cloud3.jpg",
+        "https://pzjdkplcjcdjktuelqfp.supabase.co/storage/v1/object/public/jchengroa-assets/cloud4.jpg"
+      ]
+    },
+    {
+      "id": "jchengroa-com",
+      "created_at": "2026-07-19T09:50:52.171721+00:00",
+      "category": "software",
+      "title": "jchengroa.com",
+      "subtitle": "Personal Portfolio Website",
+      "description": "My personal website showcasing my projects and contact information. Built with Vite, React.js, and Tailwind CSS. It features custom animations, a responsive design, and a clean, modern aesthetic inspired by Apple's design language.",
+      "info": "Personal Website",
+      "tech": [
+        "React 19",
+        "Vite",
+        "Tailwind CSS"
+      ],
+      "keywords": [
+        "Frontend",
+        "UI/UX",
+        "Web Development",
+        "Portfolio"
+      ],
+      "links": [
+        {
+          "url": "https://github.com/jchengroa/jchengroa.com",
+          "name": "GitHub Repository"
+        }
+      ],
+      "images": [
+        "https://pzjdkplcjcdjktuelqfp.supabase.co/storage/v1/object/public/jchengroa-assets/web1.jpg",
+        "https://pzjdkplcjcdjktuelqfp.supabase.co/storage/v1/object/public/jchengroa-assets/web2.jpg",
+        "https://pzjdkplcjcdjktuelqfp.supabase.co/storage/v1/object/public/jchengroa-assets/web3.jpg",
+        "https://pzjdkplcjcdjktuelqfp.supabase.co/storage/v1/object/public/jchengroa-assets/web4.jpg"
+      ]
+    }
+  ],
+  "research": [
+    {
+      "id": "jhs-1",
+      "category": "research",
+      "title": "Collecting Solid Waste from Polluted Waters using 'Mega box' Robot",
+      "summary": "An RC-controlled robot built from a 'Mega Box' to collect floating waste and PPEs from polluted waters.",
+      "description": "A low-cost, RC-controlled waste-collecting robot designed to recover floating debris and PPEs from calm bodies of water. This investigatory project focuses on utilizing cost-effective materials like a 'Mega Box' chassis combined with brushless motors and high-capacity batteries to address water pollution challenges.",
+      "tech": [
+        "Robotics",
+        "Embedded Systems",
+        "Hardware Prototyping",
+        "Environmental Sanitation"
+      ],
+      "keywords": [
+        "Sustainability",
+        "Clean Tech",
+        "Marine"
+      ],
+      "stats": [
+        {
+          "label": "Max Speed",
+          "value": "10 kph",
+          "detail": "Efficient water travel"
+        },
+        {
+          "label": "Weight Capacity",
+          "value": "50 kg",
+          "detail": "High volume collection"
+        },
+        {
+          "label": "Operation Time",
+          "value": "2 Hours",
+          "detail": "Continuous mission"
+        }
+      ],
+      "info": "Investigatory Project | Junior High School",
+      "links": [
+        {
+          "url": "https://pzjdkplcjcdjktuelqfp.supabase.co/storage/v1/object/public/jchengroa-assets/Documents/JHS1.pdf",
+          "name": "View Full Paper"
+        }
+      ],
+      "images": [
+        "https://pzjdkplcjcdjktuelqfp.supabase.co/storage/v1/object/public/jchengroa-assets/jhs1.png"
+      ],
+      "created_at": "2026-07-19T10:06:44.057972+00:00"
+    },
+    {
+      "id": "shs-1",
+      "category": "research",
+      "title": "Effects of Cabbage (Brassica oleracea) Extract in Prolonging the Shelf-Life of Radish (Raphanus sativus)",
+      "summary": "A study investigating the efficacy of microwave-extracted cabbage flavonoids in maintaining post-harvest radish quality.",
+      "description": "This research aimed to extract flavonoids from cabbage waste using microwave-assisted extraction and evaluate their impact on the shelf-life of radishes over a 7-day period. While the treatment did not significantly impact weight loss or signs of decay compared to the control, the study found that all treated groups exhibited significantly improved radish firmness. The 20% concentration treatment was identified as the most effective in preserving the structural integrity of the samples.",
+      "tech": [
+        "Microwave-Assisted Extraction",
+        "Flavonoid Analysis",
+        "Post-Harvest Preservation",
+        "Shelf-Life Testing"
+      ],
+      "keywords": [
+        "Biochemistry",
+        "Food Science",
+        "Agriculture"
+      ],
+      "stats": [
+        {
+          "label": "Firmness P-Value",
+          "value": "0.017",
+          "detail": "Statistically significant improvement in structural integrity."
+        },
+        {
+          "label": "Optimal Conc.",
+          "value": "20%",
+          "detail": "Identified as the most effective concentration for maintaining firmness."
+        },
+        {
+          "label": "Weight Loss P-Value",
+          "value": "0.915",
+          "detail": "Results showed no significant difference in weight loss compared to control."
+        }
+      ],
+      "info": "SHS Thesis | Senior High School",
+      "links": [
+        {
+          "url": "https://pzjdkplcjcdjktuelqfp.supabase.co/storage/v1/object/public/jchengroa-assets/Documents/SHS1.pdf",
+          "name": "View Full Paper"
+        }
+      ],
+      "images": [
+        "https://pzjdkplcjcdjktuelqfp.supabase.co/storage/v1/object/public/jchengroa-assets/shs2-1.jpg",
+        "https://pzjdkplcjcdjktuelqfp.supabase.co/storage/v1/object/public/jchengroa-assets/shs2-2.jpg"
+      ],
+      "created_at": "2026-07-19T10:06:44.057972+00:00"
+    },
+    {
+      "id": "shs-2",
+      "category": "research",
+      "title": "Evaluation of Cytotoxicity and Flavonoid Presence of Cabbage Extract (Brassica oleracea)",
+      "summary": "Qualitative and biological assessment of microwave-extracted cabbage compounds for safety and phytochemical content.",
+      "description": "This study focused on identifying flavonoids in cabbage extracts produced via microwave-assisted extraction and assessing their safety through the Allium cepa lethality assay. Phytochemical screening confirmed a strong presence of flavonoids through the alkaline reagent test. Cytotoxicity testing revealed that even at the highest concentration of 50%, the extract had no inhibitory effect on root growth, concluding that the cabbage extract is non-cytotoxic and safe for potential biological applications.",
+      "tech": [
+        "Phytochemical Screening",
+        "Allium Cepa Assay",
+        "Cytotoxicity Evaluation",
+        "Microwave-Assisted Extraction"
+      ],
+      "keywords": [
+        "Toxicology",
+        "Phytochemistry",
+        "Lab Analysis"
+      ],
+      "stats": [
+        {
+          "label": "Flavonoid Presence",
+          "value": "Strong",
+          "detail": "Confirmed via strong yellow color reaction in the Alkaline Reagent Test."
+        },
+        {
+          "label": "Cytotoxicity",
+          "value": "Non-Toxic",
+          "detail": "No inhibitory effect on root growth observed in Allium cepa assay."
+        },
+        {
+          "label": "Highest Conc.",
+          "value": "50%",
+          "detail": "Tested maximum concentration confirmed safe for biological application."
+        }
+      ],
+      "info": "Capstone Project | Senior High School",
+      "links": [
+        {
+          "url": "https://pzjdkplcjcdjktuelqfp.supabase.co/storage/v1/object/public/jchengroa-assets/Documents/SHS2.pdf",
+          "name": "View Full Paper"
+        }
+      ],
+      "images": [
+        "https://pzjdkplcjcdjktuelqfp.supabase.co/storage/v1/object/public/jchengroa-assets/shs2.jpg"
+      ],
+      "created_at": "2026-07-19T10:06:44.057972+00:00"
+    }
+  ],
+  "recognition": [
+    {
+      "id": "arduinnovathon-2026",
+      "category": "recognition",
+      "title": "Second Place at the ArduInnovathon",
+      "subtitle": "Arduino Day Philippines 2026",
+      "info": "Competition • March 21, 2026",
+      "description": "Held as part of Arduino Day Philippines 2026, the ArduInnovathon challenged participants to showcase cutting-edge innovation in designing and pitching solutions. The competition emphasized practical problem-solving, rapid prototyping, and the consideration of feasibility and real-world value to create impactful technological solutions that is both realistic and profitable.",
+      "facebookUrl": "https://www.facebook.com/TheLaSallian/posts/1329321892577023",
+      "tech": [
+        "Problem Solving",
+        "Pitching",
+        "Innovation",
+        "Business Value"
+      ],
+      "keywords": [
+        "Hackathon",
+        "Prototyping",
+        "Microcontrollers",
+        "Sensors"
+      ],
+      "stats": [
+        {
+          "label": "Result",
+          "value": "2nd Place",
+          "detail": "2nd Place"
+        },
+        {
+          "label": "Event",
+          "value": "Arduino Day '26",
+          "detail": "National Level"
+        },
+        {
+          "label": "Focus",
+          "value": "Hardware",
+          "detail": "Embedded Systems"
+        }
+      ],
+      "links": [
+        {
+          "url": "https://www.facebook.com/TheLaSallian/posts/1329321892577023",
+          "name": "Facebook Announcement"
+        }
+      ],
+      "images": [
+        "https://pzjdkplcjcdjktuelqfp.supabase.co/storage/v1/object/public/jchengroa-assets/adp.jpg"
+      ],
+      "created_at": "2026-07-19T10:06:44.057972+00:00"
+    },
+    {
+      "id": "squeeze-tech-decon-2026",
+      "category": "recognition",
+      "title": "Second Place at Squeeze Inter-Collegiate Tech Decon",
+      "subtitle": "Inter-Collegiate Tech Decon 2026",
+      "info": "Competition • March 14, 2026",
+      "description": "An inter-collegiate technology competition focused on technical innovation and advanced problem-solving. Participants were tasked with creating and pitching real-life innovations, identifying real-world problems, and proposing optimized engineering solutions that is feasible, sustainable, and realistic.",
+      "facebookUrl": "https://www.facebook.com/upcircuit.squeeeze/photos/1341119214728625/",
+      "tech": [
+        "Engineering",
+        "Problem Solving"
+      ],
+      "keywords": [
+        "Tech Decon",
+        "Engineering Solution",
+        "Architecture",
+        "Optimization"
+      ],
+      "stats": [
+        {
+          "label": "Result",
+          "value": "2nd Place",
+          "detail": "2nd Place"
+        },
+        {
+          "label": "Event",
+          "value": "Squeeeze '26",
+          "detail": "Inter-Collegiate"
+        },
+        {
+          "label": "Focus",
+          "value": "Decon",
+          "detail": "Problem Solving"
+        }
+      ],
+      "links": [
+        {
+          "url": "https://www.facebook.com/upcircuit.squeeeze/photos/1341119214728625/",
+          "name": "Facebook Announcement"
+        }
+      ],
+      "images": [
+        "https://pzjdkplcjcdjktuelqfp.supabase.co/storage/v1/object/public/jchengroa-assets/sqz.jpg"
+      ],
+      "created_at": "2026-07-19T10:06:44.057972+00:00"
+    }
+  ],
+  "contacts": [
+    {
+      "id": "facebook",
+      "title": "Facebook",
+      "username": "@jchengroa",
+      "linkUrl": "https://facebook.com/jchengroa",
+      "description": "Personal updates and social connections.",
+      "category": "socials",
+      "created_at": "2026-07-28T15:37:46.406779+00:00"
+    },
+    {
+      "id": "twitter",
+      "title": "X (Twitter)",
+      "username": "@jchengroa",
+      "linkUrl": "https://x.com/jchengroa",
+      "description": "Thoughts and updates from time to time, although not really active here.",
+      "category": "socials",
+      "created_at": "2026-07-28T15:37:46.406779+00:00"
+    },
+    {
+      "id": "reddit",
+      "title": "Reddit",
+      "username": "u/jcatjwd",
+      "linkUrl": "https://reddit.com/user/jcatjwd",
+      "description": "Deeper dive into my hobbies and interests.",
+      "category": "personal",
+      "created_at": "2026-07-28T15:37:46.406779+00:00"
+    },
+    {
+      "id": "linkedin",
+      "title": "LinkedIn",
+      "username": "@john-carlo-cheng-roa-47aa6a290",
+      "linkUrl": "https://www.linkedin.com/in/john-carlo-cheng-roa-47aa6a290/",
+      "description": "Professional networking.",
+      "category": "professional",
+      "created_at": "2026-07-28T15:37:46.406779+00:00"
+    },
+    {
+      "id": "github",
+      "title": "GitHub",
+      "username": "@jchengroa",
+      "linkUrl": "https://github.com/jchengroa",
+      "description": "Open-source repositories and code projects.",
+      "category": "professional",
+      "created_at": "2026-07-28T15:37:46.406779+00:00"
+    }
+  ],
+  "socials": [
+    {
+      "id": "facebook",
+      "title": "Facebook",
+      "username": "@jchengroa",
+      "linkUrl": "https://www.facebook.com/@jchengroa/",
+      "description": "Connect with me on Facebook for personal and community updates.",
+      "category": "social",
+      "created_at": "2026-07-19T10:06:44.057972+00:00"
+    },
+    {
+      "id": "reddit",
+      "title": "Reddit",
+      "username": "u/jcatjwd",
+      "linkUrl": "https://www.reddit.com/user/jcatjwd/",
+      "description": "Follow my discussions on software engineering, home lab setups, and computer hardware.",
+      "category": "social",
+      "created_at": "2026-07-19T10:06:44.057972+00:00"
+    },
+    {
+      "id": "twitter",
+      "title": "Twitter/X",
+      "username": "@jchengroa",
+      "linkUrl": "https://x.com/jchengroa",
+      "description": "Follow me for tech thoughts, design vibes, dev updates, and project highlights.",
+      "category": "social",
+      "created_at": "2026-07-19T10:06:44.057972+00:00"
+    },
+    {
+      "id": "linkedin",
+      "title": "LinkedIn",
+      "username": "John Carlo Cheng Roa",
+      "linkUrl": "https://www.linkedin.com/in/john-carlo-cheng-roa-47aa6a290/",
+      "description": "Connect with me professionally, view my career milestones, and check out my academic background.",
+      "category": "social",
+      "created_at": "2026-07-19T10:06:44.057972+00:00"
+    },
+    {
+      "id": "github",
+      "title": "Github",
+      "username": "jchengroa",
+      "linkUrl": "https://github.com/jchengroa",
+      "description": "Browse my repositories, check out my open-source contributions, and see what projects I'm working on.",
+      "category": "social",
+      "created_at": "2026-07-19T10:06:44.057972+00:00"
+    }
+  ],
+  "changelogs": [
+    {
+      "version": "0.0.1",
+      "date": "2026-04-25",
+      "content": [
+        "Created initial files for the website.",
+        "Used **Vite**, **React.js**, and **Tailwind CSS**."
+      ],
+      "created_at": "2026-07-19T10:06:44.057972+00:00"
+    },
+    {
+      "version": "0.7.0",
+      "date": "2026-05-04",
+      "content": [
+        "Reorganized the hero in **home.jsx**.",
+        "Implemented the automated **Changelog System** synced from README.md.",
+        "Added the **What's New** smart popup with version tracking to avoid repeated notifications.",
+        "Created a dedicated **Changelog** timeline page with premium entrance animations.",
+        "Refactored the **Title** component to match the premium site design and synced it across all pages.",
+        "Integrated a custom **Markdown-lite parser** to support **bold text** formatting.",
+        "Added the **Changelog** link to the animated Hamburger Menu."
+      ],
+      "created_at": "2026-07-19T10:06:44.057972+00:00"
+    },
+    {
+      "version": "0.14.2",
+      "date": "2026-07-21",
+      "content": [
+        "Fixed vercel direct routing 404 bugs.",
+        "Fixed mobile alignment issues, specifically with the top toolbars of mobile browsers."
+      ],
+      "created_at": "2026-07-21T01:56:24.726182+00:00"
+    },
+    {
+      "version": "0.15.0",
+      "date": "2026-07-28",
+      "content": [
+        "**This is the final pre-release update before the official 1.0.0 release.**",
+        "Added a Privacy & Tracking popup to disclose Vercel Analytics use.",
+        "Added a key to the .env and updated the settings modal to hide developer settings and dev tools in production.",
+        "Added a direct email delivery service (Web3Forms) for the Get in Touch section of the website.",
+        "Added a new Update Ongoing overlay, with a new system feature to toggle between update, offline, and normal operations.",
+        "Rebranded Socials Page to Contacts Page, adding the improved Get in Touch system and headers.",
+        "Changed hardcoded default theming values to database values.",
+        "Readded the file downloader for research projects.",
+        "Fixed home page bug where featured research doesn't direct to the actual research."
+      ],
+      "created_at": "2026-07-28T16:08:20.300409+00:00"
+    },
+    {
+      "version": "0.15.4",
+      "date": "2026-08-28",
+      "content": [
+        "Created a new admin page for administrative purposes.",
+        "Fixed some bugs."
+      ],
+      "created_at": "2026-08-28T04:20:26.238312+00:00"
+    },
+    {
+      "version": "0.0.2",
+      "date": "2026-04-25",
+      "content": [
+        "Updated scripts in **package.json**",
+        "Added **.gitignore** file"
+      ],
+      "created_at": "2026-07-19T10:06:44.057972+00:00"
+    },
+    {
+      "version": "0.0.3",
+      "date": "2026-04-25",
+      "content": [
+        "Added objects such as **ProjectCard.jsx** and **Title.jsx**",
+        "Updated styling in **main.jsx**"
+      ],
+      "created_at": "2026-07-19T10:06:44.057972+00:00"
+    },
+    {
+      "version": "0.0.4",
+      "date": "2026-04-25",
+      "content": [
+        "Added **Vercel Analytics** for website traffic tracking."
+      ],
+      "created_at": "2026-07-19T10:06:44.057972+00:00"
+    },
+    {
+      "version": "0.0.5",
+      "date": "2026-04-25",
+      "content": [
+        "Updated and organized the UI of the website to include projects.",
+        "Added projects section with clickable links.",
+        "Added some spacing and alignment in the UI."
+      ],
+      "created_at": "2026-07-19T10:06:44.057972+00:00"
+    },
+    {
+      "version": "0.0.6",
+      "date": "2026-04-26",
+      "content": [
+        "Separated the objects from **main.jsx** to **components.jsx**",
+        "Updated the UI to include a navigation bar that scrolls to the different sections of the website.",
+        "Added a top bar to the navigation bar.",
+        "Added the home section with clickable links to my professional accounts.",
+        "Added the contact section template."
+      ],
+      "created_at": "2026-07-19T10:06:44.057972+00:00"
+    },
+    {
+      "version": "0.0.7",
+      "date": "2026-04-26",
+      "content": [
+        "Restructured the UI of the website.",
+        "Fixed Visual Bugs."
+      ],
+      "created_at": "2026-07-19T10:06:44.057972+00:00"
+    },
+    {
+      "version": "0.1.0",
+      "date": "2026-04-26",
+      "content": [
+        "Updated the **Contact Section** to display my social media accounts and links to them, and a send message form.",
+        "Reorganized the project structure.",
+        "Abstracted **Hero**, **Projects**, and **Contact** sections into **Hero.jsx**, **Projects.jsx**, and **Contact.jsx**.",
+        "Added smooth scrolling animation to the navigation bar."
+      ],
+      "created_at": "2026-07-19T10:06:44.057972+00:00"
+    },
+    {
+      "version": "0.1.1",
+      "date": "2026-04-26",
+      "content": [
+        "Fixed bug where images are not loading in the deployed website."
+      ],
+      "created_at": "2026-07-19T10:06:44.057972+00:00"
+    },
+    {
+      "version": "0.6.0",
+      "date": "2026-05-04",
+      "content": [
+        "Replaced the old inline navbar links with a new animated **Hamburger Menu** component.",
+        "Created **HamburgerMenu.jsx** using **Framer Motion** for icon morph animations and staggered dropdown entrances.",
+        "Introduced the **Prompt** component, a custom modal for displaying detailed keyword definitions and metrics.",
+        "Enhanced **KeywordHighlights** and **WorkDetail** sections with interactivity and deep-insight modals.",
+        "Integrated the navigation and prompt systems across the **Home**, **Projects**, **Research**, and **WorkDetail** pages.",
+        "Updated **Legal.jsx** to reflect new features and technical documentation.",
+        "Fixed visual bugs in Projects and Research pages."
+      ],
+      "created_at": "2026-07-19T10:06:44.057972+00:00"
+    },
+    {
+      "version": "0.7.2",
+      "date": "2026-05-04",
+      "content": [
+        "Implemented a auto-updating footer to display current version and last updated date."
+      ],
+      "created_at": "2026-07-19T10:06:44.057972+00:00"
+    },
+    {
+      "version": "0.7.3",
+      "date": "2026-05-04",
+      "content": [
+        "Added more background images to the hero section.",
+        "Added new settings dropdown in the hamburger menu, including Dark Mode toggle and Clear Local Storage button.",
+        "Added dark mode, casually.",
+        "Added Enter button to the search bar throughout the website.",
+        "Modularized almost every component into /data.",
+        "Optimized the website and fixed bugs."
+      ],
+      "created_at": "2026-07-19T10:06:44.057972+00:00"
+    },
+    {
+      "version": "0.7.4",
+      "date": "2026-05-08",
+      "content": [
+        "Changed behavior of changelog prompt to only pop up if new version is detected and the user has opened the website.",
+        "Changed \"Forums\" to \"Recognition\" throughout the website.",
+        "Updated the hamburger menu visual and codebase."
+      ],
+      "created_at": "2026-07-19T10:06:44.057972+00:00"
+    },
+    {
+      "version": "0.15.5",
+      "date": "2026-08-31",
+      "content": [
+        "Added a search highlight feature integrated across the entire website.",
+        "Removed Changelog Popup, as preparation to the 1.0 release.",
+        "Redesigned the Settings popup to a single page, with better spacing and organization.",
+        "Redesigned the admin page to be cleaner and more functional.",
+        "Changed the toggle switch UI to a more compact and modern button design in the settings page.",
+        "Fixed mobile nav bar bugs.",
+        "Fixed navigation pill bug where if the user is in the \"more\" navigation options, and tries to navigate to a different page, the main navigation pill would stay open.",
+        "Fixed visual bugs in the admin page."
+      ],
+      "created_at": "2026-08-30T17:44:39.169951+00:00"
+    },
+    {
+      "version": "0.3.1",
+      "date": "2026-04-28",
+      "content": [
+        "Added Demo Website for CloudBased."
+      ],
+      "created_at": "2026-07-19T10:06:44.057972+00:00"
+    },
+    {
+      "version": "0.3.2",
+      "date": "2026-04-28",
+      "content": [
+        "Removed Pro Tips appearing in WorkDetail for projects.",
+        "Added images for the projects, specifically jchengroa.com and CloudBased.",
+        "Added ability to view images full screen."
+      ],
+      "created_at": "2026-07-19T10:06:44.057972+00:00"
+    },
+    {
+      "version": "0.9.2",
+      "date": "2026-05-19",
+      "content": [
+        "Added Download Manager to the website.",
+        "Uploaded Documents into codebase to make them more accessible.",
+        "Removed support for Google Drive downloads, ensuring reliability and consistency."
+      ],
+      "created_at": "2026-07-19T10:06:44.057972+00:00"
+    },
+    {
+      "version": "0.9.3",
+      "date": "2026-05-23",
+      "content": [
+        "Updated all components to be more mobile friendly.",
+        "Created new animation utility to unify all animations across the website."
+      ],
+      "created_at": "2026-07-19T10:06:44.057972+00:00"
+    },
+    {
+      "version": "0.10.0",
+      "date": "2026-05-23",
+      "content": [
+        "Added the Documentation page with a dashboard-style layout and customizable icons for each document.",
+        "Added documentation detail pages with content sections and prev/next navigation.",
+        "Added a hierarchical documentation outline sidebar with expand/collapse sections, documents, headings, and subheadings.",
+        "Switched the outline sidebar to use a draggable bottom sheet on mobile for smoother resizing.",
+        "Added the Settings panel (full-screen overlay) with theme mode, accent color, animation level, dev tools, and data controls.",
+        "Added an Animation Level setting (Full, Reduced, None) with localStorage persistence.",
+        "Moved the Dev Tools section from the Legal page into the new Settings panel.",
+        "Added back links to WorkDetail pages (Projects, Research, Recognition, Tools).",
+        "Improved the Document Tabs outline to separate chevron toggle from navigation.",
+        "Built a Tic Tac Toe game on the Tools page using Minimax with alpha-beta pruning and three difficulty levels."
+      ],
+      "created_at": "2026-07-19T10:06:44.057972+00:00"
+    },
+    {
+      "version": "0.11.0",
+      "date": "2026-05-29",
+      "content": [
+        "Added outline sidebar into the changelog page.",
+        "Added a color picker for accent colors.",
+        "Replaced all icons to a more stable React Lucide Library.",
+        "Updated Settings panel with more customization options across the website.",
+        "Updated Project Structure and abstracted many essential components.",
+        "Updated some information.",
+        "Updated Hamburger Menu to feel more comfortable.",
+        "Fixed Mobile Specific Visual Bugs.",
+        "Fixed Visual Bugs across all platforms ang pages.",
+        "Fixed the features carousel visual bug."
+      ],
+      "created_at": "2026-07-19T10:06:44.057972+00:00"
+    },
+    {
+      "version": "0.11.1",
+      "date": "2026-06-05",
+      "content": [
+        "Updated docs section to its own page to be more functional and focused.",
+        "Optimized the entire website and compressed image files to make it faster and work better on low end devices.",
+        "Reorganized some files for a more efficient workflow."
+      ],
+      "created_at": "2026-07-19T10:06:44.057972+00:00"
+    },
+    {
+      "version": "0.11.3",
+      "date": "2026-06-10",
+      "content": [
+        "Removed some bg images from the hero section.",
+        "Updated Documenation Page with a more sleek design and better functionality.",
+        "Added Socials Page.",
+        "Cleaned up code and files."
+      ],
+      "created_at": "2026-07-19T10:06:44.057972+00:00"
+    },
+    {
+      "version": "0.11.4",
+      "date": "2026-06-13",
+      "content": [
+        "Updated Home Page UI.",
+        "Updated Tech Stack with better libraries.",
+        "Added better mobile support.",
+        "Cleaned up code and files."
+      ],
+      "created_at": "2026-07-19T10:06:44.057972+00:00"
+    },
+    {
+      "version": "0.12.0",
+      "date": "2026-07-10",
+      "content": [
+        "Updated Home Hero Section, removing borders, removing background carousel.",
+        "Updated Home Featured Sections, removing carousel, focusing on one feature.",
+        "Updated Navigation Bar to the floating dock pill design.",
+        "Changed Settings Dropdown to a more modern and compact design.",
+        "Added Explorer in Navigation Bar mechanics.",
+        "Optimized the home page to work better on low end devices.",
+        "Significantly improved mobile support and mobile UI.",
+        "Implemented scroll to sections instead of regular scrolling for home page.",
+        "Added subtle background gradients throughout the home page.",
+        "Cleaned up codebase and resolved duplicate import build errors in components.jsx."
+      ],
+      "created_at": "2026-07-19T10:06:44.057972+00:00"
+    },
+    {
+      "version": "0.2.0",
+      "date": "2026-04-27",
+      "content": [
+        "Updated look and theme of the website.",
+        "Added custom CSS animations.",
+        "Updated Projects and Contact sections to be more modern.",
+        "Updated Projects to have different sections for software, hardware, embedded.",
+        "Updated Navbar.",
+        "Created **ProjectDetail.jsx** for the project detail page.",
+        "Updated **Projects.jsx** to link to the project detail page.",
+        "Updated **ProjectCard.jsx** to include a link to the project detail page.",
+        "Created **projects.js** to store project data.",
+        "Updated **main.jsx** to include the project detail page.",
+        "Updated contact card in **components.jsx** to make send message function work.",
+        "Added **Legal.jsx** for domain information and legal disclaimers."
+      ],
+      "created_at": "2026-07-19T10:06:44.057972+00:00"
+    },
+    {
+      "version": "0.3.0",
+      "date": "2026-04-28",
+      "content": [
+        "Updated the look and theme of the website, specifically **hero.jsx**.",
+        "Added new information in **hero.jsx**.",
+        "Created **research.jsx** and **research.js** to store research data.",
+        "Updated **main.jsx** to include the standalone projects and research page.",
+        "Updated **WorkDetail.jsx** to include the research detail page.",
+        "Updated navbar in **components.jsx** to include link to new projects and research page.",
+        "Separated and created **FeaturedProjects.jsx** for the featured projects section.",
+        "Created **FeaturedResearch.jsx** for the featured research section.",
+        "Updated **main.jsx** to include the featured projects and featured research sections.",
+        "Updated project and research details."
+      ],
+      "created_at": "2026-07-19T10:06:44.057972+00:00"
+    },
+    {
+      "version": "0.3.4",
+      "date": "2026-04-28",
+      "content": [
+        "Fixed bug where opening links to work detail pages caused a navigation error.",
+        "Fixed visual bugs within hero and featuredprojects sections in the main overlay page."
+      ],
+      "created_at": "2026-07-19T10:06:44.057972+00:00"
+    },
+    {
+      "version": "0.4.0",
+      "date": "2026-05-01",
+      "content": [
+        "Fixed bugs in the projects section and created a better system for projects to be organized and displayed.",
+        "Added new keyword engine used overall for the website to pull keywords from the project and research data.",
+        "Added functionality to search and filter projects and research.",
+        "Revised some information in Domain and Legal.",
+        "Fixed some visual bugs and inconsistencies."
+      ],
+      "created_at": "2026-07-19T10:06:44.057972+00:00"
+    },
+    {
+      "version": "0.5.0",
+      "date": "2026-05-02",
+      "content": [
+        "Cleaned up website code and files.",
+        "Enhanced the website with better animations and transitions including scroll-linked animations and hover effects.",
+        "Utilized External Libraries: **Framer Motion** for animations, **Fuse.js** for fuzzy search functionality, **Lenis** for smooth scrolling. **Lodash** for keyword engine functions.",
+        "Fixed bugs in the projects and research sections."
+      ],
+      "created_at": "2026-07-19T10:06:44.057972+00:00"
+    },
+    {
+      "version": "0.5.1",
+      "date": "2026-05-03",
+      "content": [
+        "Updated the **Legal.jsx** to display and show links to the documentation of the different technologies used in the website."
+      ],
+      "created_at": "2026-07-19T10:06:44.057972+00:00"
+    },
+    {
+      "version": "0.7.5",
+      "date": "2026-05-11",
+      "content": [
+        "Cleaned up and optimized codebase to reflect new backend changes.",
+        "Removed Vercel Analytics and Vercel support.",
+        "Added new GitHub workflow for automatic deployment."
+      ],
+      "created_at": "2026-07-19T10:06:44.057972+00:00"
+    },
+    {
+      "version": "0.8.0",
+      "date": "2026-05-15",
+      "content": [
+        "Added the Recognition Page.",
+        "Added the Tools Page.",
+        "Used Facebook post embed URLs for the recognition posts.",
+        "Cleaned up codebase and resolved duplicate import build errors in components.jsx."
+      ],
+      "created_at": "2026-07-19T10:06:44.057972+00:00"
+    },
+    {
+      "version": "0.9.1",
+      "date": "2026-05-19",
+      "content": [
+        "Fixed bug where changelog prompts were broken on mobile and small screens.",
+        "Fixed a visual bug in the changelog prompt."
+      ],
+      "created_at": "2026-07-19T10:06:44.057972+00:00"
+    },
+    {
+      "version": "0.11.2",
+      "date": "2026-06-05",
+      "content": [
+        "Fixed severe routing bugs."
+      ],
+      "created_at": "2026-07-19T10:06:44.057972+00:00"
+    },
+    {
+      "version": "0.15.2",
+      "date": "2026-08-24",
+      "content": [
+        "Added Physics effect to the hero title of the website.",
+        "Added Glowing effect to card elements and other elements that respects the accent color.",
+        "Unified the color scheme of the projects/research/recognitions throughout the website.",
+        "Fixed the sizing and spacing of each work detail elements.",
+        "Fixed navigation pill bug where the explorers would have scroll bars that would appear when the user navigates through different pages.",
+        "Fixed an issue where mobile devices would have very narrow viewports on certain pages, causing text to be cut off."
+      ],
+      "created_at": "2026-08-24T14:22:57.820992+00:00"
+    },
+    {
+      "version": "1.0.0",
+      "date": "2026-09-01",
+      "content": [
+        "**Official Version 1.0.0 Release**",
+        "Added a 404 Not Found page.",
+        "Added OpenGraph and Social Media card metadata for the website.",
+        "Added better search engine discovery.",
+        "Added bot protection by robots.txt and sitemap.xml.",
+        "Added missing standard tags on certain components of the website.",
+        "Cleaned up the scripts bundled in the website repo.",
+        "Fixed potential bug where any mistyped URL shows a blank view...",
+        "Fixed version control of package.json to sync with the changelog."
+      ],
+      "created_at": "2026-09-01T14:39:21.84539+00:00"
+    },
+    {
+      "version": "0.7.1",
+      "date": "2026-05-04",
+      "content": [
+        "Implemented a **Keyword Shortening System** to handle long technical terms.",
+        "Integrated shortening logic across the Hero, Work Cards, Prompt Modals, and Detail Pages.",
+        "Added **Dynamic Font Sizing** for long labels to prevent UI overflow and maintain layout balance.",
+        "Optimized the **sync-changelog.js** script for word-for-word accuracy."
+      ],
+      "created_at": "2026-07-19T10:06:44.057972+00:00"
+    },
+    {
+      "version": "0.15.1",
+      "date": "2026-08-21",
+      "content": [
+        "Unified all headers of all pages of the entire website in both mobile and desktop environments.",
+        "Added animations for the main navigation pill to the more navigation pill on mobile/small screen devices.",
+        "Changed navigation pill behavior for mobile/small screen devices.",
+        "Changed project directory to globalize animations.",
+        "Changed default behavior of the Quick Nav Outline panel.",
+        "Updated the hero section of the home page.",
+        "Updated the animation system of the entire website to a more global modular system.",
+        "Fixed desktop navigation pill bug where the explorers of each tab gets outshadowed by the main navigation pill UI.",
+        "Fixed mobile navigation pill bug where if the user is in the \"more\" navigation options, and tries to navigate to a different page, the main navigation pill would stay open.",
+        "Fixed mobile navigation pill bug where the more pill in mobile is visually smaller than the standard UI."
+      ],
+      "created_at": "2026-08-21T09:30:47.462005+00:00"
+    },
+    {
+      "version": "0.9.0",
+      "date": "2026-05-18",
+      "content": [
+        "Added Featured Recognition section to the homepage.",
+        "Added the ability to switch from Grid View to List View across all pages.",
+        "Added the ability to toggle subheader visibility.",
+        "Added accent colors and an accent color picker in the settings dropdown.",
+        "Added an auto theme that detects the OS/browser theme.",
+        "Added Document Tabs sticky navigation sidebar with real-time active section highlighting.",
+        "Added state persistence for sidebar, theme, accent color, view selection, and subheader visibility.",
+        "Added specific pages for each recognition entry.",
+        "Added filtering tools to the recognition page."
+      ],
+      "created_at": "2026-07-19T10:06:44.057972+00:00"
+    },
+    {
+      "version": "0.12.1",
+      "date": "2026-07-11",
+      "content": [
+        "Added new images for Research and Recognition pages.",
+        "Added new section indicator for the home page.",
+        "Added a new minimalist background design in the home page.",
+        "Added the hover expansion of the explorer for the desktop navbar.",
+        "Adjusted behaviors of navbar on desktop and mobile views.",
+        "Tweaked featured sections for more compactness, especially for mobile.",
+        "Improved mobile settings page.",
+        "Removed animation customization settings and options.",
+        "Optimized website codebase and resolved duplicate imports.",
+        "Fixed mobile UI bugs.",
+        "Fixed home page alignment issues.",
+        "Overall, small tweaks that refines the feel of the new UI."
+      ],
+      "created_at": "2026-07-19T10:06:44.057972+00:00"
+    },
+    {
+      "version": "0.13.0",
+      "date": "2026-07-12",
+      "content": [
+        "Added new images for the website.",
+        "Removed Keyword Highlighting System.",
+        "Removed Keyword Prompt Modal system.",
+        "Removed Documentation Page and all related features.",
+        "Removed Tools Page and all related features.",
+        "Changed Projects, Research, Recognition pages in desktop view to a grid layout.",
+        "Optimized view for mobile devices.",
+        "Fixed home page bugs, specifically for smaller screens.",
+        "* Note: These features are removed for now and will be added after the official release"
+      ],
+      "created_at": "2026-07-19T10:06:44.057972+00:00"
+    },
+    {
+      "version": "0.13.1",
+      "date": "2026-07-18",
+      "content": [
+        "Added the minimalistic background design for all pages in the desktop view.",
+        "Fixed vertical alignment issues of home page for both desktop and mobile view.",
+        "Fixed bug where footer isn't displayed correctly in mobile view.",
+        "Fixed design background consistency issues throughout the website."
+      ],
+      "created_at": "2026-07-19T10:06:44.057972+00:00"
+    },
+    {
+      "version": "0.14.0",
+      "date": "2026-07-19",
+      "content": [
+        "Created a new external database (Supabase).",
+        "Migrated All Site Data and Files into the external database.",
+        "Added a new database status indicator.",
+        "Added a new overlay for when the database is offline or in maintenance mode.",
+        "Added a new toggle to enable/disable Force Offline Fallback for testing.",
+        "Added a new sort filter (Newest to Oldest, Oldest to Newest) for the changelog page.",
+        "Updated the sync-changelog.js to sync both with the fallbackData AND the DB.",
+        "Updated all website files to respond with the new database changes."
+      ],
+      "created_at": "2026-07-19T10:18:19.088197+00:00"
+    },
+    {
+      "version": "0.14.1",
+      "date": "2026-07-19",
+      "content": [
+        "Updated Changelog Data for 0.14.0, there was an error on my part.",
+        "Updated the database system to display the database offline overlay when no .env information was provided, rather than crashing.",
+        "Updated the website to reintegrate full vercel analytics."
+      ],
+      "created_at": "2026-07-19T11:10:13.290945+00:00"
+    },
+    {
+      "version": "0.15.3",
+      "date": "2026-08-25",
+      "content": [
+        "Modularized all components and utilities into smaller, more manageable files.",
+        "Created a new centralized components.jsx file to export all components.",
+        "Removed unecessary pages and utilities that are no longer used.",
+        "Fixed home page hero title bug where the main title sometimes is split into two lines.",
+        "Fixed quick nav in smaller screens, where a new system is implemented to flyout instead of intruding on the actual view.",
+        "Fixed quick nav in mobile devices, where the nav bar style dock hides the actual quick nav button.",
+        "Fixed routing bug where all work details use the /project/:id route.",
+        "Fixed naming inconsistensies in every files, now using lowerCamelCase."
+      ],
+      "created_at": "2026-08-25T04:38:06.78073+00:00"
+    }
+  ],
+  "site_content": [
+    {
+      "key": "socials",
+      "value": {
+        "title": "Socials",
+        "subtitle": "Find me across the web. Let's connect, collaborate, and share ideas."
+      },
+      "created_at": "2026-07-19T10:09:17.045597+00:00"
+    },
+    {
+      "key": "projects",
+      "value": {
+        "title": "Projects",
+        "sections": {
+          "embedded": {
+            "title": "Embedded Projects",
+            "description": "Real-time systems and firmware development for microcontrollers, bridging the gap between code and physical sensors."
+          },
+          "hardware": {
+            "title": "Hardware Projects",
+            "description": "Physical computing and circuit design projects focusing on PCB layout, signal integrity, and hardware prototyping."
+          },
+          "software": {
+            "title": "Software Projects",
+            "description": "Modern web applications and distributed systems built with scalable architectures and user-centric design."
+          }
+        },
+        "subtitle": "A comprehensive showcase of my personal projects and collaboration projects.",
+        "noResults": {
+          "title": "No projects found",
+          "subtitle": "Try adjusting your search or filters."
+        }
+      },
+      "created_at": "2026-07-19T10:09:17.045597+00:00"
+    },
+    {
+      "key": "contact",
+      "value": {
+        "title": "Get In Touch",
+        "socials": {
+          "github": "https://github.com/jchengroa",
+          "facebook": "https://www.facebook.com/@jchengroa/",
+          "linkedin": "https://www.linkedin.com/in/john-carlo-cheng-roa-47aa6a290/"
+        },
+        "cardInfo": "directed at johncarlochengroa07@gmail.com",
+        "subtitle": "Have a question or want to work together? Feel free to reach out through any of these platforms."
+      },
+      "created_at": "2026-07-19T10:06:44.057972+00:00"
+    },
+    {
+      "key": "legal",
+      "value": {
+        "title": "Domain & Legal Information",
+        "credits": {
+          "icons": {
+            "title": "Icons",
+            "content": "Lucide-inspired SVG components & custom paths."
+          },
+          "typography": {
+            "title": "Typography",
+            "content": "Outfit & System Fonts for maximum performance and readability."
+          },
+          "architecture": {
+            "title": "Architecture & Code",
+            "content": "Built using React, Vite, and Tailwind CSS. Deployed on a high-performance VPS. Built with the help of Google Antigravity & Gemini, as a vibe coding project."
+          }
+        },
+        "privacy": {
+          "policy": {
+            "title": "Privacy Policy",
+            "content": "This site does not use cookies for tracking. We respect your privacy and do not collect personal data."
+          },
+          "disclaimer": {
+            "title": "Content Disclaimer",
+            "content": "All project data and visuals are for demonstration purposes and represent original work or credited collaborations."
+          }
+        },
+        "libraries": {
+          "fuse": {
+            "title": "Fuse.js",
+            "content": "Powers the fuzzy search engine for projects and research filtering."
+          },
+          "axios": {
+            "title": "Axios",
+            "content": "Used in the custom Download Manager to fetch files as Blobs with real-time download progress tracking (speed, loaded/total bytes, cancel/abort tokens)."
+          },
+          "embla": {
+            "title": "Embla Carousel",
+            "content": "Provides the lightweight, touch-enabled slider components for featured work."
+          },
+          "framer": {
+            "title": "Framer Motion",
+            "content": "Used for advanced UI animations, scroll-linked effects, smooth transitions, the dynamic hero background cross-fading slideshow, and the interactive bottom-floating navigation dock with dynamic expanded sub-menus via motion and AnimatePresence."
+          },
+          "quickNav": {
+            "title": "Quick Nav Outline",
+            "content": "A sleek, responsive sticky navigation sidebar built with Framer Motion, enabling smooth scrolling and real-time active section highlighting."
+          },
+          "reactIcons": {
+            "title": "React Icons",
+            "content": "Provides reusable React icon components for brand marks and Lucide-style utility icons, reducing repeated inline SVG markup."
+          },
+          "viewSwitcher": {
+            "title": "View Switcher Utility",
+            "content": "A custom universal React hook (useViewSwitcher) utilizing localStorage and CustomEvent to seamlessly toggle between Grid and List views across Projects, Research, Recognition, and Tools."
+          },
+          "reactColorful": {
+            "title": "React Colorful",
+            "content": "A tiny, tree-shakeable color picker component used in the Settings panel for custom accent color selection with full palette generation."
+          }
+        },
+        "domainStatus": {
+          "title": "Domain Status",
+          "content": "The domain [[blue:jchengroa.com]] is a personal digital asset used for professional identification, portfolio hosting, and software development research. It is currently [[status:NOT FOR SALE]].",
+          "heading": "\"DOMAIN NOT FOR SALE\"",
+          "subtext": "Offers for acquisition will be ignored. This domain is intended for long-term personal use as part of my professional brand as a Computer Engineer.",
+          "established": "Est. April 25, 2026"
+        }
+      },
+      "created_at": "2026-07-19T10:06:44.057972+00:00"
+    },
+    {
+      "key": "changelog",
+      "value": {
+        "title": "Changelog",
+        "subtitle": "A detailed timeline of the website's evolution, technical updates, and feature rollouts."
+      },
+      "created_at": "2026-07-19T10:06:44.057972+00:00"
+    },
+    {
+      "key": "footer",
+      "value": {
+        "legalLink": "Domain & Legal Information",
+        "updatedPrefix": "Last Updated",
+        "versionPrefix": "Version"
+      },
+      "created_at": "2026-07-19T10:06:44.057972+00:00"
+    },
+    {
+      "key": "common",
+      "value": {
+        "awesome": "Awesome!",
+        "whatsNew": "What's New",
+        "learnMore": "Learn more",
+        "newUpdate": "New Update",
+        "noResults": "No results found",
+        "resources": "Resources",
+        "searching": "Searching...",
+        "keyMetrics": "Key Metrics & Findings",
+        "returnHome": "Return Home",
+        "releaseDate": "Release Date",
+        "sendMessage": "Send Message",
+        "itemNotFound": "Item not found",
+        "searchButton": "Search",
+        "visualGallery": "Visual Gallery",
+        "abstractOverview": "Abstract & Overview",
+        "challengeSolution": "The Challenge & Solution",
+        "searchPlaceholder": "Search by keyword, technology, or title...",
+        "notFoundDescription": "The project or research you're looking for doesn't exist or has been moved."
+      },
+      "created_at": "2026-07-19T10:06:44.057972+00:00"
+    },
+    {
+      "key": "custom_accent_hex",
+      "value": "#427bf5",
+      "created_at": "2026-07-28T14:59:52.863439+00:00"
+    },
+    {
+      "key": "research",
+      "value": {
+        "title": "Research",
+        "subtitle": "A multidisciplinary exploration of technology and life sciences with a current focus on sustainable ecological solutions.",
+        "noResults": {
+          "title": "No research found",
+          "subtitle": "Try adjusting your search or filters."
+        }
+      },
+      "created_at": "2026-07-19T10:09:17.045597+00:00"
+    },
+    {
+      "key": "home",
+      "value": {
+        "hero": {
+          "cta": "Get In Touch",
+          "email": "johncarlochengroa07@gmail.com",
+          "title": "John Carlo Cheng Roa",
+          "github": "https://github.com/jchengroa",
+          "linkedin": "https://www.linkedin.com/in/john-carlo-cheng-roa-47aa6a290/",
+          "subtitle": "I am a 3rd year Computer Engineering student at De La Salle University with experience in systems administration, DevOps, and full-stack web development.",
+          "description": " I currently have experience in deploying and maintaining web infrastructure ranging from lightweight static websites to enterprise platforms and self-hosted environments. Currently, I oversee a secure, cloud-hosted ERPNext deployment for an SME."
+        },
+        "featuredProjects": {
+          "title": "Featured Projects",
+          "subtitle": "A glimpse into some of my projects."
+        },
+        "featuredResearch": {
+          "title": "Featured Research",
+          "subtitle": "A look into my academic work and studies."
+        },
+        "featuredRecognition": {
+          "title": "Featured Recognition",
+          "subtitle": "Awards, hackathons, and competitive engineering milestones."
+        }
+      },
+      "created_at": "2026-07-19T10:06:44.057972+00:00"
+    },
+    {
+      "key": "site_active",
+      "value": true,
+      "created_at": "2026-07-19T10:51:00.844305+00:00"
+    },
+    {
+      "key": "default_theme_mode",
+      "value": "light",
+      "created_at": "2026-07-28T14:59:52.863439+00:00"
+    },
+    {
+      "key": "default_accent_color",
+      "value": "custom",
+      "created_at": "2026-07-28T14:59:52.863439+00:00"
+    },
+    {
+      "key": "recognition",
+      "value": {
+        "title": "Recognition",
+        "subtitle": "Achievements and professional milestones ranging different fields and areas.",
+        "noResults": {
+          "title": "No recognition found",
+          "subtitle": "Try searching for a different keyword or competition."
+        }
+      },
+      "created_at": "2026-07-19T10:09:17.045597+00:00"
+    },
+    {
+      "key": "navbar",
+      "value": {
+        "name": "jchengroa",
+        "links": [
+          {
+            "to": "/projects",
+            "icon": "projects",
+            "label": "Projects",
+            "active": true,
+            "showInNavbar": true
+          },
+          {
+            "to": "/research",
+            "icon": "research",
+            "label": "Research",
+            "active": true,
+            "showInNavbar": true
+          },
+          {
+            "to": "/recognition",
+            "icon": "recognition",
+            "label": "Recognition",
+            "active": true,
+            "showInNavbar": true
+          },
+          {
+            "to": "/docs",
+            "icon": "docs",
+            "label": "Docs",
+            "active": true,
+            "showInNavbar": true
+          },
+          {
+            "to": "/tools",
+            "icon": "tools",
+            "label": "Tools",
+            "active": true,
+            "showInNavbar": true
+          },
+          {
+            "to": "/socials",
+            "icon": "socials",
+            "label": "Socials",
+            "active": true,
+            "showInNavbar": false
+          },
+          {
+            "to": "/changelog",
+            "icon": "changelog",
+            "label": "Changelog",
+            "active": true,
+            "showInNavbar": false
+          },
+          {
+            "to": "/legal",
+            "icon": "legal",
+            "label": "Legal & Domain",
+            "active": true,
+            "showInNavbar": false
+          }
+        ],
+        "settings": {
+          "title": "Settings",
+          "darkMode": "Dark Mode",
+          "themeMode": "Theme Mode",
+          "accentColor": "Accent Color",
+          "clearConfirm": "Clear all site settings and cached data?",
+          "clearStorage": "Clear Local Storage"
+        }
+      },
+      "created_at": "2026-07-19T10:06:44.057972+00:00"
+    },
+    {
+      "key": "navigation_data",
+      "value": {
+        "subLinks": {
+          "more": [
+            {
+              "to": "/socials",
+              "desc": "Find me on GitHub, LinkedIn, Reddit, & Facebook.",
+              "icon": "share",
+              "label": "Socials"
+            },
+            {
+              "to": "/changelog",
+              "desc": "A timeline of technical rollouts.",
+              "icon": "history",
+              "label": "Changelog"
+            },
+            {
+              "to": "/legal",
+              "desc": "Terms, VPS configs, & domain details.",
+              "icon": "scale",
+              "label": "Legal & Domain"
+            },
+            {
+              "to": "settings",
+              "desc": "Adjust theme and custom accent colors.",
+              "icon": "settings",
+              "label": "Settings Panel",
+              "action": "settings"
+            }
+          ],
+          "projects": [
+            {
+              "to": "/projects",
+              "desc": "Browse full gallery of projects.",
+              "icon": "all",
+              "label": "All Projects"
+            },
+            {
+              "to": "/projects/jchengroa-com",
+              "desc": "Personal Portfolio.",
+              "icon": "code",
+              "label": "jchengroa.com"
+            },
+            {
+              "to": "/projects/cloudbased",
+              "desc": "Inventory Management System.",
+              "icon": "database",
+              "label": "CloudBased"
+            }
+          ],
+          "research": [
+            {
+              "to": "/research",
+              "desc": "Academic findings and PDF publications.",
+              "icon": "all",
+              "label": "All Research"
+            },
+            {
+              "to": "/research/jhs-1",
+              "desc": "RC robot collecting floating waste from waters.",
+              "icon": "anchor",
+              "label": "Mega Box Robot"
+            },
+            {
+              "to": "/research/shs-1",
+              "desc": "Radish post-harvest quality preservation.",
+              "icon": "leaf",
+              "label": "Cabbage Shelf-Life"
+            },
+            {
+              "to": "/research/shs-2",
+              "desc": "Allium onion safety evaluation.",
+              "icon": "shield",
+              "label": "Cabbage Cytotoxicity"
+            }
+          ],
+          "recognition": [
+            {
+              "to": "/recognition",
+              "desc": "Collection of recognitions.",
+              "icon": "all",
+              "label": "All Recognition"
+            }
+          ]
+        },
+        "mainLinks": [
+          {
+            "id": "home",
+            "to": "/",
+            "icon": "home",
+            "label": "Home",
+            "active": true
+          },
+          {
+            "id": "projects",
+            "to": "/projects",
+            "icon": "projects",
+            "label": "Projects",
+            "active": true
+          },
+          {
+            "id": "research",
+            "to": "/research",
+            "icon": "research",
+            "label": "Research",
+            "active": true
+          },
+          {
+            "id": "recognition",
+            "to": "/recognition",
+            "icon": "recognition",
+            "label": "Recognition",
+            "active": true
+          },
+          {
+            "id": "more",
+            "to": null,
+            "icon": "more",
+            "label": "More",
+            "active": true
+          }
+        ]
+      },
+      "created_at": "2026-07-19T10:11:37.409912+00:00"
+    }
+  ]
+}

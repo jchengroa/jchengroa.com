@@ -1,0 +1,12 @@
+services:
+  portfolio:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        VITE_BACKEND_PROVIDER: pocketbase
+        VITE_POCKETBASE_URL: http://194.163.186.135:8090
+    container_name: jchengroa-portfolio
+    restart: unless-stopped
+    ports:
+      - "80:80"

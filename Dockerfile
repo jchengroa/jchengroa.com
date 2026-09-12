@@ -4,12 +4,18 @@ WORKDIR /app
 COPY package*.json ./
 RUN npm install
 COPY . .
+
+# Support building for either backend at build time
+ARG VITE_BACKEND_PROVIDER=pocketbase
+ARG VITE_POCKETBASE_URL=http://194.163.186.135:8090
+ENV VITE_BACKEND_PROVIDER=$VITE_BACKEND_PROVIDER
+ENV VITE_POCKETBASE_URL=$VITE_POCKETBASE_URL
+
 RUN npm run build
 
 # Step 2: Serve with Nginx
 FROM nginx:stable-alpine
 COPY --from=build /app/dist /usr/share/nginx/html
-# This line ensures React Router works (prevents 404 on refresh)
-RUN echo "server { listen 80; location / { root /usr/share/nginx/html; index index.html; try_files \$uri \$uri/ /index.html; } }" > /etc/nginx/conf.d/default.conf
+COPY nginx.conf /etc/nginx/nginx.conf
 EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]

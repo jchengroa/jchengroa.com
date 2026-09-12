@@ -576,3 +576,7 @@ Added missing standard tags on certain components of the website.
 Cleaned up the scripts bundled in the website repo.
 Fixed potential bug where any mistyped URL shows a blank view...
 Fixed version control of package.json to sync with the changelog.
+
+- [1.0.1] - 2026-09-12
+Added support for Docker deployment and Pocketbase for a migration to a dedicated server!
+Created a script to migrate the database to PocketBase and run the application locally in a docker container.

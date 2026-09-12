@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { supabase } from '../utils/supabaseClient';
+import { fetchPocketBaseData } from '../utils/pocketbaseClient';
 import DatabaseOfflineOverlay from '../components/offlineOverlay.jsx';
 
 const DataContext = createContext(null);
@@ -49,32 +50,54 @@ export function DataProvider({ children }) {
             }
 
             try {
-                if (!supabase) {
-                    throw new Error("Supabase credentials missing. Check VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY in Vercel settings.");
+                const backendProvider = (import.meta.env.VITE_BACKEND_PROVIDER || 'supabase').toLowerCase();
+                let projects = [], research = [], recognition = [], contacts = [], socials = [], changelogs = [], siteContentRows = [];
+
+                if (backendProvider === 'pocketbase') {
+                    const pbData = await fetchPocketBaseData();
+                    projects = pbData.projects;
+                    research = pbData.research;
+                    recognition = pbData.recognition;
+                    contacts = pbData.contacts;
+                    socials = pbData.socials;
+                    changelogs = pbData.changelogs;
+                    siteContentRows = pbData.siteContentRows;
+                } else {
+                    if (!supabase) {
+                        throw new Error("Supabase credentials missing. Check VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY in Vercel settings.");
+                    }
+                    const [
+                        { data: pData, error: projectsErr },
+                        { data: rData, error: researchErr },
+                        { data: recData, error: recognitionErr },
+                        { data: cData, error: contactsErr },
+                        { data: sData, error: socialsErr },
+                        { data: chData, error: changelogsErr },
+                        { data: scData, error: siteContentErr }
+                    ] = await Promise.all([
+                        supabase.from('projects').select('*').order('created_at', { ascending: true }),
+                        supabase.from('research').select('*').order('created_at', { ascending: true }),
+                        supabase.from('recognition').select('*').order('created_at', { ascending: true }),
+                        supabase.from('contacts').select('*').order('created_at', { ascending: true }),
+                        supabase.from('socials').select('*').order('created_at', { ascending: true }),
+                        supabase.from('changelogs').select('*').order('created_at', { ascending: true }),
+                        supabase.from('site_content').select('*')
+                    ]);
+
+                    if (projectsErr || researchErr || recognitionErr || changelogsErr || siteContentErr) {
+                        throw new Error("One or more database requests failed.");
+                    }
+
+                    projects = pData || [];
+                    research = rData || [];
+                    recognition = recData || [];
+                    contacts = cData || [];
+                    socials = sData || [];
+                    changelogs = chData || [];
+                    siteContentRows = scData || [];
                 }
-                const [
-                    { data: projects, error: projectsErr },
-                    { data: research, error: researchErr },
-                    { data: recognition, error: recognitionErr },
-                    { data: contacts, error: contactsErr },
-                    { data: socials, error: socialsErr },
-                    { data: changelogs, error: changelogsErr },
-                    { data: siteContentRows, error: siteContentErr }
-                ] = await Promise.all([
-                    supabase.from('projects').select('*').order('created_at', { ascending: true }),
-                    supabase.from('research').select('*').order('created_at', { ascending: true }),
-                    supabase.from('recognition').select('*').order('created_at', { ascending: true }),
-                    supabase.from('contacts').select('*').order('created_at', { ascending: true }),
-                    supabase.from('socials').select('*').order('created_at', { ascending: true }),
-                    supabase.from('changelogs').select('*').order('created_at', { ascending: true }),
-                    supabase.from('site_content').select('*')
-                ]);
 
                 const activeContacts = (contacts && contacts.length > 0) ? contacts : (socials || []);
-
-                if (projectsErr || researchErr || recognitionErr || changelogsErr || siteContentErr) {
-                    throw new Error("One or more database requests failed.");
-                }
 
                 // Construct siteContent object from key-value rows
                 let siteContentObj = {};
