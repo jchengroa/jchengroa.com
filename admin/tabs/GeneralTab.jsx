@@ -40,7 +40,7 @@ export default function GeneralTab({
 
     return (
         <div className="space-y-8">
-            {/* SECTION 1: Site Active Status Switch (Auto-Saved to Supabase Instantly) */}
+            {/* SECTION 1: Site Active Status Switch (Auto-Saved Instantly) */}
             <div className="p-6 sm:p-7 rounded-3xl bg-white dark:bg-gray-900 border border-gray-200/80 dark:border-gray-800 shadow-sm space-y-6">
                 <div className="border-b border-gray-100 dark:border-gray-800 pb-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                     <div>

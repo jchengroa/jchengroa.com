@@ -163,9 +163,9 @@ export default function ProjectsAdminTab({ projects = [], onSaveProject, onDelet
                             <button
                                 type="button"
                                 onClick={handleSave}
-                                className="px-4 py-1.5 rounded-xl text-xs font-black text-white bg-blue-600 hover:bg-blue-700 shadow-md shadow-blue-600/20"
+                                className="px-4 py-1.5 rounded-xl text-xs font-black text-white bg-blue-600 hover:bg-blue-700 shadow-md shadow-blue-600/20 cursor-pointer"
                             >
-                                Save to Supabase
+                                Save Changes
                             </button>
                         </div>
                     </div>

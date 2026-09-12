@@ -66,7 +66,7 @@ export default function CookieConsentBanner() {
 
                         {/* Description */}
                         <p className="text-xs text-gray-600 dark:text-gray-400 leading-relaxed font-medium">
-                            We use privacy-friendly <strong className="text-gray-900 dark:text-white">Vercel Analytics</strong> to measure page views and performance anonymously. No personal sensitive data is stored or sold.
+                            We use privacy-friendly <strong className="text-gray-900 dark:text-white">anonymous analytics</strong> to measure page views, interactions, and performance. No personal or sensitive data is collected or sold.
                         </p>
 
                         {/* Actions */}

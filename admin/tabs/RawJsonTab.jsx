@@ -298,39 +298,6 @@ export default function RawJsonTab({ allSiteContent = {}, onChangeAllSiteContent
                     </div>
                 </div>
             </div>
-
-            {/* COMPLETE SUPABASE SQL SCRIPT UTILITY */}
-            <div className="p-6 sm:p-7 rounded-3xl bg-white dark:bg-gray-900 border border-gray-200/80 dark:border-gray-800 shadow-sm space-y-5">
-                <div className="border-b border-gray-100 dark:border-gray-800 pb-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-                    <div>
-                        <div className="flex items-center gap-2">
-                            <h3 className="text-base font-extrabold text-gray-900 dark:text-white">
-                                Supabase Auth & Security SQL Script
-                            </h3>
-                            <span className="text-[10px] font-bold uppercase tracking-wider bg-emerald-100 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300 px-2 py-0.5 rounded-full border border-emerald-200 dark:border-emerald-800">
-                                RLS + Auth Protected
-                            </span>
-                        </div>
-                        <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                            Grants public read (`SELECT`) access to portfolio visitors, while strictly requiring Supabase authentication for all write, edit, and delete operations.
-                        </p>
-                    </div>
-
-                    <button
-                        type="button"
-                        onClick={handleCopySql}
-                        className="px-4 py-2 rounded-xl text-xs font-black text-white bg-blue-600 hover:bg-blue-700 shadow-md shadow-blue-600/20 transition-all flex items-center gap-1.5"
-                    >
-                        {copiedSql ? '✓ Copied SQL' : 'Copy Auth SQL Script'}
-                    </button>
-                </div>
-
-                <div className="p-4 rounded-2xl bg-gray-900 border border-gray-800">
-                    <pre className="text-xs font-mono text-gray-300 overflow-x-auto whitespace-pre leading-relaxed max-h-96">
-                        {FULL_DATABASE_SETUP_SQL}
-                    </pre>
-                </div>
-            </div>
         </div>
     );
 }

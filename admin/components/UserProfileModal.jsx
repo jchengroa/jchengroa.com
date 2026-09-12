@@ -1,54 +1,48 @@
 import React, { useState, useEffect } from 'react';
-import { supabase } from '../adminSupabase.js';
+import { pb } from '../adminPocketBase.js';
 
 export default function UserProfileModal({ isOpen, onClose, session, onShowToast, onSignOut, onUserUpdated }) {
-    const user = session?.user || {};
-    const metadata = user.user_metadata || {};
+    const user = session?.record || session?.model || pb.authStore.record || pb.authStore.model || {};
 
     const [displayName, setDisplayName] = useState('');
     const [avatarUrl, setAvatarUrl] = useState('');
-    const [phone, setPhone] = useState('');
     const [email, setEmail] = useState('');
     const [newPassword, setNewPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
 
     const [savingProfile, setSavingProfile] = useState(false);
     const [savingSecurity, setSavingSecurity] = useState(false);
-    const [activeTab, setActiveTab] = useState('profile'); // 'profile' | 'security' | 'session'
+    const [activeTab, setActiveTab] = useState('profile');
 
     useEffect(() => {
-        if (isOpen && session?.user) {
-            setDisplayName(metadata.display_name || metadata.full_name || user.email?.split('@')[0] || 'John Carlo Cheng Roa');
-            setAvatarUrl(metadata.avatar_url || '');
-            setPhone(metadata.phone || user.phone || '');
-            setEmail(user.email || '');
+        if (isOpen) {
+            const current = pb.authStore.record || pb.authStore.model || {};
+            setDisplayName(current.name || current.email?.split('@')[0] || 'John Carlo Cheng Roa');
+            setAvatarUrl(current.avatar || '');
+            setEmail(current.email || '');
             setNewPassword('');
             setConfirmPassword('');
         }
-    }, [isOpen, session]);
+    }, [isOpen]);
 
     if (!isOpen) return null;
 
-    // 1. Update Profile Metadata (Display Name, Avatar URL, Phone)
     const handleUpdateProfile = async (e) => {
         e.preventDefault();
         setSavingProfile(true);
 
         try {
-            const { data, error } = await supabase.auth.updateUser({
-                data: {
-                    display_name: displayName.trim(),
-                    full_name: displayName.trim(),
-                    avatar_url: avatarUrl.trim(),
-                    phone: phone.trim()
-                }
+            const currentId = pb.authStore.record?.id || pb.authStore.model?.id;
+            if (!currentId) throw new Error('No active admin session found.');
+
+            const updated = await pb.collection('_superusers').update(currentId, {
+                name: displayName.trim()
             });
 
-            if (error) throw error;
-            if (onUserUpdated && data.user) {
-                onUserUpdated(data.user);
+            if (onUserUpdated) {
+                onUserUpdated(updated);
             }
-            if (onShowToast) onShowToast('success', 'Profile display name and details updated!');
+            if (onShowToast) onShowToast('success', 'Admin profile name updated!');
         } catch (err) {
             if (onShowToast) onShowToast('error', `Failed to update profile: ${err.message}`);
         } finally {
@@ -56,43 +50,31 @@ export default function UserProfileModal({ isOpen, onClose, session, onShowToast
         }
     };
 
-    // 2. Update Email & Password (Credentials)
     const handleUpdateSecurity = async (e) => {
         e.preventDefault();
         setSavingSecurity(true);
 
         try {
-            const updates = {};
-            if (email.trim() && email.trim() !== user.email) {
-                updates.email = email.trim();
-            }
+            const currentId = pb.authStore.record?.id || pb.authStore.model?.id;
+            if (!currentId) throw new Error('No active admin session found.');
 
             if (newPassword.trim()) {
-                if (newPassword.length < 6) {
-                    throw new Error('New password must be at least 6 characters long.');
+                if (newPassword.length < 8) {
+                    throw new Error('New password must be at least 8 characters long.');
                 }
                 if (newPassword !== confirmPassword) {
                     throw new Error('Passwords do not match.');
                 }
-                updates.password = newPassword;
+                await pb.collection('_superusers').update(currentId, {
+                    password: newPassword,
+                    passwordConfirm: confirmPassword
+                });
+                if (onShowToast) onShowToast('success', 'Admin password updated successfully!');
+                setNewPassword('');
+                setConfirmPassword('');
+            } else {
+                if (onShowToast) onShowToast('info', 'No password change entered.');
             }
-
-            if (Object.keys(updates).length === 0) {
-                if (onShowToast) onShowToast('info', 'No security credentials were changed.');
-                setSavingSecurity(false);
-                return;
-            }
-
-            const { data, error } = await supabase.auth.updateUser(updates);
-            if (error) throw error;
-
-            if (onUserUpdated && data.user) {
-                onUserUpdated(data.user);
-            }
-
-            if (onShowToast) onShowToast('success', 'Security credentials updated successfully!');
-            setNewPassword('');
-            setConfirmPassword('');
         } catch (err) {
             if (onShowToast) onShowToast('error', err.message);
         } finally {

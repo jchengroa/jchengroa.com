@@ -1,5 +1,15 @@
 import React, { useState, useEffect, useCallback, Suspense, lazy } from 'react';
-import { supabase } from './adminSupabase.js';
+import {
+    pb,
+    loadAllCollections,
+    getSiteContentValue,
+    upsertSiteContent,
+    saveAllSiteContentRows,
+    saveCollectionItem,
+    deleteCollectionItem,
+    saveChangelogItem,
+    deleteChangelogItem
+} from './adminPocketBase.js';
 import AdminLogin from './components/AdminLogin.jsx';
 import {
     LuActivity,
@@ -99,54 +109,39 @@ export default function AdminApp() {
         setTimeout(() => setNotification(null), 4500);
     };
 
-    // 1. Check Supabase Auth State (Zero DB queries if unauthenticated)
+    // 1. Check PocketBase Auth State (Zero DB queries if unauthenticated)
     useEffect(() => {
-        if (!supabase) {
-            setAuthChecking(false);
-            return;
+        if (pb.authStore.isValid) {
+            setSession({
+                record: pb.authStore.record || pb.authStore.model,
+                token: pb.authStore.token
+            });
         }
+        setAuthChecking(false);
 
-        supabase.auth.getSession().then(({ data: { session } }) => {
-            setSession(session);
-            setAuthChecking(false);
+        const unsubscribe = pb.authStore.onChange((token, model) => {
+            if (token && pb.authStore.isValid) {
+                setSession({ record: model, token });
+            } else {
+                setSession(null);
+            }
         });
 
-        const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-            setSession(session);
-            setAuthChecking(false);
-        });
-
-        return () => subscription.unsubscribe();
+        return () => {
+            if (typeof unsubscribe === 'function') unsubscribe();
+        };
     }, []);
 
-    // 2. Load all 7 tables from Supabase ONLY when authenticated
+    // 2. Load all 7 collections from PocketBase ONLY when authenticated
     const loadAllTables = useCallback(async () => {
         if (!session) return;
         setLoading(true);
 
         try {
-            const [
-                { data: siteContentRows, error: scErr },
-                { data: pData },
-                { data: rData },
-                { data: recData },
-                { data: cData },
-                { data: sData },
-                { data: clData }
-            ] = await Promise.all([
-                supabase.from('site_content').select('*'),
-                supabase.from('projects').select('*').order('created_at', { ascending: false }),
-                supabase.from('research').select('*').order('created_at', { ascending: false }),
-                supabase.from('recognition').select('*').order('created_at', { ascending: false }),
-                supabase.from('contacts').select('*').order('created_at', { ascending: false }),
-                supabase.from('socials').select('*').order('created_at', { ascending: false }),
-                supabase.from('changelogs').select('*').order('created_at', { ascending: false })
-            ]);
-
-            if (scErr) console.warn('site_content warning:', scErr.message);
+            const data = await loadAllCollections();
 
             const map = {};
-            (siteContentRows || []).forEach(row => { map[row.key] = row.value; });
+            (data.siteContentRows || []).forEach(row => { map[row.key] = row.value; });
 
             if (map.site_active === undefined) map.site_active = true;
             if (map.default_theme_mode === undefined) map.default_theme_mode = 'light';
@@ -166,12 +161,12 @@ export default function AdminApp() {
             if (!map.common) map.common = {};
 
             setAllSiteContent(map);
-            setProjectsList(pData || []);
-            setResearchList(rData || []);
-            setRecognitionList(recData || []);
-            setContactsList(cData || []);
-            setSocialsList(sData || []);
-            setChangelogsList(clData || []);
+            setProjectsList(data.projects || []);
+            setResearchList(data.research || []);
+            setRecognitionList(data.recognition || []);
+            setContactsList(data.contacts || []);
+            setSocialsList(data.socials || []);
+            setChangelogsList(data.changelogs || []);
         } catch (err) {
             console.error('Error fetching database:', err);
             showToast('error', `Failed to fetch data: ${err.message}`);
@@ -188,16 +183,12 @@ export default function AdminApp() {
 
     // 3. Periodic Status Check & Auto-Polling (Live checks every 20s and on window focus)
     const checkLatestStatus = useCallback(async () => {
-        if (!session || !supabase) return;
+        if (!session) return;
         try {
             setIsSyncingStatus(true);
-            const { data, error } = await supabase
-                .from('site_content')
-                .select('value')
-                .eq('key', 'site_active')
-                .single();
-            if (!error && data) {
-                setAllSiteContent(prev => ({ ...prev, site_active: data.value }));
+            const val = await getSiteContentValue('site_active');
+            if (val !== null) {
+                setAllSiteContent(prev => ({ ...prev, site_active: val }));
             }
         } catch (err) {
             // Background check
@@ -218,12 +209,10 @@ export default function AdminApp() {
 
     // Sign out handler
     const handleSignOut = async () => {
-        if (supabase) {
-            await supabase.auth.signOut();
-            setSession(null);
-            setProfileModalOpen(false);
-            showToast('info', 'Signed out successfully.');
-        }
+        pb.authStore.clear();
+        setSession(null);
+        setProfileModalOpen(false);
+        showToast('info', 'Signed out successfully.');
     };
 
     // Helpers for Status Tab
@@ -231,39 +220,29 @@ export default function AdminApp() {
     const siteActiveStr = String(rawSiteActive !== undefined ? rawSiteActive : true).replace(/^"+|"+$/g, '').toLowerCase().trim();
     const siteActiveStatus = (siteActiveStr === 'dev') ? 'dev' : (siteActiveStr === 'false' || rawSiteActive === false) ? 'offline' : 'active';
 
-    // Immediate auto-saving status change (No manual save required!)
+    // Immediate auto-saving status change
     const setSiteActiveStatus = async (status) => {
         let val = true;
         if (status === 'dev') val = 'dev';
         else if (status === 'offline') val = false;
 
-        // 1. Immediate optimistic UI update
         setAllSiteContent(prev => ({ ...prev, site_active: val }));
 
-        // 2. Direct cloud save
-        if (supabase) {
-            try {
-                const { error } = await supabase
-                    .from('site_content')
-                    .upsert([{ key: 'site_active', value: val }], { onConflict: 'key' });
-                if (error) throw error;
-                const label = status === 'active' ? 'Active / Online' : status === 'dev' ? 'Dev / Updating Mode' : 'Offline / Maintenance';
-                showToast('success', `Website status updated to ${label} (Saved to Cloud)`);
-            } catch (err) {
-                showToast('error', `Status update error: ${err.message}`);
-            }
+        try {
+            await upsertSiteContent('site_active', val);
+            const label = status === 'active' ? 'Active / Online' : status === 'dev' ? 'Dev / Updating Mode' : 'Offline / Maintenance';
+            showToast('success', `Website status updated to ${label} (Saved)`);
+        } catch (err) {
+            showToast('error', `Status update error: ${err.message}`);
         }
     };
 
     // Save site_content prompts
     const handleSaveSiteContent = async () => {
-        if (!supabase) return;
         setSaving(true);
         try {
-            const rows = Object.entries(allSiteContent).map(([key, value]) => ({ key, value }));
-            const { error } = await supabase.from('site_content').upsert(rows, { onConflict: 'key' });
-            if (error) throw error;
-            showToast('success', 'Prompts and settings saved successfully to Supabase!');
+            await saveAllSiteContentRows(allSiteContent);
+            showToast('success', 'Settings and content saved successfully!');
         } catch (err) {
             showToast('error', `Save error: ${err.message}`);
         } finally {
@@ -275,8 +254,7 @@ export default function AdminApp() {
     const handleSaveProject = async (projectItem) => {
         setSaving(true);
         try {
-            const { error } = await supabase.from('projects').upsert([projectItem], { onConflict: 'id' });
-            if (error) throw error;
+            await saveCollectionItem('projects', projectItem);
             showToast('success', `Project "${projectItem.title}" saved!`);
             loadAllTables();
         } catch (err) {
@@ -295,11 +273,12 @@ export default function AdminApp() {
             isDanger: true,
             onConfirm: async () => {
                 setConfirmModal(prev => ({ ...prev, isOpen: false }));
-                const { error } = await supabase.from('projects').delete().eq('id', id);
-                if (error) showToast('error', `Delete error: ${error.message}`);
-                else {
+                try {
+                    await deleteCollectionItem('projects', id);
                     showToast('success', 'Project deleted.');
                     loadAllTables();
+                } catch (err) {
+                    showToast('error', `Delete error: ${err.message}`);
                 }
             }
         });
@@ -309,8 +288,7 @@ export default function AdminApp() {
     const handleSaveResearch = async (researchItem) => {
         setSaving(true);
         try {
-            const { error } = await supabase.from('research').upsert([researchItem], { onConflict: 'id' });
-            if (error) throw error;
+            await saveCollectionItem('research', researchItem);
             showToast('success', `Research "${researchItem.title}" saved!`);
             loadAllTables();
         } catch (err) {
@@ -329,11 +307,12 @@ export default function AdminApp() {
             isDanger: true,
             onConfirm: async () => {
                 setConfirmModal(prev => ({ ...prev, isOpen: false }));
-                const { error } = await supabase.from('research').delete().eq('id', id);
-                if (error) showToast('error', error.message);
-                else {
+                try {
+                    await deleteCollectionItem('research', id);
                     showToast('success', 'Publication deleted.');
                     loadAllTables();
+                } catch (err) {
+                    showToast('error', err.message);
                 }
             }
         });
@@ -343,8 +322,7 @@ export default function AdminApp() {
     const handleSaveRecognition = async (recItem) => {
         setSaving(true);
         try {
-            const { error } = await supabase.from('recognition').upsert([recItem], { onConflict: 'id' });
-            if (error) throw error;
+            await saveCollectionItem('recognition', recItem);
             showToast('success', `Recognition "${recItem.title}" saved!`);
             loadAllTables();
         } catch (err) {
@@ -363,11 +341,12 @@ export default function AdminApp() {
             isDanger: true,
             onConfirm: async () => {
                 setConfirmModal(prev => ({ ...prev, isOpen: false }));
-                const { error } = await supabase.from('recognition').delete().eq('id', id);
-                if (error) showToast('error', error.message);
-                else {
+                try {
+                    await deleteCollectionItem('recognition', id);
                     showToast('success', 'Recognition deleted.');
                     loadAllTables();
+                } catch (err) {
+                    showToast('error', err.message);
                 }
             }
         });
@@ -377,8 +356,7 @@ export default function AdminApp() {
     const handleSaveContact = async (contactItem) => {
         setSaving(true);
         try {
-            const { error } = await supabase.from('contacts').upsert([contactItem], { onConflict: 'id' });
-            if (error) throw error;
+            await saveCollectionItem('contacts', contactItem);
             showToast('success', 'Contact saved!');
             loadAllTables();
         } catch (err) {
@@ -389,19 +367,19 @@ export default function AdminApp() {
     };
 
     const handleDeleteContact = async (id) => {
-        const { error } = await supabase.from('contacts').delete().eq('id', id);
-        if (error) showToast('error', error.message);
-        else {
+        try {
+            await deleteCollectionItem('contacts', id);
             showToast('success', 'Contact deleted.');
             loadAllTables();
+        } catch (err) {
+            showToast('error', err.message);
         }
     };
 
     const handleSaveSocial = async (socialItem) => {
         setSaving(true);
         try {
-            const { error } = await supabase.from('socials').upsert([socialItem], { onConflict: 'id' });
-            if (error) throw error;
+            await saveCollectionItem('socials', socialItem);
             showToast('success', 'Social profile saved!');
             loadAllTables();
         } catch (err) {
@@ -412,11 +390,12 @@ export default function AdminApp() {
     };
 
     const handleDeleteSocial = async (id) => {
-        const { error } = await supabase.from('socials').delete().eq('id', id);
-        if (error) showToast('error', error.message);
-        else {
+        try {
+            await deleteCollectionItem('socials', id);
             showToast('success', 'Social deleted.');
             loadAllTables();
+        } catch (err) {
+            showToast('error', err.message);
         }
     };
 
@@ -424,8 +403,7 @@ export default function AdminApp() {
     const handleSaveChangelog = async (clItem) => {
         setSaving(true);
         try {
-            const { error } = await supabase.from('changelogs').upsert([clItem], { onConflict: 'version' });
-            if (error) throw error;
+            await saveChangelogItem(clItem);
             showToast('success', `Changelog v${clItem.version} saved!`);
             loadAllTables();
         } catch (err) {
@@ -436,11 +414,12 @@ export default function AdminApp() {
     };
 
     const handleDeleteChangelog = async (version) => {
-        const { error } = await supabase.from('changelogs').delete().eq('version', version);
-        if (error) showToast('error', error.message);
-        else {
+        try {
+            await deleteChangelogItem(version);
             showToast('success', 'Changelog version deleted.');
             loadAllTables();
+        } catch (err) {
+            showToast('error', err.message);
         }
     };
 
@@ -458,9 +437,9 @@ export default function AdminApp() {
         return <AdminLogin onLoginSuccess={(newSession) => setSession(newSession)} />;
     }
 
-    const userMetadata = session?.user?.user_metadata || {};
-    const adminDisplayName = userMetadata.display_name || userMetadata.full_name || session?.user?.email?.split('@')[0] || 'John Carlo Cheng Roa';
-    const adminAvatar = userMetadata.avatar_url || '';
+    const userRecord = session?.record || session?.model || pb.authStore.record || pb.authStore.model || {};
+    const adminDisplayName = userRecord.name || userRecord.email?.split('@')[0] || 'John Carlo Cheng Roa';
+    const adminAvatar = userRecord.avatar ? `${pb.baseUrl}/api/files/_superusers/${userRecord.id}/${userRecord.avatar}` : '';
     const avatarInitial = adminDisplayName.charAt(0).toUpperCase() || 'J';
 
     // Tabs that edit site_content prompts and show the bottom floating save bar

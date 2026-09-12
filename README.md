@@ -580,3 +580,9 @@ Fixed version control of package.json to sync with the changelog.
 - [1.0.1] - 2026-09-12
 Added support for Docker deployment and Pocketbase for a migration to a dedicated server!
 Created a script to migrate the database to PocketBase and run the application locally in a docker container.
+
+- [1.0.2] - 2026-09-12
+*Part of the Dedicated Server Migration Update*
+Fully Revamped the admin page to remove all instances of Supabase.
+Revamped the tracking bammer to remove "Vercel Analytics".
+All Changes from TEMPFIX1 -> TEMPFIX3
