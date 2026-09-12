@@ -15,12 +15,12 @@ export async function fetchPocketBaseData() {
     changelogs,
     siteContentRows
   ] = await Promise.all([
-    pb.collection('projects').getFullList({ sort: 'created' }),
-    pb.collection('research').getFullList({ sort: 'created' }),
-    pb.collection('recognition').getFullList({ sort: 'created' }),
-    pb.collection('contacts').getFullList({ sort: 'created' }),
-    pb.collection('socials').getFullList({ sort: 'created' }),
-    pb.collection('changelogs').getFullList({ sort: 'created' }),
+    pb.collection('projects').getFullList(),
+    pb.collection('research').getFullList(),
+    pb.collection('recognition').getFullList(),
+    pb.collection('contacts').getFullList(),
+    pb.collection('socials').getFullList(),
+    pb.collection('changelogs').getFullList(),
     pb.collection('site_content').getFullList()
   ]);
 
