@@ -34,8 +34,7 @@ export const heroTitleVariants = {
 
 export const heroTitleIdleFloatVariants = {
   animate: {
-    y: [-3, 3, -3],
-    rotate: [-0.3, 0.3, -0.3],
+    y: [-2.5, 2.5, -2.5],
     transition: {
       duration: 6,
       repeat: Infinity,

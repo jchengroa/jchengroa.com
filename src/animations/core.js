@@ -39,13 +39,13 @@ export const EASING = {
   elegant: [0.22, 1, 0.36, 1],
   snappy: [0.16, 1, 0.3, 1],
   
-  // Spring configurations
+  // Spring configurations optimized for swift settling and low CPU cycle usage
   spring: {
-    gentle: { type: 'spring', stiffness: 120, damping: 14 },
-    normal: { type: 'spring', stiffness: 300, damping: 25 },
-    snappy: { type: 'spring', stiffness: 400, damping: 30 },
-    bouncy: { type: 'spring', stiffness: 400, damping: 10 },
-    stiff: { type: 'spring', stiffness: 500, damping: 50 },
+    gentle: { type: 'spring', stiffness: 180, damping: 22, mass: 0.8 },
+    normal: { type: 'spring', stiffness: 320, damping: 28, mass: 0.8 },
+    snappy: { type: 'spring', stiffness: 420, damping: 32, mass: 0.8 },
+    bouncy: { type: 'spring', stiffness: 350, damping: 18, mass: 0.8 },
+    stiff: { type: 'spring', stiffness: 500, damping: 50, mass: 0.8 },
   },
 };
 
@@ -262,20 +262,45 @@ export const pageTransition = {
 // UTILITY HOOKS
 // ============================================
 
-// Hook for reduced motion preference
+// Detect low-power or low-spec devices (budget CPUs, limited RAM, data saver)
+export function isLowSpecDevice() {
+  if (typeof window === 'undefined') return false;
+  const lowCores = typeof navigator.hardwareConcurrency === 'number' && navigator.hardwareConcurrency <= 4;
+  const lowMemory = typeof navigator.deviceMemory === 'number' && navigator.deviceMemory <= 4;
+  const saveData = navigator.connection && navigator.connection.saveData === true;
+  return (lowCores && lowMemory) || saveData;
+}
+
+// Hook for reduced motion / optimized performance preference
 export function useReducedMotion() {
-  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
+  const [shouldReduceMotion, setShouldReduceMotion] = useState(() => {
+    if (typeof window === 'undefined') return false;
+    const saved = localStorage.getItem('jchengroa_reduced_motion');
+    if (saved === 'true') return true;
+    if (saved === 'false') return false;
+    return isLowSpecDevice() || window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  });
   
   useEffect(() => {
     const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
-    setPrefersReducedMotion(mediaQuery.matches);
-    
-    const handler = (e) => setPrefersReducedMotion(e.matches);
-    mediaQuery.addEventListener('change', handler);
-    return () => mediaQuery.removeEventListener('change', handler);
+    const handleMediaChange = (e) => {
+      const saved = localStorage.getItem('jchengroa_reduced_motion');
+      if (saved === null) setShouldReduceMotion(e.matches || isLowSpecDevice());
+    };
+
+    const handleCustomChange = (e) => {
+      setShouldReduceMotion(e.detail);
+    };
+
+    mediaQuery.addEventListener('change', handleMediaChange);
+    window.addEventListener('jchengroa_reduced_motion_setting_changed', handleCustomChange);
+    return () => {
+      mediaQuery.removeEventListener('change', handleMediaChange);
+      window.removeEventListener('jchengroa_reduced_motion_setting_changed', handleCustomChange);
+    };
   }, []);
   
-  return prefersReducedMotion;
+  return shouldReduceMotion;
 }
 
 // Get animation props with reduced motion support

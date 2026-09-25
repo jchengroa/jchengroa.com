@@ -15,13 +15,13 @@ export async function fetchPocketBaseData() {
     changelogs,
     siteContentRows
   ] = await Promise.all([
-    pb.collection('projects').getFullList({ sort: '' }),
-    pb.collection('research').getFullList({ sort: '' }),
-    pb.collection('recognition').getFullList({ sort: '' }),
-    pb.collection('contacts').getFullList({ sort: '' }),
-    pb.collection('socials').getFullList({ sort: '' }),
-    pb.collection('changelogs').getFullList({ sort: '' }),
-    pb.collection('site_content').getFullList({ sort: '' })
+    pb.collection('projects').getFullList({ sort: '', requestKey: null }),
+    pb.collection('research').getFullList({ sort: '', requestKey: null }),
+    pb.collection('recognition').getFullList({ sort: '', requestKey: null }),
+    pb.collection('contacts').getFullList({ sort: '', requestKey: null }),
+    pb.collection('socials').getFullList({ sort: '', requestKey: null }),
+    pb.collection('changelogs').getFullList({ sort: '', requestKey: null }),
+    pb.collection('site_content').getFullList({ sort: '', requestKey: null })
   ]);
 
   // Normalize records so orig_id maps to id (matching React app's keys & detail routing)

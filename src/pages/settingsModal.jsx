@@ -11,11 +11,13 @@ import {
     LuBellRing, 
     LuDatabase, 
     LuTrash2,
-    LuHighlighter
+    LuHighlighter,
+    LuZap
 } from "react-icons/lu";
 import { applyCustomAccent, clearCustomAccent } from "../utils/colorUtils.js";
 import { useData } from "../context/dataContext.jsx";
 import { ToggleTile } from "../components/settings/toggleTile.jsx";
+import { getMotionMode, setMotionMode, calculateIsLiteMotionActive } from "../utils/performanceManager.js";
 
 export const STORAGE_KEYS = {
     themeMode: 'themeMode',
@@ -32,6 +34,7 @@ export const STORAGE_KEYS = {
     analyticsConsent: 'jchengroa_analytics_consent',
     heroParticles: 'jchengroa_hero_particles_enabled',
     searchHighlight: 'jchengroa_search_highlight_enabled',
+    reducedMotion: 'jchengroa_reduced_motion',
 };
 
 export const ACCENT_COLORS = [
@@ -48,7 +51,7 @@ export const DATA_CATEGORIES = [
     {
         id: 'appearance',
         label: 'Appearance',
-        keys: [STORAGE_KEYS.themeMode, STORAGE_KEYS.darkMode, STORAGE_KEYS.accentColor, STORAGE_KEYS.monochrome, STORAGE_KEYS.heroParticles],
+        keys: [STORAGE_KEYS.themeMode, STORAGE_KEYS.darkMode, STORAGE_KEYS.accentColor, STORAGE_KEYS.monochrome, STORAGE_KEYS.heroParticles, STORAGE_KEYS.reducedMotion],
     },
     {
         id: 'layout',
@@ -139,6 +142,8 @@ export default function SettingsModal({ isOpen, onClose }) {
         }
         return true;
     });
+    const [motionMode, setMotionModeState] = useState(() => getMotionMode());
+    const [reducedMotion, setReducedMotion] = useState(() => calculateIsLiteMotionActive());
 
     const [pickerOpen, setPickerOpen] = useState(false);
     const [tempHex, setTempHex] = useState(customHex || '#2563eb');
@@ -193,6 +198,35 @@ export default function SettingsModal({ isOpen, onClose }) {
     }, []);
 
     useEffect(() => {
+        const handleMotionChange = (e) => {
+            setReducedMotion(Boolean(e.detail));
+            if (e.mode) {
+                setMotionModeState(e.mode);
+            } else {
+                setMotionModeState(getMotionMode());
+            }
+        };
+        window.addEventListener('jchengroa_reduced_motion_setting_changed', handleMotionChange);
+        return () => {
+            window.removeEventListener('jchengroa_reduced_motion_setting_changed', handleMotionChange);
+        };
+    }, []);
+
+    const handleCycleLiteMotion = () => {
+        let nextMode;
+        if (motionMode === 'auto') {
+            nextMode = 'enabled';
+        } else if (motionMode === 'enabled') {
+            nextMode = 'disabled';
+        } else {
+            nextMode = 'auto';
+        }
+        setMotionMode(nextMode);
+        setMotionModeState(nextMode);
+        setReducedMotion(calculateIsLiteMotionActive());
+    };
+
+    useEffect(() => {
         const applyTheme = (mode) => {
             let isDark = false;
             if (mode === 'dark') isDark = true;
@@ -244,6 +278,8 @@ export default function SettingsModal({ isOpen, onClose }) {
             setHeroParticles(syncedParticles !== null ? syncedParticles === 'true' : true);
             const syncedHighlight = localStorage.getItem(STORAGE_KEYS.searchHighlight);
             setSearchHighlight(syncedHighlight !== null ? syncedHighlight === 'true' : true);
+            const syncedMotion = localStorage.getItem(STORAGE_KEYS.reducedMotion);
+            setReducedMotion(syncedMotion !== null ? syncedMotion === 'true' : (window.matchMedia('(prefers-reduced-motion: reduce)').matches));
         }
     }, [isOpen, defaultTheme, defaultAccent, defaultCustomHex]);
 
@@ -273,7 +309,14 @@ export default function SettingsModal({ isOpen, onClose }) {
     };
 
     const clearCategory = (keys) => {
-        keys.forEach(k => localStorage.removeItem(k));
+        keys.forEach(k => {
+            localStorage.removeItem(k);
+            if (k === STORAGE_KEYS.reducedMotion) {
+                setMotionMode('auto');
+                setMotionModeState('auto');
+                setReducedMotion(calculateIsLiteMotionActive());
+            }
+        });
         setClearedCategories(prev => [...prev, ...keys].filter((v, i, a) => a.indexOf(v) === i));
         setTimeout(() => setClearedCategories([]), 2000);
     };
@@ -523,6 +566,16 @@ export default function SettingsModal({ isOpen, onClose }) {
                                         title="Search Highlight"
                                         enabled={searchHighlight}
                                         onToggle={() => setSearchHighlight(!searchHighlight)}
+                                    />
+
+                                    {/* Lite Motion / Auto Performance Mode Toggle Tile */}
+                                    <ToggleTile
+                                        icon={LuZap}
+                                        title="Lite Motion"
+                                        enabled={reducedMotion}
+                                        onToggle={handleCycleLiteMotion}
+                                        enabledText={motionMode === 'auto' ? "Auto (Active)" : "Enabled"}
+                                        disabledText={motionMode === 'auto' ? "Auto (Off)" : "Disabled"}
                                     />
                                 </div>
                             </div>

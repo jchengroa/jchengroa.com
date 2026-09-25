@@ -42,9 +42,9 @@ export default function UserProfileModal({ isOpen, onClose, session, onShowToast
             if (onUserUpdated) {
                 onUserUpdated(updated);
             }
-            if (onShowToast) onShowToast('success', 'Admin profile name updated!');
+            if (onShowToast) onShowToast('success', 'Profile updated!');
         } catch (err) {
-            if (onShowToast) onShowToast('error', `Failed to update profile: ${err.message}`);
+            if (onShowToast) onShowToast('error', `Update failed: ${err.message}`);
         } finally {
             setSavingProfile(false);
         }
@@ -69,7 +69,7 @@ export default function UserProfileModal({ isOpen, onClose, session, onShowToast
                     password: newPassword,
                     passwordConfirm: confirmPassword
                 });
-                if (onShowToast) onShowToast('success', 'Admin password updated successfully!');
+                if (onShowToast) onShowToast('success', 'Password updated successfully!');
                 setNewPassword('');
                 setConfirmPassword('');
             } else {
@@ -83,7 +83,7 @@ export default function UserProfileModal({ isOpen, onClose, session, onShowToast
     };
 
     return (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 overflow-y-auto">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 overflow-y-auto">
             {/* Backdrop */}
             <div 
                 className="fixed inset-0 bg-black/60 backdrop-blur-sm transition-opacity" 
@@ -91,258 +91,238 @@ export default function UserProfileModal({ isOpen, onClose, session, onShowToast
             />
 
             {/* Modal Container */}
-            <div className="relative w-full max-w-xl bg-white dark:bg-gray-900 rounded-[2.5rem] p-6 sm:p-8 shadow-2xl border border-gray-100 dark:border-gray-800 space-y-6 animate-in fade-in zoom-in-95 duration-200">
+            <div className="relative w-full max-w-xl bg-white dark:bg-gray-900 rounded-2xl sm:rounded-3xl p-4 sm:p-7 shadow-2xl border border-gray-100 dark:border-gray-800 space-y-4 sm:space-y-5 my-auto max-h-[92vh] overflow-y-auto">
                 {/* Header */}
-                <div className="flex items-start justify-between border-b border-gray-100 dark:border-gray-800 pb-5">
-                    <div className="flex items-center gap-3.5">
-                        <div className="relative">
-                            <div className="w-14 h-14 rounded-2xl overflow-hidden bg-gradient-to-tr from-blue-600 to-indigo-600 border-2 border-white dark:border-gray-800 shadow-md flex items-center justify-center text-white font-black text-xl">
-                                {avatarUrl ? (
-                                    <img
-                                        src={avatarUrl}
-                                        alt={displayName}
-                                        className="w-full h-full object-cover"
-                                        onError={(e) => { e.target.style.display = 'none'; }}
-                                    />
-                                ) : (
-                                    (displayName || 'A').charAt(0).toUpperCase()
-                                )}
-                            </div>
+                <div className="flex items-center justify-between border-b border-gray-100 dark:border-gray-800 pb-3 sm:pb-4">
+                    <div className="flex items-center gap-2.5 sm:gap-3">
+                        <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl overflow-hidden bg-blue-600 border border-gray-200 dark:border-gray-700 flex items-center justify-center text-white font-bold text-xs sm:text-sm shrink-0">
+                            {avatarUrl ? (
+                                <img
+                                    src={avatarUrl}
+                                    alt={displayName}
+                                    className="w-full h-full object-cover"
+                                    onError={(e) => { e.target.style.display = 'none'; }}
+                                />
+                            ) : (
+                                (displayName || 'A').charAt(0).toUpperCase()
+                            )}
                         </div>
                         <div>
-                            <h3 className="text-lg font-black text-gray-900 dark:text-white tracking-tight">
-                                {displayName || 'Admin Account'}
+                            <h3 className="text-sm sm:text-base font-bold text-gray-900 dark:text-white">
+                                {displayName || 'Admin'}
                             </h3>
-                            <div className="flex items-center gap-2 mt-0.5">
-                                <span className="text-xs text-gray-500 dark:text-gray-400 font-mono truncate max-w-[200px]">
-                                    {user.email}
-                                </span>
-                                <span className="text-[10px] font-bold uppercase tracking-wider bg-blue-100 dark:bg-blue-950 text-blue-700 dark:text-blue-300 px-2 py-0.5 rounded-full">
-                                    Admin
-                                </span>
-                            </div>
+                            <p className="text-[11px] sm:text-xs text-gray-500 dark:text-gray-400 font-mono truncate max-w-[170px] sm:max-w-[240px]">
+                                {user.email || 'Admin'}
+                            </p>
                         </div>
                     </div>
 
                     <button
                         type="button"
                         onClick={onClose}
-                        className="p-2 rounded-xl text-gray-400 hover:text-gray-700 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+                        className="p-1.5 rounded-lg text-gray-400 hover:text-gray-700 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors cursor-pointer"
                     >
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
                     </button>
                 </div>
 
                 {/* Sub-tab Navigation */}
-                <div className="flex p-1 bg-gray-100 dark:bg-gray-800 rounded-2xl gap-1">
+                <div className="flex p-1 bg-gray-100 dark:bg-gray-800 rounded-xl gap-1">
                     <button
                         type="button"
                         onClick={() => setActiveTab('profile')}
-                        className={`flex-1 py-2 text-xs font-bold rounded-xl transition-all ${
+                        className={`flex-1 py-1.5 text-xs font-semibold rounded-lg transition-colors cursor-pointer ${
                             activeTab === 'profile'
-                                ? 'bg-white dark:bg-gray-700 text-blue-600 dark:text-blue-400 shadow-sm'
+                                ? 'bg-white dark:bg-gray-700 text-blue-600 dark:text-blue-400 shadow-xs'
                                 : 'text-gray-500 hover:text-gray-800 dark:hover:text-gray-200'
                         }`}
                     >
-                        👤 Profile & Avatar
+                        Profile
                     </button>
                     <button
                         type="button"
                         onClick={() => setActiveTab('security')}
-                        className={`flex-1 py-2 text-xs font-bold rounded-xl transition-all ${
+                        className={`flex-1 py-1.5 text-xs font-semibold rounded-lg transition-colors cursor-pointer ${
                             activeTab === 'security'
-                                ? 'bg-white dark:bg-gray-700 text-blue-600 dark:text-blue-400 shadow-sm'
+                                ? 'bg-white dark:bg-gray-700 text-blue-600 dark:text-blue-400 shadow-xs'
                                 : 'text-gray-500 hover:text-gray-800 dark:hover:text-gray-200'
                         }`}
                     >
-                        🔒 Security & Auth
+                        Security
                     </button>
                     <button
                         type="button"
                         onClick={() => setActiveTab('session')}
-                        className={`flex-1 py-2 text-xs font-bold rounded-xl transition-all ${
+                        className={`flex-1 py-1.5 text-xs font-semibold rounded-lg transition-colors cursor-pointer ${
                             activeTab === 'session'
-                                ? 'bg-white dark:bg-gray-700 text-blue-600 dark:text-blue-400 shadow-sm'
+                                ? 'bg-white dark:bg-gray-700 text-blue-600 dark:text-blue-400 shadow-xs'
                                 : 'text-gray-500 hover:text-gray-800 dark:hover:text-gray-200'
                         }`}
                     >
-                        ℹ️ Session Details
+                        Session
                     </button>
                 </div>
 
-                {/* TAB 1: Profile & Avatar Details */}
+                {/* TAB 1: Profile */}
                 {activeTab === 'profile' && (
                     <form onSubmit={handleUpdateProfile} className="space-y-4">
                         <div>
-                            <label className="block text-[11px] font-bold uppercase tracking-wider text-gray-400 dark:text-gray-500 mb-1.5">
-                                Display Name / Full Name
+                            <label className="block text-[11px] font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400 mb-1.5">
+                                Display Name
                             </label>
                             <input
                                 type="text"
                                 required
                                 value={displayName}
                                 onChange={(e) => setDisplayName(e.target.value)}
-                                placeholder="John Carlo Cheng Roa"
-                                className="w-full px-4 py-2.5 rounded-xl bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-sm font-semibold text-gray-900 dark:text-white outline-none focus:ring-2 focus:ring-blue-600"
+                                placeholder="Admin Name"
+                                className="w-full px-3.5 py-2 rounded-xl bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-sm font-semibold text-gray-900 dark:text-white outline-none focus:ring-2 focus:ring-blue-600"
                             />
                         </div>
 
                         <div>
-                            <label className="block text-[11px] font-bold uppercase tracking-wider text-gray-400 dark:text-gray-500 mb-1.5">
-                                Profile / Display Picture URL
+                            <label className="block text-[11px] font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400 mb-1.5">
+                                Avatar URL
                             </label>
                             <div className="flex gap-2">
                                 <input
                                     type="text"
                                     value={avatarUrl}
                                     onChange={(e) => setAvatarUrl(e.target.value)}
-                                    placeholder="https://... image link or /logo.png"
-                                    className="flex-1 px-4 py-2.5 rounded-xl bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-xs font-mono text-gray-900 dark:text-white outline-none focus:ring-2 focus:ring-blue-600"
+                                    placeholder="https://... or /logo.png"
+                                    className="flex-1 px-3.5 py-2 rounded-xl bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-xs font-mono text-gray-900 dark:text-white outline-none focus:ring-2 focus:ring-blue-600"
                                 />
                                 {avatarUrl && (
-                                    <div className="w-10 h-10 rounded-xl overflow-hidden border border-gray-200 dark:border-gray-700 flex-shrink-0 bg-gray-100 dark:bg-gray-800">
-                                        <img src={avatarUrl} alt="Preview" className="w-full h-full object-cover" />
+                                    <div className="w-9 h-9 rounded-xl overflow-hidden border border-gray-200 dark:border-gray-700 shrink-0 bg-gray-100 dark:bg-gray-800">
+                                        <img src={avatarUrl} alt="Preview" className="w-full h-full object-cover" onError={(e) => { e.target.style.display = 'none'; }} />
                                     </div>
                                 )}
                             </div>
                         </div>
 
-                        <div>
-                            <label className="block text-[11px] font-bold uppercase tracking-wider text-gray-400 dark:text-gray-500 mb-1.5">
-                                Contact Phone Number (Optional)
-                            </label>
-                            <input
-                                type="text"
-                                value={phone}
-                                onChange={(e) => setPhone(e.target.value)}
-                                placeholder="+63 900 000 0000"
-                                className="w-full px-4 py-2.5 rounded-xl bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-sm font-semibold text-gray-900 dark:text-white outline-none focus:ring-2 focus:ring-blue-600"
-                            />
-                        </div>
-
-                        <div className="flex items-center justify-end gap-2 pt-3 border-t border-gray-100 dark:border-gray-800">
+                        <div className="flex items-center justify-end gap-2 pt-2 border-t border-gray-100 dark:border-gray-800">
                             <button
                                 type="button"
                                 onClick={onClose}
-                                className="px-4 py-2.5 rounded-xl text-xs font-bold text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800"
+                                className="px-3.5 py-2 rounded-xl text-xs font-semibold text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 cursor-pointer"
                             >
                                 Close
                             </button>
                             <button
                                 type="submit"
                                 disabled={savingProfile}
-                                className="px-6 py-2.5 rounded-xl text-xs font-black text-white bg-blue-600 hover:bg-blue-700 shadow-md shadow-blue-600/20 disabled:opacity-50 flex items-center gap-2"
+                                className="px-5 py-2 rounded-xl text-xs font-bold text-white bg-blue-600 hover:bg-blue-700 shadow-xs disabled:opacity-50 flex items-center gap-2 cursor-pointer"
                             >
                                 {savingProfile && <div className="w-3.5 h-3.5 border-2 border-white border-t-transparent rounded-full animate-spin" />}
-                                <span>{savingProfile ? 'Saving Profile...' : 'Save Profile Changes'}</span>
+                                <span>{savingProfile ? 'Saving...' : 'Save Changes'}</span>
                             </button>
                         </div>
                     </form>
                 )}
 
-                {/* TAB 2: Security & Credentials */}
+                {/* TAB 2: Security */}
                 {activeTab === 'security' && (
                     <form onSubmit={handleUpdateSecurity} className="space-y-4">
                         <div>
-                            <label className="block text-[11px] font-bold uppercase tracking-wider text-gray-400 dark:text-gray-500 mb-1.5">
-                                Admin Email Address
+                            <label className="block text-[11px] font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400 mb-1.5">
+                                Admin Email
                             </label>
                             <input
                                 type="email"
-                                required
+                                disabled
                                 value={email}
-                                onChange={(e) => setEmail(e.target.value)}
-                                className="w-full px-4 py-2.5 rounded-xl bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-xs font-mono font-semibold text-gray-900 dark:text-white outline-none focus:ring-2 focus:ring-blue-600"
+                                className="w-full px-3.5 py-2 rounded-xl bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-xs font-mono text-gray-500 dark:text-gray-400 cursor-not-allowed outline-none"
                             />
-                            <p className="text-[10px] text-gray-400 mt-1">
-                                Updating email will dispatch a Supabase confirmation message.
-                            </p>
                         </div>
 
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
                             <div>
-                                <label className="block text-[11px] font-bold uppercase tracking-wider text-gray-400 dark:text-gray-500 mb-1.5">
-                                    New Password (Optional)
+                                <label className="block text-[11px] font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400 mb-1.5">
+                                    New Password
                                 </label>
                                 <input
                                     type="password"
                                     value={newPassword}
                                     onChange={(e) => setNewPassword(e.target.value)}
-                                    placeholder="Leave blank to keep current"
-                                    className="w-full px-4 py-2.5 rounded-xl bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-xs font-semibold text-gray-900 dark:text-white outline-none focus:ring-2 focus:ring-blue-600"
+                                    placeholder="Leave blank to keep"
+                                    className="w-full px-3.5 py-2 rounded-xl bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-xs font-semibold text-gray-900 dark:text-white outline-none focus:ring-2 focus:ring-blue-600"
                                 />
                             </div>
 
                             <div>
-                                <label className="block text-[11px] font-bold uppercase tracking-wider text-gray-400 dark:text-gray-500 mb-1.5">
-                                    Confirm New Password
+                                <label className="block text-[11px] font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400 mb-1.5">
+                                    Confirm Password
                                 </label>
                                 <input
                                     type="password"
                                     value={confirmPassword}
                                     onChange={(e) => setConfirmPassword(e.target.value)}
                                     placeholder="••••••••••••"
-                                    className="w-full px-4 py-2.5 rounded-xl bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-xs font-semibold text-gray-900 dark:text-white outline-none focus:ring-2 focus:ring-blue-600"
+                                    className="w-full px-3.5 py-2 rounded-xl bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-xs font-semibold text-gray-900 dark:text-white outline-none focus:ring-2 focus:ring-blue-600"
                                 />
                             </div>
                         </div>
 
-                        <div className="flex items-center justify-end gap-2 pt-3 border-t border-gray-100 dark:border-gray-800">
+                        <div className="flex items-center justify-end gap-2 pt-2 border-t border-gray-100 dark:border-gray-800">
                             <button
                                 type="button"
                                 onClick={onClose}
-                                className="px-4 py-2.5 rounded-xl text-xs font-bold text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800"
+                                className="px-3.5 py-2 rounded-xl text-xs font-semibold text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 cursor-pointer"
                             >
                                 Close
                             </button>
                             <button
                                 type="submit"
                                 disabled={savingSecurity}
-                                className="px-6 py-2.5 rounded-xl text-xs font-black text-white bg-blue-600 hover:bg-blue-700 shadow-md shadow-blue-600/20 disabled:opacity-50 flex items-center gap-2"
+                                className="px-5 py-2 rounded-xl text-xs font-bold text-white bg-blue-600 hover:bg-blue-700 shadow-xs disabled:opacity-50 flex items-center gap-2 cursor-pointer"
                             >
                                 {savingSecurity && <div className="w-3.5 h-3.5 border-2 border-white border-t-transparent rounded-full animate-spin" />}
-                                <span>{savingSecurity ? 'Updating Credentials...' : 'Update Security'}</span>
+                                <span>{savingSecurity ? 'Updating...' : 'Update Password'}</span>
                             </button>
                         </div>
                     </form>
                 )}
 
-                {/* TAB 3: Session Details & Sign Out */}
+                {/* TAB 3: Session */}
                 {activeTab === 'session' && (
                     <div className="space-y-4">
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
-                            <div className="p-3.5 rounded-2xl bg-gray-50 dark:bg-gray-800/40 border border-gray-100 dark:border-gray-800 space-y-1">
+                            <div className="p-3 rounded-xl bg-gray-50 dark:bg-gray-800/40 border border-gray-100 dark:border-gray-800 space-y-1">
                                 <span className="text-[10px] font-bold text-gray-400 uppercase">User ID</span>
-                                <div className="font-mono text-gray-800 dark:text-gray-200 text-[11px] break-all">{user.id}</div>
+                                <div className="font-mono text-gray-800 dark:text-gray-200 text-[11px] break-all">{user.id || 'N/A'}</div>
                             </div>
-                            <div className="p-3.5 rounded-2xl bg-gray-50 dark:bg-gray-800/40 border border-gray-100 dark:border-gray-800 space-y-1">
+                            <div className="p-3 rounded-xl bg-gray-50 dark:bg-gray-800/40 border border-gray-100 dark:border-gray-800 space-y-1">
                                 <span className="text-[10px] font-bold text-gray-400 uppercase">Role</span>
-                                <div className="font-bold text-blue-600 dark:text-blue-400 capitalize">{user.role || 'authenticated'}</div>
+                                <div className="font-bold text-blue-600 dark:text-blue-400 capitalize">{user.role || 'Superuser'}</div>
                             </div>
-                            <div className="p-3.5 rounded-2xl bg-gray-50 dark:bg-gray-800/40 border border-gray-100 dark:border-gray-800 space-y-1">
-                                <span className="text-[10px] font-bold text-gray-400 uppercase">Account Created</span>
-                                <div className="font-semibold text-gray-800 dark:text-gray-200">{user.created_at ? new Date(user.created_at).toLocaleString() : 'N/A'}</div>
+                            <div className="p-3 rounded-xl bg-gray-50 dark:bg-gray-800/40 border border-gray-100 dark:border-gray-800 space-y-1">
+                                <span className="text-[10px] font-bold text-gray-400 uppercase">Created</span>
+                                <div className="font-semibold text-gray-800 dark:text-gray-200">
+                                    {user.created ? new Date(user.created).toLocaleDateString() : (user.created_at ? new Date(user.created_at).toLocaleDateString() : 'N/A')}
+                                </div>
                             </div>
-                            <div className="p-3.5 rounded-2xl bg-gray-50 dark:bg-gray-800/40 border border-gray-100 dark:border-gray-800 space-y-1">
-                                <span className="text-[10px] font-bold text-gray-400 uppercase">Last Sign In</span>
-                                <div className="font-semibold text-gray-800 dark:text-gray-200">{user.last_sign_in_at ? new Date(user.last_sign_in_at).toLocaleString() : 'N/A'}</div>
+                            <div className="p-3 rounded-xl bg-gray-50 dark:bg-gray-800/40 border border-gray-100 dark:border-gray-800 space-y-1">
+                                <span className="text-[10px] font-bold text-gray-400 uppercase">Updated</span>
+                                <div className="font-semibold text-gray-800 dark:text-gray-200">
+                                    {user.updated ? new Date(user.updated).toLocaleDateString() : (user.last_sign_in_at ? new Date(user.last_sign_in_at).toLocaleDateString() : 'N/A')}
+                                </div>
                             </div>
                         </div>
 
-                        <div className="pt-3 border-t border-gray-100 dark:border-gray-800 flex items-center justify-between">
+                        <div className="pt-2 border-t border-gray-100 dark:border-gray-800 flex items-center justify-between">
                             <button
                                 type="button"
                                 onClick={onSignOut}
-                                className="px-5 py-2.5 rounded-2xl text-xs font-black text-rose-600 dark:text-rose-400 bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-800/60 hover:bg-rose-100 transition-colors flex items-center gap-2"
+                                className="px-4 py-2 rounded-xl text-xs font-bold text-rose-600 dark:text-rose-400 bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-800/60 hover:bg-rose-100 transition-colors flex items-center gap-1.5 cursor-pointer"
                             >
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
-                                <span>Sign Out of Admin</span>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+                                <span>Sign Out</span>
                             </button>
 
                             <button
                                 type="button"
                                 onClick={onClose}
-                                className="px-4 py-2 rounded-xl text-xs font-bold text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800"
+                                className="px-4 py-2 rounded-xl text-xs font-semibold text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 cursor-pointer"
                             >
                                 Done
                             </button>

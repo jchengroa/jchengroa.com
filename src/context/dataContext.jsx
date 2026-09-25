@@ -1,9 +1,35 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { supabase } from '../utils/supabaseClient';
 import { fetchPocketBaseData } from '../utils/pocketbaseClient';
 import DatabaseOfflineOverlay from '../components/offlineOverlay.jsx';
 
 const DataContext = createContext(null);
+const DB_CACHE_KEY = 'jchengroa_db_cache_v2';
+
+function getInitialCachedData() {
+    if (typeof window === 'undefined') return null;
+    try {
+        const cached = localStorage.getItem(DB_CACHE_KEY);
+        if (cached) {
+            const parsed = JSON.parse(cached);
+            if (parsed && parsed.siteContent && Object.keys(parsed.siteContent).length > 0) {
+                return {
+                    projects: parsed.projects || [],
+                    research: parsed.research || [],
+                    recognition: parsed.recognition || [],
+                    contacts: parsed.contacts || [],
+                    socials: parsed.socials || [],
+                    changelogs: parsed.changelogs || [],
+                    siteContent: parsed.siteContent || {},
+                    dbStatus: 'connected',
+                    loading: false
+                };
+            }
+        }
+    } catch (e) {
+        console.warn("Failed reading cached db data:", e);
+    }
+    return null;
+}
 
 export function DataProvider({ children }) {
     const [forceFallback, setForceFallbackState] = useState(() => {
@@ -15,15 +41,20 @@ export function DataProvider({ children }) {
     
     const [retryCount, setRetryCount] = useState(0);
 
-    const [data, setData] = useState({
-        projects: [],
-        research: [],
-        recognition: [],
-        socials: [],
-        changelogs: [],
-        siteContent: {},
-        dbStatus: 'connected',
-        loading: true
+    const [data, setData] = useState(() => {
+        const initial = getInitialCachedData();
+        if (initial) return initial;
+        return {
+            projects: [],
+            research: [],
+            recognition: [],
+            contacts: [],
+            socials: [],
+            changelogs: [],
+            siteContent: {},
+            dbStatus: 'connected',
+            loading: true
+        };
     });
 
     const toggleForceFallback = () => {
@@ -38,7 +69,11 @@ export function DataProvider({ children }) {
 
     useEffect(() => {
         async function loadAllData() {
-            setData(prev => ({ ...prev, loading: true }));
+            // Only set loading to true if there is no data at all in memory
+            setData(prev => {
+                const hasExistingData = prev.siteContent && Object.keys(prev.siteContent).length > 0;
+                return hasExistingData ? prev : { ...prev, loading: true };
+            });
 
             if (forceFallback) {
                 setData(prev => ({
@@ -50,52 +85,15 @@ export function DataProvider({ children }) {
             }
 
             try {
-                const backendProvider = (import.meta.env.VITE_BACKEND_PROVIDER || 'supabase').toLowerCase();
-                let projects = [], research = [], recognition = [], contacts = [], socials = [], changelogs = [], siteContentRows = [];
-
-                if (backendProvider === 'pocketbase') {
-                    const pbData = await fetchPocketBaseData();
-                    projects = pbData.projects;
-                    research = pbData.research;
-                    recognition = pbData.recognition;
-                    contacts = pbData.contacts;
-                    socials = pbData.socials;
-                    changelogs = pbData.changelogs;
-                    siteContentRows = pbData.siteContentRows;
-                } else {
-                    if (!supabase) {
-                        throw new Error("Supabase credentials missing. Check VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY in Vercel settings.");
-                    }
-                    const [
-                        { data: pData, error: projectsErr },
-                        { data: rData, error: researchErr },
-                        { data: recData, error: recognitionErr },
-                        { data: cData, error: contactsErr },
-                        { data: sData, error: socialsErr },
-                        { data: chData, error: changelogsErr },
-                        { data: scData, error: siteContentErr }
-                    ] = await Promise.all([
-                        supabase.from('projects').select('*').order('created_at', { ascending: true }),
-                        supabase.from('research').select('*').order('created_at', { ascending: true }),
-                        supabase.from('recognition').select('*').order('created_at', { ascending: true }),
-                        supabase.from('contacts').select('*').order('created_at', { ascending: true }),
-                        supabase.from('socials').select('*').order('created_at', { ascending: true }),
-                        supabase.from('changelogs').select('*').order('created_at', { ascending: true }),
-                        supabase.from('site_content').select('*')
-                    ]);
-
-                    if (projectsErr || researchErr || recognitionErr || changelogsErr || siteContentErr) {
-                        throw new Error("One or more database requests failed.");
-                    }
-
-                    projects = pData || [];
-                    research = rData || [];
-                    recognition = recData || [];
-                    contacts = cData || [];
-                    socials = sData || [];
-                    changelogs = chData || [];
-                    siteContentRows = scData || [];
-                }
+                const {
+                    projects,
+                    research,
+                    recognition,
+                    contacts,
+                    socials,
+                    changelogs,
+                    siteContentRows
+                } = await fetchPocketBaseData();
 
                 const activeContacts = (contacts && contacts.length > 0) ? contacts : (socials || []);
 
@@ -149,7 +147,7 @@ export function DataProvider({ children }) {
                     }
                 }
 
-                setData({
+                const freshPayload = {
                     projects: projects || [],
                     research: research || [],
                     recognition: recognition || [],
@@ -159,14 +157,24 @@ export function DataProvider({ children }) {
                     siteContent: siteContentObj,
                     dbStatus: 'connected',
                     loading: false
-                });
+                };
+
+                setData(freshPayload);
+
+                try {
+                    localStorage.setItem(DB_CACHE_KEY, JSON.stringify(freshPayload));
+                } catch (_) {}
             } catch (err) {
                 console.error("Error loading database content:", err);
-                setData(prev => ({
-                    ...prev,
-                    dbStatus: 'fallback',
-                    loading: false
-                }));
+                // If we already have data in memory/cache, keep showing it smoothly without interrupting the user
+                setData(prev => {
+                    const hasData = prev.siteContent && Object.keys(prev.siteContent).length > 0;
+                    return {
+                        ...prev,
+                        dbStatus: hasData ? prev.dbStatus : 'fallback',
+                        loading: false
+                    };
+                });
             }
         }
 

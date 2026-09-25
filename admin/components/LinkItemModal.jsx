@@ -23,20 +23,20 @@ export default function LinkItemModal({ isOpen, initialData, onSave, onClose }) 
     };
 
     return (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 overflow-y-auto">
             <div 
-                className="absolute inset-0 bg-black/50 backdrop-blur-sm transition-opacity" 
+                className="fixed inset-0 bg-black/50 backdrop-blur-sm transition-opacity" 
                 onClick={onClose}
             />
-            <div className="relative w-full max-w-md bg-white dark:bg-gray-900 rounded-3xl p-6 shadow-2xl border border-gray-100 dark:border-gray-800 space-y-4 animate-in fade-in zoom-in-95 duration-200">
+            <div className="relative w-full max-w-md bg-white dark:bg-gray-900 rounded-2xl sm:rounded-3xl p-5 sm:p-6 shadow-2xl border border-gray-100 dark:border-gray-800 space-y-4 my-auto">
                 <div className="flex items-center justify-between border-b border-gray-100 dark:border-gray-800 pb-3">
-                    <h3 className="text-base font-extrabold text-gray-900 dark:text-white">
-                        {initialData ? 'Edit Navigation Link' : 'Add Navigation Link'}
+                    <h3 className="text-sm sm:text-base font-extrabold text-gray-900 dark:text-white">
+                        {initialData ? 'Edit Link' : 'Add Link'}
                     </h3>
                     <button 
                         type="button" 
                         onClick={onClose}
-                        className="p-1 rounded-lg text-gray-400 hover:text-gray-600 dark:hover:text-gray-200"
+                        className="p-1.5 rounded-lg text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 cursor-pointer"
                     >
                         ✕
                     </button>

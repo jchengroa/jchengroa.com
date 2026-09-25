@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import LiveCardPreview from '../components/LiveCardPreview.jsx';
+import { LuUpload, LuCheck } from 'react-icons/lu';
 
 export default function ProjectsAdminTab({ projects = [], onSaveProject, onDeleteProject }) {
     const [selectedProject, setSelectedProject] = useState(projects[0] || null);
@@ -83,14 +84,14 @@ export default function ProjectsAdminTab({ projects = [], onSaveProject, onDelet
     return (
         <div className="space-y-6">
             {/* Header & List Bar */}
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-5 rounded-3xl bg-white dark:bg-gray-900 border border-gray-200/80 dark:border-gray-800 shadow-sm">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-4 sm:p-5 rounded-2xl sm:rounded-3xl bg-white dark:bg-gray-900 border border-gray-200/80 dark:border-gray-800 shadow-sm">
                 <div>
                     <div className="flex items-center gap-2">
-                        <h2 className="text-lg font-black text-gray-900 dark:text-white tracking-tight">
-                            Projects Table Management
+                        <h2 className="text-base sm:text-lg font-black text-gray-900 dark:text-white tracking-tight">
+                            Projects
                         </h2>
                         <span className="text-[10px] font-bold uppercase tracking-wider bg-blue-100 dark:bg-blue-950 text-blue-700 dark:text-blue-300 px-2 py-0.5 rounded-full border border-blue-200 dark:border-blue-800">
-                            {projects.length} items
+                            {projects.length}
                         </span>
                     </div>
                     <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">
@@ -98,45 +99,45 @@ export default function ProjectsAdminTab({ projects = [], onSaveProject, onDelet
                     </p>
                 </div>
 
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2 w-full sm:w-auto">
                     <button
                         type="button"
                         onClick={handleCreateNew}
-                        className="px-4 py-2 rounded-xl text-xs font-black text-white bg-blue-600 hover:bg-blue-700 shadow-md shadow-blue-600/20 transition-all flex items-center gap-1.5"
+                        className="w-full sm:w-auto px-4 py-2 rounded-xl text-xs font-bold text-white bg-blue-600 hover:bg-blue-700 shadow-xs transition-colors flex items-center justify-center gap-1.5 cursor-pointer"
                     >
-                        <span>+ Add New Project</span>
+                        <span>+ New Project</span>
                     </button>
                 </div>
             </div>
 
             {/* Main Split Layout: Selector + Editor Form + Live Preview */}
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-                {/* Left: Project Selector List */}
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 sm:gap-6">
+                {/* Left: Project Selector List (Horizontal scroll on mobile, vertical column on desktop) */}
                 <div className="lg:col-span-3 space-y-2">
-                    <label className="block text-xs font-bold uppercase tracking-wider text-gray-400 dark:text-gray-500 mb-2">
+                    <label className="block text-xs font-bold uppercase tracking-wider text-gray-400 dark:text-gray-500 mb-1">
                         Select Project
                     </label>
-                    <div className="space-y-1.5 max-h-[700px] overflow-y-auto pr-1 no-scrollbar">
+                    <div className="flex lg:flex-col overflow-x-auto lg:overflow-y-auto gap-2 lg:gap-1.5 pb-2 lg:pb-0 max-h-none lg:max-h-[700px] no-scrollbar">
                         {projects.map(p => (
                             <button
                                 key={p.id}
                                 type="button"
                                 onClick={() => handleSelect(p)}
-                                className={`w-full text-left p-3 rounded-2xl border transition-all ${
+                                className={`min-w-[160px] sm:min-w-[200px] lg:min-w-0 w-auto lg:w-full shrink-0 lg:shrink text-left p-2.5 sm:p-3 rounded-xl sm:rounded-2xl border transition-colors cursor-pointer ${
                                     selectedProject?.id === p.id && !isCreatingNew
-                                        ? 'bg-blue-50 dark:bg-blue-950/40 border-blue-500 shadow-sm'
+                                        ? 'bg-blue-50 dark:bg-blue-950/40 border-blue-500 shadow-xs'
                                         : 'bg-white dark:bg-gray-900 border-gray-200 dark:border-gray-800 hover:border-gray-300 dark:hover:border-gray-700'
                                 }`}
                             >
-                                <div className="text-xs font-black text-gray-900 dark:text-white truncate">
+                                <div className="text-xs font-bold text-gray-900 dark:text-white truncate leading-normal">
                                     {p.title || 'Untitled'}
                                 </div>
                                 <div className="flex items-center gap-2 mt-1">
-                                    <span className="text-[10px] font-mono text-blue-600 dark:text-blue-400 uppercase">
+                                    <span className="text-[10px] font-mono text-blue-600 dark:text-blue-400 uppercase leading-normal">
                                         {p.category || 'general'}
                                     </span>
-                                    <span className="text-[10px] text-gray-400">
-                                        ID: {p.id}
+                                    <span className="text-[10px] text-gray-400 truncate leading-normal">
+                                        {p.id}
                                     </span>
                                 </div>
                             </button>
@@ -145,30 +146,55 @@ export default function ProjectsAdminTab({ projects = [], onSaveProject, onDelet
                 </div>
 
                 {/* Middle: Live Editor Form */}
-                <div className="lg:col-span-5 p-6 rounded-3xl bg-white dark:bg-gray-900 border border-gray-200/80 dark:border-gray-800 shadow-sm space-y-5">
-                    <div className="flex items-center justify-between border-b border-gray-100 dark:border-gray-800 pb-3">
-                        <h3 className="text-sm font-extrabold text-gray-900 dark:text-white">
-                            {isCreatingNew ? 'Create New Project' : `Edit: ${currentItem.title || currentItem.id}`}
-                        </h3>
-                        <div className="flex items-center gap-2">
-                            {!isCreatingNew && (
-                                <button
-                                    type="button"
-                                    onClick={() => onDeleteProject(currentItem.id)}
-                                    className="px-2.5 py-1 text-xs font-bold text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-950/40 rounded-lg transition-colors"
-                                >
-                                    Delete
-                                </button>
-                            )}
-                            <button
-                                type="button"
-                                onClick={handleSave}
-                                className="px-4 py-1.5 rounded-xl text-xs font-black text-white bg-blue-600 hover:bg-blue-700 shadow-md shadow-blue-600/20 cursor-pointer"
-                            >
-                                Save Changes
-                            </button>
-                        </div>
-                    </div>
+                <div className="lg:col-span-5 p-4 sm:p-6 rounded-2xl sm:rounded-3xl bg-white dark:bg-gray-900 border border-gray-200/80 dark:border-gray-800 shadow-sm space-y-5">
+                    {(() => {
+                        const loadedItem = projects.find(p => p.id === currentItem.id);
+                        const hasUnsaved = isCreatingNew 
+                            ? Boolean(currentItem.title?.trim())
+                            : JSON.stringify(currentItem) !== JSON.stringify(loadedItem);
+                        return (
+                            <div className="flex items-center justify-between border-b border-gray-100 dark:border-gray-800 pb-3 gap-2 flex-wrap">
+                                <h3 className="text-sm font-extrabold text-gray-900 dark:text-white">
+                                    {isCreatingNew ? 'Create New Project' : `Edit: ${currentItem.title || currentItem.id}`}
+                                </h3>
+                                <div className="flex items-center gap-2">
+                                    {hasUnsaved ? (
+                                        <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-amber-50 dark:bg-amber-950/50 border border-amber-200 dark:border-amber-800/60 text-amber-700 dark:text-amber-300 text-xs font-bold">
+                                            <span className="w-2 h-2 rounded-full bg-amber-500 animate-pulse" />
+                                            Unsaved changes
+                                        </span>
+                                    ) : (
+                                        <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-50 dark:bg-emerald-950/50 border border-emerald-200 dark:border-emerald-800/60 text-emerald-700 dark:text-emerald-300 text-xs font-semibold">
+                                            <LuCheck size={12} strokeWidth={3} className="text-emerald-500" />
+                                            Saved
+                                        </span>
+                                    )}
+                                    {!isCreatingNew && (
+                                        <button
+                                            type="button"
+                                            onClick={() => onDeleteProject(currentItem.id)}
+                                            className="px-2.5 py-1 text-xs font-bold text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-950/40 rounded-lg transition-colors cursor-pointer"
+                                        >
+                                            Delete
+                                        </button>
+                                    )}
+                                    <button
+                                        type="button"
+                                        onClick={handleSave}
+                                        disabled={!hasUnsaved}
+                                        className={`flex items-center gap-1.5 px-4 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+                                            hasUnsaved
+                                                ? 'bg-blue-600 hover:bg-blue-700 text-white shadow-xs'
+                                                : 'bg-gray-100 dark:bg-gray-800 text-gray-400 dark:text-gray-500 cursor-not-allowed opacity-50'
+                                        }`}
+                                    >
+                                        <LuUpload size={13} strokeWidth={2.5} />
+                                        <span>Upload</span>
+                                    </button>
+                                </div>
+                            </div>
+                        );
+                    })()}
 
                     <div className="space-y-4">
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">

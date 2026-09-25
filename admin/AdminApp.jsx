@@ -22,7 +22,8 @@ import {
     LuCompass,
     LuMessageSquare,
     LuHistory,
-    LuCode
+    LuCode,
+    LuRotateCw
 } from 'react-icons/lu';
 
 // Lazy-load dashboard tabs & modals ONLY when authenticated
@@ -41,19 +42,18 @@ const RecognitionAdminTab = lazy(() => import('./tabs/RecognitionAdminTab.jsx'))
 const ContactsAdminTab = lazy(() => import('./tabs/ContactsAdminTab.jsx'));
 const ChangelogsAdminTab = lazy(() => import('./tabs/ChangelogsAdminTab.jsx'));
 
-// 11 Unified Top-Level Navigation Tabs (Icon Primary, Label Secondary)
+// 10 Unified Top-Level Navigation Tabs (Shortened Names)
 const ADMIN_TABS = [
-    { id: 'status', label: 'Status & Theme', icon: LuActivity, badge: 'Live' },
-    { id: 'home', label: 'Home Page', icon: LuHouse },
-    { id: 'pages', label: 'Page Headings', icon: LuFileText },
-    { id: 'projects', label: 'Projects', icon: LuFolderGit2, badge: 'Live' },
-    { id: 'research', label: 'Research', icon: LuBookOpen, badge: 'Live' },
-    { id: 'recognition', label: 'Recognition', icon: LuAward, badge: 'Live' },
+    { id: 'status', label: 'Status', icon: LuActivity },
+    { id: 'home', label: 'Home', icon: LuHouse },
+    { id: 'pages', label: 'Pages', icon: LuFileText },
+    { id: 'projects', label: 'Projects', icon: LuFolderGit2 },
+    { id: 'research', label: 'Research', icon: LuBookOpen },
+    { id: 'recognition', label: 'Awards', icon: LuAward },
     { id: 'contacts', label: 'Contacts', icon: LuContact },
-    { id: 'navfooter', label: 'Nav & Footer', icon: LuCompass },
-    { id: 'common', label: 'Microcopy', icon: LuMessageSquare },
-    { id: 'changelogs', label: 'Changelogs', icon: LuHistory },
-    { id: 'raw', label: 'Raw DB & SQL', icon: LuCode },
+    { id: 'navfooter', label: 'Nav', icon: LuCompass },
+    { id: 'common', label: 'Copy', icon: LuMessageSquare },
+    { id: 'changelogs', label: 'Logs', icon: LuHistory },
 ];
 
 export default function AdminApp() {
@@ -70,6 +70,7 @@ export default function AdminApp() {
 
     // Database tables data
     const [allSiteContent, setAllSiteContent] = useState({});
+    const [savedSiteContent, setSavedSiteContent] = useState({});
     const [projectsList, setProjectsList] = useState([]);
     const [researchList, setResearchList] = useState([]);
     const [recognitionList, setRecognitionList] = useState([]);
@@ -106,6 +107,9 @@ export default function AdminApp() {
 
     const showToast = (type, message) => {
         setNotification({ type, message });
+        if (type === 'success') {
+            try { localStorage.removeItem('jchengroa_db_cache_v2'); } catch (_) {}
+        }
         setTimeout(() => setNotification(null), 4500);
     };
 
@@ -161,6 +165,7 @@ export default function AdminApp() {
             if (!map.common) map.common = {};
 
             setAllSiteContent(map);
+            setSavedSiteContent(JSON.parse(JSON.stringify(map)));
             setProjectsList(data.projects || []);
             setResearchList(data.research || []);
             setRecognitionList(data.recognition || []);
@@ -215,6 +220,12 @@ export default function AdminApp() {
         showToast('info', 'Signed out successfully.');
     };
 
+    const invalidatePublicCache = () => {
+        try {
+            localStorage.removeItem('jchengroa_db_cache_v2');
+        } catch (_) {}
+    };
+
     // Helpers for Status Tab
     const rawSiteActive = allSiteContent.site_active;
     const siteActiveStr = String(rawSiteActive !== undefined ? rawSiteActive : true).replace(/^"+|"+$/g, '').toLowerCase().trim();
@@ -230,6 +241,7 @@ export default function AdminApp() {
 
         try {
             await upsertSiteContent('site_active', val);
+            invalidatePublicCache();
             const label = status === 'active' ? 'Active / Online' : status === 'dev' ? 'Dev / Updating Mode' : 'Offline / Maintenance';
             showToast('success', `Website status updated to ${label} (Saved)`);
         } catch (err) {
@@ -237,12 +249,36 @@ export default function AdminApp() {
         }
     };
 
-    // Save site_content prompts
-    const handleSaveSiteContent = async () => {
+    // Save specific site_content section/key
+    const handleSaveSiteContentSection = async (key, value) => {
         setSaving(true);
         try {
-            await saveAllSiteContentRows(allSiteContent);
-            showToast('success', 'Settings and content saved successfully!');
+            await upsertSiteContent(key, value);
+            setAllSiteContent(prev => ({ ...prev, [key]: value }));
+            setSavedSiteContent(prev => ({ ...prev, [key]: JSON.parse(JSON.stringify(value)) }));
+            showToast('success', `"${key}" uploaded and saved to DB!`);
+        } catch (err) {
+            showToast('error', `Save error for ${key}: ${err.message}`);
+        } finally {
+            setSaving(false);
+        }
+    };
+
+    // Save specific home sub-section
+    const handleSaveHomeSection = async (subSectionKey, subSectionValue) => {
+        setSaving(true);
+        try {
+            const updatedHome = {
+                ...(allSiteContent.home || {}),
+                [subSectionKey]: subSectionValue
+            };
+            await upsertSiteContent('home', updatedHome);
+            setAllSiteContent(prev => ({ ...prev, home: updatedHome }));
+            setSavedSiteContent(prev => ({
+                ...prev,
+                home: JSON.parse(JSON.stringify(updatedHome))
+            }));
+            showToast('success', `Saved home ${subSectionKey}!`);
         } catch (err) {
             showToast('error', `Save error: ${err.message}`);
         } finally {
@@ -267,9 +303,9 @@ export default function AdminApp() {
     const handleDeleteProject = (id) => {
         setConfirmModal({
             isOpen: true,
-            title: 'Delete Project?',
-            message: `Delete project ID: ${id}? This cannot be undone.`,
-            confirmText: 'Delete Permanently',
+            title: 'Delete Project',
+            message: `Delete project "${id}"? This cannot be undone.`,
+            confirmText: 'Delete',
             isDanger: true,
             onConfirm: async () => {
                 setConfirmModal(prev => ({ ...prev, isOpen: false }));
@@ -301,8 +337,8 @@ export default function AdminApp() {
     const handleDeleteResearch = (id) => {
         setConfirmModal({
             isOpen: true,
-            title: 'Delete Research?',
-            message: `Delete research ID: ${id}?`,
+            title: 'Delete Research',
+            message: `Delete publication "${id}"?`,
             confirmText: 'Delete',
             isDanger: true,
             onConfirm: async () => {
@@ -335,8 +371,8 @@ export default function AdminApp() {
     const handleDeleteRecognition = (id) => {
         setConfirmModal({
             isOpen: true,
-            title: 'Delete Recognition?',
-            message: `Delete recognition record ID: ${id}?`,
+            title: 'Delete Award',
+            message: `Delete award record "${id}"?`,
             confirmText: 'Delete',
             isDanger: true,
             onConfirm: async () => {
@@ -442,11 +478,8 @@ export default function AdminApp() {
     const adminAvatar = userRecord.avatar ? `${pb.baseUrl}/api/files/_superusers/${userRecord.id}/${userRecord.avatar}` : '';
     const avatarInitial = adminDisplayName.charAt(0).toUpperCase() || 'J';
 
-    // Tabs that edit site_content prompts and show the bottom floating save bar
-    const isSiteContentPromptTab = ['status', 'home', 'pages', 'navfooter', 'common', 'raw'].includes(mainTab);
-
     return (
-        <div className="min-h-screen bg-slate-50 dark:bg-gray-950 text-gray-900 dark:text-gray-100 flex flex-col pb-28">
+        <div className="min-h-screen bg-slate-50 dark:bg-gray-950 text-gray-900 dark:text-gray-100 flex flex-col pb-12 sm:pb-16">
             <Suspense fallback={null}>
                 {/* User Profile & Account Management Popup */}
                 {profileModalOpen && (
@@ -478,17 +511,17 @@ export default function AdminApp() {
             </Suspense>
 
             {/* Top Navigation Header */}
-            <header className="sticky top-0 z-40 bg-white/90 dark:bg-gray-900/90 backdrop-blur-xl border-b border-gray-200 dark:border-gray-800 transition-colors shadow-xs">
-                <div className="max-w-7xl mx-auto px-3 sm:px-6 h-16 flex items-center justify-between gap-3">
+            <header className="sticky top-0 z-40 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800">
+                <div className="max-w-7xl mx-auto px-3 sm:px-6 h-15 flex items-center justify-between gap-2 sm:gap-3">
                     {/* Left: User Avatar Management Button & Display Name */}
-                    <div className="flex items-center gap-3">
+                    <div className="flex items-center gap-2 sm:gap-3 min-w-0">
                         <button
                             type="button"
                             onClick={() => setProfileModalOpen(true)}
-                            title="Click to edit Display Name, Avatar, and Profile settings"
-                            className="group relative flex items-center gap-3 p-1 sm:pr-3.5 rounded-2xl hover:bg-gray-100 dark:hover:bg-gray-800/60 transition-all text-left cursor-pointer"
+                            title="Click to edit profile"
+                            className="group flex items-center gap-2 p-1 sm:pr-3 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800/80 text-left cursor-pointer transition-colors min-w-0"
                         >
-                            <div className="relative w-10 h-10 rounded-xl overflow-hidden bg-gradient-to-tr from-blue-600 to-indigo-600 border border-white dark:border-gray-700 shadow-sm flex items-center justify-center text-white font-black text-sm group-hover:scale-105 transition-transform flex-shrink-0">
+                            <div className="relative w-8 h-8 rounded-lg overflow-hidden bg-blue-600 border border-gray-200 dark:border-gray-700 flex items-center justify-center text-white font-bold text-xs shrink-0">
                                 {adminAvatar ? (
                                     <img
                                         src={adminAvatar}
@@ -501,32 +534,60 @@ export default function AdminApp() {
                                 )}
                             </div>
 
-                            <div className="hidden sm:block">
-                                <div className="flex items-center gap-1.5">
-                                    <h1 className="font-extrabold text-sm tracking-tight text-gray-900 dark:text-white truncate max-w-[160px]">
+                            <div className="min-w-0">
+                                <div className="flex items-center gap-1">
+                                    <h1 className="font-bold text-xs text-gray-900 dark:text-white truncate max-w-[120px] sm:max-w-[180px]">
                                         {adminDisplayName}
                                     </h1>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-gray-400 group-hover:text-blue-600 transition-colors"><path d="m6 9 6 6 6-6"/></svg>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-gray-400 group-hover:text-blue-600 transition-colors shrink-0"><path d="m6 9 6 6 6-6"/></svg>
                                 </div>
-                                <p className="text-[10px] font-semibold text-gray-500 dark:text-gray-400">
-                                    jchengroa Admin
+                                <p className="text-[10px] text-gray-500 dark:text-gray-400 truncate">
+                                    Admin
                                 </p>
                             </div>
                         </button>
                     </div>
 
-                    {/* Right: Theme Toggle & Sign Out */}
-                    <div className="flex items-center gap-2 sm:gap-2.5">
+                    {/* Right: DB JSON Editor, Reload DB, Theme Switch & Sign Out */}
+                    <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
+                        <button
+                            type="button"
+                            onClick={() => setMainTab('raw')}
+                            title="Open DB JSON & Schema Editor"
+                            className={`flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-xl text-xs font-bold border transition-colors cursor-pointer ${
+                                mainTab === 'raw'
+                                    ? 'bg-blue-600 border-blue-600 text-white shadow-xs'
+                                    : 'border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-gray-800/60 hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-300'
+                            }`}
+                        >
+                            <LuCode size={15} strokeWidth={2.5} className={mainTab === 'raw' ? 'text-white' : 'text-blue-600 dark:text-blue-400'} />
+                            <span className="text-[11px] sm:text-xs">
+                                <span className="sm:hidden">JSON</span>
+                                <span className="hidden sm:inline">DB JSON</span>
+                            </span>
+                        </button>
+
+                        {/* Reload DB Refresh Button */}
+                        <button
+                            type="button"
+                            onClick={loadAllTables}
+                            disabled={loading}
+                            title="Reload Database"
+                            className="p-2 rounded-xl border border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-gray-800/60 hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-600 dark:text-gray-300 transition-colors cursor-pointer shrink-0 disabled:opacity-50"
+                        >
+                            <LuRotateCw size={15} strokeWidth={2.2} className={loading ? "animate-spin text-blue-600" : ""} />
+                        </button>
+
                         <button
                             type="button"
                             onClick={toggleAdminDark}
-                            title="Toggle Admin Theme"
+                            title="Switch Theme"
                             className="p-2 rounded-xl border border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-gray-800/60 hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-600 dark:text-gray-300 transition-colors cursor-pointer"
                         >
                             {adminDark ? (
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
                             ) : (
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
                             )}
                         </button>
 
@@ -536,14 +597,14 @@ export default function AdminApp() {
                             title="Sign Out"
                             className="p-2 rounded-xl text-rose-600 dark:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-950/40 border border-rose-200 dark:border-rose-800/60 transition-colors cursor-pointer"
                         >
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
                         </button>
                     </div>
                 </div>
 
-                {/* Unified Redesigned Navigation: Icon Primary, Label Secondary */}
-                <div className="border-t border-gray-100 dark:border-gray-800/80 bg-gray-50/50 dark:bg-gray-900/50">
-                    <div className="max-w-7xl mx-auto px-2 sm:px-6 flex items-center gap-1.5 sm:gap-2 overflow-x-auto no-scrollbar py-2">
+                {/* Vertical Navigation: Icon on top, smaller label on bottom with expanded horizontal spacing & sizes */}
+                <div className="border-t border-gray-100 dark:border-gray-800 bg-gray-50/70 dark:bg-gray-900/60 overflow-hidden">
+                    <div className="max-w-7xl mx-auto px-3 sm:px-6 flex items-center gap-3 sm:gap-4 md:gap-5 overflow-x-auto scroll-smooth touch-pan-x py-2.5 sm:py-3 no-scrollbar">
                         {ADMIN_TABS.map((tab) => {
                             const IconComponent = tab.icon;
                             const isActive = mainTab === tab.id;
@@ -552,32 +613,16 @@ export default function AdminApp() {
                                     key={tab.id}
                                     type="button"
                                     onClick={() => setMainTab(tab.id)}
-                                    className={`group relative flex flex-col items-center justify-center gap-1 px-3 sm:px-4 py-2 rounded-2xl transition-all duration-200 cursor-pointer shrink-0 min-w-[76px] sm:min-w-[88px] ${
+                                    className={`flex flex-col items-center justify-center gap-1 sm:gap-1.5 px-5 sm:px-6 md:px-7 py-2.5 sm:py-3 rounded-xl sm:rounded-2xl cursor-pointer transition-colors shrink-0 min-w-[84px] sm:min-w-[96px] md:min-w-[108px] ${
                                         isActive
-                                            ? 'bg-blue-600 text-white shadow-md shadow-blue-500/25 ring-2 ring-blue-500/30'
-                                            : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-white dark:hover:bg-gray-800/80 border border-transparent hover:border-gray-200 dark:hover:border-gray-700/60'
+                                            ? 'bg-blue-600 text-white shadow-xs'
+                                            : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-200/60 dark:hover:bg-gray-800/70'
                                     }`}
                                 >
-                                    {/* Primary Icon Container */}
-                                    <div className={`p-1.5 rounded-xl transition-transform duration-200 group-hover:scale-110 ${
-                                        isActive 
-                                            ? 'bg-white/20 text-white' 
-                                            : 'bg-gray-100 dark:bg-gray-800 text-gray-500 dark:text-gray-400 group-hover:text-blue-600 dark:group-hover:text-blue-400'
-                                    }`}>
-                                        <IconComponent size={18} strokeWidth={2.3} />
-                                    </div>
-
-                                    {/* Secondary Label */}
-                                    <span className={`text-[10px] sm:text-[11px] font-black tracking-tight leading-none whitespace-nowrap ${
-                                        isActive ? 'text-white' : 'text-gray-600 dark:text-gray-400'
-                                    }`}>
+                                    <IconComponent size={19} strokeWidth={2.2} className={isActive ? 'text-white' : 'text-gray-500 dark:text-gray-400'} />
+                                    <span className="text-[11px] sm:text-xs font-bold tracking-tight leading-none text-center whitespace-nowrap">
                                         {tab.label}
                                     </span>
-
-                                    {/* Optional mini badge */}
-                                    {tab.badge && !isActive && (
-                                        <span className="absolute top-1 right-1 w-1.5 h-1.5 rounded-full bg-blue-500" />
-                                    )}
                                 </button>
                             );
                         })}
@@ -587,15 +632,15 @@ export default function AdminApp() {
 
             {/* Notification Toast */}
             {notification && (
-                <div className="fixed bottom-24 right-5 z-50 max-w-md animate-bounce-short">
-                    <div className={`px-4 py-3 rounded-2xl shadow-2xl border flex items-center gap-3 backdrop-blur-md ${
+                <div className="fixed bottom-16 sm:bottom-20 left-4 right-4 sm:left-auto sm:right-6 z-50 max-w-sm sm:max-w-md w-auto">
+                    <div className={`px-4 py-3 rounded-2xl shadow-xl border flex items-center gap-3 backdrop-blur-md ${
                         notification.type === 'success'
-                            ? 'bg-emerald-600 text-white border-emerald-400'
+                            ? 'bg-emerald-600 text-white border-emerald-500'
                             : notification.type === 'error'
                             ? 'bg-rose-600 text-white border-rose-500'
                             : 'bg-blue-600 text-white border-blue-500'
                     }`}>
-                        <div className="text-xs sm:text-sm font-bold">
+                        <div className="text-xs sm:text-sm font-semibold">
                             {notification.message}
                         </div>
                     </div>
@@ -603,12 +648,12 @@ export default function AdminApp() {
             )}
 
             {/* Main Content Area */}
-            <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 py-6 sm:py-8">
+            <main className="flex-1 max-w-7xl w-full mx-auto px-3 sm:px-6 py-4 sm:py-8">
                 {loading ? (
                     <div className="py-24 flex flex-col items-center justify-center gap-4 text-center">
                         <div className="w-10 h-10 border-4 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
                         <p className="text-sm font-bold text-gray-500 dark:text-gray-400">
-                            Connecting & Syncing all Supabase tables...
+                            Connecting & Syncing database collections...
                         </p>
                     </div>
                 ) : (
@@ -624,12 +669,17 @@ export default function AdminApp() {
                                 setSiteActiveStatus={setSiteActiveStatus}
                                 defaultThemeMode={allSiteContent.default_theme_mode || 'light'}
                                 setDefaultThemeMode={(val) => setAllSiteContent(prev => ({ ...prev, default_theme_mode: val }))}
+                                savedThemeMode={savedSiteContent.default_theme_mode || 'light'}
                                 defaultAccentColor={allSiteContent.default_accent_color || 'blue'}
                                 setDefaultAccentColor={(val) => setAllSiteContent(prev => ({ ...prev, default_accent_color: val }))}
+                                savedAccentColor={savedSiteContent.default_accent_color || 'blue'}
                                 customAccentHex={allSiteContent.custom_accent_hex || '#2563eb'}
                                 setCustomAccentHex={(val) => setAllSiteContent(prev => ({ ...prev, custom_accent_hex: val }))}
+                                savedAccentHex={savedSiteContent.custom_accent_hex || '#2563eb'}
                                 isSyncing={isSyncingStatus}
                                 onManualRefresh={checkLatestStatus}
+                                onSaveKey={handleSaveSiteContentSection}
+                                saving={saving}
                             />
                         )}
 
@@ -638,6 +688,9 @@ export default function AdminApp() {
                             <HomeTab
                                 homeData={allSiteContent.home || {}}
                                 onChangeHomeData={(updated) => setAllSiteContent({ ...allSiteContent, home: updated })}
+                                savedHomeData={savedSiteContent.home || {}}
+                                onSaveSection={handleSaveHomeSection}
+                                saving={saving}
                             />
                         )}
 
@@ -646,18 +699,27 @@ export default function AdminApp() {
                             <PagesTab
                                 projectsData={allSiteContent.projects || {}}
                                 onChangeProjectsData={(updated) => setAllSiteContent({ ...allSiteContent, projects: updated })}
+                                savedProjectsData={savedSiteContent.projects || {}}
                                 researchData={allSiteContent.research || {}}
                                 onChangeResearchData={(updated) => setAllSiteContent({ ...allSiteContent, research: updated })}
+                                savedResearchData={savedSiteContent.research || {}}
                                 recognitionData={allSiteContent.recognition || {}}
                                 onChangeRecognitionData={(updated) => setAllSiteContent({ ...allSiteContent, recognition: updated })}
+                                savedRecognitionData={savedSiteContent.recognition || {}}
                                 contactData={allSiteContent.contact || {}}
                                 onChangeContactData={(updated) => setAllSiteContent({ ...allSiteContent, contact: updated })}
+                                savedContactData={savedSiteContent.contact || {}}
                                 socialsData={allSiteContent.socials || {}}
                                 onChangeSocialsData={(updated) => setAllSiteContent({ ...allSiteContent, socials: updated })}
+                                savedSocialsData={savedSiteContent.socials || {}}
                                 legalData={allSiteContent.legal || {}}
                                 onChangeLegalData={(updated) => setAllSiteContent({ ...allSiteContent, legal: updated })}
+                                savedLegalData={savedSiteContent.legal || {}}
                                 changelogData={allSiteContent.changelog || {}}
                                 onChangeChangelogData={(updated) => setAllSiteContent({ ...allSiteContent, changelog: updated })}
+                                savedChangelogData={savedSiteContent.changelog || {}}
+                                onSaveKey={handleSaveSiteContentSection}
+                                saving={saving}
                             />
                         )}
 
@@ -705,10 +767,15 @@ export default function AdminApp() {
                             <NavFooterTab
                                 navbarData={allSiteContent.navbar || {}}
                                 onChangeNavbarData={(updated) => setAllSiteContent({ ...allSiteContent, navbar: updated })}
+                                savedNavbarData={savedSiteContent.navbar || {}}
                                 navigationData={allSiteContent.navigation_data || {}}
                                 onChangeNavigationData={(updated) => setAllSiteContent({ ...allSiteContent, navigation_data: updated })}
+                                savedNavigationData={savedSiteContent.navigation_data || {}}
                                 footerData={allSiteContent.footer || {}}
                                 onChangeFooterData={(updated) => setAllSiteContent({ ...allSiteContent, footer: updated })}
+                                savedFooterData={savedSiteContent.footer || {}}
+                                onSaveKey={handleSaveSiteContentSection}
+                                saving={saving}
                             />
                         )}
 
@@ -717,6 +784,9 @@ export default function AdminApp() {
                             <CommonTab
                                 commonData={allSiteContent.common || {}}
                                 onChangeCommonData={(updated) => setAllSiteContent({ ...allSiteContent, common: updated })}
+                                savedCommonData={savedSiteContent.common || {}}
+                                onSaveKey={handleSaveSiteContentSection}
+                                saving={saving}
                             />
                         )}
 
@@ -734,44 +804,14 @@ export default function AdminApp() {
                             <RawJsonTab
                                 allSiteContent={allSiteContent}
                                 onChangeAllSiteContent={setAllSiteContent}
+                                onUploadKey={handleSaveSiteContentSection}
                                 onShowToast={showToast}
+                                saving={saving}
                             />
                         )}
                     </Suspense>
                 )}
             </main>
-
-            {/* Bottom Floating Bar for Site Content & Prompt Tabs */}
-            {isSiteContentPromptTab && (
-                <div className="fixed bottom-0 inset-x-0 z-40 bg-white/90 dark:bg-gray-900/90 backdrop-blur-lg border-t border-gray-200 dark:border-gray-800 shadow-2xl py-3.5 px-4 sm:px-6">
-                    <div className="max-w-7xl mx-auto flex items-center justify-between gap-3">
-                        <div className="flex items-center gap-2 text-xs text-gray-500 dark:text-gray-400">
-                            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                            <span className="hidden sm:inline">Editing Prompts & Content Configuration</span>
-                            <span className="sm:hidden">Editing Prompts</span>
-                        </div>
-
-                        <div className="flex items-center gap-2 sm:gap-3">
-                            <button
-                                type="button"
-                                onClick={loadAllTables}
-                                className="px-4 py-2.5 rounded-xl text-xs font-bold text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 border border-gray-200 dark:border-gray-700 transition-colors cursor-pointer"
-                            >
-                                Reload DB
-                            </button>
-                            <button
-                                type="button"
-                                onClick={handleSaveSiteContent}
-                                disabled={saving}
-                                className="px-6 py-2.5 rounded-xl text-xs font-black bg-blue-600 hover:bg-blue-700 text-white shadow-lg shadow-blue-600/25 transition-all disabled:opacity-50 flex items-center gap-2 cursor-pointer"
-                            >
-                                {saving && <div className="w-3.5 h-3.5 border-2 border-white border-t-transparent rounded-full animate-spin" />}
-                                <span>{saving ? 'Saving...' : 'Save All Prompts to Supabase'}</span>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            )}
         </div>
     );
 }

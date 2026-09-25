@@ -73,10 +73,10 @@ export function ToggleTile({
             )}
 
             {Icon && (
-                <div className={`p-2.5 sm:p-3 rounded-xl sm:rounded-2xl transition-all duration-300 mb-2 sm:mb-2.5 flex items-center justify-center ${
+                <div className={`p-2.5 sm:p-3 rounded-xl sm:rounded-2xl transition-colors mb-2 sm:mb-2.5 flex items-center justify-center ${
                     enabled
                         ? colorStyles.iconBg
-                        : 'bg-gray-100 dark:bg-gray-800 text-gray-400 dark:text-gray-500 group-hover:text-gray-700 dark:group-hover:text-gray-200 group-hover:scale-105'
+                        : 'bg-gray-100 dark:bg-gray-800 text-gray-400 dark:text-gray-500 group-hover:text-gray-700 dark:group-hover:text-gray-200'
                 }`}>
                     <Icon size={22} strokeWidth={2.2} />
                 </div>

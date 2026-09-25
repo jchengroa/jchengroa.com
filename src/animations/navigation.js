@@ -9,13 +9,11 @@ export const getSubmenuVariants = (isDesktop = true) => ({
     opacity: 0, 
     y: isDesktop ? -12 : 12, 
     scale: 0.96,
-    filter: "blur(4px)"
   },
   visible: { 
     opacity: 1, 
     y: 0, 
     scale: 1, 
-    filter: "blur(0px)",
     transition: { 
       type: "spring", 
       stiffness: 380, 
@@ -28,7 +26,6 @@ export const getSubmenuVariants = (isDesktop = true) => ({
     opacity: 0, 
     y: isDesktop ? -10 : 10, 
     scale: 0.96, 
-    filter: "blur(4px)",
     transition: { duration: 0.15, ease: "easeIn" }
   }
 });
@@ -39,16 +36,16 @@ export const explorerItemVariants = {
   visible: { 
     opacity: 1, 
     y: 0, 
-    scale: 1,
+    scale: 1, 
     transition: { type: "spring", stiffness: 400, damping: 26 }
   }
 };
 
 // Mobile sub-navigation pill dock container transition
 export const mobileSubnavContainerVariants = {
-  initial: { opacity: 0, x: 20, scale: 0.96, filter: "blur(4px)" },
-  animate: { opacity: 1, x: 0, scale: 1, filter: "blur(0px)" },
-  exit: { opacity: 0, x: 20, scale: 0.96, filter: "blur(4px)" },
+  initial: { opacity: 0, x: 20, scale: 0.96 },
+  animate: { opacity: 1, x: 0, scale: 1 },
+  exit: { opacity: 0, x: 20, scale: 0.96 },
   transition: { type: "spring", stiffness: 380, damping: 28 }
 };
 
@@ -61,9 +58,9 @@ export const getMobileSubnavItemVariants = (index = 0) => ({
 
 // Main navigation dock container transition on mobile view switch
 export const mainNavContainerVariants = {
-  initial: { opacity: 0, x: -20, scale: 0.96, filter: "blur(4px)" },
-  animate: { opacity: 1, x: 0, scale: 1, filter: "blur(0px)" },
-  exit: { opacity: 0, x: -20, scale: 0.96, filter: "blur(4px)" },
+  initial: { opacity: 0, x: -20, scale: 0.96 },
+  animate: { opacity: 1, x: 0, scale: 1 },
+  exit: { opacity: 0, x: -20, scale: 0.96 },
   transition: { type: "spring", stiffness: 380, damping: 28 }
 };
 

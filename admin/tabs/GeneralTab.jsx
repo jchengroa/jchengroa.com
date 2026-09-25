@@ -7,11 +7,10 @@ import {
     LuSun, 
     LuMoon, 
     LuMonitor, 
-    LuPalette, 
-    LuCircleCheck,
     LuRefreshCw
 } from 'react-icons/lu';
 import { ToggleTile } from '../components/ToggleTile.jsx';
+import SectionCardHeader from '../components/SectionCardHeader.jsx';
 
 const PRESET_ACCENTS = [
     { id: 'red', name: 'Red', hex: '#dc2626' },
@@ -28,24 +27,32 @@ export default function GeneralTab({
     setSiteActiveStatus,
     defaultThemeMode,
     setDefaultThemeMode,
+    savedThemeMode,
     defaultAccentColor,
     setDefaultAccentColor,
+    savedAccentColor,
     customAccentHex,
     setCustomAccentHex,
+    savedAccentHex,
     isSyncing = false,
     lastCheckedTime = null,
-    onManualRefresh
+    onManualRefresh,
+    onSaveKey,
+    saving = false
 }) {
     const [showColorPicker, setShowColorPicker] = useState(false);
 
+    const isThemeChanged = defaultThemeMode !== savedThemeMode;
+    const isAccentChanged = (defaultAccentColor !== savedAccentColor) || (customAccentHex?.toLowerCase() !== savedAccentHex?.toLowerCase());
+
     return (
-        <div className="space-y-8">
+        <div className="space-y-6 sm:space-y-8">
             {/* SECTION 1: Site Active Status Switch (Auto-Saved Instantly) */}
-            <div className="p-6 sm:p-7 rounded-3xl bg-white dark:bg-gray-900 border border-gray-200/80 dark:border-gray-800 shadow-sm space-y-6">
+            <div className="p-4 sm:p-6 sm:p-7 rounded-2xl sm:rounded-3xl bg-white dark:bg-gray-900 border border-gray-200/80 dark:border-gray-800 shadow-sm space-y-5 sm:space-y-6">
                 <div className="border-b border-gray-100 dark:border-gray-800 pb-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                     <div>
-                        <div className="flex items-center gap-2">
-                            <h2 className="text-lg font-black text-gray-900 dark:text-white tracking-tight">
+                        <div className="flex items-center gap-2 flex-wrap">
+                            <h2 className="text-base sm:text-lg font-black text-gray-900 dark:text-white tracking-tight">
                                 Website Availability Status
                             </h2>
                             <code className="text-[11px] font-mono bg-gray-100 dark:bg-gray-800 text-blue-600 dark:text-blue-400 px-2 py-0.5 rounded-md">
@@ -53,50 +60,50 @@ export default function GeneralTab({
                             </code>
                         </div>
                         <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                            Live master switch. Changing availability saves immediately to the database without requiring manual save.
+                            Live master switch. Clicking an option uploads immediately to the database.
                         </p>
                     </div>
 
                     <div className="flex items-center gap-2 self-start sm:self-center">
-                        <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-emerald-50 dark:bg-emerald-950/40 text-emerald-600 dark:text-emerald-400 border border-emerald-200/80 dark:border-emerald-800/60 shadow-xs">
-                            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                            <span>Instant Cloud Save</span>
+                        <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-50 dark:bg-emerald-950/50 border border-emerald-200 dark:border-emerald-800/60 text-emerald-700 dark:text-emerald-300 text-xs font-semibold">
+                            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+                            Live Synced
                         </span>
-
                         {onManualRefresh && (
                             <button
                                 type="button"
                                 onClick={onManualRefresh}
-                                title="Check latest cloud status"
-                                className="p-2 rounded-xl text-gray-500 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800 border border-gray-200 dark:border-gray-700 transition-colors"
+                                disabled={isSyncing}
+                                title="Check status"
+                                className="p-1.5 rounded-lg border border-gray-200 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-500 cursor-pointer disabled:opacity-50"
                             >
-                                <LuRefreshCw size={14} className={isSyncing ? "animate-spin text-blue-600" : ""} />
+                                <LuRefreshCw size={13} className={isSyncing ? "animate-spin text-blue-600" : ""} />
                             </button>
                         )}
                     </div>
                 </div>
 
-                {/* Status Toggle Tiles Grid */}
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5">
-                    {/* 1. Active / Online */}
+                {/* 3 Status Option Tiles */}
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-3.5">
+                    {/* 1. Fully Active */}
                     <ToggleTile
                         icon={LuGlobe}
-                        title="Active / Online"
-                        subtitle="Public visitors have full access to all portfolio pages & projects"
+                        title="Active & Public"
+                        subtitle="Portfolio is open, responsive, and available to all visitors"
                         enabled={siteActiveStatus === 'active'}
                         activeColor="emerald"
-                        statusText={siteActiveStatus === 'active' ? 'Live Now' : 'Click to Activate'}
+                        statusText={siteActiveStatus === 'active' ? 'Active Live' : 'Click to Activate'}
                         onToggle={() => setSiteActiveStatus('active')}
                     />
 
-                    {/* 2. Dev Mode */}
+                    {/* 2. In Development */}
                     <ToggleTile
                         icon={LuSparkles}
-                        title="Dev / Updating"
-                        subtitle='Visitors see the modern "Website Currently Being Updated" overlay'
+                        title="Dev / Staging"
+                        subtitle="Public sees development banner with temporary access"
                         enabled={siteActiveStatus === 'dev'}
-                        activeColor="amber"
-                        statusText={siteActiveStatus === 'dev' ? 'Updating Live' : 'Click for Dev'}
+                        activeColor="blue"
+                        statusText={siteActiveStatus === 'dev' ? 'Dev Live' : 'Click for Dev'}
                         onToggle={() => setSiteActiveStatus('dev')}
                     />
 
@@ -114,29 +121,24 @@ export default function GeneralTab({
             </div>
 
             {/* SECTION 2: Default Theme Mode */}
-            <div className="p-6 sm:p-7 rounded-3xl bg-white dark:bg-gray-900 border border-gray-200/80 dark:border-gray-800 shadow-sm space-y-6">
-                <div className="border-b border-gray-100 dark:border-gray-800 pb-4">
-                    <div className="flex items-center gap-2">
-                        <h2 className="text-lg font-black text-gray-900 dark:text-white tracking-tight">
-                            Default Theme Mode
-                        </h2>
-                        <code className="text-[11px] font-mono bg-gray-100 dark:bg-gray-800 text-blue-600 dark:text-blue-400 px-2 py-0.5 rounded-md">
-                            key: default_theme_mode
-                        </code>
-                    </div>
-                    <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                        The default visual appearance served to first-time visitors before local preferences are saved.
-                    </p>
-                </div>
+            <div className="p-4 sm:p-6 sm:p-7 rounded-2xl sm:rounded-3xl bg-white dark:bg-gray-900 border border-gray-200/80 dark:border-gray-800 shadow-sm space-y-5 sm:space-y-6">
+                <SectionCardHeader
+                    title="Default Theme Mode"
+                    keyBadge="key: default_theme_mode"
+                    description="The default appearance served to first-time visitors before local preferences are saved."
+                    hasUnsaved={isThemeChanged}
+                    onUpload={() => onSaveKey && onSaveKey('default_theme_mode', defaultThemeMode)}
+                    isSaving={saving}
+                />
 
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5">
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-3.5">
                     <ToggleTile
                         icon={LuSun}
                         title="Light Theme"
                         subtitle="Crisp, high-contrast bright interface"
                         enabled={defaultThemeMode === 'light'}
                         activeColor="amber"
-                        statusText={defaultThemeMode === 'light' ? 'Default Mode' : 'Set Default'}
+                        statusText={defaultThemeMode === 'light' ? 'Selected' : 'Set Default'}
                         onToggle={() => setDefaultThemeMode('light')}
                     />
 
@@ -146,7 +148,7 @@ export default function GeneralTab({
                         subtitle="Sleek, low-light modern aesthetic"
                         enabled={defaultThemeMode === 'dark'}
                         activeColor="indigo"
-                        statusText={defaultThemeMode === 'dark' ? 'Default Mode' : 'Set Default'}
+                        statusText={defaultThemeMode === 'dark' ? 'Selected' : 'Set Default'}
                         onToggle={() => setDefaultThemeMode('dark')}
                     />
 
@@ -156,34 +158,34 @@ export default function GeneralTab({
                         subtitle="Automatically adapts to visitor device preference"
                         enabled={defaultThemeMode === 'auto'}
                         activeColor="blue"
-                        statusText={defaultThemeMode === 'auto' ? 'Default Mode' : 'Set Default'}
+                        statusText={defaultThemeMode === 'auto' ? 'Selected' : 'Set Default'}
                         onToggle={() => setDefaultThemeMode('auto')}
                     />
                 </div>
             </div>
 
             {/* SECTION 3: Default Accent Color & Custom Accent Hex */}
-            <div className="p-6 sm:p-7 rounded-3xl bg-white dark:bg-gray-900 border border-gray-200/80 dark:border-gray-800 shadow-sm space-y-6">
-                <div className="border-b border-gray-100 dark:border-gray-800 pb-4">
-                    <div className="flex items-center gap-2">
-                        <h2 className="text-lg font-black text-gray-900 dark:text-white tracking-tight">
-                            Default Accent Color & Hex
-                        </h2>
-                        <code className="text-[11px] font-mono bg-gray-100 dark:bg-gray-800 text-blue-600 dark:text-blue-400 px-2 py-0.5 rounded-md">
-                            keys: default_accent_color & custom_accent_hex
-                        </code>
-                    </div>
-                    <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                        Default brand highlight color and fallback custom hex code for new visitors.
-                    </p>
-                </div>
+            <div className="p-4 sm:p-6 sm:p-7 rounded-2xl sm:rounded-3xl bg-white dark:bg-gray-900 border border-gray-200/80 dark:border-gray-800 shadow-sm space-y-5 sm:space-y-6">
+                <SectionCardHeader
+                    title="Default Accent Color & Hex"
+                    keyBadge="keys: default_accent_color & custom_accent_hex"
+                    description="Default brand highlight color and fallback custom hex code for new visitors."
+                    hasUnsaved={isAccentChanged}
+                    onUpload={async () => {
+                        if (onSaveKey) {
+                            await onSaveKey('default_accent_color', defaultAccentColor);
+                            await onSaveKey('custom_accent_hex', customAccentHex);
+                        }
+                    }}
+                    isSaving={saving}
+                />
 
                 {/* Preset swatches */}
                 <div>
                     <label className="block text-xs font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-3">
                         Preset Palette
                     </label>
-                    <div className="flex flex-wrap gap-2.5 items-center">
+                    <div className="flex flex-wrap gap-2 sm:gap-2.5 items-center">
                         {PRESET_ACCENTS.map((accent) => {
                             const isSelected = defaultAccentColor === accent.id;
                             return (
@@ -195,19 +197,15 @@ export default function GeneralTab({
                                         setShowColorPicker(false);
                                     }}
                                     title={accent.name}
-                                    className={`group relative flex items-center gap-2.5 px-4 py-2.5 rounded-2xl border-2 transition-all cursor-pointer ${
+                                    className={`group relative flex items-center gap-2 sm:gap-2.5 px-3.5 sm:px-4 py-2 sm:py-2.5 rounded-xl sm:rounded-2xl border-2 transition-all cursor-pointer ${
                                         isSelected
-                                            ? 'border-gray-900 dark:border-white bg-white dark:bg-gray-800 shadow-md ring-2 ring-blue-500/20 scale-105 font-black'
-                                            : 'border-gray-200 dark:border-gray-800 bg-gray-50/50 dark:bg-gray-800/30 hover:border-gray-300 dark:hover:border-gray-700'
+                                            ? 'border-gray-900 dark:border-white bg-white dark:bg-gray-800 shadow-sm ring-2 ring-blue-500/20 font-black'
+                                            : 'border-gray-200 dark:border-gray-800 bg-gray-50/60 dark:bg-gray-800/40 hover:border-gray-300 dark:hover:border-gray-700'
                                     }`}
                                 >
                                     <span
-                                        className="w-5 h-5 rounded-full shadow-inner flex-shrink-0"
-                                        style={
-                                            accent.id === 'monochrome'
-                                                ? { background: 'linear-gradient(135deg, #171717 50%, #f5f5f5 50%)', border: '1px solid #d1d5db' }
-                                                : { backgroundColor: accent.hex }
-                                        }
+                                        className="w-4 h-4 rounded-full shrink-0 border border-black/10 dark:border-white/10"
+                                        style={{ backgroundColor: accent.hex }}
                                     />
                                     <span className="text-xs font-bold text-gray-800 dark:text-gray-200">
                                         {accent.name}
@@ -216,25 +214,25 @@ export default function GeneralTab({
                             );
                         })}
 
-                        {/* Custom Accent Choice */}
+                        {/* Custom Color Swatch button */}
                         <button
                             type="button"
                             onClick={() => {
                                 setDefaultAccentColor('custom');
-                                setShowColorPicker(true);
+                                setShowColorPicker(!showColorPicker);
                             }}
-                            className={`flex items-center gap-2.5 px-4 py-2.5 rounded-2xl border-2 transition-all cursor-pointer ${
+                            className={`flex items-center gap-2 sm:gap-2.5 px-3.5 sm:px-4 py-2 sm:py-2.5 rounded-xl sm:rounded-2xl border-2 transition-all cursor-pointer ${
                                 defaultAccentColor === 'custom'
-                                    ? 'border-gray-900 dark:border-white bg-white dark:bg-gray-800 shadow-md ring-2 ring-blue-500/20 scale-105 font-black'
-                                    : 'border-gray-200 dark:border-gray-800 bg-gray-50/50 dark:bg-gray-800/30 hover:border-gray-300 dark:hover:border-gray-700'
+                                    ? 'border-blue-600 bg-blue-50/50 dark:bg-blue-950/40 shadow-sm ring-2 ring-blue-500/20 font-black'
+                                    : 'border-dashed border-gray-300 dark:border-gray-700 hover:border-gray-400 bg-transparent'
                             }`}
                         >
                             <span
-                                className="w-5 h-5 rounded-full shadow-inner flex-shrink-0"
+                                className="w-4 h-4 rounded-full shrink-0 border border-black/10"
                                 style={{ backgroundColor: customAccentHex }}
                             />
                             <span className="text-xs font-bold text-gray-800 dark:text-gray-200">
-                                Custom Hex ({customAccentHex})
+                                Custom Hex
                             </span>
                         </button>
                     </div>
@@ -251,9 +249,9 @@ export default function GeneralTab({
                                 Applied when default accent color is set to "custom".
                             </p>
                         </div>
-                        <div className="flex items-center gap-3">
+                        <div className="flex items-center gap-2 sm:gap-3 flex-wrap sm:flex-nowrap">
                             <div
-                                className="w-9 h-9 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 flex-shrink-0"
+                                className="w-9 h-9 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 shrink-0"
                                 style={{ backgroundColor: customAccentHex }}
                             />
                             <input
@@ -267,12 +265,12 @@ export default function GeneralTab({
                                     }
                                 }}
                                 placeholder="#2563eb"
-                                className="w-32 font-mono font-bold text-sm text-center px-3 py-2 rounded-xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-600"
+                                className="flex-1 sm:flex-initial sm:w-32 font-mono font-bold text-sm text-center px-3 py-2 rounded-xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-600"
                             />
                             <button
                                 type="button"
                                 onClick={() => setShowColorPicker(!showColorPicker)}
-                                className="px-3 py-2 rounded-xl text-xs font-bold bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 transition-colors cursor-pointer"
+                                className="px-3 py-2 rounded-xl text-xs font-bold bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 transition-colors cursor-pointer shrink-0"
                             >
                                 {showColorPicker ? 'Hide Picker' : 'Open Picker'}
                             </button>
@@ -298,7 +296,7 @@ export default function GeneralTab({
                                             setCustomAccentHex(hex);
                                             setDefaultAccentColor('custom');
                                         }}
-                                        className={`w-6 h-6 rounded-full transition-transform hover:scale-125 cursor-pointer ${
+                                        className={`w-6 h-6 rounded-full cursor-pointer hover:ring-2 hover:ring-offset-1 hover:ring-gray-400 ${
                                             customAccentHex.toLowerCase() === hex.toLowerCase()
                                                 ? 'ring-2 ring-gray-900 dark:ring-white ring-offset-1'
                                                 : ''

@@ -27,13 +27,27 @@ export default function HeroPhysicsTitle({ title }) {
         return true;
     });
 
+    const [reducedMotion, setReducedMotion] = useState(() => {
+        if (typeof window !== 'undefined') {
+            const saved = localStorage.getItem('jchengroa_reduced_motion');
+            if (saved !== null) return saved === 'true';
+            return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        }
+        return false;
+    });
+
     useEffect(() => {
         const handleSettingChange = (e) => {
             setParticlesEnabled(e.detail);
         };
+        const handleReducedChange = (e) => {
+            setReducedMotion(e.detail);
+        };
         window.addEventListener('jchengroa_hero_particles_setting_changed', handleSettingChange);
+        window.addEventListener('jchengroa_reduced_motion_setting_changed', handleReducedChange);
         return () => {
             window.removeEventListener('jchengroa_hero_particles_setting_changed', handleSettingChange);
+            window.removeEventListener('jchengroa_reduced_motion_setting_changed', handleReducedChange);
         };
     }, []);
 
@@ -63,7 +77,11 @@ export default function HeroPhysicsTitle({ title }) {
     }, []);
 
     useEffect(() => {
-        if (!particlesEnabled) {
+        if (!particlesEnabled || reducedMotion) {
+            if (animFrameRef.current) {
+                cancelAnimationFrame(animFrameRef.current);
+                animFrameRef.current = null;
+            }
             if (canvasRef.current) {
                 const ctx = canvasRef.current.getContext('2d');
                 if (ctx) ctx.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
@@ -81,7 +99,8 @@ export default function HeroPhysicsTitle({ title }) {
         const setupCanvas = () => {
             if (!canvas) return;
             const rect = canvas.getBoundingClientRect();
-            const dpr = Math.min(window.devicePixelRatio || 1, 2);
+            // Clamp DPR to max 1.5 to save buffer memory on budget high-DPI screens
+            const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
             width = rect.width || window.innerWidth;
             height = rect.height || 260;
 
@@ -91,7 +110,7 @@ export default function HeroPhysicsTitle({ title }) {
             ctx.resetTransform();
             ctx.scale(dpr, dpr);
             ctx.imageSmoothingEnabled = true;
-            ctx.imageSmoothingQuality = 'high';
+            ctx.imageSmoothingQuality = 'low';
         };
 
         const handleResize = () => {
@@ -175,20 +194,28 @@ export default function HeroPhysicsTitle({ title }) {
             draw(context, rgb) {
                 if (this.alpha <= 0.01) return;
 
-                context.save();
+                // High-performance hardware drawing: zero shadowBlur passes
+                // 1. Soft outer luminous aura (fast vector circle, no raster blur needed)
+                context.beginPath();
+                context.arc(this.x, this.y, this.radius * 2, 0, Math.PI * 2);
+                context.fillStyle = `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, ${this.alpha * 0.18})`;
+                context.fill();
+
+                // 2. Core crisp particle
                 context.beginPath();
                 context.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
                 context.fillStyle = `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, ${this.alpha})`;
-                context.shadowColor = `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, ${this.alpha * 0.5})`;
-                context.shadowBlur = this.radius * 2.5;
                 context.fill();
-                context.restore();
             }
         }
 
         const initParticles = () => {
             const particles = [];
-            const count = Math.min(65, Math.max(30, Math.floor(width / 18)));
+            // Dynamically scale particle count: lighter on mobile and low-end devices
+            const isMobile = width < 768;
+            const maxCount = isMobile ? 22 : 45;
+            const minCount = isMobile ? 12 : 20;
+            const count = Math.min(maxCount, Math.max(minCount, Math.floor(width / (isMobile ? 32 : 24))));
             
             for (let i = 0; i < count; i++) {
                 particles.push(new Particle());
@@ -199,7 +226,11 @@ export default function HeroPhysicsTitle({ title }) {
 
         initParticles();
 
-        let render = () => {
+        let isRunning = false;
+        let isIntersecting = true;
+
+        const loop = () => {
+            if (!isRunning) return;
             ctx.clearRect(0, 0, width, height);
             const rgb = getAccentRGB();
 
@@ -209,16 +240,53 @@ export default function HeroPhysicsTitle({ title }) {
                 particles[i].draw(ctx, rgb);
             }
 
-            animFrameRef.current = requestAnimationFrame(render);
+            animFrameRef.current = requestAnimationFrame(loop);
         };
 
-        render();
+        const startLoop = () => {
+            if (isRunning) return;
+            isRunning = true;
+            loop();
+        };
+
+        const stopLoop = () => {
+            isRunning = false;
+            if (animFrameRef.current) {
+                cancelAnimationFrame(animFrameRef.current);
+                animFrameRef.current = null;
+            }
+        };
+
+        // Intelligent visibility management: only render when visible and tab active
+        const handleVisibilityChange = () => {
+            if (document.hidden) {
+                stopLoop();
+            } else if (isIntersecting) {
+                startLoop();
+            }
+        };
+        document.addEventListener('visibilitychange', handleVisibilityChange);
+
+        const observer = new IntersectionObserver(([entry]) => {
+            isIntersecting = entry.isIntersecting;
+            if (isIntersecting && !document.hidden) {
+                startLoop();
+            } else {
+                stopLoop();
+            }
+        }, { threshold: 0.05 });
+
+        if (containerRef.current) {
+            observer.observe(containerRef.current);
+        }
+
+        startLoop();
 
         return () => {
             window.removeEventListener('resize', handleResize);
-            if (animFrameRef.current) {
-                cancelAnimationFrame(animFrameRef.current);
-            }
+            document.removeEventListener('visibilitychange', handleVisibilityChange);
+            observer.disconnect();
+            stopLoop();
         };
     }, [particlesEnabled, getAccentRGB]);
 
@@ -270,19 +338,9 @@ export default function HeroPhysicsTitle({ title }) {
                 className="absolute inset-0 w-full h-full pointer-events-none z-0 overflow-hidden"
             />
 
-            {/* Subtle, Persistent Ambient Glow Backdrop behind name */}
-            <motion.div
-                initial={{ opacity: 0.5, scale: 0.95 }}
-                animate={{ 
-                    opacity: [0.45, 0.65, 0.45],
-                    scale: [0.95, 1.05, 0.95]
-                }}
-                transition={{
-                    duration: 7,
-                    repeat: Infinity,
-                    ease: "easeInOut"
-                }}
-                className="absolute w-[85%] sm:w-[75%] h-[110%] rounded-full bg-gradient-to-r from-blue-500/20 via-indigo-500/25 to-purple-500/20 dark:from-blue-500/30 dark:via-indigo-500/30 dark:to-purple-500/30 blur-3xl pointer-events-none -z-10"
+            {/* Subtle, Persistent Ambient Glow Backdrop behind name (Compositor-accelerated CSS animation) */}
+            <div
+                className="absolute w-[85%] sm:w-[75%] h-[110%] rounded-full bg-gradient-to-r from-blue-500/20 via-indigo-500/25 to-purple-500/20 dark:from-blue-500/30 dark:via-indigo-500/30 dark:to-purple-500/30 blur-3xl pointer-events-none -z-10 hero-ambient-glow"
             />
 
             {/* Subtle Continuously Glowing Name Title */}
@@ -291,9 +349,11 @@ export default function HeroPhysicsTitle({ title }) {
                 className="relative z-10 max-w-full flex justify-center"
             >
                 <motion.h1 
-                    variants={heroTitleIdleFloatVariants}
-                    animate="animate"
-                    className="whitespace-nowrap text-5xl sm:text-7xl md:text-8xl lg:text-9xl font-black tracking-tighter leading-none transition-all duration-300 text-gray-900 dark:text-white drop-shadow-[0_0_30px_rgba(59,130,246,0.35)] dark:drop-shadow-[0_0_40px_rgba(96,165,250,0.5)]"
+                    variants={reducedMotion ? {} : heroTitleIdleFloatVariants}
+                    animate={reducedMotion ? undefined : "animate"}
+                    className={`whitespace-nowrap text-5xl sm:text-7xl md:text-8xl lg:text-9xl font-black tracking-tighter leading-none transition-all duration-300 text-gray-900 dark:text-white ${
+                        reducedMotion ? '' : 'drop-shadow-[0_0_30px_rgba(59,130,246,0.35)] dark:drop-shadow-[0_0_40px_rgba(96,165,250,0.5)]'
+                    }`}
                     style={{ fontSize: 'clamp(2rem, 7.5vw, 6.5rem)' }}
                 >
                     <span className="bg-gradient-to-br from-gray-950 via-gray-800 to-gray-600 dark:from-white dark:via-blue-50 dark:to-blue-200 bg-clip-text text-transparent">

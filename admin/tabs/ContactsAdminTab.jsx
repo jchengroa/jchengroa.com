@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { LuUpload, LuCheck } from 'react-icons/lu';
 
 export default function ContactsAdminTab({ 
     contacts = [], 
@@ -64,18 +65,18 @@ export default function ContactsAdminTab({
     return (
         <div className="space-y-6">
             {/* Header & Sub-tab Switch */}
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-5 rounded-3xl bg-white dark:bg-gray-900 border border-gray-200/80 dark:border-gray-800 shadow-sm">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4 p-4 sm:p-5 rounded-2xl sm:rounded-3xl bg-white dark:bg-gray-900 border border-gray-200/80 dark:border-gray-800 shadow-sm">
                 <div>
-                    <h2 className="text-lg font-black text-gray-900 dark:text-white tracking-tight">
-                        Contacts & Social Profiles Management
+                    <h2 className="text-base sm:text-lg font-black text-gray-900 dark:text-white tracking-tight">
+                        Contacts & Socials
                     </h2>
                     <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">
-                        Manage your professional contacts, messaging handles, and social media platforms.
+                        Manage professional contacts, messaging handles, and social profiles.
                     </p>
                 </div>
 
-                <div className="flex items-center gap-2">
-                    <div className="flex bg-gray-100 dark:bg-gray-800 p-1 rounded-xl text-xs font-bold">
+                <div className="flex items-center gap-2 flex-wrap sm:flex-nowrap">
+                    <div className="flex bg-gray-100 dark:bg-gray-800 p-1 rounded-xl text-xs font-bold shrink-0">
                         <button
                             type="button"
                             onClick={() => {
@@ -83,7 +84,7 @@ export default function ContactsAdminTab({
                                 setEditingItem(null);
                                 setIsCreating(false);
                             }}
-                            className={`px-3 py-1.5 rounded-lg transition-all ${activeSubTab === 'contacts' ? 'bg-white dark:bg-gray-700 text-blue-600 dark:text-blue-400 shadow-sm' : 'text-gray-500'}`}
+                            className={`px-3 py-1.5 rounded-lg transition-all cursor-pointer ${activeSubTab === 'contacts' ? 'bg-white dark:bg-gray-700 text-blue-600 dark:text-blue-400 shadow-xs' : 'text-gray-500'}`}
                         >
                             contacts ({contacts.length})
                         </button>
@@ -94,7 +95,7 @@ export default function ContactsAdminTab({
                                 setEditingItem(null);
                                 setIsCreating(false);
                             }}
-                            className={`px-3 py-1.5 rounded-lg transition-all ${activeSubTab === 'socials' ? 'bg-white dark:bg-gray-700 text-blue-600 dark:text-blue-400 shadow-sm' : 'text-gray-500'}`}
+                            className={`px-3 py-1.5 rounded-lg transition-all cursor-pointer ${activeSubTab === 'socials' ? 'bg-white dark:bg-gray-700 text-blue-600 dark:text-blue-400 shadow-xs' : 'text-gray-500'}`}
                         >
                             socials ({socials.length})
                         </button>
@@ -103,7 +104,7 @@ export default function ContactsAdminTab({
                     <button
                         type="button"
                         onClick={handleNew}
-                        className="px-3.5 py-2 rounded-xl text-xs font-black text-white bg-blue-600 hover:bg-blue-700 shadow-md shadow-blue-600/20"
+                        className="px-3.5 py-2 rounded-xl text-xs font-black text-white bg-blue-600 hover:bg-blue-700 shadow-md shadow-blue-600/20 cursor-pointer shrink-0"
                     >
                         + Add New
                     </button>
@@ -111,25 +112,25 @@ export default function ContactsAdminTab({
             </div>
 
             {/* Split Layout */}
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 sm:gap-6">
                 {/* List Column */}
                 <div className="lg:col-span-5 space-y-2">
-                    <div className="space-y-2 max-h-[600px] overflow-y-auto pr-1 no-scrollbar">
+                    <div className="flex lg:flex-col overflow-x-auto lg:overflow-y-auto gap-2 lg:gap-2 pb-2 lg:pb-0 max-h-none lg:max-h-[600px] no-scrollbar">
                         {currentList.map(item => (
                             <div
                                 key={item.id}
                                 onClick={() => handleSelect(item)}
-                                className={`p-4 rounded-2xl border cursor-pointer transition-all flex items-center justify-between ${
+                                className={`shrink-0 w-64 lg:w-full p-3 sm:p-4 rounded-xl sm:rounded-2xl border cursor-pointer transition-all flex items-center justify-between ${
                                     editingItem?.id === item.id && !isCreating
                                         ? 'bg-blue-50 dark:bg-blue-950/40 border-blue-500 shadow-sm'
                                         : 'bg-white dark:bg-gray-900 border-gray-200 dark:border-gray-800 hover:border-gray-300'
                                 }`}
                             >
-                                <div className="space-y-0.5">
-                                    <div className="text-xs font-extrabold text-gray-900 dark:text-white">
+                                <div className="space-y-0.5 min-w-0 pr-2">
+                                    <div className="text-xs font-extrabold text-gray-900 dark:text-white truncate leading-normal">
                                         {item.title}
                                     </div>
-                                    <div className="text-[11px] text-gray-500 font-mono">
+                                    <div className="text-[11px] text-gray-500 font-mono truncate leading-normal">
                                         {item.username || item.linkUrl}
                                     </div>
                                     <span className="inline-block text-[9px] uppercase font-bold px-2 py-0.5 rounded-md bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400">
@@ -143,7 +144,7 @@ export default function ContactsAdminTab({
                                         e.stopPropagation();
                                         handleDelete(item.id);
                                     }}
-                                    className="p-1.5 text-xs text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-950/40 rounded-lg"
+                                    className="p-1.5 text-xs text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-950/40 rounded-lg shrink-0 cursor-pointer"
                                 >
                                     ✕
                                 </button>
@@ -153,19 +154,46 @@ export default function ContactsAdminTab({
                 </div>
 
                 {/* Editor Column */}
-                <div className="lg:col-span-7 p-6 rounded-3xl bg-white dark:bg-gray-900 border border-gray-200/80 dark:border-gray-800 shadow-sm space-y-4">
-                    <div className="flex items-center justify-between border-b border-gray-100 dark:border-gray-800 pb-3">
-                        <h3 className="text-sm font-extrabold text-gray-900 dark:text-white">
-                            {isCreating ? `Add to ${activeSubTab}` : `Edit: ${currentItem.title || currentItem.id}`}
-                        </h3>
-                        <button
-                            type="button"
-                            onClick={handleSave}
-                            className="px-4 py-1.5 rounded-xl text-xs font-black text-white bg-blue-600 hover:bg-blue-700 shadow-md shadow-blue-600/20 cursor-pointer"
-                        >
-                            Save Changes
-                        </button>
-                    </div>
+                <div className="lg:col-span-7 p-4 sm:p-6 rounded-2xl sm:rounded-3xl bg-white dark:bg-gray-900 border border-gray-200/80 dark:border-gray-800 shadow-sm space-y-4">
+                    {(() => {
+                        const loadedItem = currentList.find(x => x.id === currentItem.id);
+                        const hasUnsaved = isCreating
+                            ? Boolean(currentItem.title?.trim())
+                            : JSON.stringify(currentItem) !== JSON.stringify(loadedItem);
+                        return (
+                            <div className="flex items-center justify-between border-b border-gray-100 dark:border-gray-800 pb-3 gap-2 flex-wrap">
+                                <h3 className="text-sm font-extrabold text-gray-900 dark:text-white truncate">
+                                    {isCreating ? `Add to ${activeSubTab}` : `Edit: ${currentItem.title || currentItem.id}`}
+                                </h3>
+                                <div className="flex items-center gap-2">
+                                    {hasUnsaved ? (
+                                        <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-amber-50 dark:bg-amber-950/50 border border-amber-200 dark:border-amber-800/60 text-amber-700 dark:text-amber-300 text-xs font-bold">
+                                            <span className="w-2 h-2 rounded-full bg-amber-500 animate-pulse" />
+                                            Unsaved changes
+                                        </span>
+                                    ) : (
+                                        <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-50 dark:bg-emerald-950/50 border border-emerald-200 dark:border-emerald-800/60 text-emerald-700 dark:text-emerald-300 text-xs font-semibold">
+                                            <LuCheck size={12} strokeWidth={3} className="text-emerald-500" />
+                                            Saved
+                                        </span>
+                                    )}
+                                    <button
+                                        type="button"
+                                        onClick={handleSave}
+                                        disabled={!hasUnsaved}
+                                        className={`flex items-center gap-1.5 px-4 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+                                            hasUnsaved
+                                                ? 'text-white bg-blue-600 hover:bg-blue-700 shadow-sm shadow-blue-600/30'
+                                                : 'text-gray-400 bg-gray-100 dark:bg-gray-800/80 cursor-not-allowed opacity-60'
+                                        }`}
+                                    >
+                                        <LuUpload size={13} />
+                                        <span>Upload</span>
+                                    </button>
+                                </div>
+                            </div>
+                        );
+                    })()}
 
                     <div className="space-y-4">
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -179,7 +207,7 @@ export default function ContactsAdminTab({
                                     value={currentItem.id || ''}
                                     onChange={(e) => handleFieldChange('id', e.target.value)}
                                     placeholder="e.g. github, linkedin, email"
-                                    className="w-full px-3 py-2 rounded-xl bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-xs font-mono text-gray-900 dark:text-white outline-none focus:ring-2 focus:ring-blue-600"
+                                    className="w-full px-3.5 py-2.5 sm:py-2 rounded-xl bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-sm sm:text-xs font-mono text-gray-900 dark:text-white outline-none focus:ring-2 focus:ring-blue-600"
                                 />
                             </div>
                             <div>
@@ -189,7 +217,7 @@ export default function ContactsAdminTab({
                                 <select
                                     value={currentItem.category || 'professional'}
                                     onChange={(e) => handleFieldChange('category', e.target.value)}
-                                    className="w-full px-3 py-2 rounded-xl bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-xs font-bold text-gray-900 dark:text-white outline-none focus:ring-2 focus:ring-blue-600"
+                                    className="w-full px-3.5 py-2.5 sm:py-2 rounded-xl bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-sm sm:text-xs font-bold text-gray-900 dark:text-white outline-none focus:ring-2 focus:ring-blue-600"
                                 >
                                     <option value="professional">Professional</option>
                                     <option value="socials">Socials</option>
@@ -208,7 +236,7 @@ export default function ContactsAdminTab({
                                 value={currentItem.title || ''}
                                 onChange={(e) => handleFieldChange('title', e.target.value)}
                                 placeholder="e.g. GitHub, LinkedIn, Email"
-                                className="w-full px-3.5 py-2.5 rounded-xl bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-sm font-semibold text-gray-900 dark:text-white outline-none focus:ring-2 focus:ring-blue-600"
+                                className="w-full px-3.5 py-2.5 sm:py-2 rounded-xl bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-sm font-semibold text-gray-900 dark:text-white outline-none focus:ring-2 focus:ring-blue-600"
                             />
                         </div>
 
@@ -221,7 +249,7 @@ export default function ContactsAdminTab({
                                 value={currentItem.username || ''}
                                 onChange={(e) => handleFieldChange('username', e.target.value)}
                                 placeholder="e.g. @jchengroa or johncarloproa@gmail.com"
-                                className="w-full px-3.5 py-2.5 rounded-xl bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-xs font-semibold text-gray-900 dark:text-white outline-none focus:ring-2 focus:ring-blue-600"
+                                className="w-full px-3.5 py-2.5 sm:py-2 rounded-xl bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-sm sm:text-xs font-semibold text-gray-900 dark:text-white outline-none focus:ring-2 focus:ring-blue-600"
                             />
                         </div>
 
@@ -234,7 +262,7 @@ export default function ContactsAdminTab({
                                 value={currentItem.linkUrl || ''}
                                 onChange={(e) => handleFieldChange('linkUrl', e.target.value)}
                                 placeholder="https://github.com/jchengroa"
-                                className="w-full px-3.5 py-2.5 rounded-xl bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-xs font-mono text-gray-900 dark:text-white outline-none focus:ring-2 focus:ring-blue-600"
+                                className="w-full px-3.5 py-2.5 sm:py-2 rounded-xl bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-sm sm:text-xs font-mono text-gray-900 dark:text-white outline-none focus:ring-2 focus:ring-blue-600"
                             />
                         </div>
 
@@ -247,7 +275,7 @@ export default function ContactsAdminTab({
                                 value={currentItem.description || ''}
                                 onChange={(e) => handleFieldChange('description', e.target.value)}
                                 placeholder="Short context or note..."
-                                className="w-full px-3 py-2 rounded-xl bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-xs font-medium text-gray-900 dark:text-white outline-none focus:ring-2 focus:ring-blue-600"
+                                className="w-full px-3.5 py-2.5 sm:py-2 rounded-xl bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-sm sm:text-xs font-medium text-gray-900 dark:text-white outline-none focus:ring-2 focus:ring-blue-600"
                             />
                         </div>
                     </div>

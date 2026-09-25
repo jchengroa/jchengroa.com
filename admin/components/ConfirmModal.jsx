@@ -4,12 +4,12 @@ export default function ConfirmModal({ isOpen, title, message, confirmText = "Co
     if (!isOpen) return null;
 
     return (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 overflow-y-auto">
             <div 
-                className="absolute inset-0 bg-black/50 backdrop-blur-sm transition-opacity" 
+                className="fixed inset-0 bg-black/50 backdrop-blur-sm transition-opacity" 
                 onClick={onCancel}
             />
-            <div className="relative w-full max-w-md bg-white dark:bg-gray-900 rounded-3xl p-6 shadow-2xl border border-gray-100 dark:border-gray-800 space-y-4 animate-in fade-in zoom-in-95 duration-200">
+            <div className="relative w-full max-w-md bg-white dark:bg-gray-900 rounded-2xl sm:rounded-3xl p-5 sm:p-6 shadow-2xl border border-gray-100 dark:border-gray-800 space-y-4 my-auto">
                 <div className="flex items-start gap-3">
                     <div className={`p-2.5 rounded-2xl ${isDanger ? 'bg-rose-500/10 text-rose-600 dark:text-rose-400' : 'bg-blue-500/10 text-blue-600 dark:text-blue-400'}`}>
                         {isDanger ? (

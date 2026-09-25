@@ -8,26 +8,26 @@ A multidisciplinary portfolio website showcasing engineering projects, academic 
 
 ## Key Features
 
-- **Dynamic Project Gallery**: Interactive showcase of software, hardware, and embedded systems projects loaded in real-time from Supabase.
+- **Dynamic Project Gallery**: Interactive showcase of software, hardware, and embedded systems projects loaded in real-time from PocketBase.
 - **Academic Research Hub**: Dedicated section for published research with structured findings, performance metrics, and paper access.
 - **Social Profiles Hub**: Centralized landing page for professional and social profile links with custom visual states.
 - **Visual Galleries**: Image lightbox supporting zoom interactions and modal backdrops.
 - **Responsive Navigation**: Adaptive layout featuring a bottom-positioned floating navigation dock with sub-option menu expansion.
 - **Settings & Preference Management**: Full-screen modal for theme selection (light, dark, system), accent color customization, layout options, and local storage management.
-- **jchengroa Admin Dashboard (`/admin`)**: Independent administrative portal protected by Supabase Authentication with full CRUD management across all 7 database tables (`projects`, `research`, `recognition`, `contacts`, `socials`, `changelogs`, `site_content`).
+- **jchengroa Admin Dashboard (`/admin`)**: Independent administrative portal protected by PocketBase Authentication with full CRUD management across all 7 database collections (`projects`, `research`, `recognition`, `contacts`, `socials`, `changelogs`, `site_content`).
 - **Real-Time Live Card Previews**: Side-by-side visual simulator inside the admin dashboard supporting card view, detail hero view, and light/dark theme simulation.
 - **Dynamic Site Content & Prompt Control**: Live editing of site active status, maintenance modes, default themes, custom accent colors, hero prompts, navbar links, and microcopy directly from the cloud.
 - **Admin User Management**: Built-in profile management popup to customize display name, avatar picture, admin email, password, and contact phone number.
 - **Developer Tools**: Environment-configurable developer menu (`VITE_SHOW_DEV_OPTIONS`) containing real-time database connection status, manual offline fallback toggling, and popup testing triggers.
 - **Analytics & Privacy Notice**: Privacy notice banner informing visitors of anonymous Vercel Analytics usage.
 - **Download Manager**: Background download queue manager for PDF document transfers with size and progress tracking.
-- **Database Offline Fallback**: UI fallback system that intercepts rendering if connection to Supabase is interrupted.
+- **Database Offline Fallback**: UI fallback system that intercepts rendering if connection to the database is interrupted.
 
 ## Tech Stack
 
 - **Frontend**: [React 19](https://react.dev/), [Vite](https://vitejs.dev/)
-- **Database & Authentication**: [Supabase](https://supabase.com/) — PostgreSQL database managing projects, research publications, site content, and changelogs; protected with Supabase Auth and Row Level Security (RLS).
-- **Asset Storage**: [Supabase Storage](https://supabase.com/docs/guides/storage) — Public bucket storage for image galleries, graphics, and PDF documents.
+- **Database & Authentication**: [PocketBase](https://pocketbase.io/) — Embedded/backend service managing projects, research publications, site content, and changelogs.
+- **Asset Storage**: [Supabase Storage](https://supabase.com/docs/guides/storage) — Public bucket storage for image galleries, graphics, and downloadable PDF research documents.
 - **Analytics & Performance**: [Vercel Analytics](https://vercel.com/analytics) and [Vercel Speed Insights](https://vercel.com/docs/speed-insights) — Visitor metrics and performance monitoring.
 - **Styling**: [Tailwind CSS 4.0](https://tailwindcss.com/)
 - **Animations**: [Framer Motion](https://www.framer.com/motion/) — Declarative UI transitions, page animations, and menu interactions.
@@ -146,7 +146,7 @@ jchengroa.com/
 ├── .gitignore
 ├── admin/
 │   ├── AdminApp.jsx
-│   ├── adminSupabase.js
+│   ├── adminPocketBase.js
 │   ├── main.jsx
 │   ├── components/
 │   │   ├── AdminLogin.jsx
@@ -242,9 +242,9 @@ jchengroa.com/
 │   └── utils/
 │       ├── colorUtils.js
 │       ├── downloadManager.jsx
-│       ├── hamburgerMenu.jsx
+│       ├── pocketbaseClient.js
+│       ├── searchHighlight.jsx
 │       ├── subheaderToggle.js
-│       ├── supabaseClient.js
 │       └── viewSwitcher.jsx
 ├── vercel.json
 └── vite.config.js
@@ -610,3 +610,13 @@ Created a script to migrate the database to PocketBase and run the application l
 Fully Revamped the admin page to remove all instances of Supabase.
 Revamped the tracking bammer to remove "Vercel Analytics".
 All Changes from TEMPFIX1 -> TEMPFIX3
+
+- [1.0.3] - 2026-09-26
+*Part of the Dedicated Server Migration Update*
+Added Lite Motion for better performance for slower devices.
+Added Automatic Deterministic Engine to enable/disable Lite Motion.
+Added Stale-While-Revalidate for caching of the website for better loading times.
+Updated PocketBase helper utilities to HTTP/2 Request Parallelization for better load times.
+Added network drop resilience for pocketbase request. (Better loading when connection is weak)
+Updated entire admin control panel.
+All Changes from TEMPFIX4 -> TEMPFIX6

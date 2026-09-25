@@ -3,6 +3,7 @@ import './index.css'
 
 import { BrowserRouter, Routes, Route, Link, useLocation, Navigate } from 'react-router-dom'
 import { useState, useEffect } from 'react'
+import { MotionConfig } from 'framer-motion'
 import NavBar from './components/components.jsx'
 import Home from './pages/home.jsx'
 import Projects from './pages/projects.jsx'
@@ -20,6 +21,7 @@ import { SplitBackground } from './components/splitBackground.jsx'
 import CookieConsentBanner from './components/cookieConsentBanner.jsx'
 import { applyCustomAccent } from './utils/colorUtils.js'
 import { DataProvider, useData } from './context/dataContext.jsx'
+import { initPerformanceManager, calculateIsLiteMotionActive } from './utils/performanceManager.js'
 import { SpeedInsights } from "@vercel/speed-insights/react"
 import { Analytics } from "@vercel/analytics/react"
 
@@ -74,7 +76,25 @@ function MainLayout() {
         else if (themeMode === 'auto') isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
         if (isDark) document.documentElement.classList.add("dark");
         else document.documentElement.classList.remove("dark");
+
+        initPerformanceManager();
     }, [siteContent]);
+
+    const [reducedMotion, setReducedMotion] = useState(() => {
+        return calculateIsLiteMotionActive();
+    });
+
+    useEffect(() => {
+        initPerformanceManager();
+    }, []);
+
+    useEffect(() => {
+        const handleReducedChange = (e) => {
+            setReducedMotion(e.detail);
+        };
+        window.addEventListener('jchengroa_reduced_motion_setting_changed', handleReducedChange);
+        return () => window.removeEventListener('jchengroa_reduced_motion_setting_changed', handleReducedChange);
+    }, []);
 
     useEffect(() => {
         const handler = () => setSettingsOpen(true);
@@ -102,62 +122,64 @@ function MainLayout() {
         : "Unknown";
 
     return (
-        <div className={
-            isHome 
-                ? "w-full h-screen overflow-hidden relative" 
-                : isNotFound
-                    ? "p-4 min-h-screen relative bg-blue-50/50 dark:bg-blue-950/20 text-gray-900 dark:text-white isolate transition-colors duration-300 flex flex-col items-center justify-center"
-                    : "p-2.5 pb-28 sm:pb-12 sm:pt-28 min-h-screen relative bg-blue-50/50 dark:bg-blue-950/20 text-gray-900 dark:text-white isolate transition-colors duration-300"
-        }>
-            {!isHome && <SplitBackground />}
+        <MotionConfig reducedMotion={reducedMotion ? "always" : "user"}>
+            <div className={
+                isHome 
+                    ? "w-full h-screen overflow-hidden relative" 
+                    : isNotFound
+                        ? "p-4 min-h-screen relative bg-blue-50/50 dark:bg-blue-950/20 text-gray-900 dark:text-white isolate transition-colors duration-300 flex flex-col items-center justify-center"
+                        : "p-2.5 pb-28 sm:pb-12 sm:pt-28 min-h-screen relative bg-blue-50/50 dark:bg-blue-950/20 text-gray-900 dark:text-white isolate transition-colors duration-300"
+            }>
+                {!isHome && <SplitBackground />}
 
-            <div className={isHome ? "relative w-full h-full" : isNotFound ? "relative z-10 w-full flex flex-col items-center justify-center" : "relative z-10 w-full"}>
-                {!isNotFound && (
-                    <div id="navbar">
-                        <NavBar
-                            name="jchengroa"
-                        />
-                    </div>
-                )}
+                <div className={isHome ? "relative w-full h-full" : isNotFound ? "relative z-10 w-full flex flex-col items-center justify-center" : "relative z-10 w-full"}>
+                    {!isNotFound && (
+                        <div id="navbar">
+                            <NavBar
+                                name="jchengroa"
+                            />
+                        </div>
+                    )}
 
-                <DownloadManager />
-                <SettingsModal isOpen={settingsOpen} onClose={() => setSettingsOpen(false)} />
-                <CookieConsentBanner />
+                    <DownloadManager />
+                    <SettingsModal isOpen={settingsOpen} onClose={() => setSettingsOpen(false)} />
+                    <CookieConsentBanner />
 
-                <Routes>
-                    <Route path="/" element={<Home />} />
-                    <Route path="/projects" element={<Projects />} />
-                    <Route path="/projects/:id" element={<WorkDetail />} />
-                    <Route path="/research" element={<Research />} />
-                    <Route path="/research/:id" element={<WorkDetail />} />
-                    <Route path="/recognition" element={<Recognition />} />
-                    <Route path="/recognition/:id" element={<WorkDetail />} />
-                    <Route path="/contact" element={<Contact />} />
-                    <Route path="/socials" element={<Navigate to="/contact" replace />} />
+                    <Routes>
+                        <Route path="/" element={<Home />} />
+                        <Route path="/projects" element={<Projects />} />
+                        <Route path="/projects/:id" element={<WorkDetail />} />
+                        <Route path="/research" element={<Research />} />
+                        <Route path="/research/:id" element={<WorkDetail />} />
+                        <Route path="/recognition" element={<Recognition />} />
+                        <Route path="/recognition/:id" element={<WorkDetail />} />
+                        <Route path="/contact" element={<Contact />} />
+                        <Route path="/socials" element={<Navigate to="/contact" replace />} />
 
-                    <Route path="/legal" element={<Legal />} />
-                    <Route path="/changelog" element={<Changelog />} />
-                    <Route path="*" element={<NotFound />} />
-                </Routes>
+                        <Route path="/legal" element={<Legal />} />
+                        <Route path="/changelog" element={<Changelog />} />
+                        <Route path="*" element={<NotFound />} />
+                    </Routes>
 
-                {!isHome && !isNotFound && (
-                    <div id="footer" className="p-5 text-center mt-12">
-                        <p className="text-sm text-gray-900 dark:text-gray-100">
-                            <Link to="/legal" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
-                                <b>{footer.legalLink}</b>
-                            </Link>
-                        </p>
-                        <p className="text-sm text-gray-500 dark:text-gray-400">
-                            <Link to="/changelog" className="hover:text-blue-600 dark:hover:text-blue-400 transition-all duration-300 group inline-flex items-center gap-1.5">
-                                <span className="opacity-70 group-hover:opacity-100">{footer.versionPrefix} {currentVersion}</span>
-                                <span className="opacity-30">|</span>
-                                <span className="opacity-70 group-hover:opacity-100">{footer.updatedPrefix}: {lastUpdatedDate}</span>
-                            </Link>
-                        </p>
-                    </div>
-                )}
+                    {!isHome && !isNotFound && (
+                        <div id="footer" className="p-5 text-center mt-12">
+                            <p className="text-sm text-gray-900 dark:text-gray-100">
+                                <Link to="/legal" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
+                                    <b>{footer.legalLink}</b>
+                                </Link>
+                            </p>
+                            <p className="text-sm text-gray-500 dark:text-gray-400">
+                                <Link to="/changelog" className="hover:text-blue-600 dark:hover:text-blue-400 transition-all duration-300 group inline-flex items-center gap-1.5">
+                                    <span className="opacity-70 group-hover:opacity-100">{footer.versionPrefix} {currentVersion}</span>
+                                    <span className="opacity-30">|</span>
+                                    <span className="opacity-70 group-hover:opacity-100">{footer.updatedPrefix}: {lastUpdatedDate}</span>
+                                </Link>
+                            </p>
+                        </div>
+                    )}
+                </div>
             </div>
-        </div>
+        </MotionConfig>
     );
 }
 

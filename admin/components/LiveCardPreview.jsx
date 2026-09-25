@@ -15,15 +15,15 @@ export default function LiveCardPreview({ item = {}, type = 'project' }) {
     return (
         <div className="space-y-4">
             {/* Header controls for Live Preview */}
-            <div className="flex items-center justify-between">
+            <div className="flex flex-wrap items-center justify-between gap-2 sm:gap-3">
                 <div className="flex items-center gap-2">
-                    <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse" />
+                    <span className="w-2.5 h-2.5 rounded-full bg-emerald-500" />
                     <span className="text-xs font-black uppercase tracking-wider text-gray-900 dark:text-white">
                         Live Visual Preview
                     </span>
                 </div>
 
-                <div className="flex items-center gap-2">
+                <div className="flex flex-wrap items-center gap-2">
                     {/* Dark/Light simulation toggle */}
                     <button
                         type="button"
